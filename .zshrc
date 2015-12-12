@@ -86,7 +86,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias tmux="tmux -2"
-# alias sass="python -mscss <"
+alias sass="sassc"
 
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
+
