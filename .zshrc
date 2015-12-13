@@ -9,7 +9,6 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv)
 DEFAULT_USER="zandr" # put this here because it's for the theme prompt
 
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -85,9 +84,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias tmux="tmux -2"
-alias sass="sassc"
 
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
-
