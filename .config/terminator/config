@@ -15,7 +15,7 @@
 [profiles]
   [[default]]
     background_darkness = 0.0
-    background_image = /home/zandr/.config/terminator/backgrounds/dark_mosaic.png
+    background_image = /home/zandr/.config/terminator/backgrounds/thing.png
     background_type = image
     custom_command = env TERM=xterm-256color zsh
     font = Input 12
