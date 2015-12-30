@@ -21,6 +21,8 @@ else
     PROMPT=$P_base
 fi
 
+RPROMPT='$(git_super_status)'
+
 # history
 HISTFILE=~/.histfile
 HISTSIZE=1000000
@@ -72,4 +74,5 @@ fi
 source ~/.antigen.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle olivierverdier/zsh-git-prompt
 antigen apply
