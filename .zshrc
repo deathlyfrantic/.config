@@ -1,89 +1,75 @@
-# Path to your oh-my-zsh installation.
-export ZSH=/home/zandr/.oh-my-zsh
+# colors are important here in the future, where we live
+autoload colors; colors
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="powerlevel9k/powerlevel9k"
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv)
-DEFAULT_USER="zandr" # put this here because it's for the theme prompt
+# general options
+setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
+unsetopt beep
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# prompt
+P_user="%{$fg[blue]%}%n"
+P_at="%{$fg_bold[blue]%}@%{$reset_color%}"
+P_dot=" %{$fg_bold[black]%}·%{$reset_color%} "
+P_host="%{$fg[blue]%}%m"
+P_path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
+P_base="$P_path %(!.%{$fg_bold[red]%}☠.%{$fg_bold[green]%}➞)%{$reset_color%} "
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+if [[ $SSH_CONNECTION != '' ]]; then
+    PROMPT=$P_user$P_at$P_host$P_dot$P_base
+elif [[ $USER != 'zandr' ]]; then
+    PROMPT=$P_user$P_dot$P_base
+else
+    PROMPT=$P_base
+fi
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# history
+HISTFILE=~/.histfile
+HISTSIZE=1000000
+SAVEHIST=1000000
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# i have no idea what this stuff does! it was in here from the beginning
+bindkey -v
+zstyle :compinstall filename '/home/zandr/.zshrc'
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+autoload -Uz compinit
+compinit
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# completion stuff stolen from github.com/eevee/rc/.zshrc
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=**' 'r:|=**'
+zstyle ':completion:*' menu select yes
+zstyle ':completion:*:default' list-colors ''
+zstyle ':completion:*' max-errors 2
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+# Turn on caching, which helps with e.g. apt
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+# Show titles for completion types and group by type
+zstyle ':completion:*:descriptions' format "$fg_bold[black]» %d$reset_color"
+zstyle ':completion:*' group-name ''
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# Ignore some common useless files
+zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__'
+zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip python virtualenv)
-
-# User configuration
-
-export PATH="/home/zandr/bin:/usr/lib64/qt-3.3/bin:/usr/lib64/ccache:/home/zandr/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# gnome-terminal
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
+# terminator
+bindkey "\e[1~" beginning-of-line
+bindkey "\e[4~" end-of-line
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+bindkey "\e[Z" reverse-menu-complete
+
+# antigen
+if [[ ! -a ~/.antigen.zsh ]]; then
+    cd ~/dotfiles
+    git submodule add git@github.com:zsh-users/antigen.git
+    cd ~
+    ln -s ~/dotfiles/antigen/antigen.zsh ~/.antigen.zsh
+fi
+
+source ~/.antigen.zsh
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
+antigen apply
