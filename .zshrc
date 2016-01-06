@@ -59,6 +59,7 @@ bindkey "\e[F" end-of-line
 # terminator
 bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
+bindkey "\e[3~" delete-char
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 bindkey "\e[Z" reverse-menu-complete
