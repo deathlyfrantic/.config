@@ -2,7 +2,6 @@
   enabled_plugins = TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   handle_size = 1
   tab_position = hidden
-  window_state = maximise
 [keybindings]
 [layouts]
   [[default]]
