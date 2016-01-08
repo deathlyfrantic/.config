@@ -80,3 +80,6 @@ abstracts = {
   sb_act_hilight_color = "$0$1-%n";
 };
 # vim:ft=config
+formats = {
+  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00307$0}}$1"; };
+};
