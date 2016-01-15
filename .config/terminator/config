@@ -1,7 +1,9 @@
 [global_config]
   enabled_plugins = TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   handle_size = 1
+  scroll_tabbar = True
   tab_position = hidden
+  title_transmit_fg_color = "#2cecec"
 [keybindings]
 [layouts]
   [[default]]
