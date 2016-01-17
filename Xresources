@@ -1,0 +1,47 @@
+Xft.dpi: 96
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 1
+
+URxvt.letterSpace: -1
+URxvt.font: xft:Roboto\ Mono\ for\ Powerline-12,xft:Input-12
+
+URxvt.scrollBar: false
+URxvt.geometry: 120x35
+URxvt.fading: 10
+
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+
+URxvt.cursorBlink: true
+URxvt.cursorColor: #e9dbb1
+
+! colors are from gruvbox theme
+URxvt.foreground:  #faf2c6
+URxvt.background:  #1c1c1c
+URxvt.color0:      #2c2c2c
+URxvt.color1:      #c32929
+URxvt.color2:      #969820
+URxvt.color3:      #d1992a
+URxvt.color4:      #4e8486
+URxvt.color5:      #ab6186
+URxvt.color6:      #6d9d69
+URxvt.color7:      #a59883
+URxvt.color8:      #8f8274
+URxvt.color9:      #f24b3d
+URxvt.color10:     #b6bc2a
+URxvt.color11:     #f5be36
+URxvt.color12:     #85a496
+URxvt.color13:     #cd849a
+URxvt.color14:     #91c07a
+URxvt.color15:     #e9dbb1
