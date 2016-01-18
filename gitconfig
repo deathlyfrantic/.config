@@ -1,7 +1,8 @@
-
 [user]
 	email = zandrmartin@gmail.com
 	name = Zandr Martin
 [core]
 	editor = vim
 	autocrlf = input
+[merge]
+    conflictstyle = diff3
