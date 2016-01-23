@@ -3,7 +3,7 @@ replaces = { "[]<>=" = "%K$0-%n"; };
 abstracts = {
   line_start = "%K(%y*%K) ";
   timestamp = "%K$0-%n";
-  hilight = "%y$0-%n";
+  hilight = "%y%9%U%I$0-%n";
   error = "%R$0-%n";
   channel = "%K$0-%n";
   nick = "%y$0-%n";
@@ -63,7 +63,7 @@ abstracts = {
   dccmsg = "[%G$1-%K(%g$0%K)%n] ";
   dccquerynick = "%G$0-%n";
   dccaction = "{action $0-}";
-  sb_background = "%0";
+  sb_background = "%z111111";
   sb_prompt_bg = "%K";
   sb_info_bg = "%8";
   sbstart = "";
