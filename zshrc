@@ -11,7 +11,7 @@ P_at="%{$fg_bold[blue]%}@%{$reset_color%}"
 P_dot=" %{$fg_bold[black]%}·%{$reset_color%} "
 P_host="%{$fg[blue]%}%m"
 P_path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
-P_base="$P_path %(!.%{$fg_bold[red]%}☠.%{$fg_bold[green]%}➞)%{$reset_color%} "
+P_base="$P_path %(!.%{$fg_bold[red]%}☠.%{$fg_bold[black]%}⏵)%{$reset_color%} "
 
 if [[ $SSH_CONNECTION != '' ]]; then
     PROMPT=$P_user$P_at$P_host$P_dot$P_base
@@ -56,8 +56,6 @@ zstyle ':completion:*:*:rm:*:*' ignored-patterns
 # look at this bullshit just to get home and end keys to work across terminals
 [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
 [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
-bindkey "OH" beginning-of-line
-bindkey "OF" end-of-line
 bindkey "\e[OH" beginning-of-line
 bindkey "\e[OF" end-of-line
 bindkey "\e[H" beginning-of-line
