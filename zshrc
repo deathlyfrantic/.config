@@ -56,6 +56,8 @@ zstyle ':completion:*:*:rm:*:*' ignored-patterns
 # look at this bullshit just to get home and end keys to work across terminals
 [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
 [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
+bindkey "OH" beginning-of-line
+bindkey "OF" end-of-line
 bindkey "\e[OH" beginning-of-line
 bindkey "\e[OF" end-of-line
 bindkey "\e[H" beginning-of-line
