@@ -2,7 +2,7 @@
 	email = zandrmartin+git@gmail.com
 	name = Zandr Martin
 [core]
-	editor = vim
+	editor = nvim
 	autocrlf = input
 [merge]
     conflictstyle = diff3
