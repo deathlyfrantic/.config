@@ -4,6 +4,6 @@ VISUAL=nvim
 alias sass='sassc'
 alias tmux='tmux -2'
 alias ls='ls --color=tty'
+alias truevim='/usr/bin/vim'
 alias vim='nvim'
-alias truevim='vim'
 alias emacs='emacs -nw'
