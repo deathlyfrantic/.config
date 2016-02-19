@@ -6,3 +6,9 @@
 	autocrlf = input
 [merge]
     conflictstyle = diff3
+[transfer]
+    fsckobjects = true
+[fetch]
+    fsckobjects = true
+[receive]
+    fsckObjects = true
