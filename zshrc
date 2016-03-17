@@ -35,6 +35,9 @@ zstyle :compinstall filename '/home/zandr/.zshrc'
 autoload -Uz compinit
 compinit
 
+# futuristic zsh commands
+autoload zmv
+
 # completion stuff stolen from github.com/eevee/rc/.zshrc
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=**' 'r:|=**'
 zstyle ':completion:*' menu select yes
