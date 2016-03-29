@@ -72,6 +72,11 @@ bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 bindkey "\e[Z" reverse-menu-complete
 
+if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
+
+
 # antigen
 if [[ ! -a ~/.antigen.zsh ]]; then
     cd ~/dotfiles
