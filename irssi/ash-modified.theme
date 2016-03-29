@@ -79,9 +79,8 @@ abstracts = {
   sb_act_hilight = "%Y$*";
   sb_act_hilight_color = "$0$1-%n";
 };
-# vim:ft=config
 formats = {
-  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00302$0}}$1"; };
+  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00309$0}}$1"; };
   "Irssi::Script::adv_windowlist" = {
     awl_display_nokey = "%K$N${cumode_space}$H$C$S";
     awl_display_key = "%K$N${cumode_space}$H$C$S";
@@ -94,3 +93,4 @@ formats = {
     awl_viewer_item_bg = "";
   };
 };
+# vim:ft=config
