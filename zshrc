@@ -76,7 +76,6 @@ if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-
 # antigen
 if [[ ! -a ~/.antigen.zsh ]]; then
     cd ~/dotfiles
