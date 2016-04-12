@@ -80,14 +80,14 @@ abstracts = {
   sb_act_hilight_color = "$0$1-%n";
 };
 formats = {
-  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00309$0}}$1"; };
+  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00310$0}}$1"; };
   "Irssi::Script::adv_windowlist" = {
     awl_display_nokey = "%K$N${cumode_space}$H$C$S";
     awl_display_key = "%K$N${cumode_space}$H$C$S";
     awl_display_nokey_visible = "%K$N${cumode_space}$H$C$S";
     awl_display_key_visible = "%K$N${cumode_space}$H$C$S";
     awl_display_nokey_active = "%K$N{cumode_space}$H$C$S";
-    awl_display_key_active = "%3%k$N{cumode_space}$H$C$S";
+    awl_display_key_active = "%3 %Z1c1c1c$N{cumode_space}$H $C $S";
     awl_display_header = "";
     awl_name_display = "";
     awl_viewer_item_bg = "";
