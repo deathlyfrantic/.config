@@ -15,8 +15,18 @@ ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
 mkdir -p ~/.config/fontconfig
 ln -s ~/dotfiles/fonts.conf ~/.config/fontconfig/fonts.conf
 
+mkdir -p ~/.config/sway
+ln -s ~/dotfiles/swayconfig ~/.config/sway/config
+
+mkdir -p ~/.config/ranger
+ln -s ~/dotfiles/ranger.conf ~/.config/ranger/rc.conf
+
 mkdir -p ~/.mutt
 ln -s ~/dotfiles/muttrc ~/.mutt/muttrc
 
 mkdir -p ~/.irssi
 ln -s ~/dotfiles/irssi.theme ~/.irssi/irssi.theme
+
+# remap capslock -> ctrl
+sudo cp ~/dotfiles/setkeycodes.service /etc/systemd/system/
+sudo systemctl enable setkeycodes.service
