@@ -21,8 +21,6 @@ else
     PROMPT=$P_base
 fi
 
-RPROMPT='$(git_super_status)'
-
 # history
 HISTFILE=~/.histfile
 HISTSIZE=1000000
@@ -56,36 +54,27 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__'
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
-# look at this bullshit just to get home and end keys to work across terminals
-[[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
-[[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
-bindkey "OH" beginning-of-line
-bindkey "OF" end-of-line
-bindkey "\e[OH" beginning-of-line
-bindkey "\e[OF" end-of-line
-bindkey "\e[H" beginning-of-line
-bindkey "\e[F" end-of-line
-bindkey "\e[1~" beginning-of-line
-bindkey "\e[4~" end-of-line
-bindkey "\e[3~" delete-char
-bindkey "^[[A" history-substring-search-up
-bindkey "^[[B" history-substring-search-down
-bindkey "\e[Z" reverse-menu-complete
+# hopefully a much saner keyboard mapping section
+autoload zkbd
+if [[ -a ~/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE} ]]; then
+    source ~/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE}
+    [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
+    [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
+    [[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
+    [[ -n ${key[Up]} ]] && bindkey "${key[Up]}" history-substring-search-up
+    [[ -n ${key[Down]} ]] && bindkey "${key[Down]}" history-substring-search-down
+fi
 
 if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
 # antigen
-if [[ ! -a ~/.antigen.zsh ]]; then
-    cd ~/dotfiles
-    git submodule add git@github.com:zsh-users/antigen.git
-    cd ~
-    ln -s ~/dotfiles/antigen/antigen.zsh ~/.antigen.zsh
+if [[ -a ~/.antigen.zsh ]]; then
+    source ~/.antigen.zsh
+    antigen bundle zsh-users/zsh-syntax-highlighting
+    antigen bundle zsh-users/zsh-history-substring-search
+    antigen bundle olivierverdier/zsh-git-prompt
+    antigen apply
+    RPROMPT='$(git_super_status)'
 fi
-
-source ~/.antigen.zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle olivierverdier/zsh-git-prompt
-antigen apply

@@ -28,5 +28,6 @@ mkdir -p ~/.irssi
 ln -s ~/dotfiles/irssi.theme ~/.irssi/irssi.theme
 
 # remap capslock -> ctrl
-sudo cp ~/dotfiles/setkeycodes.service /etc/systemd/system/
-sudo systemctl enable setkeycodes.service
+sudo ln -s ~/dotfiles/keyboard.hwdb /etc/udev/hwdb.d/90-custom-keyboard.hwdb
+sudo udevadm hwdb --update
+sudo udevadm trigger
