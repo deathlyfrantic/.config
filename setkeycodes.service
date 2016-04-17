@@ -1,9 +1,0 @@
-[Unit]
-Description=Remap capslock key to control on boot
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/setkeycodes 0x3a 29
-
-[Install]
-WantedBy=multi-user.target
