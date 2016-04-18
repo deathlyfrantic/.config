@@ -27,13 +27,17 @@ volume_icon () {
     local icon=""
     headphones
     if [[ $? == 1 ]]; then
-        icon=""
+        # icon=""
+        icon='\uf025'
     elif [[ $volume -lt 20 ]]; then
-        icon=""
+        # icon=""
+        icon='\uf026'
     elif [[ $volume -lt 40 ]]; then
-        icon=""
+        # icon=""
+        icon='\uf027'
     else
-        icon=""
+        # icon=""
+        icon='\uf028'
     fi
     echo $icon
 }
@@ -50,11 +54,14 @@ song_info_icon () {
     local status="$(playerctl status)"
     local icon=""
     if [[ $status == "Playing" ]]; then
-        icon="⏵"
+        # icon="⏵"
+        icon='u\23f5'
     elif [[ $status == "Paused" ]]; then
-        icon="⏸"
+        # icon="⏸"
+        icon='\u23f8'
     else
-        icon="⏹"
+        # icon="⏹"
+        icon='\u23f9'
     fi
     echo $icon
 }
@@ -64,7 +71,8 @@ calendar () {
 }
 
 calendar_icon () {
-    echo ""
+    # echo ""
+    echo '\uf073'
 }
 
 clock () {
@@ -72,13 +80,24 @@ clock () {
 }
 
 clock_icon () {
-    echo ""
+    # echo ""
+    echo '\uf017'
+}
+
+escape_for_pango () {
+    local string="$1"
+    string=$(echo $string | sed -e 's/&/\&amp\;/g')
+    string=$(echo $string | sed -e 's/>/\&gt\;/g')
+    string=$(echo $string | sed -e 's/</\&lt\;/g')
+    string=$(echo $string | sed -e "s/'/\&apos\;/g")
+    string=$(echo $string | sed -e 's/"/\&quot\;/g')
+    echo $string
 }
 
 segment () {
     local name=$1
-    local text=$($1)
-    local icon=$("$1_icon")
+    local text=$(escape_for_pango "$($1)")
+    # local icon=$("$1_icon")
     if [[ $text != "" ]]; then
         echo "{\"name\": \"$name\","
         # echo "\"full_text\": \"<span font_family='FontAwesome'>$icon</span> $text\","
