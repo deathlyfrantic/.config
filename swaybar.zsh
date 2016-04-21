@@ -19,7 +19,11 @@ headphones () {
 
 volume () {
     local volume="$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')"
-    echo "Volume $volume"
+    muted
+    if [[ $? == 1 ]]; then
+        volume="muted"
+    fi
+    echo "Volume: $volume"
 }
 
 volume_icon () {
