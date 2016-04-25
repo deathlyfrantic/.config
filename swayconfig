@@ -14,7 +14,7 @@ set $mod Mod4
 # Your preferred terminal emulator
 set $term st -f Input:pixelsize=16
 # Your preferred application launcher
-set $menu dmenu_run
+set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
 #
@@ -190,7 +190,7 @@ bar {
 #
 # include ~/.config/sway/`hostname`/*
 
-new_window pixel 2
+new_window pixel 1
 focus_follows_mouse no
 gaps inner 10
 smart_gaps on
