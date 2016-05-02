@@ -1,7 +1,7 @@
 replaces = { "[]<>=" = "%K$0-%n"; };
 
 abstracts = {
-  line_start = "%K(%y*%K) ";
+  line_start = "%K(%Z618ca8*%K) ";
   timestamp = "%K$0-%n";
   hilight = "%Zdb5461%9%U%I$0-%n";
   error = "%R$0-%n";
