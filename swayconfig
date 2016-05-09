@@ -44,9 +44,12 @@ bindsym $mod+d exec $menu
 bindsym $mod+XF86TouchpadToggle exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
 
 # media keys
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym $mod+Shift+XF86TouchpadToggle exec playerctl previous
-bindsym $mod+Alt+XF86TouchpadToggle exec playerctl next
+# bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPlay exec cmus-remote -u
+# bindsym $mod+Shift+XF86TouchpadToggle exec playerctl previous
+# bindsym $mod+Alt+XF86TouchpadToggle exec playerctl next
+bindsym $mod+Shift+XF86TouchpadToggle exec cmus-remote -r
+bindsym $mod+Alt+XF86TouchpadToggle exec cmus-remote -n
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
@@ -93,15 +96,16 @@ bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
 set $ws1 "1: Social"
-set $ws2 "2: Chromium"
+set $ws2 "2: Code"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "6"
+set $ws6 "6: Browser"
 set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9: Connectwise"
-set $ws10 "10: Rhythmbox"
+set $ws8 "8: Work Mail"
+set $ws9 "9: Time"
+set $ws10 "10: Music"
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -113,6 +117,7 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
@@ -124,6 +129,7 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 #
