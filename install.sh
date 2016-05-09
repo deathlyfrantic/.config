@@ -21,6 +21,9 @@ ln -s ~/dotfiles/swayconfig ~/.config/sway/config
 mkdir -p ~/.config/ranger
 ln -s ~/dotfiles/ranger.conf ~/.config/ranger/rc.conf
 
+mkdir -p ~/.config/cmus
+ln -s ~/dotfiles/cmusrc ~/.config/cmus/rc
+
 mkdir -p ~/.mutt
 ln -s ~/dotfiles/muttrc ~/.mutt/muttrc
 

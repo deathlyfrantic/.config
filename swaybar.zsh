@@ -26,66 +26,28 @@ volume () {
     echo "Volume: $volume"
 }
 
-volume_icon () {
-    local volume="$(volume)"
-    local icon=""
-    headphones
-    if [[ $? == 1 ]]; then
-        # icon=""
-        icon='\uf025'
-    elif [[ $volume -lt 20 ]]; then
-        # icon=""
-        icon='\uf026'
-    elif [[ $volume -lt 40 ]]; then
-        # icon=""
-        icon='\uf027'
-    else
-        # icon=""
-        icon='\uf028'
-    fi
-    echo $icon
-}
-
 song_info () {
     local artist="$(playerctl metadata artist)"
     local title="$(playerctl metadata title)"
-    if [[ $artist != "" && $title != "" ]]; then
+    if [[ -a ~/dotfiles/cmus-status.txt ]]; then
+        local info=$(<~/dotfiles/cmus-status.txt)
+        if [[ $info == "[stopped]" ]]; then
+            echo ""
+        else
+            echo "$info"
+        fi
+    elif [[ $artist != "" && $title != "" ]]; then
         echo "$artist - $title"
     fi
-}
 
-song_info_icon () {
-    local status="$(playerctl status)"
-    local icon=""
-    if [[ $status == "Playing" ]]; then
-        # icon="⏵"
-        icon='u\23f5'
-    elif [[ $status == "Paused" ]]; then
-        # icon="⏸"
-        icon='\u23f8'
-    else
-        # icon="⏹"
-        icon='\u23f9'
-    fi
-    echo $icon
 }
 
 calendar () {
     date +'%a %m/%d/%Y'
 }
 
-calendar_icon () {
-    # echo ""
-    echo '\uf073'
-}
-
 clock () {
     date +'%r'
-}
-
-clock_icon () {
-    # echo ""
-    echo '\uf017'
 }
 
 escape_for_pango () {
@@ -101,10 +63,8 @@ escape_for_pango () {
 segment () {
     local name=$1
     local text=$(escape_for_pango "$($1)")
-    # local icon=$("$1_icon")
     if [[ $text != "" ]]; then
         echo "{\"name\": \"$name\","
-        # echo "\"full_text\": \"<span font_family='FontAwesome'>$icon</span> $text\","
         echo "\"full_text\": \"$text\","
         echo "\"short_text\": \"$text\","
         echo "\"separator_block_width\": 21,"
