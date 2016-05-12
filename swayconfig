@@ -95,16 +95,18 @@ bindsym $mod+Shift+Down resize shrink height 10 px
 bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
-set $ws1 "1: Social"
-set $ws2 "2: Code"
+set $ws1 "1"
+set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "6: Browser"
+set $ws6 "6"
 set $ws7 "7"
-set $ws8 "8: Work Mail"
-set $ws9 "9: Time"
-set $ws10 "10: Music"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -117,6 +119,8 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+bindsym $mod+minus workspace $ws11
+bindsym $mod+equal workspace $ws12
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -129,6 +133,8 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+minus move container to workspace $ws11
+bindsym $mod+Shift+equal move container to workspace $ws12
 
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
@@ -164,11 +170,11 @@ bindsym $mod+a focus parent
 # You can send windows there and get them back later.
 
 # Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+backslash move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
+bindsym $mod+backslash scratchpad show
 
 #
 # Status Bar:
