@@ -18,33 +18,27 @@
 
 output()
 {
-	# write status to ~/cmus-status.txt (not very useful though)
-	echo "$*" > ~/dotfiles/cmus-status.txt 2>&1
-
-	# WMI (http://wmi.modprobe.de/)
-	#wmiremote -t "$*" &> /dev/null
+    echo "$*" > ~/dotfiles/cmus-status.txt 2>&1
 }
 
 while test $# -ge 2
 do
-	eval _$1='$2'
-	shift
-	shift
+    eval _$1='$2'
+    shift
+    shift
 done
 
 if test -n "$_file"
 then
-	h=$(($_duration / 3600))
-	m=$(($_duration % 3600))
-
-	duration=""
-	test $h -gt 0 && dur="$h:"
-	duration="$dur$(printf '%02d:%02d' $(($m / 60)) $(($m % 60)))"
-
-	output "$_artist - $_title [$_status]"
+    if [ $_status = "playing" ]; then
+        status=""
+    else
+        status=" [$_status]"
+    fi
+    output "$_artist - $_title$status"
 elif test -n "$_url"
 then
-	output "$_url - $_title [$_status]"
+    output "$_url - $_title [$_status]"
 else
-	output "[$_status]"
+    output "[$_status]"
 fi
