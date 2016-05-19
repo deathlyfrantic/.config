@@ -11,6 +11,19 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
+# workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
 # Your preferred terminal emulator
 set $term st -f Input:pixelsize=16
 # Your preferred application launcher
@@ -42,6 +55,9 @@ bindsym $mod+d exec $menu
 
 # settings
 bindsym $mod+XF86TouchpadToggle exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
+
+# cmus
+bindsym $mod+Shift+m workspace 12; exec $term -e zsh -c "cmus"
 
 # media keys
 # bindsym XF86AudioPlay exec playerctl play-pause
@@ -95,19 +111,6 @@ bindsym $mod+Shift+Down resize shrink height 10 px
 bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
-set $ws11 "11"
-set $ws12 "12"
-
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2

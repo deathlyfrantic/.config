@@ -24,6 +24,10 @@ ln -s ~/dotfiles/ranger.conf ~/.config/ranger/rc.conf
 mkdir -p ~/.config/cmus
 ln -s ~/dotfiles/cmusrc ~/.config/cmus/rc
 
+mkdir -p ~/.config/newsbeueter
+ln -s ~/dotfiles/newsbeueterurls ~/.config/newsbeuter/urls
+ln -s ~/dotfiles/newsbeuterconfig ~/.config/newsbeuter/config
+
 mkdir -p ~/.mutt
 ln -s ~/dotfiles/muttrc ~/.mutt/muttrc
 
