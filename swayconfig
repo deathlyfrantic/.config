@@ -111,6 +111,19 @@ bindsym $mod+Shift+Down resize shrink height 10 px
 bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
+# assign to outputs
+workspace $ws1 output HDMI-A-1
+workspace $ws2 output HDMI-A-1
+workspace $ws3 output HDMI-A-1
+workspace $ws4 output HDMI-A-1
+workspace $ws5 output HDMI-A-1
+workspace $ws6 output HDMI-A-1
+workspace $ws7 output HDMI-A-2
+workspace $ws8 output HDMI-A-2
+workspace $ws9 output HDMI-A-2
+workspace $ws10 output HDMI-A-2
+workspace $ws11 output HDMI-A-2
+workspace $ws12 output HDMI-A-2
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
