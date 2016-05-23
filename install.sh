@@ -2,12 +2,18 @@ cd ~/dotfiles
 git clone https://github.com/zsh-users/antigen
 
 cd ~
-ln -s ~/dotfiles/antigen/antigen.zsh .antigen.zsh
-ln -s ~/dotfiles/tmux.conf .tmux.conf
 ln -s ~/dotfiles/Xresources .Xresources
-ln -s ~/dotfiles/zshenv .zshenv
-ln -s ~/dotfiles/zshrc .zshrc
-ln -s ~/dotfiles/gitconfig .gitconfig
+
+mkdir -p ~/.config/tmux
+ln -s ~/dotfiles/tmux.conf ~/.config/tmux/tmux.conf
+
+mkdir -p ~/.config/git
+ln -s ~/dotfiles/gitconfig ~/.config/git/config
+
+mkdir -p ~/.config/zsh/antigen
+ln -s ~/dotfiles/antigen/antigen.zsh ~/.config/zsh/antigen.zsh
+ln -s ~/dotfiles/zshenv ~/.config/zsh/.zshenv
+ln -s ~/dotfiles/zshrc ~/.config/zsh/.zshrc
 
 mkdir -p ~/.config/nvim
 ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
@@ -29,10 +35,10 @@ ln -s ~/dotfiles/newsbeueterurls ~/.config/newsbeuter/urls
 ln -s ~/dotfiles/newsbeuterconfig ~/.config/newsbeuter/config
 
 mkdir -p ~/.mutt
-ln -s ~/dotfiles/muttrc ~/.mutt/muttrc
+ln -s ~/dotfiles/muttrc ~/.config/mutt/muttrc
 
-mkdir -p ~/.irssi
-ln -s ~/dotfiles/irssi.theme ~/.irssi/irssi.theme
+mkdir -p ~/.config/irssi
+ln -s ~/dotfiles/irssi.theme ~/.config/irssi/irssi.theme
 
 # remap capslock -> ctrl
 sudo ln -s ~/dotfiles/keyboard.hwdb /etc/udev/hwdb.d/90-custom-keyboard.hwdb

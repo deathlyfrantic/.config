@@ -22,7 +22,7 @@ else
 fi
 
 # history
-HISTFILE=~/.histfile
+HISTFILE="$ZDOTDIR"/histfile
 HISTSIZE=1000000
 SAVEHIST=1000000
 
@@ -56,8 +56,8 @@ zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
 # hopefully a much saner keyboard mapping section
 autoload zkbd
-if [[ -a ~/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE} ]]; then
-    source ~/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE}
+if [[ -a $ZDOTDIR/zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE} ]]; then
+    source $ZDOTDIR/zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE}
     [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
     [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
     [[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
@@ -70,8 +70,9 @@ if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
 fi
 
 # antigen
-if [[ -a ~/.antigen.zsh ]]; then
-    source ~/.antigen.zsh
+ADOTDIR=$ZDOTDIR/antigen
+if [[ -a $ZDOTDIR/antigen.zsh ]]; then
+    source $ZDOTDIR/antigen.zsh
     antigen bundle zsh-users/zsh-syntax-highlighting
     antigen bundle zsh-users/zsh-history-substring-search
     antigen bundle olivierverdier/zsh-git-prompt
