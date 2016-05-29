@@ -1,5 +1,13 @@
+unbind-key ^B
+unbind-key g
+unbind-key G
+
 bind-key j down
 bind-key k up
+bind-key ^F pagedown
+bind-key ^B pageup
+bind-key g home
+bind-key G end
 browser xdg-open
 
 # zenburn theme from https://gist.github.com/ivoarch/8256644
