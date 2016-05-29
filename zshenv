@@ -1,4 +1,5 @@
 # fix non-XDG compatible junk
+export XDG_CONFIG_HOME=$HOME/.config
 export LESSHISTFILE=-
 export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
 export EDITOR=nvim
@@ -13,4 +14,4 @@ alias vim='nvim'
 alias less='less -R'
 alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/muttrc'
 alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_HOME"/irssi'
-alias sway='sway -d >> "$XDG_CONFIG_HOME"/sway/debug.log'
+alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
