@@ -1,34 +1,14 @@
 # janky script to generate swaybar
-muted () {
-    local muted="$(pactl list sinks | grep Mute: | sed -e 's/.*Mute: //')"
-    if [[ $muted == "no" ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-headphones () {
-    local headphones="$(pactl list sinks | grep Headphones | sed -e 's/.*, //')"
-    if [[ $headphones == "available)" ]]; then
-        return 1
-    else
-        return 0
-    fi
-}
-
 volume () {
     local volume="$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')"
-    muted
-    if [[ $? == 1 ]]; then
+    local muted="$(pactl list sinks | grep Mute: | sed -e 's/.*Mute: //')"
+    if [[ $muted == "yes" ]]; then
         volume="muted"
     fi
     echo "Volume: $volume"
 }
 
 song_info () {
-    local artist="$(playerctl metadata artist)"
-    local title="$(playerctl metadata title)"
     if [[ -a ~/dotfiles/cmus-status.txt ]]; then
         local info=$(<~/dotfiles/cmus-status.txt)
         if [[ $info == "[stopped]" ]]; then
@@ -36,8 +16,6 @@ song_info () {
         else
             echo "$info"
         fi
-    elif [[ $artist != "" && $title != "" ]]; then
-        echo "$artist - $title"
     fi
 
 }
