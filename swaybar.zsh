@@ -41,23 +41,28 @@ escape_for_pango () {
 segment () {
     local name=$1
     local text=$(escape_for_pango "$($1)")
+    local no_comma=$2
     if [[ $text != "" ]]; then
         echo "{\"name\": \"$name\","
         echo "\"full_text\": \"$text\","
         echo "\"short_text\": \"$text\","
         echo "\"separator_block_width\": 21,"
-        echo "\"markup\": \"pango\"},"
+        echo "\"markup\": \"pango\"}"
+
+        if [[ ! $no_comma ]]; then
+            echo ","
+        fi
     fi
 }
 
-echo '{ "version": 1 }'
-echo '['
+echo '{"version":1}'
+echo '[[],'
 while true; do
-    echo ",["
+    echo "["
     segment "song_info"
     segment "volume"
     segment "calendar"
-    segment "clock"
-    echo "]"
+    segment "clock" true
+    echo "],"
     sleep 1
 done
