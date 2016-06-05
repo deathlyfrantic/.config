@@ -33,7 +33,8 @@ set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 #
 # wallpaper
 # output * bg /home/zandr/dotfiles/tree-wallpaper.jpg fill
-output * bg /home/zandr/dotfiles/forest.jpg fill
+# output * bg /home/zandr/dotfiles/forest.jpg fill
+exec --no-startup-id feh --no-fehbg --bg-scale ~/dotfiles/forest.jpg
 #
 # Example output configuration:
 #
@@ -52,7 +53,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+q kill
 
 # start your launcher
-bindsym $mod+d exec $menu
+bindsym $mod+d exec --no-startup-id $menu
 
 # settings
 bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
@@ -61,25 +62,26 @@ bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim
 bindsym $mod+Shift+m workspace 12; exec $term -e zsh -c "cmus"
 
 # media keys
-bindsym XF86AudioPlay exec cmus-remote -u
-bindsym $mod+Shift+XF86TouchpadToggle exec cmus-remote -r
-bindsym $mod+Alt+XF86TouchpadToggle exec cmus-remote -n
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
+bindsym $mod+Shift+XF86TouchpadToggle exec --no-startup-id cmus-remote -r
+bindsym $mod+Mod1+XF86TouchpadToggle exec --no-startup-id cmus-remote -n
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
 # Despite the name, also works for non-floating windows.
 # Change normal to inverse to use left mouse button for resizing and right
 # mouse button for dragging.
-floating_modifier $mod normal
+floating_modifier $mod
 
 # lock screen using swaylock
-bindsym $mod+Ctrl+Shift+l exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
+# bindsym $mod+Ctrl+Shift+l exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
 
 # exit sway (logs you out of your wayland session)
 bindsym $mod+Shift+e exit
@@ -110,18 +112,18 @@ bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
 # assign to outputs
-workspace $ws1 output HDMI-A-1
-workspace $ws2 output HDMI-A-1
-workspace $ws3 output HDMI-A-1
-workspace $ws4 output HDMI-A-1
-workspace $ws5 output HDMI-A-1
-workspace $ws6 output HDMI-A-1
-workspace $ws7 output HDMI-A-2
-workspace $ws8 output HDMI-A-2
-workspace $ws9 output HDMI-A-2
-workspace $ws10 output HDMI-A-2
-workspace $ws11 output HDMI-A-2
-workspace $ws12 output HDMI-A-2
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-2
+workspace $ws8 output HDMI-2
+workspace $ws9 output HDMI-2
+workspace $ws10 output HDMI-2
+workspace $ws11 output HDMI-2
+workspace $ws12 output HDMI-2
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -195,7 +197,8 @@ bindsym $mod+backslash scratchpad show
 #
 bar {
     position top
-    font "Noto Sans UI Regular 10"
+    font pango:Noto Sans UI Regular 10
+    binding_mode_indicator yes
     status_command zsh -e ~/dotfiles/swaybar.zsh
     # status_command python ~/dotfiles/teststatus.py
     separator_symbol " | "
@@ -218,7 +221,7 @@ bar {
 
 # colors
 # class                   border      background  text         indicator   child_border
-client.focused            #00ff00ff   #00ff00ff   #ffffffff    #2e9ef4ff   #00ff0066
+client.focused            #00ff00ff   #285577ff   #ffffffff    #2e9ef4ff   #00ff0066
 client.focused_inactive   #333333ff   #5f676aff   #ffffffff    #484e50ff   #5f676aff
 client.unfocused          #333333ff   #222222ff   #888888ff    #292d2eff   #222222ff
 client.urgent             #2f343aff   #900000ff   #ffffffff    #900000ff   #900000ff
@@ -230,4 +233,3 @@ hide_edge_borders both
 focus_follows_mouse no
 gaps inner 10
 smart_gaps on
-debuglog on

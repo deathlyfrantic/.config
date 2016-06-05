@@ -2,7 +2,9 @@ cd ~/dotfiles
 git clone https://github.com/zsh-users/antigen
 
 cd ~
-ln -s ~/dotfiles/Xresources .Xresources
+mkdir -p ~/.config/x11
+ln -s ~/dotfiles/Xresources ~/.config/x11/xresources
+ln -s ~/dotfiles/xinitrc ~/.config/x11/xinitrc
 
 mkdir -p ~/.config/tmux
 ln -s ~/dotfiles/tmux.conf ~/.config/tmux/tmux.conf

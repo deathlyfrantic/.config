@@ -56,8 +56,8 @@ zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
 # hopefully a much saner keyboard mapping section
 autoload zkbd
-if [[ -a $ZDOTDIR/zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE} ]]; then
-    source $ZDOTDIR/zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE}
+if [[ -a $ZDOTDIR/zkbd/$TERM ]]; then
+    source $ZDOTDIR/zkbd/$TERM
     [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
     [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
     [[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
