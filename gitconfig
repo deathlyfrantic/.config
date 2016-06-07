@@ -1,6 +1,7 @@
 [user]
 	email = zandrmartin+git@gmail.com
 	name = Zandr Martin
+	signingkey = 77F7BBDC
 [core]
 	editor = nvim
 	autocrlf = input
