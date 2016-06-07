@@ -1,16 +1,8 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-#
-# Sway is a work in progress. Some of these defaults are currently unimplemented.
-
-
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
+# logo key
 set $mod Mod4
+
 # workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -24,28 +16,18 @@ set $ws9 "9"
 set $ws10 "10"
 set $ws11 "11"
 set $ws12 "12"
-# Your preferred terminal emulator
+
+# terminal
 set $term st -f Input:pixelsize=16
-# Your preferred application launcher
+
+# launcher
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-#
-# wallpaper
-# output * bg /home/zandr/dotfiles/tree-wallpaper.jpg fill
 output * bg /home/zandr/dotfiles/forest.jpg fill
-#
-# Example output configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running sway-msg -t get_outputs
 
 ### Key bindings
-#
-# Basics:
-#
-# start a terminal
+# terminal
 bindsym $mod+Return exec $term
 
 # kill focused window
@@ -83,9 +65,7 @@ bindsym $mod+Shift+c reload
 
 # exit sway (logs you out of your wayland session)
 bindsym $mod+Shift+e exit
-#
-# Moving around:
-#
+
 # Move your focus around with $mod+[h|j|k|l], like vim
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -122,6 +102,7 @@ workspace $ws9 output HDMI-A-2
 workspace $ws10 output HDMI-A-2
 workspace $ws11 output HDMI-A-2
 workspace $ws12 output HDMI-A-2
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -150,9 +131,6 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 bindsym $mod+Shift+minus move container to workspace $ws11
 bindsym $mod+Shift+equal move container to workspace $ws12
 
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
-#
 # Layout stuff:
 #
 # You can "split" the current object of your focus with
@@ -177,7 +155,10 @@ bindsym $mod+space focus mode_toggle
 
 # move focus to the parent container
 bindsym $mod+a focus parent
-#
+
+# window overrides
+for_window [title="corebird"] floating enable
+
 # Scratchpad:
 #
 # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -190,14 +171,11 @@ bindsym $mod+Shift+backslash move scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+backslash scratchpad show
 
-#
-# Status Bar:
-#
+# swaybar
 bar {
     position top
     font "Noto Sans UI Regular 10"
     status_command zsh -e ~/dotfiles/swaybar.zsh
-    # status_command python ~/dotfiles/teststatus.py
     separator_symbol " | "
     colors {
         statusline #e2e4e9
@@ -206,17 +184,8 @@ bar {
         inactive_workspace #32323200 #32323200 #5c5c5cff
     }
 }
-# Read sway-bar(5) for more information about this section.
 
-# You may want this:
-#
-# include ~/.config/sway/conf.d/*
-#
-# Protip:
-#
-# include ~/.config/sway/`hostname`/*
-
-# colors
+# borders
 # class                   border      background  text         indicator   child_border
 client.focused            #00ff00ff   #00ff00ff   #ffffffff    #2e9ef4ff   #00ff0066
 client.focused_inactive   #333333ff   #5f676aff   #ffffffff    #484e50ff   #5f676aff
@@ -227,7 +196,11 @@ client.background         #ffffffff
 
 new_window pixel 1
 hide_edge_borders both
+
 focus_follows_mouse no
+
+# gaps
 gaps inner 10
 smart_gaps on
+
 debuglog on
