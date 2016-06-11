@@ -24,7 +24,7 @@ set $term st -f Input:pixelsize=16
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-output * bg /home/zandr/dotfiles/forest.jpg fill
+output * bg /home/zandr/dotfiles/darkforest.jpg fill
 
 ### Key bindings
 # terminal
@@ -36,6 +36,9 @@ bindsym $mod+Shift+q kill
 # start your launcher
 bindsym $mod+d exec $menu
 
+# calculator
+bindsym XF86Calculator exec gnome-calculator
+
 # settings
 bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
 
@@ -44,8 +47,6 @@ bindsym $mod+Shift+m workspace 12; exec $term -e zsh -c "cmus"
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
-bindsym $mod+Shift+XF86TouchpadToggle exec cmus-remote -r
-bindsym $mod+Alt+XF86TouchpadToggle exec cmus-remote -n
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
@@ -58,7 +59,7 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 floating_modifier $mod normal
 
 # lock screen using swaylock
-bindsym $mod+Ctrl+Shift+l exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
+bindsym $mod+Pause exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -158,6 +159,7 @@ bindsym $mod+a focus parent
 
 # window overrides
 for_window [title="corebird"] floating enable
+for_window [id="gnome-calculator"] floating enable
 
 # Scratchpad:
 #
@@ -185,16 +187,8 @@ bar {
     }
 }
 
-# borders
-# class                   border      background  text         indicator   child_border
-client.focused            #00ff00ff   #00ff00ff   #ffffffff    #2e9ef4ff   #00ff0066
-client.focused_inactive   #333333ff   #5f676aff   #ffffffff    #484e50ff   #5f676aff
-client.unfocused          #333333ff   #222222ff   #888888ff    #292d2eff   #222222ff
-client.urgent             #2f343aff   #900000ff   #ffffffff    #900000ff   #900000ff
-client.placeholder        #000000ff   #0c0c0cff   #ffffffff    #000000ff   #0c0c0cff
-client.background         #ffffffff
-
 new_window pixel 1
+new_float pixel 1
 hide_edge_borders both
 
 focus_follows_mouse no
