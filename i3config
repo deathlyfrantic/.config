@@ -32,9 +32,7 @@ set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 ### Output configuration
 #
 # wallpaper
-# output * bg /home/zandr/dotfiles/tree-wallpaper.jpg fill
-# output * bg /home/zandr/dotfiles/forest.jpg fill
-exec --no-startup-id feh --no-fehbg --bg-scale ~/dotfiles/forest.jpg
+exec --no-startup-id feh --no-fehbg --bg-scale ~/dotfiles/darkforest.jpg
 #
 # Example output configuration:
 #
@@ -218,15 +216,6 @@ bar {
 # Protip:
 #
 # include ~/.config/sway/`hostname`/*
-
-# colors
-# class                   border      background  text         indicator   child_border
-client.focused            #00ff00ff   #285577ff   #ffffffff    #2e9ef4ff   #00ff0066
-client.focused_inactive   #333333ff   #5f676aff   #ffffffff    #484e50ff   #5f676aff
-client.unfocused          #333333ff   #222222ff   #888888ff    #292d2eff   #222222ff
-client.urgent             #2f343aff   #900000ff   #ffffffff    #900000ff   #900000ff
-client.placeholder        #000000ff   #0c0c0cff   #ffffffff    #000000ff   #0c0c0cff
-client.background         #ffffffff
 
 new_window pixel 1
 hide_edge_borders both
