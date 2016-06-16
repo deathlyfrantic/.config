@@ -160,6 +160,7 @@ bindsym $mod+a focus parent
 # window overrides
 for_window [title="corebird"] floating enable
 for_window [id="gnome-calculator"] floating enable
+for_window [title="Open Files"] floating enable
 
 # Scratchpad:
 #
