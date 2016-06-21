@@ -38,6 +38,8 @@ ln -s ~/dotfiles/newsbeuterconfig ~/.config/newsbeuter/config
 
 mkdir -p ~/.mutt
 ln -s ~/dotfiles/muttrc ~/.config/mutt/muttrc
+ln -s ~/dotfiles/mailcap ~/.config/mutt/mailcap
+
 
 mkdir -p ~/.config/irssi
 ln -s ~/dotfiles/irssi.theme ~/.config/irssi/irssi.theme
