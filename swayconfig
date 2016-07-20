@@ -49,8 +49,8 @@ bindsym $mod+c exec chromium
 bindsym $mod+m workspace 12; exec $term -e zsh -c "cmus"
 
 # brightness
-bindsym XF86MonBrightnessUp exec brightnessctl s 5%+
-bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
