@@ -19,6 +19,7 @@ ln -s ~/dotfiles/zshrc ~/.config/zsh/.zshrc
 
 mkdir -p ~/.config/nvim
 ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s ~/dotfiles/init.vim ~/.config/nvim/custom.utf-8.add
 
 mkdir -p ~/.config/fontconfig
 ln -s ~/dotfiles/fonts.conf ~/.config/fontconfig/fonts.conf
