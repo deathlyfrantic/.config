@@ -81,3 +81,16 @@ if [[ -a $ZDOTDIR/antigen.zsh ]]; then
     antigen apply
     RPROMPT='$(git_super_status)'
 fi
+
+# git prompt chars
+ZSH_THEME_GIT_PROMPT_PREFIX="["
+ZSH_THEME_GIT_PROMPT_SUFFIX="]"
+ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
+ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[black]%}"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[yellow]%}%{-%G%}"
+ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg_bold[red]%}%{!%G%}"
+ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg_bold[blue]%}%{+%G%}"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[red]%}%{<%G%}"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[cyan]%}%{>%G%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[magenta]%}%{?%G%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{=%G%}"
