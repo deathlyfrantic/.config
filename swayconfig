@@ -45,6 +45,12 @@ bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim
 # chromium
 bindsym $mod+c exec chromium
 
+# mutt
+bindsym $mod+e exec $term -e zsh -c "mutt"
+
+# irssi
+bindsym $mod+i exec $term -e zsh -c "tmux attach"
+
 # cmus
 bindsym $mod+m workspace 12; exec $term -e zsh -c "cmus"
 
@@ -150,7 +156,7 @@ bindsym $mod+v splitv
 # Switch the current container between different layout styles
 # bindsym $mod+s layout stacking
 # bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+z layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
