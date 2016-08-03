@@ -78,7 +78,7 @@ bindsym $mod+Pause exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome
 bindsym $mod+Shift+c reload
 
 # exit sway (logs you out of your wayland session)
-bindsym $mod+Shift+e exit
+bindsym $mod+Shift+e exec zenity --question --text="Are you sure you want to exit Sway?" && swaymsg -t command "exit"
 
 # Move your focus around with $mod+[h|j|k|l], like vim
 bindsym $mod+h focus left
@@ -175,6 +175,7 @@ for_window [title="corebird"] floating enable
 for_window [id="gnome-calculator"] floating enable
 for_window [title="Open Files"] floating enable; resize set 800 600
 for_window [title="Open File"] floating enable; resize set 800 600
+for_window [id="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
 
 # Scratchpad:
