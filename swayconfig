@@ -173,8 +173,8 @@ bindsym $mod+a focus parent
 # window overrides
 for_window [title="corebird"] floating enable
 for_window [id="gnome-calculator"] floating enable
-for_window [title="Open Files"] floating enable; resize set 800 600
-for_window [title="Open File"] floating enable; resize set 800 600
+for_window [title="Open Files"] floating enable
+for_window [title="Open File"] floating enable
 for_window [id="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
 
