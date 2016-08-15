@@ -11,7 +11,7 @@ P_at="%{$fg_bold[blue]%}@%{$reset_color%}"
 P_dot=" %{$fg_bold[black]%}·%{$reset_color%} "
 P_host="%{$fg[blue]%}%m"
 P_path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
-P_base="$P_path %(!.%{$fg_bold[red]%}☠.%{$fg_bold[black]%}⏵)%{$reset_color%} "
+P_base="$P_path%(!.%{$fg_bold[red]%}☠.%{$fg_bold[black]%}:)%{$reset_color%} "
 
 if [[ $SSH_CONNECTION != '' ]]; then
     PROMPT=$P_user$P_at$P_host$P_dot$P_base
