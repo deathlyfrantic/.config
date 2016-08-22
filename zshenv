@@ -10,8 +10,13 @@ export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export LESSHISTFILE=-
 export EDITOR=nvim
 export VISUAL=nvim
+# export WAYLAND_DEBUG=1
+# export WLC_DEBUG=xwm
+# export QT_QPA_PLATFORM=wayland-egl
+export GDK_BACKEND=x11
 
 # aliases
+alias diff='diff --color=always'
 alias gpg2='gpg2 --homedir "$XDG_CONFIG_HOME/gnupg"'
 alias sass='sassc'
 alias tmux='tmux -2 -f "$XDG_CONFIG_HOME"/tmux/tmux.conf'
@@ -22,5 +27,4 @@ alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/muttrc'
 alias pacman='pacman --color=always'
 alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_HOME"/irssi'
 alias weechat='weechat -d "$XDG_CONFIG_HOME"/weechat'
-# alias sway='WAYLAND_DEBUG=1 WLC_DEBUG=xwm sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
