@@ -27,20 +27,18 @@ ln -s ~/dotfiles/fonts.conf ~/.config/fontconfig/fonts.conf
 mkdir -p ~/.config/sway
 ln -s ~/dotfiles/swayconfig ~/.config/sway/config
 
-mkdir -p ~/.config/ranger
-ln -s ~/dotfiles/ranger.conf ~/.config/ranger/rc.conf
-
 mkdir -p ~/.config/cmus
 ln -s ~/dotfiles/cmusrc ~/.config/cmus/rc
 
-mkdir -p ~/.config/newsbeueter
-ln -s ~/dotfiles/newsbeueterurls ~/.config/newsbeuter/urls
-ln -s ~/dotfiles/newsbeuterconfig ~/.config/newsbeuter/config
+mkdir -p ~/.config/termite
+ln -s ~/dotfiles/termiteconfig ~/.config/termite/config
+
+mkdir -p ~/.config/gtk-3.0
+ln -s ~/dotfiles/gtk.css ~/.config/gtk-3.0/gtk.css
 
 mkdir -p ~/.mutt
 ln -s ~/dotfiles/muttrc ~/.config/mutt/muttrc
 ln -s ~/dotfiles/mailcap ~/.config/mutt/mailcap
-
 
 mkdir -p ~/.config/irssi
 ln -s ~/dotfiles/irssi.theme ~/.config/irssi/irssi.theme

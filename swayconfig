@@ -18,7 +18,9 @@ set $ws11 11
 set $ws12 12
 
 # terminal
-set $term st -f Input:pixelsize=16
+set $term termite
+# set $term st -f Input:pixelsize=16
+# set $term st -f "Fira Mono Medium:pixelsize=15"
 
 # launcher
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
@@ -40,19 +42,19 @@ bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
 
 # settings
-bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
+bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/dotfiles/swayconfig'"
 
 # chromium
 bindsym $mod+c exec chromium
 
 # mutt
-bindsym $mod+e exec $term -e zsh -c "mutt"
+bindsym $mod+e exec $term -e "zsh -c 'mutt'"
 
 # irssi
-bindsym $mod+i exec $term -e zsh -c "tmux attach"
+bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
 
 # cmus
-bindsym $mod+m workspace 12; exec $term -e zsh -c "cmus"
+bindsym $mod+m workspace 12; exec $term -e "zsh -c 'cmus'"
 
 # brightness
 bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
@@ -60,8 +62,8 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec ~/dotfiles/volume.zsh up
+bindsym XF86AudioLowerVolume exec ~/dotfiles/volume.zsh down
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # Drag floating windows by holding down $mod and left mouse button.
@@ -172,10 +174,10 @@ bindsym $mod+a focus parent
 
 # window overrides
 for_window [title="corebird"] floating enable
-for_window [id="gnome-calculator"] floating enable
+for_window [title="gnome-calculator"] floating enable
 for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
-for_window [id="zenity"] floating enable
+for_window [title="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
 
 # Scratchpad:
@@ -194,7 +196,8 @@ bindsym $mod+backslash scratchpad show
 bar {
     position top
     font "Noto Sans UI Regular 10"
-    status_command zsh -e ~/dotfiles/swaybar.zsh
+    # status_command zsh -c ~/dotfiles/swaybar.zsh
+    status_command zsh -c "~/Code/swaystag/swaystag.py server"
     separator_symbol " | "
     colors {
         statusline #e2e4e9
@@ -215,3 +218,7 @@ gaps inner 10
 smart_gaps on
 
 debuglog on
+exec_always zsh -c 'sleep 2; while true; do ~/Code/swaystag/swaystag.py block --sort_order 998 --name "calendar" --full_text "$(date +\'\'%a\ %m\/%d\/%Y\'\')"; sleep 21600; done'
+exec_always zsh -c 'while true; do ~/Code/swaystag/swaystag.py block --sort_order 999 --name "clock" --full_text "$(date +\'%r\')"; sleep 1; done'
+exec_always zsh -c 'sleep 3; ~/dotfiles/volume.zsh'
+exec_always xrdb -load ~/dotfiles/Xresources
