@@ -74,13 +74,16 @@ fi
 
 # antigen
 ADOTDIR=$ZDOTDIR/antigen
-if [[ -a $ZDOTDIR/antigen.zsh ]]; then
-    source $ZDOTDIR/antigen.zsh
+if [[ -a $ADOTDIR/antigen.zsh ]]; then
+    source $ADOTDIR/antigen.zsh
     antigen bundle zsh-users/zsh-history-substring-search
     antigen bundle zsh-users/zsh-syntax-highlighting
     antigen bundle olivierverdier/zsh-git-prompt
     antigen apply
     RPROMPT='$(git_super_status)'
+else
+    mkdir -p $ADOTDIR
+    git clone https://github.com/zsh-users/antigen $ADOTDIR
 fi
 
 # git prompt chars

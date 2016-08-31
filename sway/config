@@ -26,7 +26,7 @@ set $term termite
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-output * bg /home/zandr/dotfiles/darkforest.jpg fill
+output * bg ~/.config/sway/darkforest.jpg fill
 
 ### Key bindings
 # terminal
@@ -42,7 +42,7 @@ bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
 
 # settings
-bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/dotfiles/swayconfig'"
+bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/.config/sway/config'"
 
 # chromium
 bindsym $mod+c exec chromium
@@ -62,9 +62,9 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
-bindsym XF86AudioRaiseVolume exec ~/dotfiles/volume.zsh up
-bindsym XF86AudioLowerVolume exec ~/dotfiles/volume.zsh down
-bindsym XF86AudioMute exec ~/dotfiles/volume.zsh mute
+bindsym XF86AudioRaiseVolume exec ~/.config/sway/volume.zsh up
+bindsym XF86AudioLowerVolume exec ~/.config/sway/volume.zsh down
+bindsym XF86AudioMute exec ~/.config/sway/volume.zsh mute
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -74,7 +74,7 @@ bindsym XF86AudioMute exec ~/dotfiles/volume.zsh mute
 floating_modifier $mod normal
 
 # lock screen using swaylock
-bindsym $mod+Pause exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
+bindsym $mod+Pause exec swaylock -c 000000aa -i ~/.config/sway/500-100-60-monochrome.png -s tile
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -196,7 +196,7 @@ bindsym $mod+backslash scratchpad show
 bar {
     position top
     font "Noto Sans UI Regular 10"
-    # status_command zsh -c ~/dotfiles/swaybar.zsh
+    # status_command zsh -c ~/.config/sway/swaybar.zsh
     status_command zsh -c "~/Code/swaystag/swaystag.py server"
     separator_symbol " | "
     colors {
@@ -218,7 +218,7 @@ gaps inner 10
 smart_gaps on
 
 debuglog on
-exec_always zsh -c 'sleep 2; while true; do ~/Code/swaystag/swaystag.py block --sort_order 998 --name "calendar" --full_text "$(date +\'\'%a\ %m\/%d\/%Y\'\')"; sleep 21600; done'
+exec_always zsh -c 'sleep 2; while true; do ~/Code/swaystag/swaystag.py block --sort_order 998 --name "calendar" --full_text "$(date +\'\'%a\ %m\/%d\/%Y\'\')"; sleep 3600; done'
 exec_always zsh -c 'while true; do ~/Code/swaystag/swaystag.py block --sort_order 999 --name "clock" --full_text "$(date +\'%r\')"; sleep 1; done'
-exec_always zsh -c 'sleep 3; ~/dotfiles/volume.zsh'
-exec_always xrdb -load ~/dotfiles/Xresources
+exec_always zsh -c 'sleep 3; ~/.config/sway/volume.zsh'
+exec_always xrdb -load ~/.config/x11/xresources

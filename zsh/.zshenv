@@ -19,7 +19,7 @@ export GDK_BACKEND=x11
 alias diff='diff --color=always'
 alias gpg2='gpg2 --homedir "$XDG_CONFIG_HOME/gnupg"'
 alias sass='sassc'
-alias tmux='tmux -2 -f "$XDG_CONFIG_HOME"/tmux/tmux.conf'
+alias tmux='tmux -2 -f "$XDG_CONFIG_HOME"/tmux/config'
 alias ls='ls --color=always'
 alias vim='nvim'
 alias less='less -R'
