@@ -3,7 +3,7 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    " set termguicolors
+    set termguicolors
     let $VIMHOME = split(&runtimepath, ',')[0]
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -192,6 +192,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'othree/yajs.vim', {'for': 'javascript'}
     Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
     Plug 'sophacles/vim-bundle-mako', {'for': 'mako'}
+    Plug 'dag/vim-fish', {'for': 'fish'}
 
     " text objects
     Plug 'Julian/vim-textobj-variable-segment'
@@ -253,6 +254,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'chrisbra/Colorizer', {'on': 'ColorHighlight'}
     Plug 'zandrmartin/vim-distill'
     Plug '~/Code/vim/pistle/'
+    Plug 'NLKNguyen/papercolor-theme'
 
     " my plugins
     for p in ['pistle', 'distill', 'textobj-blanklines']
@@ -299,7 +301,7 @@ set showcmd
 set smartcase
 set spellfile=$VIMHOME/custom.utf-8.add,$VIMHOME/local.utf-8.add
 set softtabstop=4
-set tabstop=4
+" set tabstop=4
 set title
 set ttimeout
 set ttimeoutlen=50
@@ -313,8 +315,9 @@ set writebackup
 augroup rc_commands
     autocmd!
 
-    " make commentary use // for c and php comments
+    " specify comment types for commentary
     autocmd FileType c,php setlocal commentstring=//%s
+    autocmd FileType django,htmldjango setlocal commentstring={#%s#}
 
     " i will never be working with c++
     autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
@@ -330,7 +333,11 @@ augroup rc_commands
     " quit even if dirvish or quickfix is open
     autocmd BufEnter *
         \ if winnr('$') == 1 && (&buftype ==? 'quickfix' || &buftype ==? 'nofile') |
-        \   quit |
+        \   if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 |
+        \       quit |
+        \   else |
+        \       bd! |
+        \   endif |
         \ endif
 
     " see :help last-position-jump
@@ -465,9 +472,10 @@ vnoremap > >gv
 
 " --- colors and appearance --- {{{
 " colorscheme distill
-colorscheme pistle
+colorscheme distill
 
-highlight User1 ctermbg=16 ctermfg=254 guibg=#000000 guifg=#e4e4e4 cterm=bold gui=bold
+" highlight User1 ctermbg=16 ctermfg=254 guibg=#000000 guifg=#e4e4e4 cterm=bold gui=bold
+highlight! link User1 SyntasticWarning
 
 " statusline {{{
 set statusline=%<
