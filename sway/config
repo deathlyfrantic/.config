@@ -47,6 +47,9 @@ bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvi
 # chromium
 bindsym $mod+c exec chromium
 
+# qutebrowser
+bindsym $mod+q exec qutebrowser
+
 # mutt
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
 
