@@ -55,6 +55,10 @@ let s:ignore_patterns = [
     \ ]
 " }}}
 
+" jsx {{{
+let g:jsx_ext_required = 0
+" }}}
+
 " grepper {{{
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
@@ -91,8 +95,6 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_start_length = 1
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
-" let g:deoplete#omni_patterns = {}
-" let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 " }}}
 
 " ctrlp and ag stuff {{{
@@ -189,7 +191,8 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'jeroenbourgois/vim-actionscript', {'for': 'actionscript'}
     Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
     Plug 'rust-lang/rust.vim', {'for': 'rust'}
-    Plug 'othree/yajs.vim', {'for': 'javascript'}
+    Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+    Plug 'mxw/vim-jsx', {'for': 'javascript'}
     Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
     Plug 'sophacles/vim-bundle-mako', {'for': 'mako'}
     Plug 'dag/vim-fish', {'for': 'fish'}
@@ -200,7 +203,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'kana/vim-textobj-user'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'glts/vim-textobj-comment'
-    Plug 'zandrmartin/vim-textobj-blanklines'
 
     " dev tools
     Plug 'SirVer/ultisnips'
@@ -252,9 +254,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
     Plug 'ap/vim-buftabline'
     Plug 'chrisbra/Colorizer', {'on': 'ColorHighlight'}
-    Plug 'zandrmartin/vim-distill'
-    Plug '~/Code/vim/pistle/'
-    Plug 'NLKNguyen/papercolor-theme'
 
     " my plugins
     for p in ['pistle', 'distill', 'textobj-blanklines']
@@ -317,7 +316,7 @@ augroup rc_commands
 
     " specify comment types for commentary
     autocmd FileType c,php setlocal commentstring=//%s
-    autocmd FileType django,htmldjango setlocal commentstring={#%s#}
+    autocmd FileType django,htmldjango,jinja,htmljinja setlocal commentstring={#%s#}
 
     " i will never be working with c++
     autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
@@ -615,10 +614,10 @@ function! s:wrap(...)
     setlocal wrap linebreak
     inoremap <Up> <C-o>gk
     inoremap <Down> <C-o>gj
-    nnoremap k gk
-    nnoremap gk k
-    nnoremap j gj
-    nnoremap gj j
+    noremap k gk
+    noremap gk k
+    noremap j gj
+    noremap gj j
 endfunction
 
 function! s:unwrap()
