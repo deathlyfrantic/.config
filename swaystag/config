@@ -1,3 +1,5 @@
+host localhost
+port 5000
 spawn while true; do ~/Code/swaystag/swaystag.py block --sort_order 998 --name "calendar" --full_text "$(date +'%a %m/%d/%Y')"; sleep 3600; done
 spawn while true; do ~/Code/swaystag/swaystag.py block --sort_order 999 --name "clock" --full_text "$(date +'%r')"; sleep 1; done
 spawn ~/.config/sway/volume.zsh
