@@ -17,13 +17,6 @@ else
     __status=" [$_status]"
 fi
 
-__title=
-
-output="$_artist - $_title$__status"
-output=$(echo $output | sed -e 's/&/\&amp\;/g')
-output=$(echo $output | sed -e 's/>/\&gt\;/g')
-output=$(echo $output | sed -e 's/</\&lt\;/g')
-output=$(echo $output | sed -e "s/'/\&apos\;/g")
-output=$(echo $output | sed -e 's/"/\&quot\;/g')
+output=$(fish -c "escape_for_pango '$_artist - $_title$__status'")
 
 ~/Code/swaystag/swaystag.py block --name "music" --sort_order 1 --full_text "$output" --short_text "$_title" $remove

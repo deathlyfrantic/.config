@@ -19,7 +19,7 @@ set __fish_git_prompt_char_untrackedfiles '_'
 set __fish_git_prompt_color_untrackedfiles -o 'magenta'
 
 set __fish_git_prompt_char_invalidstate '!'
-set __fish_git_prompt_color_invalidstate -o red
+set __fish_git_prompt_color_invalidstate -o 'red'
 
 function fish_right_prompt
     set __fgpr (__fish_git_prompt)
