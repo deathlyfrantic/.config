@@ -34,7 +34,8 @@ autoload -Uz compinit
 compinit
 
 # futuristic zsh commands
-autoload zmv
+autoload calendar zmv
+zmodload zsh/datetime
 
 # completion stuff stolen from github.com/eevee/rc/.zshrc
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=**' 'r:|=**'
@@ -96,5 +97,5 @@ ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg_bold[red]%}%{!%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg_bold[blue]%}%{+%G%}"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[red]%}%{<%G%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[cyan]%}%{>%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[magenta]%}%{?%G%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[magenta]%}%{_%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{=%G%}"
