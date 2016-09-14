@@ -467,6 +467,13 @@ command! StripTrailingWhitespace %s/\s\+$//e
 " maintain visual mode for indenting
 vnoremap < <gv
 vnoremap > >gv
+
+" more natural increment/decrement
+nnoremap + <C-a>
+nnoremap - <C-x>
+
+" i don't care that <C-c> and <Esc> are different
+imap <C-c> <Esc>
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
