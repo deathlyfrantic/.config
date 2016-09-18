@@ -132,7 +132,6 @@ let g:mta_filetypes = {
     \ 'jinja': 1,
     \ 'htmljinja': 1,
     \ 'htmldjango': 1,
-    \ 'mako': 1,
     \ }
 " }}}
 
@@ -194,8 +193,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'pangloss/vim-javascript', {'for': 'javascript'}
     Plug 'mxw/vim-jsx', {'for': 'javascript'}
     Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
-    Plug 'sophacles/vim-bundle-mako', {'for': 'mako'}
-    Plug 'dag/vim-fish', {'for': 'fish'}
 
     " text objects
     Plug 'Julian/vim-textobj-variable-segment'
@@ -242,13 +239,10 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-repeat'
-    Plug 'tpope/vim-rhubarb'
     Plug 'tpope/vim-scriptease'
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
-    Plug 'tommcdo/vim-fubitive'
-    " fubitive ties into fugitive so we'll let it live here
 
     " colors + vanity
     Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
@@ -300,7 +294,6 @@ set showcmd
 set smartcase
 set spellfile=$VIMHOME/custom.utf-8.add,$VIMHOME/local.utf-8.add
 set softtabstop=4
-" set tabstop=4
 set title
 set ttimeout
 set ttimeoutlen=50
@@ -356,9 +349,6 @@ augroup rc_commands
         \ if index(['markdown', 'mail', 'snippets'], &ft) == -1 |
         \   %s/\s\+$//e |
         \ endif
-
-    " set .mako files to highlight as mako
-    autocmd BufNewFile,BufReadPost *.mako setlocal filetype=mako
 
     " xml options - makes xml folding very usable
     autocmd BufNewFile,BufReadPost *.xml
@@ -471,13 +461,16 @@ vnoremap > >gv
 " more natural increment/decrement
 nnoremap + <C-a>
 nnoremap - <C-x>
+vnoremap + <C-a>
+vnoremap - <C-x>
+vnoremap g+ g<C-a>
+vnoremap g- g<C-x>
 
 " i don't care that <C-c> and <Esc> are different
 imap <C-c> <Esc>
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
-" colorscheme distill
 colorscheme distill
 
 " highlight User1 ctermbg=16 ctermfg=254 guibg=#000000 guifg=#e4e4e4 cterm=bold gui=bold
@@ -649,7 +642,6 @@ function! s:set_indent_level(...)
         \ 'htmldjango': 2,
         \ 'htmljinja': 2,
         \ 'django': 2,
-        \ 'mako': 2,
         \ }
 
     if a:0
