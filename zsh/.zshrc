@@ -78,8 +78,8 @@ ADOTDIR=$ZDOTDIR/antigen
 if [[ -a $ADOTDIR/antigen.zsh ]]; then
     source $ADOTDIR/antigen.zsh
     antigen bundle zsh-users/zsh-history-substring-search
-    antigen bundle zsh-users/zsh-syntax-highlighting
     antigen bundle olivierverdier/zsh-git-prompt
+    antigen bundle zsh-users/zsh-syntax-highlighting
     antigen apply
     RPROMPT='$(git_super_status)'
 else
