@@ -221,7 +221,5 @@ gaps inner 10
 smart_gaps on
 
 debuglog on
-# exec_always zsh -c 'sleep 2; while true; do ~/Code/swaystag/swaystag.py block --sort_order 998 --name "calendar" --full_text "$(date +\'\'%a\ %m\/%d\/%Y\'\')"; sleep 3600; done'
-# exec_always zsh -c 'while true; do ~/Code/swaystag/swaystag.py block --sort_order 999 --name "clock" --full_text "$(date +\'%r\')"; sleep 1; done'
-# exec_always zsh -c 'sleep 3; ~/.config/sway/volume.zsh'
+exec numlockx on
 exec_always xrdb -load ~/.config/x11/xresources
