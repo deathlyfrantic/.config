@@ -3,7 +3,7 @@ let s:install_plugins = 0
 if has('vim_starting')
   " stuff that should only have to happen once
   set encoding=utf-8
-  set termguicolors
+  " set termguicolors
   let $VIMHOME = split(&runtimepath, ',')[0]
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -16,9 +16,7 @@ if has('vim_starting')
   " install vim-plug if it's not already - pluginless vim is terrible
   if !filereadable($VIMHOME.'/autoload/plug.vim')
     let s:install_plugins = 1
-    let s:plug_install_command = '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    silent execute s:plug_install_command
+    execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   endif
 
   " hide file cruft
@@ -41,7 +39,7 @@ endif
 
 " --- plugin settings --- {{{
 " ignore patterns - used in a couple places {{{
-let s:ignore_patterns = [
+let g:ignore_patterns = [
   \ '__pycache__/',
   \ '__pycache__',
   \ '.git',
@@ -100,7 +98,7 @@ let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 " ctrlp and ag stuff {{{
 let g:ctrlp_open_multiple_files = '1jr'
 if executable('ag')
-  let s:ignore_string = join(map(copy(s:ignore_patterns), '"--ignore ''" . v:val . "''"'), ' ')
+  let s:ignore_string = join(map(copy(g:ignore_patterns), '"--ignore ''" . v:val . "''"'), ' ')
   let g:ctrlp_user_command = 'ag '.s:ignore_string.'%s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
   let &grepprg="ag\ --nogroup\ --nocolor ".s:ignore_string
@@ -116,11 +114,11 @@ let g:tagbar_iconchars = ['+', '-']
 let g:neomake_open_list = 2
 let g:neomake_error_sign = {
   \ 'text': '!!',
-  \ 'texthl': 'SyntasticError'
+  \ 'texthl': 'NeomakeErrorSign'
   \ }
 let g:neomake_warning_sign = {
   \ 'text': '??',
-  \ 'texthl': 'SyntasticWarning'
+  \ 'texthl': 'NeomakeWarningSign'
   \ }
 " }}}
 
@@ -178,21 +176,20 @@ nmap gA <Plug>(characterize)
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
-
 " --- end plugin settings --- }}}
 
 " plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
   " filetypes
-  Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
-  Plug 'StanAngeloff/php.vim', {'for': 'php'}
-  Plug 'hdima/python-syntax', {'for': 'python'}
+  Plug 'mitsuhiko/vim-jinja',             {'for': ['htmljinja', 'jinja']}
+  Plug 'StanAngeloff/php.vim',            {'for': 'php'}
+  Plug 'hdima/python-syntax',             {'for': 'python'}
   Plug 'jeroenbourgois/vim-actionscript', {'for': 'actionscript'}
-  Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
-  Plug 'rust-lang/rust.vim', {'for': 'rust'}
-  Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-  Plug 'mxw/vim-jsx', {'for': 'javascript'}
-  Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
+  Plug 'kchmck/vim-coffee-script',        {'for': 'coffee'}
+  Plug 'rust-lang/rust.vim',              {'for': 'rust'}
+  Plug 'pangloss/vim-javascript',         {'for': 'javascript'}
+  Plug 'mxw/vim-jsx',                     {'for': 'javascript'}
+  Plug 'justinmk/vim-syntax-extra',       {'for': 'c'}
 
   " text objects
   Plug 'Julian/vim-textobj-variable-segment'
@@ -211,18 +208,18 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'neomake/neomake'
 
   " deoplete
-  Plug 'Shougo/deoplete.nvim', {'do': function('VimPlugUpdateRemotePlugins')}
-  Plug 'Shougo/neco-vim', {'for': 'vim'}
+  Plug 'Shougo/deoplete.nvim', {'do':  function('VimPlugUpdateRemotePlugins')}
+  Plug 'Shougo/neco-vim',      {'for': 'vim'}
   Plug 'Shougo/neco-syntax'
-  Plug 'davidhalter/jedi', {'for': 'python'}
-  Plug 'zchee/deoplete-jedi', {'for': 'python'}
+  Plug 'davidhalter/jedi',     {'for': 'python'}
+  Plug 'zchee/deoplete-jedi',  {'for': 'python'}
   Plug 'zchee/deoplete-clang', {'for': 'c'}
 
   " panels
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'justinmk/vim-dirvish'
   Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-  Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+  Plug 'sjl/gundo.vim',     {'on': 'GundoToggle'}
 
   " text manipulation
   Plug 'henrik/vim-indexed-search'
@@ -247,10 +244,10 @@ call plug#begin($VIMHOME.'/plugged')
   " colors + vanity
   Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
   Plug 'ap/vim-buftabline'
-  Plug 'chrisbra/Colorizer', {'on': 'ColorHighlight'}
+  Plug 'chrisbra/Colorizer',      {'on':  'ColorHighlight'}
 
   " my plugins
-  for p in ['pistle', 'distill', 'textobj-blanklines']
+  for p in ['distill', 'textobj-blanklines']
     if isdirectory(expand('~/Code/vim/'.p))
       Plug '~/Code/vim/'.p
     else
@@ -274,7 +271,7 @@ set cinoptions+=(0
 set colorcolumn=120
 set completeopt-=preview
 set cursorline
-" set expandtab
+set expandtab
 set fillchars=vert:\│,fold:-
 set fileformats=unix,dos,mac
 set foldlevel=99
@@ -289,7 +286,6 @@ set nostartofline
 set nowrap
 set number
 set shiftround
-" set shiftwidth=4
 set showcmd
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
@@ -298,7 +294,7 @@ set title
 set ttimeout
 set ttimeoutlen=50
 set undofile
-let &wildignore=join(s:ignore_patterns, ',')
+let &wildignore=join(g:ignore_patterns, ',')
 set wildignorecase
 set writebackup
 " --- end general --- }}}
@@ -315,7 +311,7 @@ augroup rc_commands
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
 
   " mutt and mail
-  autocmd BufRead /tmp/mutt-* setlocal spell textwidth=72 | Wrap
+  autocmd BufRead /tmp/mutt-* setlocal formatoptions-=o formatoptions-=r filetype=mail textwidth=72 spell | Wrap
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
 
   " check all the things (except when quitting)
@@ -398,10 +394,6 @@ cnoremap !MAke !make
 cnoremap !MAKe !make
 cnoremap !MAKE !make
 
-" zip to end
-inoremap <C-l> <Esc>l"zd<Space>$"zpa
-nnoremap <M-l> "zd<Space>m`$"zp``
-
 " select last-pasted text
 nnoremap gV `[v`]
 
@@ -416,8 +408,8 @@ cnoremap wbd Wbd
 command! -bang Wbd w<bang> | bd<bang>
 
 " fix st key weirdness
-map <F1> <Del>
-map! <F1> <Del>
+map  <F1>  <Del>
+map! <F1>  <Del>
 imap <C-h> <BS>
 
 " hide search highlighting
@@ -436,10 +428,10 @@ inoremap <M-4> <End>
 inoremap <M-6> <Home>
 
 " resize windows
-nnoremap <C-Left> <C-W><
+nnoremap <C-Left>  <C-W><
 nnoremap <C-Right> <C-W>>
-nnoremap <C-Up> <C-W>+
-nnoremap <C-Down> <C-W>-
+nnoremap <C-Up>    <C-W>+
+nnoremap <C-Down>  <C-W>-
 
 " switch windows
 nnoremap <C-h> <C-W>h
@@ -448,7 +440,7 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
 " popup menu completion selection
-inoremap <expr> <silent> <Tab> pumvisible() ? '<C-N>' : '<Tab>'
+inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-N>' : '<Tab>'
 inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-P>' : '<Tab>'
 
 " strip trailing whitespace
@@ -467,24 +459,32 @@ vnoremap g+ g<C-a>
 vnoremap g- g<C-x>
 
 " i don't care that <C-c> and <Esc> are different
-imap <C-c> <Esc>
+map! <C-c> <Esc>
+xmap <C-c> <Esc>
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
-colorscheme distill
-highlight! link User1 SyntasticWarning
+" colorscheme distill
+set background=dark
+colorscheme nihil
+highlight User1 guifg=#ffffff guibg=#000000 ctermfg=231 ctermbg=16 gui=bold cterm=bold
+highlight User2 guifg=#ff0000 guibg=#000000 ctermfg=196 ctermbg=16 gui=bold cterm=bold
+
+command! Bright set background=light | colorscheme nihil
+command! Dark   set background=dark  | colorscheme nihil
 
 " statusline {{{
-set statusline=%<
-set statusline+=\ %{fnamemodify(expand('%'),':~')}
-set statusline+=%{strlen(&filetype)?'\ \ ·\ '.&filetype:''}
-set statusline+=%{strlen(&fileformat)?'\ \ ·\ '.&fileformat:''}
-set statusline+=%{strlen(&fileencoding)?'\ \ ·\ '.&fileencoding.'\ \ \ ':'\ \ \ '}
-set statusline+=%#SyntasticError#%{&readonly?'\ \ read-only\ ':''}%*
-set statusline+=%1*%{&modified?'\ \ modified\ ':''}%*
+set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
+set statusline+=%<
+set statusline+=%{fnamemodify(expand('%'),':~')}
+set statusline+=\ %{&ft!=fnamemodify(expand('%'),':e')?'['.&ft.']\ ':''}
+set statusline+=%{&ff!='unix'?'['.&ff.']\ ':''}
+set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'['.&fenc.']\ ':''}
+set statusline+=%2*%{&ro?'\ \ read-only\ ':''}%*
+set statusline+=%1*%{&mod?'\ \ modified\ ':''}%*
 set statusline+=%=
-set statusline+=\ \ \ cwd:\ %{fnamemodify(getcwd(),':~')}
-set statusline+=\ ·\ %{&wrap?'wrap\ ·\ ':''}%c\ ·\ %l/%L\ ·\ %p%%%{'\ '}
+set statusline+=%{&wrap?'\[wrap]\ ':''}
+set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%{'\ '}
 " }}}
 " --- end colors and appearance --- }}}
 
@@ -501,157 +501,6 @@ function! s:uglify_js(file)
   if executable('uglifyjs') && a:file !~? '.min.js'
     execute '!uglifyjs '.a:file.' -mo '.fnamemodify(a:file, ':r').'.min.'.fnamemodify(a:file, ':e')
   endif
-endfunction
-" }}}
-
-" dirvish {{{
-nmap <C-o> <Plug>(dirvish-toggle)
-nnoremap <silent> <Plug>(dirvish-toggle) :<C-u>call <SID>dirvish_toggle()<CR>
-
-function! s:dirvish_toggle() abort
-  let l:last_buffer = bufnr('$')
-  let l:i = 1
-  let l:dirvish_already_open = 0
-
-  while l:i <= l:last_buffer
-    if bufexists(l:i) && bufloaded(l:i) && getbufvar(l:i, '&filetype') ==? 'dirvish'
-      let l:dirvish_already_open = 1
-      execute ':'.l:i.'bd!'
-    endif
-    let l:i += 1
-  endwhile
-
-  if !l:dirvish_already_open
-    35vsp +Dirvish
-  endif
-endfunction
-
-function! s:dirvish_open() abort
-  let l:line = getline('.')
-  if l:line =~? '/$'
-    call dirvish#open('edit', 0)
-  else
-    call <SID>dirvish_toggle()
-    execute 'e '.l:line
-  endif
-endfunction
-
-augroup dirvish_commands
-  autocmd!
-
-  autocmd FileType dirvish call fugitive#detect(@%)
-  autocmd FileType dirvish nnoremap <silent> <buffer> <C-r> :<C-u>Dirvish %<CR>
-  autocmd FileType dirvish unmap <silent> <buffer> <CR>
-  autocmd FileType dirvish nnoremap <silent> <buffer> <CR> :<C-u> call <SID>dirvish_open()<CR>
-  autocmd FileType dirvish setlocal nonumber norelativenumber statusline=%F
-  autocmd FileType dirvish silent! keeppatterns g@\v/\.[^\/]+/?$@d
-  autocmd FileType dirvish execute ':sort r /[^\/]$/'
-
-  for pat in s:ignore_patterns
-    execute 'autocmd FileType dirvish silent! keeppatterns g@\v/'.pat.'/?$@d'
-  endfor
-augroup END
-" }}}
-
-" information superhighway {{{
-nmap gw <Plug>Websearch
-xmap gw <Plug>Websearch
-nnoremap <silent> <Plug>Websearch :set opfunc=<SID>google_operator<CR>g@
-xnoremap <silent> <Plug>Websearch :<C-u>call <SID>google_operator(visualmode())<CR>
-
-command! -nargs=1 Web call <SID>browser(<f-args>)
-command! -nargs=1 Google call <SID>google(<f-args>)
-
-function! s:google_operator(type) abort
-  let l:regsave = @@
-  let l:selsave = &selection
-  let &selection = 'inclusive'
-
-  if a:type =~? 'v'
-    silent execute "normal! gvy"
-  elseif a:type == 'line'
-    silent execute "normal! '[V']y"
-  else
-    silent execute "normal! `[v`]y"
-  endif
-
-  let l:url = @@
-  let &selection = selsave
-  let @@ = regsave
-
-  call <SID>google(l:url)
-endfunction
-
-function! s:google(url)
-  if a:url =~? 'http'
-    let l:url = a:url
-  else
-    let l:url = 'http://google.com/search?q='.a:url
-  endif
-  call <SID>browser(l:url)
-endfunction
-
-function! s:browser(url)
-  let l:command = '!xdg-open "'.a:url.'"'
-  silent execute l:command
-endfunction
-" }}}
-
-" handy wrap/unwrap mappings {{{
-command! -nargs=? Wrap call <SID>wrap(<f-args>)
-command! Unwrap call <SID>unwrap()
-
-function! s:wrap(...)
-  let s:orig_colcol = &colorcolumn
-  let s:orig_tw = &textwidth
-
-  if a:0
-    execute 'setlocal textwidth='.a:1.' colorcolumn='.a:1
-  endif
-
-  setlocal wrap linebreak
-  inoremap <Up> <C-o>gk
-  inoremap <Down> <C-o>gj
-  noremap k gk
-  noremap gk k
-  noremap j gj
-  noremap gj j
-endfunction
-
-function! s:unwrap()
-  setlocal nowrap nolinebreak
-  execute 'setlocal textwidth='.s:orig_tw.' colorcolumn='.s:orig_colcol
-  iunmap <Up>
-  iunmap <Down>
-  unmap k
-  unmap gk
-  unmap j
-  unmap gj
-endfunction
-" }}}
-
-" set indent spacing based on filetype {{{
-command! -nargs=? SetIndent call <SID>set_indent_level(<f-args>)
-
-function! s:set_indent_level(...)
-  let l:levels = {
-    \ 'xml': 2,
-    \ 'html': 2,
-    \ 'htmldjango': 2,
-    \ 'htmljinja': 2,
-    \ 'django': 2,
-    \ 'vim': 2,
-    \ }
-
-  if a:0
-    let l:level = a:1
-  else
-    let l:level = get(l:levels, &filetype, 4)
-  endif
-
-  for l:cmd in ['softtabstop', 'shiftwidth']
-    execute 'setlocal '.l:cmd.'='.l:level
-  endfor
 endfunction
 " }}}
 " --- end miscellaneous functions --- }}}
