@@ -64,12 +64,12 @@ xmap gs <Plug>(GrepperOperator)
 " }}}
 
 " gundo {{{
-nnoremap <silent> gx :GundoToggle<CR>
+nnoremap <silent> <C-q> :GundoToggle<CR>
 let g:gundo_preview_bottom = 1
 " }}}
 
 " tagbar {{{
-nnoremap <silent> gt :TagbarToggle<CR>
+nnoremap <silent> <C-t> :TagbarToggle<CR>
 " }}}
 
 " ultisnips {{{
@@ -342,7 +342,7 @@ augroup rc_commands
 
   " strip trailing whitespace on most file-types
   autocmd BufWritePre *
-    \ if index(['markdown', 'mail', 'snippets'], &ft) == -1 |
+    \ if index(['markdown', 'mail', 'snippets', 'conf'], &ft) == -1 |
     \   %s/\s\+$//e |
     \ endif
 
@@ -407,11 +407,6 @@ cnoremap w!! w !sudo tee % > /dev/null
 cnoremap wbd Wbd
 command! -bang Wbd w<bang> | bd<bang>
 
-" fix st key weirdness
-map  <F1>  <Del>
-map! <F1>  <Del>
-imap <C-h> <BS>
-
 " hide search highlighting
 nnoremap <silent> <Space> :nohlsearch<CR>
 
@@ -467,8 +462,6 @@ xmap <C-c> <Esc>
 " colorscheme distill
 set background=dark
 colorscheme nihil
-highlight User1 guifg=#ffffff guibg=#000000 ctermfg=231 ctermbg=16 gui=bold cterm=bold
-highlight User2 guifg=#ff0000 guibg=#000000 ctermfg=196 ctermbg=16 gui=bold cterm=bold
 
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
@@ -477,11 +470,11 @@ command! Dark   set background=dark  | colorscheme nihil
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline+=%<
 set statusline+=%{fnamemodify(expand('%'),':~')}
-set statusline+=\ %{&ft!=fnamemodify(expand('%'),':e')?'['.&ft.']\ ':''}
-set statusline+=%{&ff!='unix'?'['.&ff.']\ ':''}
-set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'['.&fenc.']\ ':''}
-set statusline+=%2*%{&ro?'\ \ read-only\ ':''}%*
-set statusline+=%1*%{&mod?'\ \ modified\ ':''}%*
+set statusline+=%{&ft!=fnamemodify(expand('%'),':e')?'\ \ ['.&ft.']':''}
+set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
+set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
+set statusline+=%{&ro?'\ \ [read-only]':''}
+set statusline+=%{&mod?'\ \ [modified]':''}
 set statusline+=%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%{'\ '}
