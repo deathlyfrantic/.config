@@ -267,7 +267,7 @@ endif
 " --- end plugins --- }}}
 
 " --- general settings --- {{{
-set cinoptions+=(0
+set cinoptions+=(0 cinoptions+=:0
 set colorcolumn=120
 set completeopt-=preview
 set cursorline
@@ -339,6 +339,9 @@ augroup rc_commands
 
   " markdown options. why does .md default to modula2 what even is that
   autocmd BufNewFile,BufReadPost *.md setlocal spell filetype=markdown textwidth=120 wrapmargin=0 | Wrap
+
+  " always wrap git commit messages
+  autocmd FileType gitcommit Wrap
 
   " strip trailing whitespace on most file-types
   autocmd BufWritePre *
@@ -452,10 +455,6 @@ vnoremap + <C-a>
 vnoremap - <C-x>
 vnoremap g+ g<C-a>
 vnoremap g- g<C-x>
-
-" i don't care that <C-c> and <Esc> are different
-map! <C-c> <Esc>
-xmap <C-c> <Esc>
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
@@ -470,7 +469,6 @@ command! Dark   set background=dark  | colorscheme nihil
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline+=%<
 set statusline+=%{fnamemodify(expand('%'),':~')}
-set statusline+=%{&ft!=fnamemodify(expand('%'),':e')?'\ \ ['.&ft.']':''}
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=%{&ro?'\ \ [read-only]':''}
