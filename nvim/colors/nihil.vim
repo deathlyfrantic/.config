@@ -45,13 +45,13 @@ if &background == 'dark'
   highlight MatchParen   ctermfg=231  ctermbg=NONE cterm=bold   guifg=#ffffff guibg=NONE    gui=bold
   highlight String       ctermfg=244  ctermbg=NONE cterm=NONE   guifg=#808080 guibg=NONE    gui=NONE
 else
-  highlight Normal       ctermfg=16   ctermbg=231  cterm=NONE   guifg=#000000 guibg=#ffffff gui=NONE
-  highlight Visual       ctermfg=231  ctermbg=16   cterm=NONE   guifg=#ffffff guibg=#000000 gui=NONE
-  highlight Cursorline   ctermfg=NONE ctermbg=255  cterm=NONE   guifg=NONE    guibg=#eeeeee gui=NONE
-  highlight CursorLineNr ctermfg=16   ctermbg=255  cterm=NONE   guifg=#000000 guibg=#eeeeee gui=NONE
-  highlight StatusLine   ctermfg=231  ctermbg=16   cterm=NONE   guifg=#ffffff guibg=#000000 gui=NONE
-  highlight StatusLineNC ctermfg=231  ctermbg=238  cterm=NONE   guifg=#ffffff guibg=#444444 gui=NONE
-  highlight LineNr       ctermfg=251  ctermbg=NONE cterm=NONE   guifg=#c6c6c6 guibg=NONE    gui=NONE
+  highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE   guifg=#000000 guibg=#eeeeee gui=NONE
+  highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE   guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight Cursorline   ctermfg=NONE ctermbg=253  cterm=NONE   guifg=NONE    guibg=#dadada gui=NONE
+  highlight CursorLineNr ctermfg=16   ctermbg=253  cterm=NONE   guifg=#000000 guibg=#dadada gui=NONE
+  highlight StatusLine   ctermfg=255  ctermbg=16   cterm=NONE   guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight StatusLineNC ctermfg=255  ctermbg=238  cterm=NONE   guifg=#eeeeee guibg=#444444 gui=NONE
+  highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE   guifg=#949494 guibg=NONE    gui=NONE
   highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE   guifg=#000000 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=246  ctermbg=NONE cterm=italic guifg=#949494 guibg=NONE    gui=italic
   highlight MatchParen   ctermfg=25   ctermbg=NONE cterm=bold   guifg=#005fff guibg=NONE    gui=bold
