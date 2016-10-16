@@ -100,6 +100,7 @@ highlight! link ModeMsg               Normal
 highlight! link SpecialKey            Normal
 highlight! link NonText               Comment
 highlight! link Conceal               Comment
+highlight! link phpDocTags            Comment
 highlight! link SpellRare             Normal
 highlight! link SpellLocal            Normal
 highlight! link Boolean               Normal
