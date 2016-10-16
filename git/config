@@ -13,3 +13,5 @@
     fsckobjects = true
 [receive]
     fsckObjects = true
+[diff]
+	renames = true
