@@ -53,10 +53,6 @@ let g:ignore_patterns = [
   \ ]
 " }}}
 
-" jsx {{{
-let g:jsx_ext_required = 0
-" }}}
-
 " grepper {{{
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
@@ -73,7 +69,7 @@ nnoremap <silent> <C-t> :TagbarToggle<CR>
 " }}}
 
 " ultisnips {{{
-let g:UltiSnipsExpandTrigger = '<C-k>'
+let g:UltiSnipsExpandTrigger = '<C-_>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
@@ -82,10 +78,6 @@ let g:snips_author = 'Zandr Martin'
 
 " sneak {{{
 let g:sneak#use_ic_scs = 1
-" }}}
-
-" python syntax {{{
-let g:python_highlight_all = 1
 " }}}
 
 " deoplete {{{
@@ -112,14 +104,8 @@ let g:tagbar_iconchars = ['+', '-']
 
 " neomake {{{
 let g:neomake_open_list = 2
-let g:neomake_error_sign = {
-  \ 'text': '!!',
-  \ 'texthl': 'NeomakeErrorSign'
-  \ }
-let g:neomake_warning_sign = {
-  \ 'text': '??',
-  \ 'texthl': 'NeomakeWarningSign'
-  \ }
+let g:neomake_error_sign = { 'text': '!!', 'texthl': 'NeomakeErrorSign' }
+let g:neomake_warning_sign = { 'text': '??', 'texthl': 'NeomakeWarningSign' }
 " }}}
 
 " match tag always settings - doubles as list of xml/html types {{{
@@ -137,35 +123,6 @@ let g:mta_filetypes = {
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_numbers = 2
-nmap <silent> <M-1> :call BufferSwitch(0)<CR>
-nmap <silent> <M-2> :call BufferSwitch(1)<CR>
-nmap <silent> <M-3> :call BufferSwitch(2)<CR>
-nmap <silent> <M-4> :call BufferSwitch(3)<CR>
-nmap <silent> <M-5> :call BufferSwitch(4)<CR>
-nmap <silent> <M-6> :call BufferSwitch(5)<CR>
-nmap <silent> <M-7> :call BufferSwitch(6)<CR>
-nmap <silent> <M-8> :call BufferSwitch(7)<CR>
-nmap <silent> <M-9> :call BufferSwitch(8)<CR>
-nmap <silent> <M-0> :call BufferSwitch(9)<CR>
-nmap <silent> <M-q> :call BufferSwitch(10)<CR>
-nmap <silent> <M-w> :call BufferSwitch(11)<CR>
-nmap <silent> <M-e> :call BufferSwitch(12)<CR>
-nmap <silent> <M-r> :call BufferSwitch(13)<CR>
-nmap <silent> <M-t> :call BufferSwitch(14)<CR>
-nmap <silent> <M-y> :call BufferSwitch(15)<CR>
-nmap <silent> <M-u> :call BufferSwitch(16)<CR>
-nmap <silent> <M-i> :call BufferSwitch(17)<CR>
-nmap <silent> <M-o> :call BufferSwitch(18)<CR>
-nmap <silent> <M-p> :call BufferSwitch(19)<CR>
-
-function! BufferSwitch(buf_num)
-  try
-    let l:bn = buftabline#user_buffers()[a:buf_num]
-    let l:cmd = 'b'.l:bn
-    execute l:cmd
-  catch
-  endtry
-endfunction
 " }}}
 
 " characterize {{{
@@ -181,15 +138,9 @@ nmap ga <Plug>(EasyAlign)
 " plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
   " filetypes
-  Plug 'mitsuhiko/vim-jinja',             {'for': ['htmljinja', 'jinja']}
-  Plug 'StanAngeloff/php.vim',            {'for': 'php'}
-  Plug 'hdima/python-syntax',             {'for': 'python'}
-  Plug 'jeroenbourgois/vim-actionscript', {'for': 'actionscript'}
-  Plug 'kchmck/vim-coffee-script',        {'for': 'coffee'}
-  Plug 'rust-lang/rust.vim',              {'for': 'rust'}
-  Plug 'pangloss/vim-javascript',         {'for': 'javascript'}
-  Plug 'mxw/vim-jsx',                     {'for': 'javascript'}
-  Plug 'justinmk/vim-syntax-extra',       {'for': 'c'}
+  Plug 'mitsuhiko/vim-jinja',      {'for': ['htmljinja', 'jinja']}
+  Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
+  Plug 'rust-lang/rust.vim',       {'for': 'rust'}
 
   " text objects
   Plug 'Julian/vim-textobj-variable-segment'
@@ -280,7 +231,7 @@ set formatoptions-=c formatoptions+=jnroql
 set hidden
 set ignorecase
 set lazyredraw
-set listchars=space:·,eol:¬,tab:▸\ ,trail:☠,precedes:↪,extends:↩
+set listchars=space:·,eol:¬,tab:▸\ ,trail:·,precedes:↪,extends:↩
 set nojoinspaces
 set nostartofline
 set nowrap
@@ -311,7 +262,7 @@ augroup rc_commands
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
 
   " mutt and mail
-  autocmd BufRead /tmp/mutt-* setlocal formatoptions-=o formatoptions-=r filetype=mail textwidth=72 spell | Wrap
+  autocmd BufRead /tmp/mutt-* setlocal filetype=mail
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
 
   " check all the things (except when quitting)
@@ -334,25 +285,11 @@ augroup rc_commands
     \   execute "normal! g`\"zvzz" |
     \ endif
 
-  " highlight `self`s for python
-  autocmd FileType python syntax match pythonSelf "\<self\>"
-
-  " markdown options. why does .md default to modula2 what even is that
-  autocmd BufNewFile,BufReadPost *.md setlocal spell filetype=markdown textwidth=120 wrapmargin=0 | Wrap
-
-  " always wrap git commit messages
-  autocmd FileType gitcommit Wrap
-
   " strip trailing whitespace on most file-types
   autocmd BufWritePre *
     \ if index(['markdown', 'mail', 'snippets', 'conf'], &ft) == -1 |
     \   %s/\s\+$//e |
     \ endif
-
-  " xml options - makes xml folding very usable
-  autocmd BufNewFile,BufReadPost *.xml
-    \ let g:xml_syntax_folding = 1 |
-    \ setlocal filetype=xml foldmethod=syntax foldcolumn=3
 
   " uglify js files on saving, if they aren't already
   autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
@@ -374,7 +311,6 @@ augroup rc_commands
   autocmd BufEnter * call fugitive#detect(getcwd())
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
-  autocmd BufReadPost *.vim,$MYVIMRC setlocal foldmethod=marker
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 " --- end autocommands --- }}}
@@ -447,18 +383,23 @@ command! StripTrailingWhitespace %s/\s\+$//e
 " maintain visual mode for indenting
 vnoremap < <gv
 vnoremap > >gv
-
+2
 " more natural increment/decrement
 nnoremap + <C-a>
 nnoremap - <C-x>
-vnoremap + <C-a>
-vnoremap - <C-x>
-vnoremap g+ g<C-a>
-vnoremap g- g<C-x>
+vnoremap <C-a> <C-a>gv
+vnoremap <C-x> <C-x>gv
+vnoremap + <C-a>gv
+vnoremap - <C-x>gv
+vnoremap g+ g<C-a>gv
+vnoremap g- g<C-x>gv
+
+" digraphs
+digraphs +1 128077
+digraphs -1 128078
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
-" colorscheme distill
 set background=dark
 colorscheme nihil
 
@@ -467,15 +408,16 @@ command! Dark   set background=dark  | colorscheme nihil
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
-set statusline+=%<
-set statusline+=%{fnamemodify(expand('%'),':~')}
+set statusline+=%<%F
+" set statusline+=%{fnamemodify(expand('%'),':~')}
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
-set statusline+=%{&ro?'\ \ [read-only]':''}
-set statusline+=%{&mod?'\ \ [modified]':''}
-set statusline+=%=
+" set statusline+=%{&ro?'\ \ [read-only]':''}
+" set statusline+=%{&mod?'\ \ [modified]':''}
+" set statusline+=\ %y
+set statusline+=\ %m\ %r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%{'\ '}
+set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%(\ %)
 " }}}
 " --- end colors and appearance --- }}}
 
@@ -494,4 +436,4 @@ function! s:uglify_js(file)
   endif
 endfunction
 " }}}
-" --- end miscellaneous functions --- }}}
+" --- end miscellaneous --- }}}
