@@ -380,10 +380,13 @@ inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-P>' : '<Tab>'
 " strip trailing whitespace
 command! StripTrailingWhitespace %s/\s\+$//e
 
+" un-dos files with ^M line endings
+command! Undos e ++ff=unix | %s///g
+
 " maintain visual mode for indenting
 vnoremap < <gv
 vnoremap > >gv
-2
+
 " more natural increment/decrement
 nnoremap + <C-a>
 nnoremap - <C-x>
@@ -409,12 +412,8 @@ command! Dark   set background=dark  | colorscheme nihil
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline+=%<%F
-" set statusline+=%{fnamemodify(expand('%'),':~')}
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
-" set statusline+=%{&ro?'\ \ [read-only]':''}
-" set statusline+=%{&mod?'\ \ [modified]':''}
-" set statusline+=\ %y
 set statusline+=\ %m\ %r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%(\ %)
