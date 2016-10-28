@@ -1,13 +1,15 @@
 # fix non-XDG compatible junk
-export BROWSER=qutebrowser
+# export BROWSER=qutebrowser
 export XDG_CONFIG_HOME="$HOME"/.config
-export XDG_CACHE_HOME="$HOME"/.cache/cargo
+export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
 export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
 export ICEAUTHORITY="$XDG_CONFIG_HOME"/x11/iceauthority
 export XAUTHORITY="$XDG_CONFIG_HOME"/x11/xauthority
 export XINITRC="$XDG_CONFIG_HOME"/x11/xinitrc
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
+export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export LESSHISTFILE=-
 export EDITOR=nvim
 export VISUAL=nvim
@@ -21,6 +23,7 @@ alias gpg2='gpg2 --homedir "$XDG_CONFIG_HOME/gnupg"'
 alias sass='sassc'
 alias tmux='tmux -2 -f "$XDG_CONFIG_HOME"/tmux/config'
 alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
 alias vim='nvim'
 alias less='less -R'
 alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/muttrc'

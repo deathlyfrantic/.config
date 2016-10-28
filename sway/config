@@ -29,34 +29,19 @@ set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 output * bg ~/.config/sway/darkforest.jpg fill
 
 ### Key bindings
-# terminal
-bindsym $mod+Return exec $term
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start your launcher
+# launch stuff
+bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
-
-# calculator
 bindsym XF86Calculator exec gnome-calculator
-
-# settings
 bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/.config/sway/config'"
-
-# chromium
 bindsym $mod+c exec chromium
-
-# qutebrowser
 bindsym $mod+q exec qutebrowser
-
-# mutt
+bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
-
-# irssi
 bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
-
-# cmus
 bindsym $mod+m workspace 12; exec $term -e "zsh -c 'cmus'"
 
 # brightness
@@ -205,8 +190,9 @@ bar {
     colors {
         statusline #e2e4e9
         background #000000
-        active_workspace #274c7700 #274c7700 #e2e4e9ff
-        inactive_workspace #32323200 #32323200 #5c5c5cff
+        focused_workspace #4c7899ff #285577ff #e2e4e9ff 
+        active_workspace #333333ff #5f676aff #e2e4e9ff
+        inactive_workspace #000000ff #000000ff #5c5c5cff
     }
 }
 

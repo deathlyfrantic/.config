@@ -77,9 +77,10 @@ fi
 ADOTDIR=$ZDOTDIR/antigen
 if [[ -a $ADOTDIR/antigen.zsh ]]; then
     source $ADOTDIR/antigen.zsh
-    antigen bundle zsh-users/zsh-history-substring-search
     antigen bundle olivierverdier/zsh-git-prompt
-    antigen bundle zsh-users/zsh-syntax-highlighting
+    # redirects below so syntax highlighting doesn't whine about substring widgets being unhandled
+    antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
+    antigen bundle zsh-users/zsh-history-substring-search
     antigen apply
     RPROMPT='$(git_super_status)'
 else
