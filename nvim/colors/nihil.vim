@@ -33,29 +33,29 @@ if exists('syntax_on')
 endif
 
 if &background == 'dark'
-  highlight Normal       ctermfg=249  ctermbg=16   cterm=NONE   guifg=#b2b2b2 guibg=#000000 gui=NONE
-  highlight Visual       ctermfg=16   ctermbg=249  cterm=NONE   guifg=#000000 guibg=#b2b2b2 gui=NONE
-  highlight Cursorline   ctermfg=NONE ctermbg=234  cterm=NONE   guifg=NONE    guibg=#1c1c1c gui=NONE
-  highlight CursorLineNr ctermfg=249  ctermbg=234  cterm=NONE   guifg=#b2b2b2 guibg=#1c1c1c gui=NONE
-  highlight StatusLine   ctermfg=16   ctermbg=245  cterm=NONE   guifg=#000000 guibg=#8a8a8a gui=NONE
-  highlight StatusLineNC ctermfg=16   ctermbg=238  cterm=NONE   guifg=#000000 guibg=#444444 gui=NONE
-  highlight LineNr       ctermfg=238  ctermbg=NONE cterm=NONE   guifg=#444444 guibg=NONE    gui=NONE
-  highlight VertSplit    ctermfg=238  ctermbg=NONE cterm=NONE   guifg=#444444 guibg=NONE    gui=NONE
-  highlight Comment      ctermfg=238  ctermbg=NONE cterm=italic guifg=#444444 guibg=NONE    gui=italic
-  highlight MatchParen   ctermfg=231  ctermbg=NONE cterm=bold   guifg=#ffffff guibg=NONE    gui=bold
-  highlight String       ctermfg=244  ctermbg=NONE cterm=NONE   guifg=#808080 guibg=NONE    gui=NONE
+  highlight Normal       ctermfg=249  ctermbg=16   cterm=NONE guifg=#b2b2b2 guibg=#000000 gui=NONE
+  highlight Visual       ctermfg=16   ctermbg=249  cterm=NONE guifg=#000000 guibg=#b2b2b2 gui=NONE
+  highlight Cursorline   ctermfg=NONE ctermbg=234  cterm=NONE guifg=NONE    guibg=#1c1c1c gui=NONE
+  highlight CursorLineNr ctermfg=249  ctermbg=234  cterm=NONE guifg=#b2b2b2 guibg=#1c1c1c gui=NONE
+  highlight StatusLine   ctermfg=16   ctermbg=245  cterm=NONE guifg=#000000 guibg=#8a8a8a gui=NONE
+  highlight StatusLineNC ctermfg=16   ctermbg=238  cterm=NONE guifg=#000000 guibg=#444444 gui=NONE
+  highlight LineNr       ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
+  highlight VertSplit    ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
+  highlight Comment      ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
+  highlight MatchParen   ctermfg=231  ctermbg=NONE cterm=bold guifg=#ffffff guibg=NONE    gui=bold
+  highlight String       ctermfg=244  ctermbg=NONE cterm=NONE guifg=#808080 guibg=NONE    gui=NONE
 else
-  highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE   guifg=#000000 guibg=#eeeeee gui=NONE
-  highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE   guifg=#eeeeee guibg=#000000 gui=NONE
-  highlight Cursorline   ctermfg=NONE ctermbg=253  cterm=NONE   guifg=NONE    guibg=#dadada gui=NONE
-  highlight CursorLineNr ctermfg=16   ctermbg=253  cterm=NONE   guifg=#000000 guibg=#dadada gui=NONE
-  highlight StatusLine   ctermfg=255  ctermbg=16   cterm=NONE   guifg=#eeeeee guibg=#000000 gui=NONE
-  highlight StatusLineNC ctermfg=255  ctermbg=238  cterm=NONE   guifg=#eeeeee guibg=#444444 gui=NONE
-  highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE   guifg=#949494 guibg=NONE    gui=NONE
-  highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE   guifg=#000000 guibg=NONE    gui=NONE
-  highlight Comment      ctermfg=246  ctermbg=NONE cterm=italic guifg=#949494 guibg=NONE    gui=italic
-  highlight MatchParen   ctermfg=25   ctermbg=NONE cterm=bold   guifg=#005fff guibg=NONE    gui=bold
-  highlight String       ctermfg=239  ctermbg=NONE cterm=NONE   guifg=#4e4e4e guibg=NONE    gui=NONE
+  highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE guifg=#000000 guibg=#eeeeee gui=NONE
+  highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight Cursorline   ctermfg=NONE ctermbg=253  cterm=NONE guifg=NONE    guibg=#dadada gui=NONE
+  highlight CursorLineNr ctermfg=16   ctermbg=253  cterm=NONE guifg=#000000 guibg=#dadada gui=NONE
+  highlight StatusLine   ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight StatusLineNC ctermfg=255  ctermbg=238  cterm=NONE guifg=#eeeeee guibg=#444444 gui=NONE
+  highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
+  highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE guifg=#000000 guibg=NONE    gui=NONE
+  highlight Comment      ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
+  highlight MatchParen   ctermfg=25   ctermbg=NONE cterm=bold guifg=#005fff guibg=NONE    gui=bold
+  highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
 endif
 
 highlight PmenuSbar             ctermfg=244  ctermbg=240  cterm=NONE           guifg=#808080 guibg=#585858 gui=NONE
