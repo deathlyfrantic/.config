@@ -43,6 +43,7 @@ bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
 bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
 bindsym $mod+m workspace 12; exec $term -e "zsh -c 'cmus'"
+bindsym $mod+t exec corebird
 
 # brightness
 bindsym XF86MonBrightnessUp exec brightnessctl s 10%+

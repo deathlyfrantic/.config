@@ -76,7 +76,7 @@ abstracts = {
   sb_act_sep = "%K$*";
   sb_act_text = "%K$*";
   sb_act_msg = "%Ze2e4e9$*";
-  sb_act_hilight = "%X10%9$*%9";
+  sb_act_hilight = "%Zdb5461%9$*%9";
   sb_act_hilight_color = "$0$1-%n";
 };
 formats = {
