@@ -37,7 +37,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
 bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/.config/sway/config'"
-bindsym $mod+c exec chromium
+bindsym $mod+c exec google-chrome-stable
 bindsym $mod+q exec qutebrowser
 bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
