@@ -58,6 +58,7 @@ else
   highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
 endif
 
+highlight WildMenu              ctermfg=255  ctermbg=25   cterm=NONE           guifg=#eeeeee guibg=#005fff gui=NONE
 highlight PmenuSbar             ctermfg=244  ctermbg=240  cterm=NONE           guifg=#808080 guibg=#585858 gui=NONE
 highlight PmenuThumb            ctermfg=NONE ctermbg=249  cterm=NONE           guifg=NONE    guibg=#b2b2b2 gui=NONE
 highlight Error                 ctermfg=196  ctermbg=NONE cterm=NONE           guifg=#ff0000 guibg=NONE    gui=NONE
@@ -80,16 +81,19 @@ highlight! link ErrorMsg              Error
 highlight! link GitGutterDelete       Error
 highlight! link CursorColumn          CursorLine
 highlight! link ColorColumn           CursorLine
-highlight! link WildMenu              Normal
 highlight! link Pmenu                 StatusLine
 highlight! link PmenuSel              WildMenu
 highlight! link SignColumn            LineNr
 highlight! link FoldColumn            LineNr
 highlight! link Folded                LineNr
 highlight! link TabLine               StatusLine
-highlight! link TabLineSel            WildMenu
+highlight! link TabLineSel            Normal
 highlight! link TabLineFill           StatusLine
-highlight! link TabLineClose          WildMenu
+highlight! link TabLineClose          Normal
+highlight! link BufTabLineActive      StatusLine
+highlight! link BufTabLineCurrent     TabLineSel
+highlight! link BufTabLineHidden      StatusLine
+highlight! link BufTabLineFill        StatusLine
 highlight! link CtrlPMode1            StatusLine
 highlight! link CtrlPMode2            StatusLine
 highlight! link Directory             Normal
