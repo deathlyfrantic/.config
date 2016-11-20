@@ -1,0 +1,2 @@
+iabbrev <buffer> != !==
+iabbrev <buffer> == ===
