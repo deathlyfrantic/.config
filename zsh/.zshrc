@@ -28,7 +28,7 @@ SAVEHIST=1000000
 
 # i have no idea what this stuff does! it was in here from the beginning
 bindkey -v
-zstyle :compinstall filename '/home/zandr/.zshrc'
+zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 
 autoload -Uz compinit
 compinit
@@ -45,7 +45,7 @@ zstyle ':completion:*' max-errors 2
 
 # Turn on caching, which helps with e.g. apt
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/"
 
 # Show titles for completion types and group by type
 zstyle ':completion:*:descriptions' format "$fg_bold[black]» %d$reset_color"
