@@ -30,10 +30,6 @@ if has('vim_starting')
       silent! call mkdir(dir, 'p')
     endif
   endfor
-
-  function! VimPlugUpdateRemotePlugins(...)
-    UpdateRemotePlugins
-  endfunction
 endif
 " --- end startup --- }}}
 
@@ -69,7 +65,7 @@ nnoremap <silent> <C-t> :TagbarToggle<CR>
 " }}}
 
 " ultisnips {{{
-let g:UltiSnipsExpandTrigger = '<C-_>'
+let g:UltiSnipsExpandTrigger = '<C-]>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
@@ -82,7 +78,8 @@ let g:sneak#use_ic_scs = 1
 
 " deoplete {{{
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#disable_auto_complete = 1
+" let g:deoplete#auto_complete_start_length = 1
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 " }}}
@@ -159,7 +156,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'neomake/neomake'
 
   " deoplete
-  Plug 'Shougo/deoplete.nvim', {'do':  function('VimPlugUpdateRemotePlugins')}
+  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
   Plug 'Shougo/neco-vim',      {'for': 'vim'}
   Plug 'Shougo/neco-syntax'
   Plug 'davidhalter/jedi',     {'for': 'python'}
@@ -171,6 +168,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'justinmk/vim-dirvish'
   Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
   Plug 'sjl/gundo.vim',     {'on': 'GundoToggle'}
+  Plug 'ap/vim-buftabline'
 
   " text manipulation
   Plug 'henrik/vim-indexed-search'
@@ -179,6 +177,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'nelstrom/vim-visual-star-search'
   Plug 'rstacruz/sparkup', {'for': keys(g:mta_filetypes)}
   Plug 'tommcdo/vim-exchange'
+  Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
 
   " tpope's special section
   Plug 'tpope/vim-abolish'
@@ -191,11 +190,6 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
-
-  " colors + vanity
-  Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
-  Plug 'ap/vim-buftabline'
-  Plug 'chrisbra/Colorizer',      {'on':  'ColorHighlight'}
 
   " my plugins
   for p in ['distill', 'textobj-blanklines']
@@ -228,6 +222,7 @@ set fileformats=unix,dos,mac
 set foldlevel=99
 set foldmethod=indent
 set formatoptions-=c formatoptions+=jnroql
+set gdefault
 set hidden
 set ignorecase
 set lazyredraw
@@ -292,7 +287,7 @@ augroup rc_commands
     \ endif
 
   " uglify js files on saving, if they aren't already
-  autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
+  " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
   " 'compile' sass files on saving, if they aren't _something.scss files
   autocmd BufWritePost *.scss
@@ -374,7 +369,12 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
 " popup menu completion selection
-inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-N>' : '<Tab>'
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+
+inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-N>' : <SID>check_back_space() ? '<Tab>' : deoplete#mappings#manual_complete()
 inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-P>' : '<Tab>'
 
 " strip trailing whitespace
