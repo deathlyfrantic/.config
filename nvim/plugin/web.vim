@@ -31,7 +31,7 @@ function! s:google(url)
   if a:url =~? 'http'
     let l:url = a:url
   else
-    let l:url = 'http://google.com/search?q='.a:url
+    let l:url = 'https://duckduckgo.com/?q='.a:url
   endif
   call <SID>browser(l:url)
 endfunction
