@@ -225,6 +225,7 @@ set formatoptions-=c formatoptions+=jnroql
 set gdefault
 set hidden
 set ignorecase
+set inccommand=split
 set lazyredraw
 set listchars=space:·,eol:¬,tab:▸\ ,trail:·,precedes:↪,extends:↩
 set nojoinspaces
@@ -287,7 +288,7 @@ augroup rc_commands
     \ endif
 
   " uglify js files on saving, if they aren't already
-  " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
+  autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
   " 'compile' sass files on saving, if they aren't _something.scss files
   autocmd BufWritePost *.scss
@@ -367,6 +368,10 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
+
+" switch buffers
+nnoremap <silent> <M-h> :bprev<CR>
+nnoremap <silent> <M-l> :bnext<CR>
 
 " popup menu completion selection
 function! s:check_back_space() abort
