@@ -24,7 +24,7 @@ abstracts = {
   pubmsgnick = "{msgnick %9%K$0$1-}";
   pubnick = "%y$0-%n";
   pubmsgmenick = "{msgnick %9%K$0%Y$1-}%n";
-  menick = "%Y$0-";
+  menick = "%8%U$0-";
   pubmsghinick = "{msgnick $1$0$2-}";
   msgchannel = "%K:%y$0-%n";
   privmsg = "[%R$0%K(%r$1-%K)%n] ";
@@ -80,7 +80,7 @@ abstracts = {
   sb_act_hilight_color = "$0$1-%n";
 };
 formats = {
-  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00312$0}}$1"; };
+  "fe-common/core" = { pubmsg = "{pubmsgnick $2 {pubnick \00302$0}}$1"; };
   "Irssi::Script::adv_windowlist" = {
     awl_display_nokey = "%X7L%z373b48$N${cumode_space}$H$C$S";
     awl_display_key = "%X7L%z373b48$N${cumode_space}$H$C$S";
