@@ -55,6 +55,10 @@ bindsym XF86AudioRaiseVolume exec ~/.config/sway/volume.zsh up
 bindsym XF86AudioLowerVolume exec ~/.config/sway/volume.zsh down
 bindsym XF86AudioMute exec ~/.config/sway/volume.zsh mute
 
+# screenshots
+bindsym Print exec swaygrab
+bindsym $mod+Print exec swaygrab -f
+
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
 # Despite the name, also works for non-floating windows.
