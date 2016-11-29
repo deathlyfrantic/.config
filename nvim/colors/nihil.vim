@@ -127,4 +127,7 @@ highlight! link StorageClass          Normal
 highlight! link Operator              Normal
 highlight! link IncSearch             Search
 highlight! link SneakPluginTarget     Search
+highlight! link diffAdded             DiffAdd
+highlight! link diffRemoved           DiffDelete
+
 " vim: foldmethod=marker
