@@ -32,3 +32,13 @@ alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_
 alias weechat='weechat -d "$XDG_CONFIG_HOME"/weechat'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
+
+function task () {
+    node ~/Code/tasks/tasks.js "$@"
+    local _status=$(node ~/Code/tasks/tasks.js status)
+    if [[ $_status == "" ]]; then
+        ~/Code/swaystag/swaystag.py block -n todo -r
+    else
+        ~/Code/swaystag/swaystag.py block -n todo -o 1 -f "$_status"
+    fi
+}
