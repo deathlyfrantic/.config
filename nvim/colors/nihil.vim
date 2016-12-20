@@ -42,7 +42,6 @@ if &background == 'dark'
   highlight LineNr       ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
   highlight VertSplit    ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
-  highlight MatchParen   ctermfg=231  ctermbg=NONE cterm=bold guifg=#ffffff guibg=NONE    gui=bold
   highlight String       ctermfg=244  ctermbg=NONE cterm=NONE guifg=#808080 guibg=NONE    gui=NONE
 else
   highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE guifg=#000000 guibg=#eeeeee gui=NONE
@@ -54,10 +53,10 @@ else
   highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
   highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE guifg=#000000 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
-  highlight MatchParen   ctermfg=25   ctermbg=NONE cterm=bold guifg=#005fff guibg=NONE    gui=bold
   highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
 endif
 
+highlight MatchParen            ctermfg=202  ctermbg=NONE cterm=bold           guifg=#ff5f00 guibg=NONE    gui=bold
 highlight WildMenu              ctermfg=255  ctermbg=25   cterm=NONE           guifg=#eeeeee guibg=#005fff gui=NONE
 highlight PmenuSbar             ctermfg=244  ctermbg=240  cterm=NONE           guifg=#808080 guibg=#585858 gui=NONE
 highlight PmenuThumb            ctermfg=NONE ctermbg=249  cterm=NONE           guifg=NONE    guibg=#b2b2b2 gui=NONE
@@ -67,8 +66,8 @@ highlight SpellCap              ctermfg=202  ctermbg=NONE cterm=underline      g
 highlight Search                ctermfg=231  ctermbg=25   cterm=NONE           guifg=#ffffff guibg=#005fff gui=NONE
 highlight TODO                  ctermfg=202  ctermbg=NONE cterm=bold,underline guifg=#ff5f00 guibg=NONE    gui=bold,underline
 highlight DiffAdd               ctermfg=46   ctermbg=28   cterm=NONE           guifg=#00ff00 guibg=#008700 gui=NONE
-highlight DiffChange            ctermfg=226  ctermbg=100  cterm=NONE           guifg=#ffff00 guibg=#878700 gui=NONE
-highlight DiffText              ctermfg=226  ctermbg=100  cterm=underline      guifg=#ffff00 guibg=#878700 gui=underline
+highlight DiffChange            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
+highlight DiffText              ctermfg=226  ctermbg=100  cterm=NONE           guifg=#ffff00 guibg=#878700 gui=NONE
 highlight DiffDelete            ctermfg=196  ctermbg=88   cterm=NONE           guifg=#ff0000 guibg=#870000 gui=NONE
 highlight WarningMsg            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
 highlight GitGutterAdd          ctermfg=46   ctermbg=NONE cterm=NONE           guifg=#00ff00 guibg=NONE    gui=NONE

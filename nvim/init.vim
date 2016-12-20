@@ -49,6 +49,10 @@ let g:ignore_patterns = [
   \ ]
 " }}}
 
+" sparkup {{{
+let g:sparkupExecuteMapping = '<C-^>'
+" }}}
+
 " grepper {{{
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
@@ -74,14 +78,6 @@ let g:snips_author = 'Zandr Martin'
 
 " sneak {{{
 let g:sneak#use_ic_scs = 1
-" }}}
-
-" deoplete {{{
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
-" let g:deoplete#auto_complete_start_length = 1
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 " }}}
 
 " ctrlp and ag stuff {{{
@@ -138,6 +134,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'mitsuhiko/vim-jinja',      {'for': ['htmljinja', 'jinja']}
   Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
   Plug 'rust-lang/rust.vim',       {'for': 'rust'}
+  Plug 'pangloss/vim-javascript',  {'for': 'javascript'}
 
   " text objects
   Plug 'Julian/vim-textobj-variable-segment'
@@ -155,14 +152,6 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'mhinz/vim-grepper'
   Plug 'neomake/neomake'
 
-  " deoplete
-  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-  Plug 'Shougo/neco-vim',      {'for': 'vim'}
-  Plug 'Shougo/neco-syntax'
-  Plug 'davidhalter/jedi',     {'for': 'python'}
-  Plug 'zchee/deoplete-jedi',  {'for': 'python'}
-  Plug 'zchee/deoplete-clang', {'for': 'c'}
-
   " panels
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'justinmk/vim-dirvish'
@@ -175,9 +164,10 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/vim-peekaboo'
   Plug 'nelstrom/vim-visual-star-search'
-  Plug 'rstacruz/sparkup', {'for': keys(g:mta_filetypes)}
+  Plug 'rstacruz/sparkup',        {'for': keys(g:mta_filetypes)}
   Plug 'tommcdo/vim-exchange'
   Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
+  Plug 'dhruvasagar/vim-table-mode'
 
   " tpope's special section
   Plug 'tpope/vim-abolish'
@@ -250,6 +240,11 @@ set writebackup
 augroup rc_commands
   autocmd!
 
+  autocmd BufNewFile,BufReadPost * Wrap
+
+  " omni-complete
+  autocmd FileType * if &ft != 'php' | setlocal omnifunc=syntaxcomplete#Complete | endif
+
   " specify comment types for commentary
   autocmd FileType c,php setlocal commentstring=//%s
   autocmd FileType django,htmldjango,jinja,htmljinja setlocal commentstring={#%s#}
@@ -288,7 +283,7 @@ augroup rc_commands
     \ endif
 
   " uglify js files on saving, if they aren't already
-  autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
+  " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
   " 'compile' sass files on saving, if they aren't _something.scss files
   autocmd BufWritePost *.scss
@@ -379,11 +374,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1] =~ '\s'
 endfunction
 
-inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-N>' : <SID>check_back_space() ? '<Tab>' : deoplete#mappings#manual_complete()
-inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-P>' : '<Tab>'
+inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-P>' : <SID>check_back_space() ? '<Tab>' : '<C-P>'
+inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-N>' : '<Tab>'
 
 " strip trailing whitespace
-command! StripTrailingWhitespace %s/\s\+$//e
+command! StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s///g
@@ -394,7 +389,8 @@ vnoremap > >gv
 
 " more natural increment/decrement
 nnoremap + <C-a>
-nnoremap - <C-x>
+nnoremap - -
+" nnoremap - <C-x>
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
 vnoremap + <C-a>gv
@@ -408,11 +404,9 @@ digraphs -1 128078
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
-set background=dark
-colorscheme nihil
-
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
+Dark
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
@@ -434,9 +428,15 @@ function! s:neomake_check_on_write()
 endfunction
 
 " uglifyjs {{{
-function! s:uglify_js(file)
-  if executable('uglifyjs') && a:file !~? '.min.js'
-    execute '!uglifyjs '.a:file.' -mo '.fnamemodify(a:file, ':r').'.min.'.fnamemodify(a:file, ':e')
+command! -nargs=? UglifyJS call <SID>uglify_js(<args>)
+function! s:uglify_js()
+  if !a:0
+    let l:file = expand('%:p')
+  else
+    let l:file = a:1
+  endif
+  if executable('uglifyjs') && l:file !~? '.min.js'
+    execute '!uglifyjs '.l:file.' -mo '.fnamemodify(l:file, ':r').'.min.'.fnamemodify(l:file, ':e')
   endif
 endfunction
 " }}}
