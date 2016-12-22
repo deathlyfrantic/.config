@@ -1,92 +1,73 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-#
-# Sway is a work in progress. Some of these defaults are currently unimplemented.
-
-
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
+# logo key
 set $mod Mod4
+
 # workspaces
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
-set $ws11 "11"
-set $ws12 "12"
-# Your preferred terminal emulator
-set $term st -f Input:pixelsize=16
-# Your preferred application launcher
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+set $ws11 11
+set $ws12 12
+
+# terminal
+set $term termite
+# set $term st -f Input:pixelsize=16
+# set $term st -f "Fira Mono Medium:pixelsize=15"
+
+# launcher
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-#
-# wallpaper
-exec --no-startup-id feh --no-fehbg --bg-scale ~/dotfiles/darkforest.jpg
-#
-# Example output configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running sway-msg -t get_outputs
+# output * bg ~/.config/sway/darkforest.jpg fill
 
 ### Key bindings
-#
-# Basics:
-#
-# start a terminal
-bindsym $mod+Return exec $term
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start your launcher
-bindsym $mod+d exec --no-startup-id $menu
-
-# settings
-bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e zsh -c "nvim ~/dotfiles/swayconfig"
+# launch stuff
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
+bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/.config/i3/config'"
+bindsym $mod+c exec google-chrome-stable
+bindsym $mod+q exec qutebrowser
+bindsym $mod+n exec nautilus
+bindsym $mod+e exec $term -e "zsh -c 'mutt'"
+bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
+bindsym $mod+m workspace 12; exec $term -e "zsh -c 'cmus'"
+bindsym $mod+t exec corebird
 
-# cmus
-bindsym $mod+Shift+m workspace 12; exec $term -e zsh -c "cmus"
+# brightness
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
-bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
-bindsym $mod+Shift+XF86TouchpadToggle exec --no-startup-id cmus-remote -r
-bindsym $mod+Mod1+XF86TouchpadToggle exec --no-startup-id cmus-remote -n
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioPlay exec cmus-remote -u
+bindsym XF86AudioRaiseVolume exec ~/.config/sway/volume.zsh up
+bindsym XF86AudioLowerVolume exec ~/.config/sway/volume.zsh down
+bindsym XF86AudioMute exec ~/.config/sway/volume.zsh mute
 
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
-floating_modifier $mod
+# screenshots
+bindsym Print exec swaygrab
+bindsym $mod+Print exec swaygrab -f
 
 # lock screen using swaylock
-# bindsym $mod+Ctrl+Shift+l exec swaylock -c 000000aa -i ~/dotfiles/500-100-60-monochrome.png -s tile
+bindsym $mod+Pause exec swaylock -c 000000aa -i ~/.config/sway/500-100-60-monochrome.png -s tile
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
 
 # exit sway (logs you out of your wayland session)
 bindsym $mod+Shift+e exit
-#
-# Moving around:
-#
+
 # Move your focus around with $mod+[h|j|k|l], like vim
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -111,18 +92,19 @@ bindsym $mod+Shift+Up resize grow height 10 px
 #
 # Workspaces:
 # assign to outputs
-workspace $ws1 output HDMI-0
-workspace $ws2 output HDMI-0
-workspace $ws3 output HDMI-0
-workspace $ws4 output HDMI-0
-workspace $ws5 output HDMI-0
-workspace $ws6 output HDMI-0
-workspace $ws7 output VGA-0
-workspace $ws8 output VGA-0
-workspace $ws9 output VGA-0
-workspace $ws10 output VGA-0
-workspace $ws11 output VGA-0
-workspace $ws12 output VGA-0
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-2
+workspace $ws8 output HDMI-2
+workspace $ws9 output HDMI-2
+workspace $ws10 output HDMI-2
+workspace $ws11 output HDMI-2
+workspace $ws12 output HDMI-2
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -151,9 +133,6 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 bindsym $mod+Shift+minus move container to workspace $ws11
 bindsym $mod+Shift+equal move container to workspace $ws12
 
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
-#
 # Layout stuff:
 #
 # You can "split" the current object of your focus with
@@ -163,9 +142,9 @@ bindsym $mod+b splith
 bindsym $mod+v splitv
 
 # Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+t layout tabbed
+bindsym $mod+Shift+p layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -178,7 +157,15 @@ bindsym $mod+space focus mode_toggle
 
 # move focus to the parent container
 bindsym $mod+a focus parent
-#
+
+# window overrides
+for_window [title="corebird"] floating enable
+for_window [title="gnome-calculator"] floating enable
+for_window [title="Open Files"] floating enable
+for_window [title="Open File"] floating enable
+for_window [title="zenity"] floating enable
+for_window [title="Unlock Login Key"] floating enable
+
 # Scratchpad:
 #
 # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -191,35 +178,31 @@ bindsym $mod+Shift+backslash move scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+backslash scratchpad show
 
-#
-# Status Bar:
-#
+# swaybar
 bar {
     position top
-    font pango:Noto Sans UI Regular 10
-    binding_mode_indicator yes
-    status_command zsh -e ~/dotfiles/swaybar.zsh
-    # status_command python ~/dotfiles/teststatus.py
-    separator_symbol " | "
+    font "pango:Noto Sans UI 10"
+    status_command zsh -c "~/Code/swaystag/swaystag.py server"
+    separator_symbol " : "
+    separator_block_width 21
     colors {
         statusline #e2e4e9
         background #000000
-        active_workspace #274c7700 #274c7700 #e2e4e9ff
-        inactive_workspace #32323200 #32323200 #5c5c5cff
+        focused_workspace #4c7899ff #285577ff #e2e4e9ff 
+        active_workspace #333333ff #5f676aff #e2e4e9ff
+        inactive_workspace #000000ff #000000ff #5c5c5cff
     }
 }
-# Read sway-bar(5) for more information about this section.
-
-# You may want this:
-#
-# include ~/.config/sway/conf.d/*
-#
-# Protip:
-#
-# include ~/.config/sway/`hostname`/*
 
 new_window pixel 1
+new_float pixel 1
 hide_edge_borders both
-focus_follows_mouse no
-# gaps inner 10
-# smart_gaps on
+
+# gaps
+gaps inner 10
+smart_gaps on
+
+force_focus_wrapping no
+
+# debuglog on
+# exec_always xrdb -load ~/.config/x11/xresources

@@ -1,13 +1,4 @@
 #!/bin/zsh
-escape_for_pango () {
-    local string="$1"
-    string=$(echo $string | sed -e 's/&/\&amp\;amp\;/g')
-    string=$(echo $string | sed -e 's/>/\&gt\;/g')
-    string=$(echo $string | sed -e 's/</\&lt\;/g')
-    string=$(echo $string | sed -e "s/'/\&apos\;/g")
-    string=$(echo $string | sed -e 's/"/\&quot\;/g')
-    echo $string
-}
 
 while test $# -ge 2
 do

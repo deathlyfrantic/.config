@@ -12,9 +12,6 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export LESSHISTFILE=-
 export EDITOR=nvim
 export VISUAL=nvim
-# export WAYLAND_DEBUG=1
-# export WLC_DEBUG=xwm
-# export QT_QPA_PLATFORM=wayland-egl
 export GDK_BACKEND=x11
 
 # aliases
@@ -33,12 +30,22 @@ alias weechat='weechat -d "$XDG_CONFIG_HOME"/weechat'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 
+escape_for_pango () {
+    echo "$1" \
+        | sed -e 's/&/\&amp\;amp\;/g' \
+        | sed -e 's/>/\&gt\;/g' \
+        | sed -e 's/</\&lt\;/g' \
+        | sed -e "s/'/\&apos\;/g" \
+        | sed -e 's/"/\&quot\;/g'
+}
+
 function task () {
     node ~/Code/tasks/tasks.js "$@"
     local _status=$(node ~/Code/tasks/tasks.js status)
+    local _escaped=$(escape_for_pango $_status)
     if [[ $_status == "" ]]; then
         ~/Code/swaystag/swaystag.py block -n todo -r
     else
-        ~/Code/swaystag/swaystag.py block -n todo -o 1 -f "$_status"
+        ~/Code/swaystag/swaystag.py block -n todo -o 1 -f "Tasks: $_escaped"
     fi
 }
