@@ -3,4 +3,4 @@ port 5000
 spawn while true; do ~/Code/swaystag/swaystag.py block -o 998 -n "calendar" -f "$(date +'%a %m/%d/%Y')"; sleep 21600; done
 spawn while true; do ~/Code/swaystag/swaystag.py block -o 999 -n "clock" -f "$(date +'%r')"; sleep 1; done
 spawn ~/.config/sway/volume.zsh
-spawn zsh -c "task status"
+spawn while true; do zsh -c "$HOME/bin/task status"; sleep 21600; done

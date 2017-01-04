@@ -17,6 +17,8 @@ set $ws10 10
 set $ws11 11
 set $ws12 12
 
+set $font "Noto Sans UI Regular 10"
+
 # terminal
 set $term termite
 # set $term st -f Input:pixelsize=16
@@ -188,7 +190,7 @@ bindsym $mod+backslash scratchpad show
 # swaybar
 bar {
     position top
-    font "Noto Sans UI Regular 10"
+    font $font
     # status_command zsh -c ~/.config/sway/swaybar.zsh
     status_command zsh -c "~/Code/swaystag/swaystag.py server"
     separator_symbol " | "
@@ -200,6 +202,8 @@ bar {
         inactive_workspace #000000ff #000000ff #5c5c5cff
     }
 }
+
+font $font
 
 new_window pixel 1
 new_float pixel 1

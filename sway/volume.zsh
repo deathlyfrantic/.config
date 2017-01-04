@@ -1,12 +1,14 @@
+_sink="$(pacmd list-sinks | grep "\* index" | sed -e 's/.*index: \([0-9]\)/\1/')"
+
 if [[ $1 == "up" ]]
 then
-    pactl set-sink-volume 0 +5%
+    pactl set-sink-volume $_sink +5%
 elif [[ $1 == "down" ]]
 then
-    pactl set-sink-volume 0 -5%
+    pactl set-sink-volume $_sink -5%
 elif [[ $1 == "mute" ]]
 then
-    pactl set-sink-mute 0 toggle
+    pactl set-sink-mute $_sink toggle
 fi
 
 volume="$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')"

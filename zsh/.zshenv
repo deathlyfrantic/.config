@@ -38,14 +38,3 @@ escape_for_pango () {
         | sed -e "s/'/\&apos\;/g" \
         | sed -e 's/"/\&quot\;/g'
 }
-
-function task () {
-    node ~/Code/tasks/tasks.js "$@"
-    local _status=$(node ~/Code/tasks/tasks.js status)
-    local _escaped=$(escape_for_pango $_status)
-    if [[ $_status == "" ]]; then
-        ~/Code/swaystag/swaystag.py block -n todo -r
-    else
-        ~/Code/swaystag/swaystag.py block -n todo -o 1 -f "Tasks: $_escaped"
-    fi
-}
