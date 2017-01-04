@@ -100,7 +100,7 @@ highlight! link Underlined            Normal
 highlight! link Question              Normal
 highlight! link MoreMsg               Normal
 highlight! link ModeMsg               Normal
-highlight! link SpecialKey            Normal
+highlight! link SpecialKey            Comment
 highlight! link NonText               Comment
 highlight! link Conceal               Comment
 highlight! link phpDocTags            Comment

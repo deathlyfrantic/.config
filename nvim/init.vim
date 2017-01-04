@@ -13,7 +13,7 @@ if has('vim_starting')
   let g:loaded_tutor_mode_plugin = 1
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
-  " install vim-plug if it's not already - pluginless vim is terrible
+  " install vim-plug if it's not already
   if !filereadable($VIMHOME.'/autoload/plug.vim')
     let s:install_plugins = 1
     execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -97,8 +97,8 @@ let g:tagbar_iconchars = ['+', '-']
 
 " neomake {{{
 let g:neomake_open_list = 2
-let g:neomake_error_sign = { 'text': '!!', 'texthl': 'NeomakeErrorSign' }
-let g:neomake_warning_sign = { 'text': '??', 'texthl': 'NeomakeWarningSign' }
+let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
 " }}}
 
 " match tag always settings - doubles as list of xml/html types {{{
@@ -181,6 +181,8 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
 
+  Plug 'joshdick/onedark.vim'
+
   " my plugins
   for p in ['distill', 'textobj-blanklines']
     if isdirectory(expand('~/Code/vim/'.p))
@@ -196,7 +198,6 @@ call plug#end()
 if s:install_plugins
   PlugInstall
   UpdateRemotePlugins
-  finish
   quit
 endif
 " --- end plugins --- }}}
@@ -283,7 +284,7 @@ augroup rc_commands
     \ endif
 
   " uglify js files on saving, if they aren't already
-  " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
+  autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
   " 'compile' sass files on saving, if they aren't _something.scss files
   autocmd BufWritePost *.scss
@@ -387,16 +388,12 @@ command! Undos e ++ff=unix | %s///g
 vnoremap < <gv
 vnoremap > >gv
 
-" more natural increment/decrement
-nnoremap + <C-a>
-nnoremap - -
-" nnoremap - <C-x>
+" maintain visual mode for increment/decrement
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
-vnoremap + <C-a>gv
-vnoremap - <C-x>gv
-vnoremap g+ g<C-a>gv
-vnoremap g- g<C-x>gv
+
+" prevent dirvish from mapping -
+nnoremap - -
 
 " digraphs
 digraphs +1 128077
@@ -429,7 +426,7 @@ endfunction
 
 " uglifyjs {{{
 command! -nargs=? UglifyJS call <SID>uglify_js(<args>)
-function! s:uglify_js()
+function! s:uglify_js(...)
   if !a:0
     let l:file = expand('%:p')
   else
