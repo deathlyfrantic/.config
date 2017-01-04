@@ -100,3 +100,5 @@ ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[red]%}%{<%G%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[cyan]%}%{>%G%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[magenta]%}%{_%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{=%G%}"
+
+PATH=$HOME/bin:$PATH
