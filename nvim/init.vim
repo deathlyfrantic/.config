@@ -181,8 +181,6 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
 
-  Plug 'joshdick/onedark.vim'
-
   " my plugins
   for p in ['distill', 'textobj-blanklines']
     if isdirectory(expand('~/Code/vim/'.p))
@@ -369,15 +367,6 @@ nnoremap <C-k> <C-W>k
 nnoremap <silent> <M-h> :bprev<CR>
 nnoremap <silent> <M-l> :bnext<CR>
 
-" popup menu completion selection
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1] =~ '\s'
-endfunction
-
-inoremap <expr> <silent> <Tab>   pumvisible() ? '<C-P>' : <SID>check_back_space() ? '<Tab>' : '<C-P>'
-inoremap <expr> <silent> <S-Tab> pumvisible() ? '<C-N>' : '<Tab>'
-
 " strip trailing whitespace
 command! StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 
@@ -427,11 +416,7 @@ endfunction
 " uglifyjs {{{
 command! -nargs=? UglifyJS call <SID>uglify_js(<args>)
 function! s:uglify_js(...)
-  if !a:0
-    let l:file = expand('%:p')
-  else
-    let l:file = a:1
-  endif
+  let l:file = a:0 ? a:1 : expand('%:p')
   if executable('uglifyjs') && l:file !~? '.min.js'
     execute '!uglifyjs '.l:file.' -mo '.fnamemodify(l:file, ':r').'.min.'.fnamemodify(l:file, ':e')
   endif
