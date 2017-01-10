@@ -25,6 +25,7 @@ set ttimeout
 set ttimeoutlen=50
 set wildignorecase
 set wildmenu
+set wrap
 
 nmap Y y$
 
@@ -32,6 +33,11 @@ cnoremap w!! w !sudo tee % > /dev/null
 
 nnoremap gb <C-o>
 nnoremap gf <C-i>
+
+nnoremap j gj
+nnoremap gj j
+nnoremap k gk
+nnoremap gk k
 
 nnoremap [b :bprev<CR>
 nnoremap ]b :bnext<CR>
