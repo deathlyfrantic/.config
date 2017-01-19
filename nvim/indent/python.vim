@@ -11,7 +11,7 @@ setlocal nolisp		" Make sure lisp indenting doesn't supersede us
 setlocal autoindent	" indentexpr isn't much help otherwise
 
 setlocal indentexpr=GetPythonIndent(v:lnum)
-setlocal indentkeys+=<:>,=elif,=except
+setlocal indentkeys+=0),0],0}<:>,=elif,=except
 
 " Only define the function once.
 if exists("*GetPythonIndent")
@@ -66,6 +66,20 @@ function GetPythonIndent(lnum)
     let plnumstart = plnum
   endif
 
+  " auto-dedent closing bracket/brace/paren
+  if getline(v:lnum) =~? '^\s*[\]\|\)\|\}]\{1}$'
+    let l:__line = getline(v:lnum)
+    let l:__col = matchend(l:__line, '^\s*[])}]')
+
+    if l:__col > 0
+      call cursor(v:lnum, l:__col)
+      let l:_bs = strpart('{}[]()', stridx('}])', l:__line[l:__col - 1]) * 2, 2)
+      let l:_pairstart = escape(l:_bs[0], '[')
+      let l:_pairend = escape(l:_bs[1], ']')
+      let l:_pairline = searchpair(l:_pairstart, '', l:_pairend, 'bW')
+      return (l:_pairline > 0) ? indent(l:_pairline) : virtcol('.') - 1
+    endif
+  endif
 
   " align {([ contents - equivalent of the (0 cinoption
   " stolen from https://github.com/google/vim-ft-bzl/blob/master/indent/bzl.vim
@@ -73,14 +87,15 @@ function GetPythonIndent(lnum)
   let [l:par_line, l:par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
       \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :" .
       \ " synIDattr(synID(line('.'), col('.'), 1), 'name')" .
-      \ " =~ '\\(Comment\\|String\\)$'")
+      \ " =~ '\\(Comment\\|Todo\\|String\\)$'")
   if l:par_line > 0
     call cursor(l:par_line, 1)
     if l:par_col != col('$') - 1
       return l:par_col
+    else
+      return plindent + shiftwidth()
     endif
   endif
-
 
   " Get the line and remove a trailing comment.
   " Use syntax highlighting attributes when possible.

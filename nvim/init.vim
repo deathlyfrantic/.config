@@ -183,8 +183,8 @@ call plug#begin($VIMHOME.'/plugged')
 
   " my plugins
   for p in ['distill', 'textobj-blanklines']
-    if isdirectory(expand('~/Code/vim/'.p))
-      Plug '~/Code/vim/'.p
+    if isdirectory(expand('~/src/vim/'.p))
+      Plug '~/src/vim/'.p
     else
       Plug 'zandrmartin/vim-'.p
     endif
@@ -238,8 +238,6 @@ set writebackup
 " --- autocommands --- {{{
 augroup rc_commands
   autocmd!
-
-  autocmd BufNewFile,BufReadPost * Wrap
 
   " omni-complete
   autocmd FileType * if &ft != 'php' | setlocal omnifunc=syntaxcomplete#Complete | endif
