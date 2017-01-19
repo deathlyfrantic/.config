@@ -191,8 +191,7 @@ bindsym $mod+backslash scratchpad show
 bar {
     position top
     font $font
-    # status_command zsh -c ~/.config/sway/swaybar.zsh
-    status_command zsh -c "~/Code/swaystag/swaystag.py server"
+    status_command zsh -c "~/src/swaystag/swaystag.py server"
     separator_symbol " | "
     colors {
         statusline #e2e4e9
@@ -217,3 +216,4 @@ debuglog on
 exec_always xrdb -load ~/.config/x11/xresources
 
 include /etc/sway/security
+

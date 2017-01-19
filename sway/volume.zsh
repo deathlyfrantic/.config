@@ -17,4 +17,4 @@ if [[ $muted == "yes" ]]; then
     volume="muted"
 fi
 
-~/Code/swaystag/swaystag.py block --name "volume" --full_text "Volume: $volume" --short_text "$volume" --sort_order 500
+~/src/swaystag/swaystag.py block --name "volume" --full_text "Volume: $volume" --short_text "$volume" --sort_order 500
