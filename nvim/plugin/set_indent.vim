@@ -10,13 +10,7 @@ function! s:set_indent_level(...)
     \ 'django': 2,
     \ 'vim': 2,
     \ }
-
-  if a:0
-    let l:level = a:1
-  else
-    let l:level = get(l:levels, &filetype, 4)
-  endif
-
+  let l:level = (a:0) ? a:1 : get(l:levels, &filetype, 4)
   for l:cmd in ['softtabstop', 'shiftwidth']
     execute 'setlocal '.l:cmd.'='.l:level
   endfor

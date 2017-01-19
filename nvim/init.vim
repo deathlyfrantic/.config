@@ -131,10 +131,11 @@ nmap ga <Plug>(EasyAlign)
 " plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
   " filetypes
-  Plug 'mitsuhiko/vim-jinja',      {'for': ['htmljinja', 'jinja']}
-  Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
-  Plug 'rust-lang/rust.vim',       {'for': 'rust'}
-  Plug 'pangloss/vim-javascript',  {'for': 'javascript'}
+  Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+  Plug 'mitsuhiko/vim-jinja',          {'for': ['htmljinja', 'jinja']}
+  Plug 'kchmck/vim-coffee-script',     {'for': 'coffee'}
+  Plug 'rust-lang/rust.vim',           {'for': 'rust'}
+  Plug 'pangloss/vim-javascript',      {'for': 'javascript'}
 
   " text objects
   Plug 'Julian/vim-textobj-variable-segment'
