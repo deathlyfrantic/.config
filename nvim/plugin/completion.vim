@@ -16,11 +16,27 @@ function! s:move_dir(fwd) abort
   return (a:fwd) ? "\<C-N>" : "\<C-P>"
 endfunction
 
+function! s:get_word() abort
+  let l:pos = getpos('.')
+  let l:new_pos = deepcopy(l:pos)
+  let l:new_pos[2] -= 1
+  call setpos('.', l:new_pos)
+  let l:word = expand('<cWORD>')
+  call setpos('.', l:pos)
+  return l:word
+endfunction
+
+function! s:is_file() abort
+  let l:path = s:get_word()
+  let l:base_dir = strpart(l:path, 0, strridx(l:path, '/'))
+  return l:path[0] == '/' || isdirectory(l:path) || isdirectory(l:base_dir)
+endfunction
+
 function! s:tab(fwd) abort
   if pumvisible()
     return (a:fwd) ? s:move_dir(s:pum_fwd) : s:move_dir(!s:pum_fwd)
   elseif !s:check_back_space()
-    return s:ctrl_np(0)
+    return s:is_file() ? "\<C-X>\<C-F>" : s:ctrl_np(0)
   endif
   return "\<Tab>"
 endfunction
