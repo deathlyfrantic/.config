@@ -3,6 +3,6 @@ set output_plugin=pulse
 set aaa_mode=album
 set format_current= %a - %l - %n. %t (%y)%= %d
 set format_playlist= %-30a %-40l %3n. %t%= %y %d %{?X!=0?%3X ?   }
-set status_display_program=~/.config/cmus/cmus_status.zsh
+set status_display_program=cmus_status.zsh
 bind -f library ^H win-next
 bind -f library ^L win-next

@@ -53,9 +53,9 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
-bindsym XF86AudioRaiseVolume exec ~/.config/sway/volume.zsh up
-bindsym XF86AudioLowerVolume exec ~/.config/sway/volume.zsh down
-bindsym XF86AudioMute exec ~/.config/sway/volume.zsh mute
+bindsym XF86AudioRaiseVolume exec volume.zsh up
+bindsym XF86AudioLowerVolume exec volume.zsh down
+bindsym XF86AudioMute exec volume.zsh mute
 
 # screenshots
 bindsym Print exec swaygrab
@@ -216,4 +216,3 @@ debuglog on
 exec_always xrdb -load ~/.config/x11/xresources
 
 include /etc/sway/security
-

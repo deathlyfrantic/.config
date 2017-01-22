@@ -26,7 +26,6 @@ alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/muttrc'
 alias ltmail='"$XDG_CONFIG_HOME"/mutt/ltmail.zsh'
 alias pacman='pacman --color=always'
 alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_HOME"/irssi'
-alias weechat='weechat -d "$XDG_CONFIG_HOME"/weechat'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 
