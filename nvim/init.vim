@@ -223,6 +223,7 @@ set nostartofline
 set nowrap
 set number
 set shiftround
+set shiftwidth=4
 set showcmd
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
