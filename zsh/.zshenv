@@ -28,6 +28,7 @@ alias pacman='pacman --color=always'
 alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_HOME"/irssi'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
+alias xmllint='xmllint --format'
 
 escape_for_pango () {
     echo "$1" \
