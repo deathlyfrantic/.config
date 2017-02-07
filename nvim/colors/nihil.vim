@@ -17,11 +17,9 @@
 " DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-let g:colors_name = 'nihil'
-
 if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
   if &t_Co < 256
-    echoe 'The ' . g:colors_name . ' colorscheme requires a 256-color terminal or true-color Vim (Neovim or Gvim).'
+    echoerr 'The ' . g:colors_name . ' colorscheme requires a 256-color terminal or true-color Vim (Neovim or Gvim).'
     finish
   endif
 endif
@@ -31,6 +29,8 @@ highlight clear
 if exists('syntax_on')
     syntax reset
 endif
+
+let g:colors_name = 'nihil'
 
 if &background == 'dark'
   highlight Normal       ctermfg=249  ctermbg=16   cterm=NONE guifg=#b2b2b2 guibg=#000000 gui=NONE
@@ -43,6 +43,8 @@ if &background == 'dark'
   highlight VertSplit    ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
   highlight String       ctermfg=244  ctermbg=NONE cterm=NONE guifg=#808080 guibg=NONE    gui=NONE
+  highlight WarningMsg   ctermfg=226  ctermbg=NONE cterm=NONE guifg=#ffff00 guibg=NONE    gui=NONE
+  highlight GitGutterAdd ctermfg=46   ctermbg=NONE cterm=NONE guifg=#00ff00 guibg=NONE    gui=NONE
 else
   highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE guifg=#000000 guibg=#eeeeee gui=NONE
   highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
@@ -54,6 +56,8 @@ else
   highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE guifg=#000000 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
   highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
+  highlight WarningMsg   ctermfg=142  ctermbg=NONE cterm=NONE guifg=#afaf00 guibg=NONE    gui=NONE
+  highlight GitGutterAdd ctermfg=34   ctermbg=NONE cterm=NONE guifg=#00af00 guibg=NONE    gui=NONE
 endif
 
 highlight MatchParen            ctermfg=202  ctermbg=NONE cterm=bold           guifg=#ff5f00 guibg=NONE    gui=bold
@@ -69,10 +73,33 @@ highlight DiffAdd               ctermfg=46   ctermbg=28   cterm=NONE           g
 highlight DiffChange            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
 highlight DiffText              ctermfg=226  ctermbg=100  cterm=NONE           guifg=#ffff00 guibg=#878700 gui=NONE
 highlight DiffDelete            ctermfg=196  ctermbg=88   cterm=NONE           guifg=#ff0000 guibg=#870000 gui=NONE
-highlight WarningMsg            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
-highlight GitGutterAdd          ctermfg=46   ctermbg=NONE cterm=NONE           guifg=#00ff00 guibg=NONE    gui=NONE
 highlight GitGutterChangeDelete ctermfg=202  ctermbg=NONE cterm=NONE           guifg=#ff5f00 guibg=NONE    gui=NONE
-
+highlight TabLineSel            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight TabLineClose          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Directory             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Underlined            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Question              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight MoreMsg               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight ModeMsg               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight SpellRare             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight SpellLocal            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Boolean               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Constant              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Special               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Identifier            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Statement             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight PreProc               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Type                  ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Define                ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Number                ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Function              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Include               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight PreCondit             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Keyword               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Title                 ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Delimiter             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight StorageClass          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight Operator              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight! link NeomakeWarningSign    WarningMsg
 highlight! link NeomakeErrorSign      Error
 highlight! link GitGutterChange       WarningMsg
@@ -86,45 +113,19 @@ highlight! link SignColumn            LineNr
 highlight! link FoldColumn            LineNr
 highlight! link Folded                LineNr
 highlight! link TabLine               StatusLine
-highlight! link TabLineSel            Normal
 highlight! link TabLineFill           StatusLine
-highlight! link TabLineClose          Normal
 highlight! link BufTabLineActive      StatusLine
 highlight! link BufTabLineCurrent     TabLineSel
 highlight! link BufTabLineHidden      StatusLine
 highlight! link BufTabLineFill        StatusLine
 highlight! link CtrlPMode1            StatusLine
 highlight! link CtrlPMode2            StatusLine
-highlight! link Directory             Normal
-highlight! link Underlined            Normal
-highlight! link Question              Normal
-highlight! link MoreMsg               Normal
-highlight! link ModeMsg               Normal
 highlight! link SpecialKey            Comment
 highlight! link NonText               Comment
 highlight! link Conceal               Comment
 highlight! link phpDocTags            Comment
-highlight! link SpellRare             Normal
-highlight! link SpellLocal            Normal
-highlight! link Boolean               Normal
-highlight! link Constant              Normal
-highlight! link Special               Normal
-highlight! link Identifier            Normal
-highlight! link Statement             Normal
-highlight! link PreProc               Normal
-highlight! link Type                  Normal
-highlight! link Define                Normal
-highlight! link Number                Normal
-highlight! link gitcommitOverflow     Error
-highlight! link Function              Normal
-highlight! link Include               Normal
-highlight! link PreCondit             Normal
-highlight! link Keyword               Normal
-highlight! link Title                 Normal
-highlight! link Delimiter             Normal
-highlight! link StorageClass          Normal
-highlight! link Operator              Normal
 highlight! link IncSearch             Search
+highlight! link gitcommitOverflow     Error
 highlight! link SneakPluginTarget     Search
 highlight! link diffAdded             DiffAdd
 highlight! link diffRemoved           DiffDelete
