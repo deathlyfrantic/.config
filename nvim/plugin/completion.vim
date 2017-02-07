@@ -39,13 +39,13 @@ function! s:spelling() abort
     return &spell && (index(s:spell_fts, &filetype) > -1 || index(s:spell_syn, l:syntax))
 endfunction
 
-function! s:complete() abort
+function! s:complete(omni) abort
     if s:is_file()
         return "\<C-X>\<C-F>"
     elseif s:spelling()
-        return "\<C-X>s"
+        return (a:omni) ? "\<C-X>s" : s:ctrl_np(0)
     else
-        return s:ctrl_np(0)
+        return (a:omni) ? "\<C-X>\<C-O>" : s:ctrl_np(0)
     endif
 endfunction
 
@@ -53,7 +53,7 @@ function! s:tab(fwd) abort
     if pumvisible()
         return (a:fwd) ? s:move_dir(s:pum_fwd) : s:move_dir(!s:pum_fwd)
     elseif !s:check_back_space()
-        return s:complete()
+        return s:complete(!a:fwd)
     endif
     return "\<Tab>"
 endfunction

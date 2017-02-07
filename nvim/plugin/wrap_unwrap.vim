@@ -17,6 +17,10 @@ function! s:wrap(...)
   noremap gk k
   noremap j gj
   noremap gj j
+  noremap $ g$
+  noremap g$ $
+  noremap ^ g^
+  noremap g^ ^
 endfunction
 
 function! s:unwrap()
@@ -28,4 +32,8 @@ function! s:unwrap()
   unmap gk
   unmap j
   unmap gj
+  unmap $
+  unmap g$
+  unmap ^
+  unmap g^
 endfunction

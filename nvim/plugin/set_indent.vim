@@ -8,7 +8,6 @@ function! s:set_indent_level(...)
     \ 'htmldjango': 2,
     \ 'htmljinja': 2,
     \ 'django': 2,
-    \ 'vim': 2,
     \ }
   let l:level = (a:0) ? a:1 : get(l:levels, &filetype, 4)
   for l:cmd in ['softtabstop', 'shiftwidth']
