@@ -1,9 +1,16 @@
 # sadly i have to convert .eml -> .mbox on the regular :(
+if [[ $1 == "" ]];
+then
+    _this=$(basename "$0")
+    echo "Usage: $_this input.eml [output.mbox]"
+    exit 1
+fi
+
 if [[ $2 != "" ]];
 then
     _outfile="$2"
 else
-    _outfile=$(echo "$1" | cut -d "." -f 1)
-    _outfile="$_outfile.mbox"
+    _outfile="$(basename "$1" ".eml").mbox"
 fi
+
 formail -b < "$1" > "$_outfile"
