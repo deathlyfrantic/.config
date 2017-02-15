@@ -168,7 +168,6 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # window overrides
-for_window [title="corebird"] floating enable
 for_window [title="gnome-calculator"] floating enable
 for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
@@ -207,6 +206,8 @@ font $font
 new_window pixel 1
 new_float pixel 1
 hide_edge_borders both
+
+floating_maximum_size -1 x -1
 
 # gaps
 gaps inner 10

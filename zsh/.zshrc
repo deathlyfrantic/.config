@@ -21,6 +21,8 @@ else
     PROMPT=$P_base
 fi
 
+RPROMPT="%{$fg[white]%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%I}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
+
 # history
 HISTFILE="$ZDOTDIR"/histfile
 HISTSIZE=1000000
@@ -82,7 +84,7 @@ if [[ -a $ADOTDIR/antigen.zsh ]]; then
     antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
     antigen bundle zsh-users/zsh-history-substring-search
     antigen apply
-    RPROMPT='$(git_super_status)'
+    RPROMPT='$(git_super_status) '$RPROMPT
 else
     mkdir -p $ADOTDIR
     git clone https://github.com/zsh-users/antigen $ADOTDIR
