@@ -151,9 +151,9 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'glts/vim-textobj-comment'
 
     " dev tools
-    " Plug 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips'
     Plug 'airblade/vim-gitgutter'
-    " Plug 'honza/vim-snippets'
+    Plug 'honza/vim-snippets'
     Plug 'junegunn/gv.vim'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'mhinz/vim-grepper'
