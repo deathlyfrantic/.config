@@ -17,4 +17,4 @@ if [[ $muted == "yes" ]]; then
     volume="muted"
 fi
 
-~/src/swaystag/swaystag.py block -n "volume" -f "Volume: $volume" -st "$volume" -o 500
+swaystag block -n "volume" -f "Volume: $volume" -st "$volume" -o 500

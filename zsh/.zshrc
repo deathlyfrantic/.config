@@ -21,7 +21,7 @@ else
     PROMPT=$P_base
 fi
 
-RPROMPT="%{$fg[white]%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%I}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
+RPROMPT="%{$fg[white]%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
 
 # history
 HISTFILE="$ZDOTDIR"/histfile

@@ -19,4 +19,4 @@ else
 fi
 
 _output=$(escape_for_pango "$_artist - $_title$__status")
-~/src/swaystag/swaystag.py block -n "music" -o 1 -f "$_output" -st "$_title" $_remove
+swaystag block -n "music" -o 1 -f "$_output" -st "$_title" $_remove

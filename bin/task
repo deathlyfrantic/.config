@@ -5,7 +5,7 @@ _status=$(node ~/src/tasks/tasks.js status)
 _escaped=$(escape_for_pango $_status)
 
 if [[ $_status == "" ]]; then
-    ~/src/swaystag/swaystag.py block -n todo -r
+    swaystag block -n todo -r
 else
-    ~/src/swaystag/swaystag.py block -n todo -o "-1" -f "Tasks: $_escaped"
+    swaystag block -n todo -o "-1" -f "Tasks: $_escaped"
 fi
