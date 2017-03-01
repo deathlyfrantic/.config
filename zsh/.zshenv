@@ -1,4 +1,5 @@
 # fix non-XDG compatible junk
+export INPUTRC="$XDG_CONFIG_HOME"/inputrc
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -22,8 +23,6 @@ alias ls='ls --color=auto'
 alias ll='ls -lh --color=auto'
 alias vim='nvim'
 alias less='less -R'
-alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/muttrc'
-alias ltmail='"$XDG_CONFIG_HOME"/mutt/ltmail.zsh'
 alias pacman='pacman --color=always'
 alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_HOME"/irssi'
 alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
