@@ -1,4 +1,4 @@
-" Copyright © 2016 Zandr Martin
+" Copyright © 2017 Zandr Martin
 "
 " Permission is hereby granted, free of charge, to any person obtaining
 " a copy of this software and associated documentation files (the "Software"),
@@ -19,7 +19,7 @@
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
   if &t_Co < 256
-    echoerr 'The nihil colorscheme requires a 256-color terminal or true-color Vim (Neovim or Gvim).'
+    echoerr 'The dosedit colorscheme requires a 256-color terminal or true-color Vim (Neovim or Gvim).'
     finish
   endif
 endif
@@ -30,44 +30,27 @@ if exists('syntax_on')
     syntax reset
 endif
 
-let g:colors_name = 'nihil'
+let g:colors_name = 'dosedit'
 
-if &background == 'dark'
-  highlight Normal       ctermfg=249  ctermbg=16   cterm=NONE guifg=#b2b2b2 guibg=#000000 gui=NONE
-  highlight Visual       ctermfg=16   ctermbg=249  cterm=NONE guifg=#000000 guibg=#b2b2b2 gui=NONE
-  highlight Cursorline   ctermfg=NONE ctermbg=234  cterm=NONE guifg=NONE    guibg=#1c1c1c gui=NONE
-  highlight CursorLineNr ctermfg=249  ctermbg=234  cterm=NONE guifg=#b2b2b2 guibg=#1c1c1c gui=NONE
-  highlight StatusLine   ctermfg=16   ctermbg=245  cterm=NONE guifg=#000000 guibg=#8a8a8a gui=NONE
-  highlight StatusLineNC ctermfg=16   ctermbg=238  cterm=NONE guifg=#000000 guibg=#444444 gui=NONE
-  highlight LineNr       ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
-  highlight VertSplit    ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
-  highlight Comment      ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
-  highlight String       ctermfg=244  ctermbg=NONE cterm=NONE guifg=#808080 guibg=NONE    gui=NONE
-  highlight WarningMsg   ctermfg=226  ctermbg=NONE cterm=NONE guifg=#ffff00 guibg=NONE    gui=NONE
-  highlight GitGutterAdd ctermfg=46   ctermbg=NONE cterm=NONE guifg=#00ff00 guibg=NONE    gui=NONE
-else
-  highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE guifg=#000000 guibg=#eeeeee gui=NONE
-  highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
-  highlight Cursorline   ctermfg=NONE ctermbg=253  cterm=NONE guifg=NONE    guibg=#dadada gui=NONE
-  highlight CursorLineNr ctermfg=16   ctermbg=253  cterm=NONE guifg=#000000 guibg=#dadada gui=NONE
-  highlight StatusLine   ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
-  highlight StatusLineNC ctermfg=255  ctermbg=238  cterm=NONE guifg=#eeeeee guibg=#444444 gui=NONE
-  highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
-  highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE guifg=#000000 guibg=NONE    gui=NONE
-  highlight Comment      ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
-  highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
-  highlight WarningMsg   ctermfg=142  ctermbg=NONE cterm=NONE guifg=#afaf00 guibg=NONE    gui=NONE
-  highlight GitGutterAdd ctermfg=34   ctermbg=NONE cterm=NONE guifg=#00af00 guibg=NONE    gui=NONE
-endif
-
-highlight MatchParen            ctermfg=202  ctermbg=NONE cterm=bold           guifg=#ff5f00 guibg=NONE    gui=bold
-highlight WildMenu              ctermfg=255  ctermbg=25   cterm=NONE           guifg=#eeeeee guibg=#005fff gui=NONE
+highlight Normal                ctermfg=251  ctermbg=18   cterm=NONE           guifg=#c6c6c6 guibg=#000087 gui=NONE
+highlight Visual                ctermfg=16   ctermbg=251  cterm=NONE           guifg=#000000 guibg=#c6c6c6 gui=NONE
+highlight Cursorline            ctermfg=NONE ctermbg=19   cterm=NONE           guifg=NONE    guibg=#0000af gui=NONE
+highlight CursorLineNr          ctermfg=NONE ctermbg=19   cterm=NONE           guifg=NONE    guibg=#0000af gui=NONE
+highlight StatusLine            ctermfg=16   ctermbg=248  cterm=NONE           guifg=#000000 guibg=#a8a8a8 gui=NONE
+highlight StatusLineNC          ctermfg=16   ctermbg=241  cterm=NONE           guifg=#000000 guibg=#606060 gui=NONE
+highlight LineNr                ctermfg=60   ctermbg=NONE cterm=NONE           guifg=#5f5f87 guibg=NONE    gui=NONE
+highlight VertSplit             ctermfg=248  ctermbg=16   cterm=NONE           guifg=#a8a8a8 guibg=#000000 gui=NONE
+highlight String                ctermfg=103  ctermbg=NONE cterm=NONE           guifg=#8787af guibg=NONE    gui=NONE
+highlight WarningMsg            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
+highlight GitGutterAdd          ctermfg=46   ctermbg=NONE cterm=NONE           guifg=#00ff00 guibg=NONE    gui=NONE
+highlight MatchParen            ctermfg=226  ctermbg=NONE cterm=bold           guifg=#ffff00 guibg=NONE    gui=bold
+highlight WildMenu              ctermfg=248  ctermbg=16   cterm=NONE           guifg=#a8a8a8 guibg=#000000 gui=NONE
 highlight PmenuSbar             ctermfg=244  ctermbg=240  cterm=NONE           guifg=#808080 guibg=#585858 gui=NONE
-highlight PmenuThumb            ctermfg=NONE ctermbg=249  cterm=NONE           guifg=NONE    guibg=#b2b2b2 gui=NONE
+highlight PmenuThumb            ctermfg=NONE ctermbg=231  cterm=NONE           guifg=NONE    guibg=#a8a8a8 gui=NONE
 highlight Error                 ctermfg=196  ctermbg=NONE cterm=NONE           guifg=#ff0000 guibg=NONE    gui=NONE
 highlight SpellBad              ctermfg=196  ctermbg=NONE cterm=underline      guifg=#ff0000 guibg=NONE    gui=underline
 highlight SpellCap              ctermfg=202  ctermbg=NONE cterm=underline      guifg=#ff5f00 guibg=NONE    gui=underline
-highlight Search                ctermfg=231  ctermbg=25   cterm=NONE           guifg=#ffffff guibg=#005fff gui=NONE
+highlight Search                ctermfg=231  ctermbg=127  cterm=NONE           guifg=#ffffff guibg=#af00af gui=NONE
 highlight TODO                  ctermfg=202  ctermbg=NONE cterm=bold,underline guifg=#ff5f00 guibg=NONE    gui=bold,underline
 highlight DiffAdd               ctermfg=46   ctermbg=28   cterm=NONE           guifg=#00ff00 guibg=#008700 gui=NONE
 highlight DiffChange            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
@@ -100,6 +83,7 @@ highlight Title                 ctermfg=NONE ctermbg=NONE cterm=NONE           g
 highlight Delimiter             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight StorageClass          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight Operator              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
+highlight! link Comment               LineNr
 highlight! link NeomakeWarningSign    WarningMsg
 highlight! link NeomakeErrorSign      Error
 highlight! link GitGutterChange       WarningMsg
