@@ -403,7 +403,8 @@ digraphs -1 128078
 " --- colors and appearance --- {{{
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
-Dark
+" Dark
+colorscheme dosedit
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
