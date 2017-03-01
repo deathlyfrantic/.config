@@ -20,8 +20,8 @@ elif [[ $USER != 'zandr' ]]; then
 else
     PROMPT=$P_base
 fi
-
 RPROMPT="%{$fg[white]%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
+RPROMPT='${$(gitprompt)} '$RPROMPT
 
 # history
 HISTFILE="$ZDOTDIR"/histfile
@@ -84,23 +84,9 @@ if [[ -a $ADOTDIR/antigen.zsh ]]; then
     antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
     antigen bundle zsh-users/zsh-history-substring-search
     antigen apply
-    RPROMPT='$(git_super_status) '$RPROMPT
 else
     mkdir -p $ADOTDIR
     git clone https://github.com/zsh-users/antigen $ADOTDIR
 fi
-
-# git prompt chars
-ZSH_THEME_GIT_PROMPT_PREFIX="["
-ZSH_THEME_GIT_PROMPT_SUFFIX="]"
-ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
-ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[black]%}"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[yellow]%}%{-%G%}"
-ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg_bold[red]%}%{!%G%}"
-ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg_bold[blue]%}%{+%G%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[red]%}%{<%G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[cyan]%}%{>%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[magenta]%}%{_%G%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{=%G%}"
 
 PATH=$HOME/bin:$PATH
