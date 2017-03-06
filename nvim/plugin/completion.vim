@@ -1,6 +1,6 @@
 " when true, uses <C-N>; when false, uses <C-P>
 let s:pum_fwd = 1
-let s:spell_fts = ['markdown', 'mail', 'text']
+let s:spell_fts = ['markdown', 'mail', 'text', 'gitcommit']
 let s:spell_syn = ['Comment', 'Todo']
 
 function! s:check_back_space() abort
@@ -29,7 +29,13 @@ function! s:get_word() abort
 endfunction
 
 function! s:is_file() abort
-    let l:path = expand(s:get_word())
+    let l:path = s:get_word()
+    if stridx(l:path, '~') > -1
+        let l:path = strpart(l:path, stridx(l:path, '~'))
+    elseif stridx(l:path, '/') > -1
+        let l:path = strpart(l:path, stridx(l:path, '/'))
+    endif
+    let l:path = expand(l:path)
     let l:base_dir = strpart(l:path, 0, strridx(l:path, '/'))
     return l:path[0] == '/' || isdirectory(l:path) || isdirectory(l:base_dir)
 endfunction

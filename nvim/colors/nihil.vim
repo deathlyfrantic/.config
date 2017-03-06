@@ -1,4 +1,4 @@
-" Copyright © 2016 Zandr Martin
+" Copyright © 2017 Zandr Martin
 "
 " Permission is hereby granted, free of charge, to any person obtaining
 " a copy of this software and associated documentation files (the "Software"),
@@ -44,16 +44,17 @@ if &background == 'dark'
   highlight Comment      ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
   highlight String       ctermfg=244  ctermbg=NONE cterm=NONE guifg=#808080 guibg=NONE    gui=NONE
   highlight WarningMsg   ctermfg=226  ctermbg=NONE cterm=NONE guifg=#ffff00 guibg=NONE    gui=NONE
+
   highlight GitGutterAdd ctermfg=46   ctermbg=NONE cterm=NONE guifg=#00ff00 guibg=NONE    gui=NONE
 else
-  highlight Normal       ctermfg=16   ctermbg=255  cterm=NONE guifg=#000000 guibg=#eeeeee gui=NONE
-  highlight Visual       ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight Normal       ctermfg=235  ctermbg=255  cterm=NONE guifg=#262626 guibg=#eeeeee gui=NONE
+  highlight Visual       ctermfg=255  ctermbg=235  cterm=NONE guifg=#eeeeee guibg=#262626 gui=NONE
   highlight Cursorline   ctermfg=NONE ctermbg=253  cterm=NONE guifg=NONE    guibg=#dadada gui=NONE
-  highlight CursorLineNr ctermfg=16   ctermbg=253  cterm=NONE guifg=#000000 guibg=#dadada gui=NONE
-  highlight StatusLine   ctermfg=255  ctermbg=16   cterm=NONE guifg=#eeeeee guibg=#000000 gui=NONE
+  highlight CursorLineNr ctermfg=235  ctermbg=253  cterm=NONE guifg=#262626 guibg=#dadada gui=NONE
+  highlight StatusLine   ctermfg=255  ctermbg=235  cterm=NONE guifg=#eeeeee guibg=#262626 gui=NONE
   highlight StatusLineNC ctermfg=255  ctermbg=238  cterm=NONE guifg=#eeeeee guibg=#444444 gui=NONE
   highlight LineNr       ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
-  highlight VertSplit    ctermfg=16   ctermbg=NONE cterm=NONE guifg=#000000 guibg=NONE    gui=NONE
+  highlight VertSplit    ctermfg=235  ctermbg=NONE cterm=NONE guifg=#262626 guibg=NONE    gui=NONE
   highlight Comment      ctermfg=246  ctermbg=NONE cterm=NONE guifg=#949494 guibg=NONE    gui=NONE
   highlight String       ctermfg=239  ctermbg=NONE cterm=NONE guifg=#4e4e4e guibg=NONE    gui=NONE
   highlight WarningMsg   ctermfg=142  ctermbg=NONE cterm=NONE guifg=#afaf00 guibg=NONE    gui=NONE

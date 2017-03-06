@@ -68,3 +68,6 @@ command! -bang Wa wa<bang>
 command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
+
+let &t_SI = "\<Esc>[6 q"
+let &t_EI = "\<Esc>[2 q"
