@@ -7,6 +7,15 @@
 	autocrlf = input
 [merge]
     conflictstyle = diff3
+    tool = vimdiff
+[mergetool]
+    prompt = true
+[mergetool "vimdiff"]
+    cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+    prompt = true
+[difftool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w' -c 'wincmd J'
 [transfer]
     fsckobjects = true
 [fetch]
@@ -14,4 +23,5 @@
 [receive]
     fsckObjects = true
 [diff]
-	renames = true
+    renames = true
+    prompt = true
