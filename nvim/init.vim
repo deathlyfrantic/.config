@@ -30,6 +30,11 @@ if has('vim_starting')
             silent! call mkdir(dir, 'p')
         endif
     endfor
+
+    if !has('nvim')
+        let &t_SI = "\<Esc>[6 q"
+        let &t_EI = "\<Esc>[2 q"
+    endif
 endif
 " --- end startup --- }}}
 
@@ -47,12 +52,6 @@ let g:ignore_patterns = [
     \ '*.sqlite3',
     \ '.sass-cache',
     \ ]
-" }}}
-
-" jedi {{{
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#smart_auto_mappings = 0
 " }}}
 
 " sparkup {{{
@@ -158,7 +157,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'mhinz/vim-grepper'
     Plug 'neomake/neomake'
-    Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
     " panels
     Plug 'ctrlpvim/ctrlp.vim'
@@ -403,8 +401,8 @@ digraphs -1 128078
 " --- colors and appearance --- {{{
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
-" Dark
-colorscheme dosedit
+Dark
+" colorscheme dosedit
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
