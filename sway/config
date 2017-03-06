@@ -55,7 +55,7 @@ bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
 bindsym $mod+XF86TouchpadToggle exec $term -e "zsh -c 'nvim ~/.config/sway/config'"
 bindsym $mod+c exec google-chrome-stable
-bindsym $mod+q exec qutebrowser
+bindsym $mod+q exec qutebrowser --backend webengine
 bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
 bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
@@ -219,6 +219,7 @@ for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
 for_window [title="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
+for_window [title="feh"] floating enable
 
 # Scratchpad:
 #
