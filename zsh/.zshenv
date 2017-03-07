@@ -29,6 +29,7 @@ alias sway='sway -d 2> "$XDG_CONFIG_HOME"/sway/debug.log'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 alias xmllint='xmllint --format'
 alias hog='du --max-depth=1 | sort -n'
+alias nb='newsbeuter'
 
 escape_for_pango () {
     echo "$1" \
