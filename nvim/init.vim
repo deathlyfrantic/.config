@@ -3,7 +3,7 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    " set termguicolors
+    set termguicolors
     let $VIMHOME = split(&runtimepath, ',')[0]
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -136,6 +136,8 @@ nmap ga <Plug>(EasyAlign)
 " plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
     " filetypes
+
+    Plug 'jnurmine/Zenburn'
     Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python'}
     Plug 'mitsuhiko/vim-jinja',           { 'for': ['htmljinja', 'jinja']}
     Plug 'kchmck/vim-coffee-script',      { 'for': 'coffee'}
