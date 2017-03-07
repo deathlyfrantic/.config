@@ -352,14 +352,6 @@ nnoremap <silent> <Space> :nohlsearch<CR>
 nnoremap gb <C-o>
 nnoremap gf <C-i>
 
-" move in insert mode
-inoremap <M-j> <Down>
-inoremap <M-k> <Up>
-inoremap <M-h> <Left>
-inoremap <M-l> <Right>
-inoremap <M-4> <End>
-inoremap <M-6> <Home>
-
 " resize windows
 nnoremap <C-Left>  <C-W><
 nnoremap <C-Right> <C-W>>
