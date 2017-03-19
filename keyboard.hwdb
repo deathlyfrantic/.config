@@ -6,7 +6,6 @@
 # microsoft sculpt ergonomic keyboard
 evdev:input:b0003v045Ep07A5*
  KEYBOARD_KEY_70039=leftctrl
- KEYBOARD_KEY_700e6=esc
 
 # regular old everyday keyboards
 evdev:atkbd:dmi:*
