@@ -42,8 +42,8 @@ set $term termite
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-# output * bg ~/.config/sway/darkforest.jpg fill
-output * bg ~/.config/sway/space-RGB-01.png fill
+output * bg ~/.config/sway/darkforest.jpg fill
+# output * bg ~/.config/sway/space-RGB-01.png fill
 
 ### Key bindings
 # kill focused window
@@ -250,14 +250,14 @@ bar {
 
 font $font
 
-new_window pixel 1
-new_float pixel 1
+default_border pixel 2
+default_floating_border pixel 2
 hide_edge_borders both
 
 floating_maximum_size -1 x -1
 
 # gaps
-gaps inner 10
+gaps inner 8
 smart_gaps on
 
 debuglog on
