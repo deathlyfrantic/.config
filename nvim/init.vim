@@ -3,7 +3,7 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    set termguicolors
+    " set termguicolors
     let $VIMHOME = split(&runtimepath, ',')[0]
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -31,8 +31,10 @@ if has('vim_starting')
         endif
     endfor
 
+    " change cursor on insert mode for normal vim
     if !has('nvim')
-        let &t_SI = "\<Esc>[6 q"
+        let &t_SI = "\<Esc>[5 q"
+        let &t_SR = "\<Esc>[3 q"
         let &t_EI = "\<Esc>[2 q"
     endif
 endif
@@ -91,7 +93,7 @@ if executable('ag')
     let s:ignore_string = join(map(copy(g:ignore_patterns), '"--ignore ''" . v:val . "''"'), ' ')
     let g:ctrlp_user_command = 'ag '.s:ignore_string.'%s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
-    let &grepprg="ag\ --nogroup\ --nocolor ".s:ignore_string
+    let &grepprg='ag --nogroup --nocolor '.s:ignore_string
 endif
 " }}}
 
@@ -124,25 +126,23 @@ let g:buftabline_numbers = 2
 " }}}
 
 " characterize {{{
-nmap gA <Plug>(characterize)
+nmap ga <Plug>(characterize)
 " }}}
 
-" easy-align {{{
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+" lion {{{
+let g:lion_squeeze_spaces = 1
 " }}}
 " --- end plugin settings --- }}}
 
 " plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
     " filetypes
-
-    Plug 'jnurmine/Zenburn'
-    Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python'}
-    Plug 'mitsuhiko/vim-jinja',           { 'for': ['htmljinja', 'jinja']}
-    Plug 'kchmck/vim-coffee-script',      { 'for': 'coffee'}
-    Plug 'rust-lang/rust.vim',            { 'for': 'rust'}
-    Plug 'pangloss/vim-javascript',       { 'for': 'javascript'}
+    Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
+    Plug 'mitsuhiko/vim-jinja',           {'for': ['htmljinja', 'jinja']}
+    Plug 'kchmck/vim-coffee-script',      {'for': 'coffee'}
+    Plug 'rust-lang/rust.vim',            {'for': 'rust'}
+    Plug 'pangloss/vim-javascript',       {'for': 'javascript'}
+    Plug 'mxw/vim-jsx',                   {'for': 'javascript'}
 
     " text objects
     Plug 'Julian/vim-textobj-variable-segment'
@@ -163,19 +163,19 @@ call plug#begin($VIMHOME.'/plugged')
     " panels
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'justinmk/vim-dirvish'
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle'}
-    Plug 'sjl/gundo.vim',     { 'on': 'GundoToggle'}
+    Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+    Plug 'sjl/gundo.vim',     {'on': 'GundoToggle'}
     Plug 'ap/vim-buftabline'
 
     " text manipulation
-    Plug 'henrik/vim-indexed-search'
-    Plug 'junegunn/vim-easy-align'
-    Plug 'junegunn/vim-peekaboo'
-    Plug 'nelstrom/vim-visual-star-search'
-    Plug 'rstacruz/sparkup',        {'for': keys(g:mta_filetypes)}
-    Plug 'tommcdo/vim-exchange'
     Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
     Plug 'dhruvasagar/vim-table-mode'
+    Plug 'henrik/vim-indexed-search'
+    Plug 'junegunn/vim-peekaboo'
+    Plug 'nelstrom/vim-visual-star-search'
+    Plug 'rstacruz/sparkup'
+    Plug 'tommcdo/vim-exchange'
+    Plug 'tommcdo/vim-lion'
 
     " tpope's special section
     Plug 'tpope/vim-abolish'
@@ -211,6 +211,7 @@ endif
 " --- general settings --- {{{
 set cinoptions+=(0 cinoptions+=:0
 set colorcolumn=120
+set complete+=i,d
 set completeopt-=preview
 set cursorline
 set expandtab
@@ -218,7 +219,7 @@ set fillchars=vert:\│,fold:-
 set fileformats=unix,dos,mac
 set foldlevel=99
 set foldmethod=indent
-set formatoptions-=c formatoptions+=jnroql
+set formatoptions+=jnroql
 set gdefault
 set hidden
 set ignorecase
@@ -249,11 +250,12 @@ augroup rc_commands
     autocmd!
 
     " omni-complete
-    autocmd FileType * if index(['php', 'python'], &ft) == -1 | setlocal omnifunc=syntaxcomplete#Complete | endif
+    autocmd FileType * if index(['php'], &ft) == -1 | setlocal omnifunc=syntaxcomplete#Complete | endif
 
     " specify comment types for commentary
     autocmd FileType c,php setlocal commentstring=//%s
     autocmd FileType django,htmldjango,jinja,htmljinja setlocal commentstring={#%s#}
+    autocmd FileType cmake setlocal commentstring=#%s
 
     " i will never be working with c++
     autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
@@ -293,7 +295,7 @@ augroup rc_commands
         \ endif
 
     " uglify js files on saving, if they aren't already
-    autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
+    " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
     " 'compile' sass files on saving, if they aren't _something.scss files
     autocmd BufWritePost *.scss
@@ -329,19 +331,22 @@ command! -bang Wa wa<bang>
 command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
-cnoremap !Make !make
-cnoremap !MAke !make
-cnoremap !MAKe !make
-cnoremap !MAKE !make
 
 " select last-pasted text
 nnoremap gV `[v`]
+
+" try this out, who knows
+inoremap jk <Esc>
 
 " why isn't this default, idgaf about vi-compatibility
 nmap Y y$
 
 " sudo write
 cnoremap w!! w !sudo tee % > /dev/null
+
+" command-line up/down
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
 
 " write then delete buffer; akin to wq
 cnoremap wbd Wbd
@@ -350,7 +355,7 @@ command! -bang Wbd w<bang> | bd<bang>
 " hide search highlighting
 nnoremap <silent> <Space> :nohlsearch<CR>
 
-" [G]o [B]ack and [G]o [F]orward - why are these C-o and C-i by default that makes no sense
+" [G]o [B]ack and [G]o [F]orward
 nnoremap gb <C-o>
 nnoremap gf <C-i>
 
@@ -384,9 +389,6 @@ vnoremap > >gv
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
 
-" prevent dirvish from mapping -
-nnoremap - -
-
 " digraphs
 digraphs +1 128077
 digraphs -1 128078
@@ -395,8 +397,12 @@ digraphs -1 128078
 " --- colors and appearance --- {{{
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
-Dark
-" colorscheme dosedit
+
+" if strftime("%H") < 8 || strftime("%H") > 18
+    Dark
+" else
+"     Bright
+" endif
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}

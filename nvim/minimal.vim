@@ -29,6 +29,8 @@ set wrap
 
 nmap Y y$
 
+inoremap jk <Esc>
+
 cnoremap w!! w !sudo tee % > /dev/null
 
 nnoremap gb <C-o>
@@ -69,5 +71,6 @@ command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 
-let &t_SI = "\<Esc>[6 q"
+let &t_SI = "\<Esc>[5 q"
+let &t_SR = "\<Esc>[3 q"
 let &t_EI = "\<Esc>[2 q"

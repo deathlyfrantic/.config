@@ -20,10 +20,10 @@ nmap <silent> <M-o> :call <SID>buffer_switch(18)<CR>
 nmap <silent> <M-p> :call <SID>buffer_switch(19)<CR>
 
 function! s:buffer_switch(buf_num)
-  try
-    let l:bn = buftabline#user_buffers()[a:buf_num]
-    let l:cmd = 'b'.l:bn
-    execute l:cmd
-  catch
-  endtry
+    try
+        let l:bn = buftabline#user_buffers()[a:buf_num]
+        let l:cmd = 'b'.l:bn
+        execute l:cmd
+    catch
+    endtry
 endfunction
