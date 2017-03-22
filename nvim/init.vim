@@ -140,9 +140,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
     Plug 'mitsuhiko/vim-jinja',           {'for': ['htmljinja', 'jinja']}
     Plug 'kchmck/vim-coffee-script',      {'for': 'coffee'}
-    Plug 'rust-lang/rust.vim',            {'for': 'rust'}
     Plug 'pangloss/vim-javascript',       {'for': 'javascript'}
-    Plug 'mxw/vim-jsx',                   {'for': 'javascript'}
 
     " text objects
     Plug 'Julian/vim-textobj-variable-segment'
@@ -209,7 +207,7 @@ endif
 " --- end plugins --- }}}
 
 " --- general settings --- {{{
-set cinoptions+=(0 cinoptions+=:0
+set cinoptions+=:0
 set colorcolumn=120
 set complete+=i,d
 set completeopt-=preview
@@ -290,7 +288,7 @@ augroup rc_commands
 
     " strip trailing whitespace on most file-types
     autocmd BufWritePre *
-        \ if index(['markdown', 'mail', 'snippets', 'conf'], &ft) == -1 |
+        \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
         \     %s/\s\+$//e |
         \ endif
 
@@ -398,11 +396,11 @@ digraphs -1 128078
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
 
-" if strftime("%H") < 8 || strftime("%H") > 18
+if strftime("%H") < 9 || strftime("%H") > 18
     Dark
-" else
-"     Bright
-" endif
+else
+    Bright
+endif
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}

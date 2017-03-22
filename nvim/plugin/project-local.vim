@@ -1,4 +1,9 @@
 function! s:source_local_vimrc()
+    " prevent this from breaking fugitive's Gdiff
+    if expand('%') =~? 'fugitive://'
+        return
+    endif
+
     let l:dir = expand('%:p:h')
 
     while l:dir != '/'

@@ -1,4 +1,4 @@
-function! emailcomplete#complete(findstart, base)
+function! emailcomplete#complete(findstart, base) abort
     if a:findstart
         let l:line = getline(".")
         let l:col = col(".")
