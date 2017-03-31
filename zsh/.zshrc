@@ -1,11 +1,12 @@
+PATH=$HOME/bin:$PATH
+REPORTTIME=5
+
 # colors are important here in the future, where we live
 autoload colors; colors
 
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
 unsetopt beep case_glob
-
-REPORTTIME=5
 
 # prompt
 P_user="%(!.%{$fg_bold[red]%}!!! %{$reset_color%}.)%{$fg[blue]%}%n%(!.%{$fg_bold[red]%} !!!%{$reset_color%}.)"
@@ -23,7 +24,10 @@ else
     PROMPT=$P_base
 fi
 RPROMPT="%{$reset_color%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
-RPROMPT='${$(gitprompt)} '$RPROMPT
+
+if [[ -x $(which gitprompt) ]]; then
+    RPROMPT='${$(gitprompt)} '$RPROMPT
+fi
 
 # history
 HISTFILE="$ZDOTDIR"/histfile
@@ -89,5 +93,3 @@ else
     mkdir -p $ADOTDIR
     git clone https://github.com/zsh-users/antigen $ADOTDIR
 fi
-
-PATH=$HOME/bin:$PATH
