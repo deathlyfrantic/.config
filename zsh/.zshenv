@@ -1,13 +1,12 @@
 # fix non-XDG compatible junk
-export INPUTRC="$XDG_CONFIG_HOME"/inputrc
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
 export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
+export INPUTRC="$XDG_CONFIG_HOME"/inputrc
 export ICEAUTHORITY="$XDG_CONFIG_HOME"/x11/iceauthority
 export XAUTHORITY="$XDG_CONFIG_HOME"/x11/xauthority
 export XINITRC="$XDG_CONFIG_HOME"/x11/xinitrc
-export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
 export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export LESSHISTFILE=-
@@ -30,12 +29,33 @@ alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 alias xmllint='xmllint --format'
 alias hog='du --max-depth=1 | sort -n'
 alias nb='newsbeuter'
+alias todo='todo.sh -d "$XDG_CONFIG_HOME"/todo.cfg'
 
-escape_for_pango () {
+# functions
+function escape_for_pango {
     echo "$1" \
         | sed -e 's/&/\&amp\;amp\;/g' \
         | sed -e 's/>/\&gt\;/g' \
         | sed -e 's/</\&lt\;/g' \
         | sed -e "s/'/\&apos\;/g" \
         | sed -e 's/"/\&quot\;/g'
+}
+
+function set_title {
+    local prefix=""
+
+    if [[ $USER != "zandr" && $USER != "zmartin" ]]; then
+        prefix="[$USER] "
+    fi
+
+    print -n "\e]2;$prefix$1\a"
+}
+
+function precmd {
+    local dir=${PWD/$HOME/\~}
+    set_title "zsh $dir"
+}
+
+function preexec {
+    set_title $*
 }

@@ -3,15 +3,17 @@ autoload colors; colors
 
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
-unsetopt beep
+unsetopt beep case_glob
+
+REPORTTIME=5
 
 # prompt
-P_user="%{$fg[blue]%}%n"
+P_user="%(!.%{$fg_bold[red]%}!!! %{$reset_color%}.)%{$fg[blue]%}%n%(!.%{$fg_bold[red]%} !!!%{$reset_color%}.)"
 P_at="%{$fg_bold[blue]%}@%{$reset_color%}"
 P_dot=" %{$fg_bold[black]%}::%{$reset_color%} "
 P_host="%{$fg[blue]%}%m"
 P_path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
-P_base="$P_path%(!.%{$fg_bold[red]%}☠.%{$fg_bold[black]%} ::)%{$reset_color%} "
+P_base="$P_path%{$fg_bold[black]%} ::%{$reset_color%} "
 
 if [[ $SSH_CONNECTION != '' ]]; then
     PROMPT=$P_user$P_at$P_host$P_dot$P_base
@@ -20,7 +22,7 @@ elif [[ $USER != 'zandr' ]]; then
 else
     PROMPT=$P_base
 fi
-RPROMPT="%{$fg[white]%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
+RPROMPT="%{$reset_color%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
 RPROMPT='${$(gitprompt)} '$RPROMPT
 
 # history
@@ -36,7 +38,7 @@ autoload -Uz compinit
 compinit
 
 # futuristic zsh commands
-autoload calendar zmv
+autoload zmv
 zmodload zsh/datetime
 
 # completion stuff stolen from github.com/eevee/rc/.zshrc
@@ -45,12 +47,12 @@ zstyle ':completion:*' menu select yes
 zstyle ':completion:*:default' list-colors ''
 zstyle ':completion:*' max-errors 2
 
-# Turn on caching, which helps with e.g. apt
+# Turn on caching
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/"
 
 # Show titles for completion types and group by type
-zstyle ':completion:*:descriptions' format "$fg_bold[black]» %d$reset_color"
+zstyle ':completion:*:descriptions' format "$fg_bold[black]:: $fg_bold[blue]%d$reset_color"
 zstyle ':completion:*' group-name ''
 
 # Ignore some common useless files
