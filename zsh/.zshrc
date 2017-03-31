@@ -25,7 +25,7 @@ else
 fi
 RPROMPT="%{$reset_color%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
 
-if [[ -x $(which gitprompt) ]]; then
+if [[ -x $(which gitprompt 2> /dev/null) ]]; then
     RPROMPT='${$(gitprompt)} '$RPROMPT
 fi
 
