@@ -4,3 +4,4 @@ set completion-ignore-case on
 set colored-completion-prefix on
 set colored-stats on
 set expand-tilde on
+control-l: clear-screen

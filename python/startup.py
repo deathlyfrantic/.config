@@ -25,6 +25,4 @@ def register_readline_completion():
     else:
         readline.parse_and_bind('tab: complete')
 
-    readline.parse_and_bind('"\C-l": clear-screen')
-
 sys.__interactivehook__ = register_readline_completion
