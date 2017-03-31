@@ -44,7 +44,9 @@ function escape_for_pango {
 function set_title {
     local prefix=""
 
-    if [[ $USER != "zandr" && $USER != "zmartin" ]]; then
+    if [[ $SSH_CONNECTION != "" ]]; then
+        prefix="[$USER@$HOST] "
+    elif [[ $USER != "zandr" && $USER != "zmartin" ]]; then
         prefix="[$USER] "
     fi
 
