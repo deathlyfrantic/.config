@@ -5,6 +5,12 @@ if has('vim_starting')
     set encoding=utf-8
     " set termguicolors
     let $VIMHOME = split(&runtimepath, ',')[0]
+
+    " set sensible defaults for regular vim
+    if !has('nvim')
+        source $VIMHOME/minimal.vim
+    endif
+
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
     " kill default vim plugins i don't want
@@ -20,9 +26,9 @@ if has('vim_starting')
     endif
 
     " hide file cruft
-    let &directory = $VIMHOME.'/swap'
-    let &backupdir = $VIMHOME.'/backup'
-    let &undodir = $VIMHOME.'/undo'
+    let &directory            = $VIMHOME.'/swap'
+    let &backupdir            = $VIMHOME.'/backup'
+    let &undodir              = $VIMHOME.'/undo'
     let g:gutentags_cache_dir = $VIMHOME.'/tags'
 
     for dir in [&directory, &backupdir, &undodir, g:gutentags_cache_dir]
@@ -30,13 +36,6 @@ if has('vim_starting')
             silent! call mkdir(dir, 'p')
         endif
     endfor
-
-    " change cursor on insert mode for normal vim
-    if !has('nvim')
-        let &t_SI = "\<Esc>[5 q"
-        let &t_SR = "\<Esc>[3 q"
-        let &t_EI = "\<Esc>[2 q"
-    endif
 endif
 " --- end startup --- }}}
 
@@ -148,6 +147,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'kana/vim-textobj-user'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'glts/vim-textobj-comment'
+    Plug 'zandrmartin/vim-textobj-blanklines'
 
     " dev tools
     Plug 'SirVer/ultisnips'
@@ -186,15 +186,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
-
-    " my plugins
-    for p in ['distill', 'textobj-blanklines']
-        if isdirectory(expand('~/src/vim/'.p))
-            Plug '~/src/vim/'.p
-        else
-            Plug 'zandrmartin/vim-'.p
-        endif
-    endfor
 call plug#end()
 
 " if necessary, install all the plugins before doing a bunch of plugin stuff,
@@ -209,7 +200,7 @@ endif
 " --- general settings --- {{{
 set cinoptions+=:0
 set colorcolumn=120
-set complete+=i,d
+set complete+=i,d,kspell
 set completeopt-=preview
 set cursorline
 set expandtab
@@ -228,6 +219,7 @@ set nojoinspaces
 set nostartofline
 set nowrap
 set number
+set path+=**
 set shiftround
 set shiftwidth=4
 set showcmd
@@ -248,7 +240,7 @@ augroup rc_commands
     autocmd!
 
     " omni-complete
-    autocmd FileType * if index(['php'], &ft) == -1 | setlocal omnifunc=syntaxcomplete#Complete | endif
+    autocmd FileType * if &omnifunc == '' | set omnifunc=syntaxcomplete#Complete | endif
 
     " specify comment types for commentary
     autocmd FileType c,php setlocal commentstring=//%s
@@ -368,6 +360,10 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
+if $TERM !~? "termite"
+    " fix for gnome terminal and its shitty xterm-256color terminfo
+    nnoremap <BS>  <C-W>h
+endif
 
 " switch buffers
 nnoremap <silent> <M-h> :bprev<CR>

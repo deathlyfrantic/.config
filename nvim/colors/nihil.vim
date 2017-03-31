@@ -66,7 +66,7 @@ highlight PmenuThumb            ctermfg=NONE ctermbg=249  cterm=NONE           g
 highlight Error                 ctermfg=196  ctermbg=NONE cterm=NONE           guifg=#ff0000 guibg=NONE    gui=NONE
 highlight SpellBad              ctermfg=196  ctermbg=NONE cterm=underline      guifg=#ff0000 guibg=NONE    gui=underline
 highlight SpellCap              ctermfg=202  ctermbg=NONE cterm=underline      guifg=#ff5f00 guibg=NONE    gui=underline
-highlight Search                ctermfg=231  ctermbg=25   cterm=NONE           guifg=#ffffff guibg=#005fff gui=NONE
+highlight Search                ctermfg=231  ctermbg=27   cterm=NONE           guifg=#ffffff guibg=#005fff gui=NONE
 highlight TODO                  ctermfg=202  ctermbg=NONE cterm=bold,underline guifg=#ff5f00 guibg=NONE    gui=bold,underline
 highlight DiffAdd               ctermfg=46   ctermbg=28   cterm=NONE           guifg=#00ff00 guibg=#008700 gui=NONE
 highlight DiffChange            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
@@ -99,10 +99,10 @@ highlight Title                 ctermfg=NONE ctermbg=NONE cterm=NONE           g
 highlight Delimiter             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight StorageClass          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight Operator              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight ErrorMsg              ctermfg=196  ctermbg=NONE cterm=bold           guifg=#ff0000 guibg=NONE    gui=bold
+highlight ErrorMsg              ctermfg=231  ctermbg=196  cterm=bold           guifg=#ffffff guibg=#ff0000 gui=bold
+highlight WarningMsg            ctermfg=231  ctermbg=202  cterm=bold           guifg=#ffffff guibg=#ff5f00 gui=bold
 
-highlight! link WarningMsg            MatchParen
-highlight! link NeomakeWarningSign    WarningMsg
+highlight! link NeomakeWarningSign    MatchParen
 highlight! link NeomakeErrorSign      Error
 highlight! link GitGutterChange       GitGutterChangeDelete
 highlight! link GitGutterDelete       Error
@@ -132,4 +132,3 @@ highlight! link diffAdded             DiffAdd
 highlight! link diffRemoved           DiffDelete
 highlight! link mailQuoted1           String
 highlight! link mailQuoted2           Comment
-
