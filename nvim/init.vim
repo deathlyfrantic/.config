@@ -26,10 +26,10 @@ if has('vim_starting')
     endif
 
     " hide file cruft
-    let &directory            = $VIMHOME.'/swap'
-    let &backupdir            = $VIMHOME.'/backup'
-    let &undodir              = $VIMHOME.'/undo'
-    let g:gutentags_cache_dir = $VIMHOME.'/tags'
+    let &directory = $VIMHOME.'/swap'
+    let &backupdir = $VIMHOME.'/backup'
+    let &undodir   = $VIMHOME.'/undo'
+    let g:gutentags_cache_dir = $XDG_CACHE_HOME.'/tags'
 
     for dir in [&directory, &backupdir, &undodir, g:gutentags_cache_dir]
         if empty(glob(dir))
@@ -138,7 +138,6 @@ call plug#begin($VIMHOME.'/plugged')
     " filetypes
     Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
     Plug 'mitsuhiko/vim-jinja',           {'for': ['htmljinja', 'jinja']}
-    Plug 'kchmck/vim-coffee-script',      {'for': 'coffee'}
     Plug 'pangloss/vim-javascript',       {'for': 'javascript'}
 
     " text objects
@@ -292,13 +291,6 @@ augroup rc_commands
         \ if (executable('sass') || executable('sassc')) && expand('%:t')[0] != '_' |
         \     execute '!sass -t compressed '.expand('%:p').' '.expand('%:p:r').'.css' |
         \ endif
-
-    " 'compile' coffeescript on saving
-    autocmd BufWritePost *.coffee
-        \ if executable('coffee') |
-        \     execute '!coffee -c '.expand('%:p') |
-        \ endif |
-        \ call <SID>uglify_js(expand('%:p:r').'.js')
 
     " load fugitive on all buffers
     autocmd BufEnter * call fugitive#detect(getcwd())
