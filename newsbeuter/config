@@ -11,7 +11,7 @@ bind-key ^F pagedown
 bind-key ^B pageup
 bind-key g home
 bind-key G end
-browser qutebrowser --backend webengine
+browser google-chrome-stable
 
 # zenburn theme from https://gist.github.com/ivoarch/8256644
 color background color188 color237
