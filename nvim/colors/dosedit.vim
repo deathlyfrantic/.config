@@ -43,7 +43,7 @@ highlight VertSplit             ctermfg=248  ctermbg=16   cterm=NONE           g
 highlight String                ctermfg=103  ctermbg=NONE cterm=NONE           guifg=#8787af guibg=NONE    gui=NONE
 highlight WarningMsg            ctermfg=226  ctermbg=NONE cterm=NONE           guifg=#ffff00 guibg=NONE    gui=NONE
 highlight GitGutterAdd          ctermfg=46   ctermbg=NONE cterm=NONE           guifg=#00ff00 guibg=NONE    gui=NONE
-highlight MatchParen            ctermfg=226  ctermbg=NONE cterm=bold           guifg=#ffff00 guibg=NONE    gui=bold
+highlight MatchParen            ctermfg=46   ctermbg=NONE cterm=bold           guifg=#00ff00 guibg=NONE    gui=bold
 highlight WildMenu              ctermfg=248  ctermbg=16   cterm=NONE           guifg=#a8a8a8 guibg=#000000 gui=NONE
 highlight PmenuSbar             ctermfg=244  ctermbg=240  cterm=NONE           guifg=#808080 guibg=#585858 gui=NONE
 highlight PmenuThumb            ctermfg=NONE ctermbg=231  cterm=NONE           guifg=NONE    guibg=#a8a8a8 gui=NONE

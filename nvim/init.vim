@@ -3,7 +3,7 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    " set termguicolors
+    set termguicolors
     let $VIMHOME = split(&runtimepath, ',')[0]
 
     " set sensible defaults for regular vim
@@ -14,8 +14,8 @@ if has('vim_starting')
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
     " kill default vim plugins i don't want
-    let g:loaded_vimballPlugin = "v35"
-    let g:loaded_netrwPlugin = "v153"
+    let g:loaded_vimballPlugin = 'v35'
+    let g:loaded_netrwPlugin = 'v153'
     let g:loaded_tutor_mode_plugin = 1
     let g:loaded_2html_plugin = 'vim7.4_v1'
 
@@ -79,6 +79,7 @@ let g:UltiSnipsExpandTrigger = '<C-]>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
+let g:ultisnips_python_quoting_style = 'single'
 let g:snips_author = 'Zandr Martin'
 " }}}
 
@@ -173,11 +174,13 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'rstacruz/sparkup'
     Plug 'tommcdo/vim-exchange'
     Plug 'tommcdo/vim-lion'
+    Plug 'kshenoy/vim-signature'
 
     " tpope's special section
     Plug 'tpope/vim-abolish'
     Plug 'tpope/vim-characterize'
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-endwise'
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-repeat'
@@ -198,9 +201,10 @@ endif
 
 " --- general settings --- {{{
 set cinoptions+=:0
-set colorcolumn=120
+set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
+set completefunc=snippetcomplete#complete
 set cursorline
 set expandtab
 set fillchars=vert:\│,fold:-
@@ -214,6 +218,7 @@ set ignorecase
 set inccommand=split
 set lazyredraw
 set listchars=space:·,eol:¬,tab:▸\ ,trail:·,precedes:↪,extends:↩
+set mouse=
 set nojoinspaces
 set nostartofline
 set nowrap
@@ -221,10 +226,12 @@ set number
 set path+=**
 set shiftround
 set shiftwidth=4
+set sidescroll=1
 set showcmd
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
+set synmaxcol=500
 set title
 set ttimeout
 set ttimeoutlen=50
@@ -384,11 +391,12 @@ digraphs -1 128078
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
 
-if strftime("%H") < 9 || strftime("%H") > 18
-    Dark
-else
-    Bright
-endif
+colorscheme mastodon
+" execute (strftime("%H") < 9 || strftime("%H") > 18) ? "Dark" : "Bright"
+    " Dark
+" else
+    " Bright
+" endif
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}

@@ -5,17 +5,11 @@ function! s:source_local_vimrc()
     endif
 
     let l:dir = expand('%:p:h')
+    let l:vimrc = findfile('.vimrc', l:dir.';')
 
-    while l:dir != '/'
-        let l:vimrc = l:dir . '/' . '.vimrc'
-
-        if filereadable(l:vimrc)
-            execute 'source ' . l:vimrc
-            break
-        endif
-
-        let l:dir = fnamemodify(l:dir, ':h')
-    endwhile
+    if filereadable(l:vimrc)
+        execute 'source '.l:vimrc
+    endif
 endfunction
 
 autocmd BufNewFile,BufReadPost * call <SID>source_local_vimrc()
