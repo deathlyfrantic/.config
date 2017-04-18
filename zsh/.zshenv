@@ -12,7 +12,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export LESSHISTFILE=-
 export EDITOR=nvim
 export VISUAL=nvim
-export GDK_BACKEND=x11
+# export GDK_BACKEND=x11
 
 # aliases
 alias gpg2='gpg2 --homedir "$XDG_CONFIG_HOME/gnupg"'

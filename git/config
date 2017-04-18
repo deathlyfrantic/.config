@@ -25,3 +25,5 @@
 [diff]
     renames = true
     prompt = true
+[alias]
+    search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"

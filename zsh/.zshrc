@@ -6,7 +6,7 @@ autoload colors; colors
 
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
-unsetopt beep case_glob
+unsetopt beep case_glob flowcontrol
 
 # prompt
 P_user="%(!.%{$fg_bold[red]%}!!! %{$reset_color%}.)%{$fg[blue]%}%n%(!.%{$fg_bold[red]%} !!!%{$reset_color%}.)"
