@@ -3,7 +3,9 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    set termguicolors
+    if $TERM != 'linux'
+        set termguicolors
+    endif
     let $VIMHOME = split(&runtimepath, ',')[0]
 
     " set sensible defaults for regular vim
@@ -80,6 +82,7 @@ let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
 let g:ultisnips_python_quoting_style = 'single'
+let g:ultisnips_python_triple_quoting_style = 'double'
 let g:snips_author = 'Zandr Martin'
 " }}}
 
@@ -166,8 +169,8 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'ap/vim-buftabline'
 
     " text manipulation
-    Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
-    Plug 'dhruvasagar/vim-table-mode'
+    Plug 'Valloric/MatchTagAlways',    {'for': keys(g:mta_filetypes)}
+    Plug 'dhruvasagar/vim-table-mode', {'on':  'TableModeEnable'}
     Plug 'henrik/vim-indexed-search'
     Plug 'junegunn/vim-peekaboo'
     Plug 'nelstrom/vim-visual-star-search'
@@ -391,7 +394,11 @@ digraphs -1 128078
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
 
-colorscheme mastodon
+if $TERM == 'linux'
+    colorscheme default
+else
+    colorscheme mastodon
+endif
 " execute (strftime("%H") < 9 || strftime("%H") > 18) ? "Dark" : "Bright"
     " Dark
 " else
