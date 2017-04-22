@@ -18,5 +18,5 @@ else
     __status=" [$_status]"
 fi
 
-_output=$(escape_for_pango "$_artist - $_title$__status")
+_output="$_artist - $_title$__status"
 swaystag block -n "music" -o 1 -f "$_output" -st "$_title" $_remove

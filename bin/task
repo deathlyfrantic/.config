@@ -1,11 +1,8 @@
-#!/usr/bin/zsh
 node ~/src/tasks/tasks.js "$@"
-
 _status=$(node ~/src/tasks/tasks.js status)
-_escaped=$(escape_for_pango $_status)
 
 if [[ $_status == "" ]]; then
     swaystag block -n todo -r
 else
-    swaystag block -n todo -o "-1" -f "Tasks: $_escaped"
+    swaystag block -n todo -o "-1" -f "Tasks: $_status"
 fi

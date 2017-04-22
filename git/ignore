@@ -1,2 +1,4 @@
 .agignore
 .vimrc
+*.pyc
+venv
