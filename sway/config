@@ -42,8 +42,9 @@ set $term termite
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
 ### Output configuration
-output * bg ~/.config/sway/darkforest.jpg fill
-# output * bg ~/.config/sway/space-RGB-01.png fill
+# output * bg ~/Pictures/Wallpapers/darkforest.jpg fill
+# output * bg ~/Pictures/Wallpapers/space-RGB-01.png fill
+output * bg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg fill
 
 ### Key bindings
 # kill focused window
@@ -217,7 +218,7 @@ bindsym $mod+a focus parent
 for_window [title="gnome-calculator"] floating enable
 for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
-for_window [title="zenity"] floating enable
+for_window [id="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
 for_window [title="feh"] floating enable
 
@@ -262,5 +263,3 @@ smart_gaps on
 
 debuglog on
 exec_always xrdb -load ~/.config/x11/xresources
-
-include /etc/sway/security
