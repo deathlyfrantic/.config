@@ -134,3 +134,4 @@ highlight! link diffAdded          DiffAdd
 highlight! link diffRemoved        DiffDelete
 highlight! link mailQuoted1        String
 highlight! link mailQuoted2        Comment
+highlight! link pythonDocString    Comment
