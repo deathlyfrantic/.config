@@ -15,6 +15,7 @@ export VISUAL=nvim
 export WLC_REPEAT_DELAY=500
 export WLC_REPEAT_RATE=30
 export GDK_BACKEND=x11
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # aliases
 alias gpg2='gpg2 --homedir "$XDG_CONFIG_HOME/gnupg"'
@@ -31,7 +32,7 @@ alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 alias xmllint='xmllint --format'
 alias hog='du --max-depth=1 | sort -n'
 alias nb='newsbeuter'
-alias todo='todo.sh -d "$XDG_CONFIG_HOME"/todo.cfg'
+alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqlite3/sqliterc'
 
 # functions
 function escape_for_pango {
@@ -62,4 +63,8 @@ function precmd {
 
 function preexec {
     set_title $*
+}
+
+function mkcd {
+    mkdir -p $1 && cd $1
 }
