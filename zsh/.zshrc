@@ -24,10 +24,7 @@ else
     PROMPT=$P_base
 fi
 RPROMPT="%{$reset_color%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
-
-if [[ -x $(which venv_prompt.zsh 2> /dev/null) ]]; then
-    PROMPT='${$(venv_prompt.zsh)}'$PROMPT
-fi
+PROMPT='${$(venv_prompt)}'$PROMPT
 
 if [[ -x $(which gitprompt 2> /dev/null) ]]; then
     RPROMPT='${$(gitprompt)} '$RPROMPT
