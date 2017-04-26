@@ -167,17 +167,17 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
     Plug 'sjl/gundo.vim',     {'on': 'GundoToggle'}
     Plug 'ap/vim-buftabline'
+    Plug 'kshenoy/vim-signature'
 
     " text manipulation
     Plug 'Valloric/MatchTagAlways',    {'for': keys(g:mta_filetypes)}
-    Plug 'dhruvasagar/vim-table-mode', {'on':  'TableModeEnable'}
+    Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeEnable'}
     Plug 'henrik/vim-indexed-search'
     Plug 'junegunn/vim-peekaboo'
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'rstacruz/sparkup'
     Plug 'tommcdo/vim-exchange'
     Plug 'tommcdo/vim-lion'
-    Plug 'kshenoy/vim-signature'
 
     " tpope's special section
     Plug 'tpope/vim-abolish'
