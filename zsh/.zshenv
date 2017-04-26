@@ -34,37 +34,4 @@ alias hog='du --max-depth=1 | sort -n'
 alias nb='newsbeuter'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqlite3/sqliterc'
 
-# functions
-function escape_for_pango {
-    echo "$1" \
-        | sed -e 's/&/\&amp\;amp\;/g' \
-        | sed -e 's/>/\&gt\;/g' \
-        | sed -e 's/</\&lt\;/g' \
-        | sed -e "s/'/\&apos\;/g" \
-        | sed -e 's/"/\&quot\;/g'
-}
-
-function set_title {
-    local prefix=""
-
-    if [[ $SSH_CONNECTION != "" ]]; then
-        prefix="[$USER@$HOST] "
-    elif [[ $USER != "zandr" && $USER != "zmartin" ]]; then
-        prefix="[$USER] "
-    fi
-
-    print -n "\e]2;$prefix$1\a"
-}
-
-function precmd {
-    local dir=${PWD/$HOME/\~}
-    set_title "zsh $dir"
-}
-
-function preexec {
-    set_title $*
-}
-
-function mkcd {
-    mkdir -p $1 && cd $1
-}
+source $ZDOTDIR/functions.zsh
