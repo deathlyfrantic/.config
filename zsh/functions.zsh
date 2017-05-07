@@ -38,6 +38,9 @@ function venv_prompt {
         local vp=(
             "%{$reset_color%}["
             "%{$fg_bold[green]%}"
+            "$(basename $(dirname $VIRTUAL_ENV))"
+            "%{$reset_color%}|"
+            "%{$fg_bold[blue]%}"
             "$(basename $VIRTUAL_ENV)"
             "%{$reset_color%}] "
             "%{$fg_bold[black]%}::"
