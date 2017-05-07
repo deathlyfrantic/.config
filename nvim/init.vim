@@ -5,6 +5,7 @@ if has('vim_starting')
     set encoding=utf-8
     if $TERM != 'linux'
         set termguicolors
+        set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
     endif
     let $VIMHOME = split(&runtimepath, ',')[0]
 
@@ -12,8 +13,6 @@ if has('vim_starting')
     if !has('nvim')
         source $VIMHOME/minimal.vim
     endif
-
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
     " kill default vim plugins i don't want
     let g:loaded_vimballPlugin = 'v35'
@@ -203,7 +202,7 @@ endif
 " --- end plugins --- }}}
 
 " --- general settings --- {{{
-set cinoptions+=:0
+set cinoptions+=:0,(0
 set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
@@ -292,9 +291,6 @@ augroup rc_commands
         \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
         \     %s/\s\+$//e |
         \ endif
-
-    " uglify js files on saving, if they aren't already
-    " autocmd BufWritePost *.js call <SID>uglify_js(expand('%:p'))
 
     " 'compile' sass files on saving, if they aren't _something.scss files
     autocmd BufWritePost *.scss
@@ -412,7 +408,7 @@ set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %m\ %r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%c\ \|\ %l/%L\ \|\ %p%%%(\ %)
+set statusline+=%v\ \|\ %l/%L\ \|\ %p%%%(\ %)
 " }}}
 " --- end colors and appearance --- }}}
 

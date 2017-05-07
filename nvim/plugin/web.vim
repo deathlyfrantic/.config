@@ -28,15 +28,10 @@ function! s:google_operator(type) abort
 endfunction
 
 function! s:google(url)
-    if a:url =~? 'http'
-        let l:url = a:url
-    else
-        let l:url = 'https://duckduckgo.com/?q='.a:url
-    endif
+    let l:url = (a:url =~? 'http') ? a:url : 'https://duckduckgo.com/?q='.a:url
     call <SID>browser(l:url)
 endfunction
 
 function! s:browser(url)
-    let l:command = '!xdg-open "'.a:url.'"'
-    silent execute l:command
+    silent execute '!xdg-open "'.a:url.'"'
 endfunction
