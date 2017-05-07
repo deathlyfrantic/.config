@@ -33,5 +33,6 @@ alias xmllint='xmllint --format'
 alias hog='du --max-depth=1 | sort -n'
 alias nb='newsbeuter'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqlite3/sqliterc'
+alias id3v2='mid3v2'
 
 source $ZDOTDIR/functions.zsh

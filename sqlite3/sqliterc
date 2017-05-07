@@ -1,1 +1,2 @@
 .headers ON
+.log /home/zandr/.local/share/sqlite-history

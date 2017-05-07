@@ -94,3 +94,7 @@ else
     mkdir -p $ADOTDIR
     git clone https://github.com/zsh-users/antigen $ADOTDIR
 fi
+
+if [[ $TERM == 'xterm-termite' ]]; then
+    source /etc/profile.d/vte.sh
+fi
