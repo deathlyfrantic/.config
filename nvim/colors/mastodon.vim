@@ -30,25 +30,6 @@ endif
 
 let g:colors_name = 'mastodon'
 
-" colors
-" 191b22
-" 282c37
-" 393f4f
-" 3b434e
-" 444b5d
-" 4c5269
-" 5b606a
-" 606984
-" 707b97
-" b2becd
-" 92a1b4
-" 9baec8
-" ffffff
-" ca8f04
-" 2588d0
-" ebebeb
-" c4c8d2
-
 highlight Normal                guifg=#c4c8d2 guibg=#282c37 gui=NONE
 highlight Visual                guifg=NONE    guibg=#191b22 gui=NONE
 highlight CursorLine            guifg=NONE    guibg=#30343f gui=NONE
@@ -77,6 +58,7 @@ highlight GitGutterAdd          guifg=#00f57a guibg=NONE    gui=NONE
 highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE
 highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold
 highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold
+highlight Whitespace            guifg=#30343f guibg=NONE    gui=NONE
 
 highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE
 highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE
