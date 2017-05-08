@@ -1,0 +1,17 @@
+export XDG_CONFIG_HOME="$HOME"/.config
+export XDG_CACHE_HOME="$HOME"/.cache
+export XDG_DATA_HOME="$HOME"/.local/share
+export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
+export INPUTRC="$XDG_CONFIG_HOME"/inputrc
+export ICEAUTHORITY="$XDG_CONFIG_HOME"/x11/iceauthority
+export XAUTHORITY="$XDG_CONFIG_HOME"/x11/xauthority
+export XINITRC="$XDG_CONFIG_HOME"/x11/xinitrc
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
+export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
+export LESSHISTFILE=-
+export EDITOR=nvim
+export VISUAL=nvim
+export WLC_REPEAT_DELAY=500
+export WLC_REPEAT_RATE=30
+export GDK_BACKEND=x11
+export VIRTUAL_ENV_DISABLE_PROMPT=1
