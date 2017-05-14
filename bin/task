@@ -1,8 +1,8 @@
-node ~/src/tasks/tasks.js "$@"
-_status=$(node ~/src/tasks/tasks.js status)
+~/src/pytasks/venv/bin/python ~/src/pytasks/tasks.py "$@"
+_status=$(~/src/pytasks/venv/bin/python ~/src/pytasks/tasks.py status)
 
 if [[ $_status == "" ]]; then
     swaystag block -n todo -r
 else
-    swaystag block -n todo -o "-1" -f "Tasks: $_status"
+    swaystag block -n todo -o 1 -f "Tasks: $_status"
 fi

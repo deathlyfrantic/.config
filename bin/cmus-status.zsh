@@ -19,4 +19,4 @@ else
 fi
 
 _output="$_artist - $_title$__status"
-swaystag block -n "music" -o 1 -f "$_output" -st "$_title" $_remove
+swaystag block -n "music" -o 10 -f "$_output" -st "$_title" $_remove
