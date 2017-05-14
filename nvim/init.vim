@@ -159,6 +159,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'mhinz/vim-grepper'
     Plug 'neomake/neomake'
+    Plug 'sjl/strftimedammit.vim'
 
     " panels
     Plug 'ctrlpvim/ctrlp.vim'
@@ -166,7 +167,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
     Plug 'sjl/gundo.vim',     {'on': 'GundoToggle'}
     Plug 'ap/vim-buftabline'
-    Plug 'kshenoy/vim-signature'
 
     " text manipulation
     Plug 'Valloric/MatchTagAlways',    {'for': keys(g:mta_filetypes)}
@@ -331,6 +331,9 @@ nmap Y y$
 
 " sudo write
 cnoremap w!! w !sudo tee % > /dev/null
+
+" current directory in command-line
+cnoremap %% <C-R>=fnameescape(expand('%:p:h')).'/'<CR>
 
 " command-line up/down
 cnoremap <C-k> <Up>
