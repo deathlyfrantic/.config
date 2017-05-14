@@ -1,9 +1,8 @@
-### Variables
-#
 # logo key
 set $mod Mod4
 
 # workspaces
+set $ws0 0
 set $ws1 1
 set $ws2 2
 set $ws3 3
@@ -16,19 +15,26 @@ set $ws9 9
 set $ws10 10
 set $ws11 11
 set $ws12 12
+set $ws13 0′
+set $ws14 1′
+set $ws15 2′
+set $ws16 3′
+set $ws17 4′
+set $ws18 5′
+set $ws19 6′
+set $ws20 7′
+set $ws21 8′
+set $ws22 9′
+set $ws23 10′
+set $ws24 11′
+set $ws25 12′
 
 # terminal
 set $term termite
-# set $term st -f Input:pixelsize=16
-# set $term st -f "Fira Mono Medium:pixelsize=15"
 
 # launcher
 set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 
-### Output configuration
-# output * bg ~/.config/sway/darkforest.jpg fill
-
-### Key bindings
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -36,13 +42,13 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
-bindsym $mod+XF86TouchpadToggle workspace "Settings"; exec $term -e "zsh -c 'nvim ~/.config/i3/config'"
+bindsym $mod+XF86TouchpadToggle exec $term -e "zsh -c 'nvim ~/.config/i3/config'"
 bindsym $mod+c exec google-chrome-stable
 bindsym $mod+q exec qutebrowser
 bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
 bindsym $mod+i exec $term -e "zsh -c 'tmux attach'"
-bindsym $mod+m workspace 12; exec $term -e "zsh -c 'cmus'"
+bindsym $mod+m workspace $ws0; exec $term -e "zsh -c 'cmus'"
 bindsym $mod+t exec corebird
 
 # brightness
@@ -51,22 +57,21 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
 bindsym XF86AudioPlay exec cmus-remote -u
-bindsym XF86AudioRaiseVolume exec ~/.config/sway/volume.zsh up
-bindsym XF86AudioLowerVolume exec ~/.config/sway/volume.zsh down
-bindsym XF86AudioMute exec ~/.config/sway/volume.zsh mute
+bindsym XF86AudioRaiseVolume exec volume.zsh up
+bindsym XF86AudioLowerVolume exec volume.zsh down
+bindsym XF86AudioMute exec volume.zsh mute
 
 # screenshots
-bindsym Print exec swaygrab
-bindsym $mod+Print exec swaygrab -f
+bindsym Print exec "maim -g $(slop) > ~/screenshot-$(date +'%Y%m%d%H%M%S').png"
 
-# lock screen using swaylock
-bindsym $mod+Pause exec swaylock -c 000000aa -i ~/.config/sway/500-100-60-monochrome.png -s tile
+floating_modifier $mod
 
 # reload the configuration file
+bindsym $mod+Shift+r restart
 bindsym $mod+Shift+c reload
 
-# exit sway (logs you out of your wayland session)
-bindsym $mod+Shift+e exit
+# exit i3
+bindsym $mod+Shift+e exec zenity --question --text="Are you sure you want to exit i3?" && i3-msg -t command "exit"
 
 # Move your focus around with $mod+[h|j|k|l], like vim
 bindsym $mod+h focus left
@@ -89,9 +94,9 @@ bindsym $mod+Shift+Left resize shrink width 10 px
 bindsym $mod+Shift+Right resize grow width 10 px
 bindsym $mod+Shift+Down resize shrink height 10 px
 bindsym $mod+Shift+Up resize grow height 10 px
-#
-# Workspaces:
+ 
 # assign to outputs
+workspace $ws0 output HDMI-1
 workspace $ws1 output HDMI-1
 workspace $ws2 output HDMI-1
 workspace $ws3 output HDMI-1
@@ -106,6 +111,7 @@ workspace $ws11 output HDMI-2
 workspace $ws12 output HDMI-2
 
 # switch to workspace
+bindsym $mod+asciitilde workspace $ws0
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -118,6 +124,19 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 bindsym $mod+minus workspace $ws11
 bindsym $mod+equal workspace $ws12
+bindsym $mod+Ctrl+asciitilde workspace $ws13
+bindsym $mod+Ctrl+1 workspace $ws14
+bindsym $mod+Ctrl+2 workspace $ws15
+bindsym $mod+Ctrl+3 workspace $ws16
+bindsym $mod+Ctrl+4 workspace $ws17
+bindsym $mod+Ctrl+5 workspace $ws18
+bindsym $mod+Ctrl+6 workspace $ws19
+bindsym $mod+Ctrl+7 workspace $ws20
+bindsym $mod+Ctrl+8 workspace $ws21
+bindsym $mod+Ctrl+9 workspace $ws22
+bindsym $mod+Ctrl+0 workspace $ws23
+bindsym $mod+Ctrl+minus workspace $ws24
+bindsym $mod+Ctrl+equal workspace $ws25
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -132,12 +151,21 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 bindsym $mod+Shift+minus move container to workspace $ws11
 bindsym $mod+Shift+equal move container to workspace $ws12
+bindsym $mod+Ctrl+Shift+asciitilde move container to workspace $ws13
+bindsym $mod+Ctrl+Shift+1 move container to workspace $ws14
+bindsym $mod+Ctrl+Shift+2 move container to workspace $ws15
+bindsym $mod+Ctrl+Shift+3 move container to workspace $ws16
+bindsym $mod+Ctrl+Shift+4 move container to workspace $ws17
+bindsym $mod+Ctrl+Shift+5 move container to workspace $ws18
+bindsym $mod+Ctrl+Shift+6 move container to workspace $ws19
+bindsym $mod+Ctrl+Shift+7 move container to workspace $ws20
+bindsym $mod+Ctrl+Shift+8 move container to workspace $ws21
+bindsym $mod+Ctrl+Shift+9 move container to workspace $ws22
+bindsym $mod+Ctrl+Shift+0 move container to workspace $ws23
+bindsym $mod+Ctrl+Shift+minus move container to workspace $ws24
+bindsym $mod+Ctrl+Shift+equal move container to workspace $ws25
 
-# Layout stuff:
-#
-# You can "split" the current object of your focus with
-# $mod+s or $mod+v, for horizontal and vertical splits
-# respectively.
+# splits
 bindsym $mod+b splith
 bindsym $mod+v splitv
 
@@ -165,24 +193,18 @@ for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
 for_window [title="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
+for_window [window_role="conversation"] floating enable
 
-# Scratchpad:
-#
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
-
-# Move the currently focused window to the scratchpad
+# scratchpad
 bindsym $mod+Shift+backslash move scratchpad
-
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+backslash scratchpad show
 
-# swaybar
+# statusbar
 bar {
     position top
     font pango:Noto Sans UI 10
     status_command zsh -c "~/src/swaystag/swaystag.py server"
+    separator_symbol " | "
     colors {
         statusline #e2e4e9
         background #000000
@@ -190,18 +212,22 @@ bar {
         active_workspace #333333ff #5f676aff #e2e4e9ff
         inactive_workspace #000000ff #000000ff #5c5c5cff
     }
+    tray_padding 3
+    tray_output HDMI-2
+    bindsym button4 nop
+    bindsym button5 nop
 }
 
-new_window pixel 1
-new_float pixel 1
+# window decorations/borders
+new_window pixel 2
+new_float pixel 2
 hide_edge_borders both
 
 # gaps
-gaps inner 10
+gaps inner 8
 smart_gaps on
 
-# force_focus_wrapping no
-
-# debuglog on
-# exec_always xrdb -load ~/.config/x11/xresources
-exec_always "feh --bg-scale --no-fehbg ~/.config/sway/space-RGB-01.png"
+# exec
+exec_always "feh --bg-scale --no-fehbg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg"
+exec "xset s off"
+exec "xset -dpms"

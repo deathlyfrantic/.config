@@ -7,10 +7,9 @@ from urllib import parse
 URL = 'https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22{}%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'
 
 def get_weather(location):
-    req = requests.get(URL.format(parse.quote(location)))
-    response = req.json()
-
     try:
+        req = requests.get(URL.format(parse.quote(location)))
+        response = req.json()
         conditions = response['query']['results']['channel']['item']['condition']
         temp = conditions['temp']
         desc = conditions['text']
