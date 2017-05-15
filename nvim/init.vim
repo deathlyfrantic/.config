@@ -206,7 +206,7 @@ set cinoptions+=:0,(0
 set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
-set completefunc=snippetcomplete#complete
+set completefunc=completion#snippet
 set cursorline
 set expandtab
 set fillchars=vert:\│,fold:-
@@ -383,6 +383,10 @@ vnoremap > >gv
 " maintain visual mode for increment/decrement
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
+
+" completion
+inoremap <expr> <silent> <Tab> completion#tab(1)
+inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
 " digraphs
 digraphs +1 128077
