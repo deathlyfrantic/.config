@@ -1,8 +1,0 @@
-host localhost
-port 5001
-spawn while true; do ~/src/swaystag/swaystag.py block -o 998 -n "calendar" -f "$(date +'%a %m/%d/%Y')"; sleep 21600; done
-spawn while true; do ~/src/swaystag/swaystag.py block -o 999 -n "clock" -f "$(date +'%r')"; sleep 1; done
-spawn volume.zsh
-spawn while true; do task > /dev/null; sleep 21600; done
-spawn while true; do check-arch-updates.zsh; sleep 3600; done
-spawn while true; do ~/bin/weather-status.zsh; sleep 3600; done

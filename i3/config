@@ -33,7 +33,8 @@ set $ws25 12′
 set $term termite
 
 # launcher
-set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
+# set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
+set $menu i3-dmenu-desktop --dmenu='dmenu -i -l 5 -fn "Noto Sans UI Regular:pixelsize=14"'
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -193,7 +194,6 @@ for_window [title="Open Files"] floating enable
 for_window [title="Open File"] floating enable
 for_window [title="zenity"] floating enable
 for_window [title="Unlock Login Key"] floating enable
-for_window [window_role="conversation"] floating enable
 
 # scratchpad
 bindsym $mod+Shift+backslash move scratchpad
@@ -203,7 +203,7 @@ bindsym $mod+backslash scratchpad show
 bar {
     position top
     font pango:Noto Sans UI 10
-    status_command zsh -c "~/src/swaystag/swaystag.py server"
+    status_command zsh -c "~/src/stag/stag.py server"
     separator_symbol " | "
     colors {
         statusline #e2e4e9
@@ -231,3 +231,5 @@ smart_gaps on
 exec_always "feh --bg-scale --no-fehbg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg"
 exec "xset s off"
 exec "xset -dpms"
+exec "xmodmap ~/.config/x11/xmodmaprc"
+exec pidgin
