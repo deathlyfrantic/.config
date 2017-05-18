@@ -3,11 +3,12 @@ let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
-    if $TERM != 'linux'
+    let $VIMHOME = split(&runtimepath, ',')[0]
+
+    if $TERM != 'linux' && has('nvim')
         set termguicolors
         set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
     endif
-    let $VIMHOME = split(&runtimepath, ',')[0]
 
     " set sensible defaults for regular vim
     if !has('nvim')
@@ -174,7 +175,7 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'henrik/vim-indexed-search'
     Plug 'junegunn/vim-peekaboo'
     Plug 'nelstrom/vim-visual-star-search'
-    Plug 'rstacruz/sparkup'
+    Plug 'zandrmartin/vim-sparkup/'
     Plug 'tommcdo/vim-exchange'
     Plug 'tommcdo/vim-lion'
 
@@ -225,7 +226,6 @@ set nojoinspaces
 set nostartofline
 set nowrap
 set number
-set path+=**
 set shiftround
 set shiftwidth=4
 set sidescroll=1
@@ -346,9 +346,9 @@ command! -bang Wbd w<bang> | bd<bang>
 " hide search highlighting
 nnoremap <silent> <Space> :nohlsearch<CR>
 
-" [G]o [B]ack and [G]o [F]orward
-nnoremap gb <C-o>
-nnoremap gf <C-i>
+" " [G]o [B]ack and [G]o [F]orward
+" nnoremap gb <C-o>
+" nnoremap gf <C-i>
 
 " resize windows
 nnoremap <C-Left>  <C-W><
@@ -363,7 +363,7 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 if $TERM !~? "termite"
     " fix for gnome terminal and its shitty xterm-256color terminfo
-    nnoremap <BS>  <C-W>h
+    nnoremap <BS> <C-W>h
 endif
 
 " switch buffers
