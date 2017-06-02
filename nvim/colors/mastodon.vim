@@ -30,62 +30,62 @@ endif
 
 let g:colors_name = 'mastodon'
 
-highlight Normal                guifg=#c4c8d2 guibg=#282c37 gui=NONE
-highlight Visual                guifg=NONE    guibg=#191b22 gui=NONE
-highlight CursorLine            guifg=NONE    guibg=#30343f gui=NONE
-highlight CursorLineNr          guifg=#9baec8 guibg=#30343f gui=NONE
-highlight LineNr                guifg=#4c5269 guibg=NONE    gui=NONE
-highlight StatusLine            guifg=#c4c8d2 guibg=#444b5d gui=NONE
-highlight StatusLineNC          guifg=#444b5d guibg=#191b22 gui=NONE
-highlight VertSplit             guifg=#191b22 guibg=NONE    gui=NONE
-highlight Comment               guifg=#606984 guibg=NONE    gui=NONE
-highlight String                guifg=#9ca7c9 guibg=NONE    gui=NONE
-highlight MatchParen            guifg=#ff7722 guibg=NONE    gui=bold
-highlight Pmenu                 guifg=#c4c8d2 guibg=#444b5d gui=NONE
-highlight PmenuSbar             guifg=#707b97 guibg=#707b97 gui=NONE
-highlight PmenuThumb            guifg=NONE    guibg=#3b434e gui=NONE
-highlight Error                 guifg=#f50039 guibg=NONE    gui=NONE
-highlight SpellBad              guifg=#f50039 guibg=NONE    gui=underline
-highlight SpellCap              guifg=#ff7722 guibg=NONE    gui=underline
-highlight Search                guifg=#ffffff guibg=#1f72ad gui=NONE
-highlight TODO                  guifg=#ff7722 guibg=NONE    gui=bold,underline
-highlight DiffAdd               guifg=#00f57a guibg=#006633 gui=NONE
-highlight DiffChange            guifg=#e2e212 guibg=NONE    gui=NONE
-highlight DiffText              guifg=#e2e212 guibg=#636303 gui=NONE
-highlight DiffDelete            guifg=#f50039 guibg=#80001e gui=NONE
-highlight GitGutterChange       guifg=#ff7722 guibg=NONE    gui=NONE
-highlight GitGutterAdd          guifg=#00f57a guibg=NONE    gui=NONE
-highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE
-highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold
-highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold
-highlight Whitespace            guifg=#30343f guibg=NONE    gui=NONE
+highlight Normal                guifg=#c4c8d2 guibg=#282c37 gui=NONE           cterm=NONE           term=NONE
+highlight Visual                guifg=NONE    guibg=#191b22 gui=NONE           cterm=NONE           term=NONE
+highlight CursorLine            guifg=NONE    guibg=#30343f gui=NONE           cterm=NONE           term=NONE
+highlight CursorLineNr          guifg=#9baec8 guibg=#30343f gui=NONE           cterm=NONE           term=NONE
+highlight LineNr                guifg=#4c5269 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight StatusLine            guifg=#c4c8d2 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
+highlight StatusLineNC          guifg=#444b5d guibg=#191b22 gui=NONE           cterm=NONE           term=NONE
+highlight VertSplit             guifg=#191b22 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Comment               guifg=#606984 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight String                guifg=#9ca7c9 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight MatchParen            guifg=#ff7722 guibg=NONE    gui=bold           cterm=NONE           term=NONE
+highlight Pmenu                 guifg=#c4c8d2 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
+highlight PmenuSbar             guifg=#707b97 guibg=#707b97 gui=NONE           cterm=NONE           term=NONE
+highlight PmenuThumb            guifg=NONE    guibg=#3b434e gui=NONE           cterm=NONE           term=NONE
+highlight Error                 guifg=#f50039 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight SpellBad              guifg=#f50039 guibg=NONE    gui=underline      cterm=underline      term=underline
+highlight SpellCap              guifg=#ff7722 guibg=NONE    gui=underline      cterm=underline      term=underline
+highlight Search                guifg=#ffffff guibg=#1f72ad gui=NONE           cterm=NONE           term=NONE
+highlight TODO                  guifg=#ff7722 guibg=NONE    gui=bold,underline cterm=bold,underline term=bold,underline
+highlight DiffAdd               guifg=#00f57a guibg=#006633 gui=NONE           cterm=NONE           term=NONE
+highlight DiffChange            guifg=#e2e212 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight DiffText              guifg=#e2e212 guibg=#636303 gui=NONE           cterm=NONE           term=NONE
+highlight DiffDelete            guifg=#f50039 guibg=#80001e gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterChange       guifg=#ff7722 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterAdd          guifg=#00f57a guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold           cterm=bold           term=bold
+highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold           cterm=bold           term=bold
+highlight Whitespace            guifg=#30343f guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 
-highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE
-highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE
-highlight Directory             guifg=NONE    guibg=NONE    gui=NONE
-highlight Underlined            guifg=NONE    guibg=NONE    gui=NONE
-highlight Question              guifg=NONE    guibg=NONE    gui=NONE
-highlight MoreMsg               guifg=NONE    guibg=NONE    gui=NONE
-highlight ModeMsg               guifg=NONE    guibg=NONE    gui=NONE
-highlight SpellRare             guifg=NONE    guibg=NONE    gui=NONE
-highlight SpellLocal            guifg=NONE    guibg=NONE    gui=NONE
-highlight Boolean               guifg=NONE    guibg=NONE    gui=NONE
-highlight Constant              guifg=NONE    guibg=NONE    gui=NONE
-highlight Special               guifg=NONE    guibg=NONE    gui=NONE
-highlight Identifier            guifg=NONE    guibg=NONE    gui=NONE
-highlight Statement             guifg=NONE    guibg=NONE    gui=NONE
-highlight PreProc               guifg=NONE    guibg=NONE    gui=NONE
-highlight Type                  guifg=NONE    guibg=NONE    gui=NONE
-highlight Define                guifg=NONE    guibg=NONE    gui=NONE
-highlight Number                guifg=NONE    guibg=NONE    gui=NONE
-highlight Function              guifg=NONE    guibg=NONE    gui=NONE
-highlight Include               guifg=NONE    guibg=NONE    gui=NONE
-highlight PreCondit             guifg=NONE    guibg=NONE    gui=NONE
-highlight Keyword               guifg=NONE    guibg=NONE    gui=NONE
-highlight Title                 guifg=NONE    guibg=NONE    gui=NONE
-highlight Delimiter             guifg=NONE    guibg=NONE    gui=NONE
-highlight StorageClass          guifg=NONE    guibg=NONE    gui=NONE
-highlight Operator              guifg=NONE    guibg=NONE    gui=NONE
+highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Directory             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Underlined            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Question              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight MoreMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight ModeMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight SpellRare             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight SpellLocal            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Boolean               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Constant              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Special               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Identifier            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Statement             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight PreProc               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Type                  guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Define                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Number                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Function              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Include               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight PreCondit             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Keyword               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Title                 guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Delimiter             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight StorageClass          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Operator              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 
 highlight! link TabLine                 StatusLine
 highlight! link WildMenu                Search
@@ -119,3 +119,4 @@ highlight! link mailQuoted2             Comment
 highlight! link pythonDocString         Comment
 highlight! link TagbarVisibilityPublic  GitGutterAdd
 highlight! link TagbarVisibilityPrivate GitGutterDelete
+highlight! link Sneak                   Search
