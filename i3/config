@@ -204,7 +204,7 @@ bar {
     position top
     font pango:Noto Sans UI 10
     status_command zsh -c "~/src/stag/stag.py server"
-    separator_symbol " | "
+    separator_symbol "|"
     colors {
         statusline #e2e4e9
         background #000000
@@ -222,6 +222,7 @@ bar {
 new_window pixel 2
 new_float pixel 2
 hide_edge_borders both
+font pango:Noto Sans UI 10
 
 # gaps
 gaps inner 8
@@ -229,7 +230,4 @@ smart_gaps on
 
 # exec
 exec_always "feh --bg-scale --no-fehbg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg"
-exec "xset s off"
-exec "xset -dpms"
-exec "xmodmap ~/.config/x11/xmodmaprc"
 exec pidgin

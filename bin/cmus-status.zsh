@@ -8,11 +8,9 @@ do
 done
 
 _remove=""
-if [[ $_status == "stopped" ]]
-then
+if [[ $_status == "stopped" ]]; then
     _remove="--remove"
-elif [[ $_status == "playing" ]]
-then
+elif [[ $_status == "playing" ]]; then
     __status=""
 else
     __status=" [$_status]"

@@ -1,4 +1,9 @@
 [[ -f "$XDG_CONFIG_HOME"/x11/xresources ]] && xrdb -merge "$XDG_CONFIG_HOME"/x11/xresources
-xmodmap "$XDG_CONFIG_HOME"/x11/xmodmaprc
-#setxkbmap -option "ctrl:swapcaps"
-exec i3 -d all
+
+xset s off
+xset -dpms
+xset r rate 300 25
+
+xmodmap ~/.config/x11/xmodmaprc
+
+exec i3
