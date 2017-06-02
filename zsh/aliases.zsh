@@ -10,7 +10,7 @@ alias irssi='irssi --config="$XDG_CONFIG_HOME"/irssi/config --home="$XDG_CONFIG_
 alias sway='sway-run.zsh'
 alias startx='startx "$XDG_CONFIG_HOME"/x11/xinitrc'
 alias xmllint='xmllint --format'
-alias hog='du --max-depth=1 | sort -n'
+alias hog='du --max-depth=1 -h | sort -h'
 alias nb='newsbeuter'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqlite3/sqliterc'
 alias id3v2='mid3v2'
