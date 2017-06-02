@@ -57,8 +57,9 @@ let g:ignore_patterns = [
     \ ]
 " }}}
 
-" sparkup {{{
-let g:sparkupExecuteMapping = '<C-^>'
+" ale {{{
+nmap [w <Plug>(ale_previous_wrap)
+nmap ]w <Plug>(ale_next_wrap)
 " }}}
 
 " grepper {{{
@@ -122,6 +123,12 @@ let g:mta_filetypes = {
     \ }
 " }}}
 
+" sparkup {{{
+let g:sparkupExecuteMapping = '<C-^>'
+let g:sparkupNextMapping = '<C-f>'
+let g:sparkupFiletypes = keys(g:mta_filetypes)
+" }}}
+
 " buftabline {{{
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
@@ -159,8 +166,9 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'junegunn/gv.vim'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'mhinz/vim-grepper'
-    Plug 'neomake/neomake'
+    " Plug 'neomake/neomake'
     Plug 'sjl/strftimedammit.vim'
+    Plug 'w0rp/ale'
 
     " panels
     Plug 'ctrlpvim/ctrlp.vim'
@@ -263,8 +271,8 @@ augroup rc_commands
     autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
 
     " check all the things (except when quitting)
-    autocmd BufWritePost * call <SID>neomake_check_on_write()
-    autocmd QuitPre * let w:neomake_quitting = 1
+    " autocmd BufWritePost * call <SID>neomake_check_on_write()
+    " autocmd QuitPre * let w:neomake_quitting = 1
 
     " quit even if dirvish or quickfix is open
     autocmd BufEnter *
@@ -402,11 +410,6 @@ if $TERM == 'linux'
 else
     colorscheme mastodon
 endif
-" execute (strftime("%H") < 9 || strftime("%H") > 18) ? "Dark" : "Bright"
-    " Dark
-" else
-    " Bright
-" endif
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
