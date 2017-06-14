@@ -35,8 +35,8 @@ let g:colors_name = 'nihil'
 if &background == 'dark'
   highlight Normal          ctermfg=249  ctermbg=16   cterm=NONE guifg=#b2b2b2 guibg=#000000 gui=NONE
   highlight Visual          ctermfg=16   ctermbg=249  cterm=NONE guifg=#000000 guibg=#b2b2b2 gui=NONE
-  highlight Cursorline      ctermfg=NONE ctermbg=234  cterm=NONE guifg=NONE    guibg=#1c1c1c gui=NONE
-  highlight CursorLineNr    ctermfg=249  ctermbg=234  cterm=NONE guifg=#b2b2b2 guibg=#1c1c1c gui=NONE
+  highlight Cursorline      ctermfg=NONE ctermbg=233  cterm=NONE guifg=NONE    guibg=#121212 gui=NONE
+  highlight CursorLineNr    ctermfg=249  ctermbg=233  cterm=NONE guifg=#b2b2b2 guibg=#121212 gui=NONE
   highlight StatusLine      ctermfg=16   ctermbg=245  cterm=NONE guifg=#000000 guibg=#8a8a8a gui=NONE
   highlight StatusLineNC    ctermfg=16   ctermbg=238  cterm=NONE guifg=#000000 guibg=#444444 gui=NONE
   highlight LineNr          ctermfg=238  ctermbg=NONE cterm=NONE guifg=#444444 guibg=NONE    gui=NONE
