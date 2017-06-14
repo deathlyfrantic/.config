@@ -5,3 +5,5 @@ include "/usr/share/X11/locale/en_US.UTF-8/Compose"
 <Multi_key> <8> <parenright> : "😎" U1F60E
 <Multi_key> <t> <f> : "(╯°□°)╯︵ ┻━┻"
 <Multi_key> <d> <w> <i> : "(•_•) ( •_•)>⌐■-■ (⌐■_■)"
+<Multi_key> <r> <e> : "🙄" U1F644
+<Multi_key> <m> <f> : "🖕" U1F595
