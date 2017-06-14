@@ -32,6 +32,10 @@ set $ws25 12′
 # terminal
 set $term termite
 
+# monitors
+set $left HDMI-1
+set $right HDMI-2
+
 # launcher
 # set $menu dmenu_run -fn "Noto Sans UI Regular 10" -i -l 5
 set $menu i3-dmenu-desktop --dmenu='dmenu -i -l 5 -fn "Noto Sans UI Regular:pixelsize=14"'
@@ -97,19 +101,19 @@ bindsym $mod+Shift+Down resize shrink height 10 px
 bindsym $mod+Shift+Up resize grow height 10 px
  
 # assign to outputs
-workspace $ws0 output HDMI-1
-workspace $ws1 output HDMI-1
-workspace $ws2 output HDMI-1
-workspace $ws3 output HDMI-1
-workspace $ws4 output HDMI-1
-workspace $ws5 output HDMI-1
-workspace $ws6 output HDMI-1
-workspace $ws7 output HDMI-2
-workspace $ws8 output HDMI-2
-workspace $ws9 output HDMI-2
-workspace $ws10 output HDMI-2
-workspace $ws11 output HDMI-2
-workspace $ws12 output HDMI-2
+workspace $ws0 output $right
+workspace $ws1 output $right
+workspace $ws2 output $right
+workspace $ws3 output $right
+workspace $ws4 output $right
+workspace $ws5 output $right
+workspace $ws6 output $right
+workspace $ws7 output $left
+workspace $ws8 output $left
+workspace $ws9 output $left
+workspace $ws10 output $left
+workspace $ws11 output $left
+workspace $ws12 output $left
 
 # switch to workspace
 bindsym $mod+asciitilde workspace $ws0
@@ -140,6 +144,7 @@ bindsym $mod+Ctrl+minus workspace $ws24
 bindsym $mod+Ctrl+equal workspace $ws25
 
 # move focused container to workspace
+bindsym $mod+Shift+asciitilde move container to workspace $ws0
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
@@ -213,7 +218,7 @@ bar {
         inactive_workspace #000000ff #000000ff #5c5c5cff
     }
     tray_padding 3
-    tray_output HDMI-2
+    tray_output $left
     bindsym button4 nop
     bindsym button5 nop
 }
