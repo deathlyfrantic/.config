@@ -1,5 +1,4 @@
 " --- startup processes --- {{{
-let s:install_plugins = 0
 if has('vim_starting')
     " stuff that should only have to happen once
     set encoding=utf-8
@@ -23,8 +22,8 @@ if has('vim_starting')
 
     " install vim-plug if it's not already
     if !filereadable($VIMHOME.'/autoload/plug.vim')
-        let s:install_plugins = 1
         execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+        autocmd VimEnter * PlugInstall | UpdateRemotePlugins | source $MYVIMRC
     endif
 
     " hide file cruft
@@ -200,14 +199,6 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
 call plug#end()
-
-" if necessary, install all the plugins before doing a bunch of plugin stuff,
-" then quit because i'll have to restart anyway
-if s:install_plugins
-    PlugInstall
-    UpdateRemotePlugins
-    quit
-endif
 " --- end plugins --- }}}
 
 " --- general settings --- {{{
@@ -328,6 +319,8 @@ command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 
+nnoremap Q <Nop>
+
 " select last-pasted text
 nnoremap gV `[v`]
 
@@ -408,7 +401,11 @@ command! Dark   set background=dark  | colorscheme nihil
 if $TERM == 'linux'
     colorscheme default
 else
-    colorscheme mastodon
+    if strftime('%H') > 7 && strftime('%H') < 20
+        colorscheme mastodon
+    else
+        Dark
+    endif
 endif
 
 " statusline {{{
