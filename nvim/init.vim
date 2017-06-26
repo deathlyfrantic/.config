@@ -56,11 +56,6 @@ let g:ignore_patterns = [
     \ ]
 " }}}
 
-" ale {{{
-nmap [w <Plug>(ale_previous_wrap)
-nmap ]w <Plug>(ale_next_wrap)
-" }}}
-
 " grepper {{{
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
@@ -107,6 +102,7 @@ let g:tagbar_iconchars = ['+', '-']
 
 " neomake {{{
 let g:neomake_open_list = 2
+let g:neomake_list_height = 5
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
 " }}}
@@ -134,16 +130,12 @@ let g:buftabline_indicators = 1
 let g:buftabline_numbers = 2
 " }}}
 
-" characterize {{{
-nmap ga <Plug>(characterize)
-" }}}
-
 " lion {{{
 let g:lion_squeeze_spaces = 1
 " }}}
 " --- end plugin settings --- }}}
 
-" plugins --- {{{
+" --- plugins --- {{{
 call plug#begin($VIMHOME.'/plugged')
     " filetypes
     Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
@@ -165,9 +157,8 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'junegunn/gv.vim'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'mhinz/vim-grepper'
-    " Plug 'neomake/neomake'
+    Plug 'neomake/neomake'
     Plug 'sjl/strftimedammit.vim'
-    Plug 'w0rp/ale'
 
     " panels
     Plug 'ctrlpvim/ctrlp.vim'
@@ -182,9 +173,9 @@ call plug#begin($VIMHOME.'/plugged')
     Plug 'henrik/vim-indexed-search'
     Plug 'junegunn/vim-peekaboo'
     Plug 'nelstrom/vim-visual-star-search'
-    Plug 'zandrmartin/vim-sparkup/'
     Plug 'tommcdo/vim-exchange'
     Plug 'tommcdo/vim-lion'
+    Plug 'zandrmartin/vim-sparkup/'
 
     " tpope's special section
     Plug 'tpope/vim-abolish'
@@ -203,7 +194,8 @@ call plug#end()
 
 " --- general settings --- {{{
 set cinoptions+=:0,(0
-set colorcolumn=121
+set colorcolumn=+1
+" set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
 set completefunc=completion#snippet
@@ -233,6 +225,7 @@ set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
 set synmaxcol=500
+set textwidth=80
 set title
 set ttimeout
 set ttimeoutlen=50
@@ -262,8 +255,11 @@ augroup rc_commands
     autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
 
     " check all the things (except when quitting)
-    " autocmd BufWritePost * call <SID>neomake_check_on_write()
-    " autocmd QuitPre * let w:neomake_quitting = 1
+    autocmd BufWritePost *
+        \ if !exists('w:neomake_quitting') || !w:neomake_quitting |
+        \     Neomake |
+        \ endif
+    autocmd QuitPre * let w:neomake_quitting = 1
 
     " quit even if dirvish or quickfix is open
     autocmd BufEnter *
@@ -305,7 +301,7 @@ augroup rc_commands
 augroup END
 " --- end autocommands --- }}}
 
-" --- keymaps --- {{{
+" --- keymaps and commands --- {{{
 " typos
 command! -bang E e<bang>
 command! -bang Q q<bang>
@@ -319,12 +315,10 @@ command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 
-nnoremap Q <Nop>
-
 " select last-pasted text
 nnoremap gV `[v`]
 
-" try this out, who knows
+" turns out i do not need an escape key
 inoremap jk <Esc>
 
 " why isn't this default, idgaf about vi-compatibility
@@ -334,7 +328,7 @@ nmap Y y$
 cnoremap w!! w !sudo tee % > /dev/null
 
 " current directory in command-line
-cnoremap %% <C-R>=fnameescape(expand('%:p:h')).'/'<CR>
+cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
 
 " command-line up/down
 cnoremap <C-k> <Up>
@@ -346,10 +340,6 @@ command! -bang Wbd w<bang> | bd<bang>
 
 " hide search highlighting
 nnoremap <silent> <Space> :nohlsearch<CR>
-
-" " [G]o [B]ack and [G]o [F]orward
-" nnoremap gb <C-o>
-" nnoremap gf <C-i>
 
 " resize windows
 nnoremap <C-Left>  <C-W><
@@ -389,24 +379,22 @@ vnoremap <C-x> <C-x>gv
 inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
-" digraphs
-digraphs +1 128077
-digraphs -1 128078
+" uglifyjs
+command! -nargs=? UglifyJS call utils#uglify_js(<args>)
+command! -nargs=? DotToPng call utils#dot_to_png(<args>)
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
+" colors {{{
 command! Bright set background=light | colorscheme nihil
 command! Dark   set background=dark  | colorscheme nihil
 
 if $TERM == 'linux'
     colorscheme default
 else
-    if strftime('%H') > 7 && strftime('%H') < 20
-        colorscheme mastodon
-    else
-        Dark
-    endif
+    colorscheme mastodon
 endif
+" }}}
 
 " statusline {{{
 set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
@@ -418,22 +406,3 @@ set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%v\ \|\ %l/%L\ \|\ %p%%%(\ %)
 " }}}
 " --- end colors and appearance --- }}}
-
-" --- miscellaneous --- {{{
-" neomake check on write (but not quit)
-function! s:neomake_check_on_write()
-    if !exists('w:neomake_quitting') || !w:neomake_quitting
-        Neomake
-    endif
-endfunction
-
-" uglifyjs {{{
-command! -nargs=? UglifyJS call <SID>uglify_js(<args>)
-function! s:uglify_js(...)
-    let l:file = a:0 ? a:1 : expand('%:p')
-    if executable('uglifyjs') && l:file !~? '.min.js'
-        execute '!uglifyjs '.l:file.' -mo '.fnamemodify(l:file, ':r').'.min.'.fnamemodify(l:file, ':e')
-    endif
-endfunction
-" }}}
-" --- end miscellaneous --- }}}
