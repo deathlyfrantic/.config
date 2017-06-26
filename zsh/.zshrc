@@ -1,3 +1,4 @@
+fpath=($HOME/src/pytasks $fpath)
 PATH=$HOME/bin:$PATH
 REPORTTIME=5
 
@@ -44,6 +45,7 @@ compinit
 
 # futuristic zsh commands
 autoload zmv
+autoload zcalc
 zmodload zsh/datetime
 
 # completion stuff stolen from github.com/eevee/rc/.zshrc

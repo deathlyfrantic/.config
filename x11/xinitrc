@@ -1,9 +1,9 @@
 [[ -f "$XDG_CONFIG_HOME"/x11/xresources ]] && xrdb -merge "$XDG_CONFIG_HOME"/x11/xresources
+[[ -f "$XDG_CONFIG_HOME"/x11/xmodmaprc ]] && xmodmap "$XDG_CONFIG_HOME"/x11/xmodmaprc
 
 xset s off
 xset -dpms
 xset r rate 300 25
-
-xmodmap ~/.config/x11/xmodmaprc
+xrandr --output HDMI-2 --left-of HDMI-1
 
 exec i3

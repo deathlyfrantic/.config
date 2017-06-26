@@ -10,9 +10,9 @@ clickable_url = true
 # font = Input 12
 # font = Fira Mono 12
 # font = Fira Mono Medium 16
-# font = Consolas 14
-font = Courier Prime Code 14
-# font = Inconsolata-dz 12
+# font = Courier Prime Code 14
+# font = Courier Prime 14
+font = Consolas 14
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -39,9 +39,6 @@ filter_unmatched_urls = true
 [colors]
 #cursor = #dcdccc
 #cursor_foreground = #dcdccc
-foreground = #e2e4e9
-foreground_bold = #e2e4e9
-background = #000000
 
 # 20% background transparency (requires a compositor)
 # background = rgba(63, 63, 63, 0.8)
@@ -51,6 +48,9 @@ background = #000000
 
 # colors from color0 to color254 can be set
 # tango
+foreground = #e2e4e9
+foreground_bold = #e2e4e9
+background = #000000
 color0 = #000000
 color1 = #cc0000
 color2 = #4e9a06
