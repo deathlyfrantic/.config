@@ -236,3 +236,4 @@ smart_gaps on
 # exec
 exec_always "feh --bg-scale --no-fehbg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg"
 exec pidgin
+exec "xmodmap ~/.config/x11/xmodmaprc"
