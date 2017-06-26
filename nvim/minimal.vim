@@ -11,7 +11,7 @@ if has('vim_starting')
             \ 'https://raw.githubusercontent.com/nelstrom/vim-visual-star-search/master/plugin/visual-star-search.vim',
             \ 'https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim',
             \ 'https://raw.githubusercontent.com/tpope/vim-surround/master/plugin/surround.vim',
-            \ 'https://raw.githubusercontent.com/tpope/vim-unimpaired/master/plugin/unimpaired.vim'
+            \ 'https://raw.githubusercontent.com/tpope/vim-unimpaired/master/plugin/unimpaired.vim',
             \ ]
         for url in s:required_plugins
             let fname = fnamemodify(url, ':t')
