@@ -1,26 +1,26 @@
 if has('vim_starting')
-    let $VIMHOME = split(&runtimepath, ',')[0]
-    if !has('nvim') " shitty but effective heuristic to determine whether this is a server
-        " change cursor on different modes
-        let &t_SI = "\<Esc>[5 q"
-        let &t_SR = "\<Esc>[3 q"
-        let &t_EI = "\<Esc>[2 q"
+  let $VIMHOME = split(&runtimepath, ',')[0]
+  if !has('nvim') " shitty but effective heuristic to determine whether this is a server
+    " change cursor on different modes
+    let &t_SI = "\<Esc>[5 q"
+    let &t_SR = "\<Esc>[3 q"
+    let &t_EI = "\<Esc>[2 q"
 
-        " it's practically impossible to use vim without these
-        let s:required_plugins = [
-            \ 'https://raw.githubusercontent.com/nelstrom/vim-visual-star-search/master/plugin/visual-star-search.vim',
-            \ 'https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim',
-            \ 'https://raw.githubusercontent.com/tpope/vim-surround/master/plugin/surround.vim',
-            \ 'https://raw.githubusercontent.com/tpope/vim-unimpaired/master/plugin/unimpaired.vim',
-            \ ]
-        for url in s:required_plugins
-            let fname = fnamemodify(url, ':t')
-            let locpath = $VIMHOME.'/plugin/'.fname
-            if !filereadable(locpath)
-                execute '!curl -fLo '.locpath.' --create-dirs '.url
-            endif
-        endfor
-    endif
+    " it's practically impossible to use vim without these
+    let s:required_plugins = [
+      \ 'https://raw.githubusercontent.com/nelstrom/vim-visual-star-search/master/plugin/visual-star-search.vim',
+      \ 'https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim',
+      \ 'https://raw.githubusercontent.com/tpope/vim-surround/master/plugin/surround.vim',
+      \ 'https://raw.githubusercontent.com/tpope/vim-unimpaired/master/plugin/unimpaired.vim',
+      \ ]
+    for url in s:required_plugins
+      let fname = fnamemodify(url, ':t')
+      let locpath = $VIMHOME.'/plugin/'.fname
+      if !filereadable(locpath)
+        execute '!curl -fLo '.locpath.' --create-dirs '.url
+      endif
+    endfor
+  endif
 endif
 
 set nocompatible
