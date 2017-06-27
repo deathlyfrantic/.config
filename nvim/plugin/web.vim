@@ -8,30 +8,30 @@ command! -nargs=1 Web call <SID>browser(<f-args>)
 command! -nargs=1 Google call <SID>google(<f-args>)
 
 function! s:google_operator(type) abort
-    let l:regsave = @@
-    let l:selsave = &selection
-    let &selection = 'inclusive'
+  let l:regsave = @@
+  let l:selsave = &selection
+  let &selection = 'inclusive'
 
-    if a:type =~? 'v'
-        silent execute "normal! gvy"
-    elseif a:type == 'line'
-        silent execute "normal! '[V']y"
-    else
-        silent execute "normal! `[v`]y"
-    endif
+  if a:type =~? 'v'
+    silent execute "normal! gvy"
+  elseif a:type == 'line'
+    silent execute "normal! '[V']y"
+  else
+    silent execute "normal! `[v`]y"
+  endif
 
-    let l:url = @@
-    let &selection = selsave
-    let @@ = regsave
+  let l:url = @@
+  let &selection = selsave
+  let @@ = regsave
 
-    call <SID>google(l:url)
+  call <SID>google(l:url)
 endfunction
 
 function! s:google(url)
-    let l:url = (a:url =~? 'http') ? a:url : 'https://duckduckgo.com/?q='.a:url
-    call <SID>browser(l:url)
+  let l:url = (a:url =~? 'http') ? a:url : 'https://duckduckgo.com/?q='.a:url
+  call <SID>browser(l:url)
 endfunction
 
 function! s:browser(url)
-    silent execute '!xdg-open "'.a:url.'"'
+  silent execute '!xdg-open "'.a:url.'"'
 endfunction

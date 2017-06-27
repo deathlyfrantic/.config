@@ -18,14 +18,14 @@
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
-    echoerr 'The mastodon colorscheme requires a true-color Vim (Neovim or Gvim).'
-    finish
+  echoerr 'The mastodon colorscheme requires a true-color Vim (Neovim or Gvim).'
+  finish
 endif
 
 highlight clear
 
 if exists('syntax_on')
-    syntax reset
+  syntax reset
 endif
 
 let g:colors_name = 'mastodon'
