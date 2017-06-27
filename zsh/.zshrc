@@ -32,7 +32,7 @@ if [[ -x $(which gitprompt 2> /dev/null) ]]; then
 fi
 
 # history
-HISTFILE="$ZDOTDIR"/histfile
+HISTFILE="$XDG_DATA_HOME"/zsh-history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
