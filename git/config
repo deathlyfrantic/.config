@@ -1,10 +1,10 @@
 [user]
-	email = zandrmartin@gmail.com
-	name = Zandr Martin
-	signingkey = 77F7BBDC
+    email = zandrmartin@gmail.com
+    name = Zandr Martin
+    signingkey = 77F7BBDC
 [core]
-	editor = nvim
-	autocrlf = input
+    editor = nvim
+    autocrlf = input
 [merge]
     conflictstyle = diff3
     tool = vimdiff
@@ -29,3 +29,5 @@
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
     deploy = "!git push origin master && git push live master"
     deploytest = "!git push origin master && git push test master"
+[gpg]
+	program = gpg
