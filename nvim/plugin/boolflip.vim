@@ -1,29 +1,28 @@
-function! s:should_cap() abort
-  if &ft == 'python'
-    return 1
+function! s:match_case(orig, new) abort
+  if a:orig ==# tolower(a:orig)
+    return tolower(a:new)
+  elseif a:orig ==# toupper(a:orig)
+    return toupper(a:new)
+  else
+    return toupper(a:new[0]) . tolower(a:new[1:])
   endif
-  return 0
-endfunction
-
-function! s:true() abort
-  return (<SID>should_cap()) ? 'True' : 'true'
-endfunction
-
-function! s:false() abort
-  return (<SID>should_cap()) ? 'False' : 'false'
 endfunction
 
 function! s:bool_flip() abort
+  let l:pairs = [
+    \ ['true', 'false'],
+    \ ['yes', 'no']
+    \ ]
   let l:word = expand('<cWORD>')
-  let l:flip = 0
-  if l:word =~? 'true'
-    let l:flip = <SID>false()
-  elseif l:word =~? 'false'
-    let l:flip = <SID>true()
-  endif
-  if type(l:flip) == type('')
-    execute 'normal! ciW'.l:flip
-  endif
+  for l:pair in l:pairs
+    for l:token in l:pair
+      if l:word =~? l:token
+        let l:new = l:pair[!index(l:pair, l:token)]
+        execute 'normal! ciw'.<SID>match_case(l:word, l:new)
+        return
+      endif
+    endfor
+  endfor
 endfunction
 
 command! BoolFlip call <SID>bool_flip()

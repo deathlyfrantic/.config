@@ -139,8 +139,9 @@ let g:lion_squeeze_spaces = 1
 call plug#begin($VIMHOME.'/plugged')
   " filetypes
   Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
-  Plug 'mitsuhiko/vim-jinja',       {'for': ['htmljinja', 'jinja']}
-  Plug 'pangloss/vim-javascript',     {'for': 'javascript'}
+  Plug 'Kareeeeem/python-docstring-comments', {'for': 'python'}
+  Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
+  Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 
   " text objects
   Plug 'Julian/vim-textobj-variable-segment'
@@ -164,11 +165,11 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'justinmk/vim-dirvish'
   Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-  Plug 'sjl/gundo.vim',   {'on': 'GundoToggle'}
+  Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
   Plug 'ap/vim-buftabline'
 
   " text manipulation
-  Plug 'Valloric/MatchTagAlways',  {'for': keys(g:mta_filetypes)}
+  Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
   Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeEnable'}
   Plug 'henrik/vim-indexed-search'
   Plug 'junegunn/vim-peekaboo'
@@ -379,30 +380,30 @@ vnoremap <C-x> <C-x>gv
 inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
-" uglifyjs
+" external file processing
 command! -nargs=? UglifyJS call utils#uglify_js(<args>)
 command! -nargs=? DotToPng call utils#dot_to_png(<args>)
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
 " colors {{{
-command! Bright set background=light | colorscheme nihil
-command! Dark   set background=dark  | colorscheme nihil
-
+set background=dark
 if $TERM == 'linux'
   colorscheme default
+elseif strftime('%H') > 21 || strftime('%H') < 6
+  colorscheme nihil
 else
   colorscheme mastodon
 endif
 " }}}
 
 " statusline {{{
-set statusline=\ %{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
+set statusline=%{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline+=%<%F
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
-set statusline+=\ %m\ %r%=
+set statusline+=\ %h%m%r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%v\ \|\ %l/%L\ \|\ %p%%%(\ %)
+set statusline+=%c%V\ \|\ %l/%L\ \|\ %p%%
 " }}}
 " --- end colors and appearance --- }}}
