@@ -1,4 +1,4 @@
-fpath=($HOME/src/pytasks $fpath)
+fpath=($HOME/src/pytasks $HOME/src/kv $fpath)
 PATH=$HOME/bin:$PATH
 REPORTTIME=5
 

@@ -11,7 +11,9 @@ bind-key ^F pagedown
 bind-key ^B pageup
 bind-key g home
 bind-key G end
-browser google-chrome-stable
+browser firefox
+
+macro m set browser "mpv %u"; open-in-browser ; set browser firefox
 
 # zenburn theme from https://gist.github.com/ivoarch/8256644
 color background color188 color237

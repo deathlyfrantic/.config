@@ -49,6 +49,7 @@ bindsym $mod+d exec $menu
 bindsym XF86Calculator exec gnome-calculator
 bindsym $mod+XF86TouchpadToggle exec $term -e "zsh -c 'nvim ~/.config/i3/config'"
 bindsym $mod+c exec google-chrome-stable
+bindsym $mod+g exec firefox
 bindsym $mod+q exec qutebrowser
 bindsym $mod+n exec nautilus
 bindsym $mod+e exec $term -e "zsh -c 'mutt'"
@@ -61,6 +62,8 @@ bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
 bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 
 # media keys
+bindsym XF86AudioPrev exec cmus-remote -r
+bindsym XF86AudioNext exec cmus-remote -n
 bindsym XF86AudioPlay exec cmus-remote -u
 bindsym XF86AudioRaiseVolume exec volume.zsh up
 bindsym XF86AudioLowerVolume exec volume.zsh down
