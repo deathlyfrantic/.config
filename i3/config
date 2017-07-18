@@ -46,6 +46,7 @@ bindsym $mod+Shift+q kill
 # launch stuff
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
+bindsym $mod+o exec /home/zandr/src/pytasks/task_dmenu.sh
 bindsym XF86Calculator exec gnome-calculator
 bindsym $mod+XF86TouchpadToggle exec $term -e "zsh -c 'nvim ~/.config/i3/config'"
 bindsym $mod+c exec google-chrome-stable
