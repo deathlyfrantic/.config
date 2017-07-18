@@ -391,7 +391,7 @@ set background=dark
 if $TERM == 'linux'
   colorscheme default
 elseif strftime('%H') > 21 || strftime('%H') < 6
-  colorscheme nihil
+  colorscheme mammoth
 else
   colorscheme mastodon
 endif
@@ -404,6 +404,6 @@ set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%c%V\ \|\ %l/%L\ \|\ %p%%
+set statusline+=%l,%c%V\ \ \ %P
 " }}}
 " --- end colors and appearance --- }}}
