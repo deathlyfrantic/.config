@@ -402,8 +402,8 @@ set statusline=%{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline+=%<%F
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
-set statusline+=\ %h%m%r%=
+set statusline+=\ %h%m%r
 set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%l,%c%V\ \ \ %P
+set statusline+=%=%l,%c%V\ \ \ %P
 " }}}
 " --- end colors and appearance --- }}}
