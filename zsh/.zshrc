@@ -66,6 +66,19 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__'
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
+# antigen
+ADOTDIR=$ZDOTDIR/antigen
+if [[ -a $ADOTDIR/antigen.zsh ]]; then
+    source $ADOTDIR/antigen.zsh
+    # redirects below so syntax highlighting doesn't whine about substring widgets being unhandled
+    antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
+    antigen bundle zsh-users/zsh-history-substring-search
+    antigen apply
+else
+    mkdir -p $ADOTDIR
+    git clone https://github.com/zsh-users/antigen $ADOTDIR
+fi
+
 # hopefully a much saner keyboard mapping section
 autoload zkbd
 if [[ -a $ZDOTDIR/zkbd/$TERM ]]; then
@@ -82,19 +95,6 @@ bindkey '^K' history-substring-search-up
 
 if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
-fi
-
-# antigen
-ADOTDIR=$ZDOTDIR/antigen
-if [[ -a $ADOTDIR/antigen.zsh ]]; then
-    source $ADOTDIR/antigen.zsh
-    # redirects below so syntax highlighting doesn't whine about substring widgets being unhandled
-    antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
-    antigen bundle zsh-users/zsh-history-substring-search
-    antigen apply
-else
-    mkdir -p $ADOTDIR
-    git clone https://github.com/zsh-users/antigen $ADOTDIR
 fi
 
 if [[ $TERM == 'xterm-termite' ]]; then
