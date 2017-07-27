@@ -326,7 +326,8 @@ inoremap jk <Esc>
 nmap Y y$
 
 " sudo write
-cnoremap w!! w !sudo tee % > /dev/null
+" cnoremap w!! w !sudo tee % > /dev/null
+cnoremap w!! SudoWrite
 
 " current directory in command-line
 cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
