@@ -71,7 +71,7 @@ bindsym XF86AudioLowerVolume exec volume.zsh down
 bindsym XF86AudioMute exec volume.zsh mute
 
 # screenshots
-bindsym Print exec "maim -g $(slop) > ~/screenshot-$(date +'%Y%m%d%H%M%S').png"
+bindsym Print exec "maim -u -g $(slop) > ~/screenshot-$(date +'%Y%m%d%H%M%S').png"
 
 floating_modifier $mod
 
@@ -239,5 +239,5 @@ smart_gaps on
 
 # exec
 exec_always "feh --bg-scale --no-fehbg ~/Pictures/Wallpapers/ashley-knedler-43546.jpg"
-exec pidgin
+# exec pidgin
 exec "xmodmap ~/.config/x11/xmodmaprc"

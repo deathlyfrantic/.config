@@ -10,26 +10,7 @@ setopt appendhistory autocd extended_history share_history menu_complete prompt_
 unsetopt beep case_glob flowcontrol
 
 # prompt
-P_user="%(!.%{$fg_bold[red]%}!!! %{$reset_color%}.)%{$fg[blue]%}%n%(!.%{$fg_bold[red]%} !!!%{$reset_color%}.)"
-P_at="%{$fg_bold[blue]%}@%{$reset_color%}"
-P_dot=" %{$fg_bold[black]%}::%{$reset_color%} "
-P_host="%{$fg[blue]%}%m"
-P_path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
-P_base="$P_path%{$fg_bold[black]%} ::%{$reset_color%} "
-
-if [[ $SSH_CONNECTION != '' ]]; then
-    PROMPT=$P_user$P_at$P_host$P_dot$P_base
-elif [[ $USER != 'zandr' ]]; then
-    PROMPT=$P_user$P_dot$P_base
-else
-    PROMPT=$P_base
-fi
-RPROMPT="%{$reset_color%}%D{%H}%{$fg_bold[black]%}:%{$reset_color%}%D{%M}%{$fg_bold[black]%}:%{$reset_color%}%D{%S}"
-PROMPT='${$(venv_prompt)}'$PROMPT
-
-if [[ -x $(which gitprompt 2> /dev/null) ]]; then
-    RPROMPT='${$(gitprompt)} '$RPROMPT
-fi
+set_up_prompt
 
 # history
 HISTFILE="$XDG_DATA_HOME"/zsh-history
