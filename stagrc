@@ -4,5 +4,5 @@ spawn while true; do ~/src/stag/stag.py block -o 998 -n "calendar" -f "$(date +'
 spawn while true; do ~/src/stag/stag.py block -o 999 -n "clock" -f "$(date +'%r')" -st "$(date +'%I:%M')"; sleep 1; done
 spawn volume.zsh
 spawn while true; do task > /dev/null; sleep 21600; done
-spawn while true; do check-arch-updates.zsh; sleep 43200; done
+spawn while true; do check-arch-updates.zsh; sleep 86400; done
 spawn while true; do ~/bin/weather-status.zsh; sleep 1800; done
