@@ -87,7 +87,7 @@ highlight Delimiter             guifg=NONE    guibg=NONE    gui=NONE           c
 highlight StorageClass          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight Operator              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 
-highlight! link TabLine                   Comment
+highlight! link TabLine                   StatusLine
 highlight! link WildMenu                  Search
 highlight! link NeomakeWarningSign        GitGutterChange
 highlight! link NeomakeErrorSign          Error
@@ -98,8 +98,8 @@ highlight! link PmenuSel                  WildMenu
 highlight! link SignColumn                LineNr
 highlight! link FoldColumn                LineNr
 highlight! link Folded                    LineNr
-highlight! link TabLineFill               TabLine
-highlight! link BufTabLineActive          String
+highlight! link TabLineFill               StatusLine
+highlight! link BufTabLineActive          TabLine
 highlight! link BufTabLineCurrent         Normal
 highlight! link BufTabLineHidden          TabLine
 highlight! link BufTabLineFill            TabLine

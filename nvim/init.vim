@@ -23,7 +23,7 @@ if has('vim_starting')
   " install vim-plug if it's not already
   if !filereadable($VIMHOME.'/autoload/plug.vim')
     execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall | UpdateRemotePlugins | source $MYVIMRC
+    autocmd VimEnter * :PlugInstall<CR> | :UpdateRemotePlugins<CR> | source $MYVIMRC
   endif
 
   " hide file cruft
@@ -392,7 +392,8 @@ set background=dark
 if $TERM == 'linux'
   colorscheme default
 elseif strftime('%H') > 21 || strftime('%H') < 6
-  colorscheme mammoth
+  " colorscheme mammoth
+  colorscheme copper
 else
   colorscheme mastodon
 endif

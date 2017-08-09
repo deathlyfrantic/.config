@@ -18,7 +18,7 @@
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
-  echoerr 'The mastodon colorscheme requires a true-color Vim (Neovim or Gvim).'
+  echoerr 'The copper colorscheme requires a true-color Vim (Neovim or Gvim).'
   finish
 endif
 
@@ -28,37 +28,37 @@ if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = 'mastodon'
+let g:colors_name = 'copper'
 
-highlight Normal                guifg=#c4c8d2 guibg=#282c37 gui=NONE           cterm=NONE           term=NONE
-highlight Visual                guifg=NONE    guibg=#191b22 gui=NONE           cterm=NONE           term=NONE
-highlight CursorLine            guifg=NONE    guibg=#30343f gui=NONE           cterm=NONE           term=NONE
-highlight CursorLineNr          guifg=#9baec8 guibg=#30343f gui=NONE           cterm=NONE           term=NONE
-highlight LineNr                guifg=#4c5269 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight StatusLine            guifg=#c4c8d2 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
-highlight StatusLineNC          guifg=#444b5d guibg=#191b22 gui=NONE           cterm=NONE           term=NONE
-highlight VertSplit             guifg=#191b22 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Comment               guifg=#606984 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight String                guifg=#9ca7c9 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight MatchParen            guifg=#ff7722 guibg=NONE    gui=bold           cterm=NONE           term=NONE
-highlight Pmenu                 guifg=#c4c8d2 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
-highlight PmenuSbar             guifg=#707b97 guibg=#707b97 gui=NONE           cterm=NONE           term=NONE
-highlight PmenuThumb            guifg=NONE    guibg=#3b434e gui=NONE           cterm=NONE           term=NONE
-highlight Error                 guifg=#f50039 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight SpellBad              guifg=#f50039 guibg=NONE    gui=underline      cterm=underline      term=underline
-highlight SpellCap              guifg=#ff7722 guibg=NONE    gui=underline      cterm=underline      term=underline
-highlight Search                guifg=#ffffff guibg=#1f72ad gui=NONE           cterm=NONE           term=NONE
-highlight TODO                  guifg=#ff7722 guibg=NONE    gui=bold,underline cterm=bold,underline term=bold,underline
-highlight DiffAdd               guifg=#00f57a guibg=#006633 gui=NONE           cterm=NONE           term=NONE
+highlight Normal                guifg=#d2c8c4 guibg=#000000 gui=NONE           cterm=NONE           term=NONE
+highlight Visual                guifg=NONE    guibg=#221b19 gui=NONE           cterm=NONE           term=NONE
+highlight CursorLine            guifg=NONE    guibg=#19100d gui=NONE           cterm=NONE           term=NONE
+highlight CursorLineNr          guifg=#c8ae9b guibg=#19100d gui=NONE           cterm=NONE           term=NONE
+highlight LineNr                guifg=#69524c guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight StatusLine            guifg=#d2c8c4 guibg=#5d4b44 gui=NONE           cterm=NONE           term=NONE
+highlight StatusLineNC          guifg=#5d4b44 guibg=#221b19 gui=NONE           cterm=NONE           term=NONE
+highlight VertSplit             guifg=#221b19 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight Comment               guifg=#846960 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight String                guifg=#c9a79c guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight MatchParen            guifg=#ff7700 guibg=NONE    gui=bold           cterm=NONE           term=NONE
+highlight Pmenu                 guifg=#d2c8c4 guibg=#5d4b44 gui=NONE           cterm=NONE           term=NONE
+highlight PmenuSbar             guifg=#977b70 guibg=#977b70 gui=NONE           cterm=NONE           term=NONE
+highlight PmenuThumb            guifg=NONE    guibg=#4e433b gui=NONE           cterm=NONE           term=NONE
+highlight Error                 guifg=#f53900 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight SpellBad              guifg=#f53900 guibg=NONE    gui=underline      cterm=underline      term=underline
+highlight SpellCap              guifg=#ff7700 guibg=NONE    gui=underline      cterm=underline      term=underline
+highlight Search                guifg=#ffffff guibg=#ad721f gui=NONE           cterm=NONE           term=NONE
+highlight TODO                  guifg=#ff7700 guibg=NONE    gui=bold,underline cterm=bold,underline term=bold,underline
+highlight DiffAdd               guifg=#7af500 guibg=#336600 gui=NONE           cterm=NONE           term=NONE
 highlight DiffChange            guifg=#e2e212 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight DiffText              guifg=#e2e212 guibg=#636303 gui=NONE           cterm=NONE           term=NONE
-highlight DiffDelete            guifg=#f50039 guibg=#80001e gui=NONE           cterm=NONE           term=NONE
-highlight GitGutterChange       guifg=#ff7722 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight GitGutterAdd          guifg=#00f57a guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold           cterm=bold           term=bold
-highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold           cterm=bold           term=bold
-highlight Whitespace            guifg=#30343f guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight DiffDelete            guifg=#f53900 guibg=#80001e gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterChange       guifg=#ff7700 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterAdd          guifg=#7af500 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight GitGutterChangeDelete guifg=#ff7700 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight ErrorMsg              guifg=#ffffff guibg=#f53900 gui=bold           cterm=bold           term=bold
+highlight WarningMsg            guifg=#ffffff guibg=#ff7700 gui=bold           cterm=bold           term=bold
+highlight Whitespace            guifg=#3f3430 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 
 highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
