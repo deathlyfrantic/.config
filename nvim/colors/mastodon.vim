@@ -98,8 +98,8 @@ highlight! link PmenuSel                  WildMenu
 highlight! link SignColumn                LineNr
 highlight! link FoldColumn                LineNr
 highlight! link Folded                    LineNr
-highlight! link TabLineFill               StatusLine
-highlight! link BufTabLineActive          TabLine
+highlight! link TabLineFill               TabLine
+highlight! link BufTabLineActive          String
 highlight! link BufTabLineCurrent         Normal
 highlight! link BufTabLineHidden          TabLine
 highlight! link BufTabLineFill            TabLine

@@ -388,14 +388,14 @@ command! -nargs=? DotToPng call utils#dot_to_png(<args>)
 
 " --- colors and appearance --- {{{
 " colors {{{
+command! -nargs=1 Mono let g:mono_palette = "<args>" | colorscheme mono
 set background=dark
 if $TERM == 'linux'
   colorscheme default
 elseif strftime('%H') > 21 || strftime('%H') < 6
-  " colorscheme mammoth
-  colorscheme copper
+  Mono copper
 else
-  colorscheme mastodon
+  Mono mastodon
 endif
 " }}}
 
