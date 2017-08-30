@@ -94,3 +94,20 @@ command! -bang WQ wq<bang>
 colorscheme default
 hi! Search ctermfg=16 ctermbg=231 cterm=NONE
 hi! Visual ctermfg=16 ctermbg=231 cterm=NONE
+
+function! s:check_back_space() abort
+  let l:col = col('.') - 1
+  return !l:col || getline('.')[l:col - 1] =~? '\s'
+endfunction
+
+function! s:tab_completion(fwd) abort
+  if pumvisible()
+    return (a:fwd) ? "\<C-N>" : "\<C-P>"
+  elseif !<SID>check_back_space()
+    return "\<C-P>"
+  endif
+  return "\<Tab>"
+endfunction
+
+inoremap <expr> <silent> <Tab> <SID>tab_completion(1)
+inoremap <expr> <silent> <S-Tab> <SID>tab_completion(0)
