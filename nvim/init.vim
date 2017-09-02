@@ -199,6 +199,7 @@ set colorcolumn=+1
 " set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
+set completeopt+=noinsert
 set completefunc=completion#snippet
 set cursorline
 set expandtab
@@ -388,14 +389,13 @@ command! -nargs=? DotToPng call utils#dot_to_png(<args>)
 
 " --- colors and appearance --- {{{
 " colors {{{
-command! -nargs=1 Mono let g:mono_palette = "<args>" | colorscheme mono
 set background=dark
 if $TERM == 'linux'
   colorscheme default
 elseif strftime('%H') > 21 || strftime('%H') < 6
-  Mono copper
+ colorscheme copper
 else
-  Mono mastodon
+  colorscheme mastodon
 endif
 " }}}
 

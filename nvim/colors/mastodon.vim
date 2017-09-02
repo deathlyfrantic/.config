@@ -58,7 +58,7 @@ highlight GitGutterAdd          guifg=#00f57a guibg=NONE    gui=NONE           c
 highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold           cterm=bold           term=bold
 highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold           cterm=bold           term=bold
-highlight Whitespace            guifg=#30343f guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight BufTabLineActive      guifg=#9ca7c9 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
 
 highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
@@ -99,7 +99,6 @@ highlight! link SignColumn                LineNr
 highlight! link FoldColumn                LineNr
 highlight! link Folded                    LineNr
 highlight! link TabLineFill               TabLine
-highlight! link BufTabLineActive          String
 highlight! link BufTabLineCurrent         Normal
 highlight! link BufTabLineHidden          TabLine
 highlight! link BufTabLineFill            TabLine
@@ -121,3 +120,4 @@ highlight! link pythonDocString           Comment
 highlight! link TagbarVisibilityProtected GitGutterChange
 highlight! link TagbarVisibilityPublic    GitGutterAdd
 highlight! link TagbarVisibilityPrivate   GitGutterDelete
+highlight! link Whitespace                Comment
