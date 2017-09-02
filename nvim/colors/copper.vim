@@ -59,6 +59,7 @@ highlight GitGutterChangeDelete guifg=#ff7700 guibg=NONE    gui=NONE           c
 highlight ErrorMsg              guifg=#ffffff guibg=#f53900 gui=bold           cterm=bold           term=bold
 highlight WarningMsg            guifg=#ffffff guibg=#ff7700 gui=bold           cterm=bold           term=bold
 highlight Whitespace            guifg=#3f3430 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight BufTabLineActive      guifg=#c9a79c guibg=#5d4b44 gui=NONE           cterm=NONE           term=NONE
 
 highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
@@ -99,7 +100,6 @@ highlight! link SignColumn                LineNr
 highlight! link FoldColumn                LineNr
 highlight! link Folded                    LineNr
 highlight! link TabLineFill               StatusLine
-highlight! link BufTabLineActive          TabLine
 highlight! link BufTabLineCurrent         Normal
 highlight! link BufTabLineHidden          TabLine
 highlight! link BufTabLineFill            TabLine
