@@ -199,7 +199,7 @@ set colorcolumn=+1
 " set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
-set completeopt+=noinsert
+set completeopt+=longest
 set completefunc=completion#snippet
 set cursorline
 set expandtab
