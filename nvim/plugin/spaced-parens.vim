@@ -11,20 +11,15 @@ function! s:spaced_parens() abort
   endif
 endfunction
 
-function! s:spaced_parens_on() abort
+function! s:spaced_parens_switch(on) abort
   let l:group = 'spaced-parens-buf-'.bufnr('%')
   execute 'augroup '.l:group
     autocmd!
-    autocmd InsertCharPre <buffer> call <SID>spaced_parens()
+    if a:on
+      autocmd InsertCharPre <buffer> call <SID>spaced_parens()
+    endif
   augroup END
 endfunction
 
-function! s:spaced_parens_off() abort
-  let l:group = 'spaced-parens-buf-'.bufnr('%')
-  execute 'augroup '.l:group
-    autocmd!
-  augroup END
-endfunction
-
-command! SpacedParensOn call <SID>spaced_parens_on()
-command! SpacedParensOff call <SID>spaced_parens_off()
+command! SpacedParensOn call <SID>spaced_parens_switch(1)
+command! SpacedParensOff call <SID>spaced_parens_switch(0)
