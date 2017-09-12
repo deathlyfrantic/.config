@@ -1,14 +1,12 @@
 function! s:source_local_vimrc()
-  " prevent this from breaking fugitive's Gdiff
+  " prevent this from breaking fugitive's Gdiff, don't run on dirvish etc
   if expand('%') =~? 'fugitive://' || index(['help', 'nofile'], &buftype) != -1
     return
   endif
   let l:dir = expand('%:p:h')
-  for l:vimrc in findfile('.vimrc', l:dir.';', -1)
-    if get(b:, 'stop_sourcing_vimrcs', 0)
-      let b:stop_sourcing_vimrcs = 0
-      return
-    endif
+  " apply settings from lowest dir to highest, so most specific settings are
+  " applied latest
+  for l:vimrc in reverse(findfile('.vimrc', l:dir.';', -1))
     if filereadable(l:vimrc)
       execute 'source '.l:vimrc
     endif
@@ -16,4 +14,3 @@ function! s:source_local_vimrc()
 endfunction
 
 autocmd BufNewFile,BufReadPre * call <SID>source_local_vimrc()
-command! TurnOffProject let b:stop_sourcing_vimrcs = 1
