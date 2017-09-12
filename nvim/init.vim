@@ -56,6 +56,29 @@ let g:ignore_patterns = [
   \ ]
 " }}}
 
+" gitgutter {{{
+omap ig <Plug>GitGutterTextObjectInnerPending
+omap ag <Plug>GitGutterTextObjectOuterPending
+xmap ig <Plug>GitGutterTextObjectInnerVisual
+xmap ag <Plug>GitGutterTextObjectOuterVisual
+
+function! GitGutterStatus() abort
+  let l:fugstat = fugitive#statusline()
+  if l:fugstat == ''
+    return ''
+  endif
+  let l:stats = gitgutter#hunk#summary(bufnr('%'))
+  let l:symbols = ['+', '~', '-']
+  let l:line = ''
+  for l:i in range(3)
+    if l:stats[l:i] > 0
+      let l:line .= l:symbols[l:i].l:stats[l:i]
+    endif
+  endfor
+  return substitute(l:fugstat, ')]', ')'.l:line.']', '')
+endfunction
+" }}}
+
 " grepper {{{
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
@@ -296,7 +319,8 @@ augroup rc_commands
     \ endif
 
   " load fugitive on all buffers
-  autocmd BufEnter * call fugitive#detect(getcwd())
+  " autocmd BufEnter * call fugitive#detect(getcwd())
+  autocmd BufEnter * call fugitive#detect(expand('%:p'))
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
@@ -400,7 +424,8 @@ endif
 " }}}
 
 " statusline {{{
-set statusline=%{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
+" set statusline=%{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
+set statusline=%{strlen(GitGutterStatus())?GitGutterStatus().'\ ':''}
 set statusline+=%<%F
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}

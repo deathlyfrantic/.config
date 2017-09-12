@@ -121,3 +121,7 @@ highlight! link pythonDocString           Comment
 highlight! link TagbarVisibilityProtected GitGutterChange
 highlight! link TagbarVisibilityPublic    GitGutterAdd
 highlight! link TagbarVisibilityPrivate   GitGutterDelete
+highlight! link Whitespace                Comment
+highlight! link SignifySignAdd            GitGutterAdd
+highlight! link SignifySignChange         GitGutterChange
+highlight! link SignifySignDelete         GitGutterDelete
