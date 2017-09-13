@@ -135,7 +135,7 @@ function git_prompt {
     local clean=""
 
     # staged
-    local staged=$(git diff --staged --name-status | wc -l)
+    local staged=$(git diff --staged --name-status | wc -l | tr -d '[:blank:]')
     if [[ $staged > 0 ]];
     then
         prompt_color_echo "-$staged" yellow bold
@@ -143,7 +143,7 @@ function git_prompt {
     fi
 
     # conflicts
-    local conflicts=$(git diff --staged --name-status | grep -c '^U ')
+    local conflicts=$(git diff --staged --name-status | grep -c '^U ' | tr -d '[:blank:]')
     if [[ $conflicts > 0 ]];
     then
         prompt_color_echo "!$conflicts" red bold
@@ -151,7 +151,7 @@ function git_prompt {
     fi
 
     # changed
-    local changed=$(git diff --name-status | wc -l)
+    local changed=$(git diff --name-status | wc -l | tr -d '[:blank:]')
     if [[ $changed > 0 ]];
     then
         prompt_color_echo "+$changed" blue bold
@@ -159,7 +159,7 @@ function git_prompt {
     fi
 
     # untracked
-    local untracked=$(git status --porcelain | grep -c '^?? ')
+    local untracked=$(git status --porcelain | grep -c '^?? ' | tr -d '[:blank:]')
     if [[ $untracked > 0 ]];
     then
         prompt_color_echo "_$untracked" magenta bold
