@@ -53,6 +53,7 @@ let g:ignore_patterns = [
   \ '*.sql',
   \ '*.sqlite3',
   \ '.sass-cache',
+  \ '.DS_Store',
   \ ]
 " }}}
 
@@ -379,10 +380,6 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
-if $TERM !~? "termite"
-  " fix for gnome terminal and its shitty xterm-256color terminfo
-  nnoremap <BS> <C-W>h
-endif
 
 " switch buffers
 nnoremap <silent> <M-h> :bprev<CR>
