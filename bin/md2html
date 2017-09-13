@@ -1,4 +1,4 @@
-#!/home/zandr/bin/venv/bin/python
+#!"$HOME"/bin/venv/bin/python
 import markdown
 import os
 from sys import argv

@@ -1,1 +1,1 @@
-/home/zandr/src/kv/venv/bin/python /home/zandr/src/kv/kv.py "$@"
+"$HOME"/src/kv/venv/bin/python "$HOME"/src/kv/kv.py "$@"
