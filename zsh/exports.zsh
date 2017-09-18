@@ -11,3 +11,4 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VISUAL=nvim
 export LSCOLORS=ExGxFxFxCx
+export HOMEBREW_NO_ANALYTICS=1

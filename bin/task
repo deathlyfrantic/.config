@@ -1,8 +1,1 @@
 ~/src/pytasks/venv/bin/python ~/src/pytasks/tasks.py "$@"
-_status=$(~/src/pytasks/venv/bin/python ~/src/pytasks/tasks.py status)
-
-if [[ $_status == "" ]]; then
-    stag block -n todo -r
-else
-    stag block -n todo -o 1 -f "Tasks: $_status"
-fi

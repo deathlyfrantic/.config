@@ -62,9 +62,9 @@ function set_up_prompt {
 
     if [[ -x $(which gitprompt 2> /dev/null) ]];
     then
-        RPROMPT='${$(gitprompt)} '$RPROMPT
+        RPROMPT='${$(gitprompt)}'$RPROMPT
     else
-        RPROMPT='${$(git_prompt)} '$RPROMPT
+        RPROMPT='${$(git_prompt)}'$RPROMPT
     fi
 
     RPROMPT='${$(venv_prompt)}'$RPROMPT
@@ -173,7 +173,7 @@ function git_prompt {
     fi
 
     # separator between widgets
-    prompt_color_echo " ::" black bold
+    prompt_color_echo " :: " black bold
 }
 
 function _git_prompt_ahead_behind {
