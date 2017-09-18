@@ -1,5 +1,5 @@
 fpath=($HOME/src/pytasks $HOME/src/kv $fpath)
-PATH=$HOME/bin:$PATH
+PATH=$HOME/bin:/usr/local/bin:$PATH
 REPORTTIME=5
 
 # colors are important here in the future, where we live
@@ -73,11 +73,3 @@ fi
 bindkey '^[[Z' reverse-menu-complete
 bindkey '^J' history-substring-search-down
 bindkey '^K' history-substring-search-up
-
-if [[ -a /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
-    source /usr/share/doc/pkgfile/command-not-found.zsh
-fi
-
-if [[ $TERM == 'xterm-termite' ]]; then
-    source /etc/profile.d/vte.sh
-fi
