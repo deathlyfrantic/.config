@@ -320,11 +320,13 @@ augroup rc_commands
     \ endif
 
   " load fugitive on all buffers
-  " autocmd BufEnter * call fugitive#detect(getcwd())
   autocmd BufEnter * call fugitive#detect(expand('%:p'))
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
+
+  " close preview window when leaving insert mode
+  autocmd InsertLeave * pclose!
 augroup END
 " --- end autocommands --- }}}
 
