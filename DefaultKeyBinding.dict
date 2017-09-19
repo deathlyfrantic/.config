@@ -1,0 +1,11 @@
+/* http://osxnotes.net/keybindings.html */
+{
+    "~f" = "moveWordForward:";
+    "~b" = "moveWordBackward:";
+    "~<" = "moveToBeginningOfDocument:";
+    "~>" = "moveToEndOfDocument:";
+    "~v" = "pageUp:";
+    "~d" = "deleteWordForward:";
+    "^w" = "deleteWordBackward:";
+    "^u" = "deleteToBeginningOfLine:";
+}
