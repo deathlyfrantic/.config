@@ -13,9 +13,17 @@ function! completion#email(findstart, base) abort
   return sort(map(copy(l:emails), 'substitute(v:val, "^alias \\w\\+ ", "", "")'))
 endfunction
 
-function! completion#check_back_space() abort
+function! completion#char_before_cursor() abort
   let l:col = col('.') - 1
-  return !l:col || getline('.')[l:col - 1] =~? '\s'
+  if l:col <= 0
+    return ''
+  endif
+  return getline('.')[l:col - 1]
+endfunction
+
+function! completion#check_back_space() abort
+  let l:prev_char = completion#char_before_cursor()
+  return l:prev_char =~ '^\s*$'
 endfunction
 
 function! completion#tab(fwd) abort
