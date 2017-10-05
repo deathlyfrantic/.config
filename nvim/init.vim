@@ -129,6 +129,11 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 5
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_python_enabled_makers = ['python3', 'flake8']
+augroup neomake_custom_config
+  autocmd!
+  autocmd VimEnter * let g:neomake_python3_maker = neomake#makers#ft#python#python()
+augroup END
 " }}}
 
 " match tag always settings - doubles as list of xml/html types {{{
@@ -220,7 +225,6 @@ call plug#end()
 " --- general settings --- {{{
 set cinoptions+=:0,(0
 set colorcolumn=+1
-" set colorcolumn=121
 set complete+=i,d,kspell
 set completeopt-=preview
 set completeopt+=longest
@@ -266,7 +270,10 @@ augroup rc_commands
   autocmd!
 
   " omni-complete
-  autocmd FileType * if &omnifunc == '' | set omnifunc=syntaxcomplete#Complete | endif
+  autocmd FileType *
+    \ if &omnifunc == '' |
+    \   set omnifunc=syntaxcomplete#Complete |
+    \ endif
 
   " specify comment types for commentary
   autocmd FileType c,php setlocal commentstring=//%s
@@ -305,7 +312,11 @@ augroup rc_commands
 
   " don't move my position when switching buffers
   autocmd! BufWinLeave * let b:winview = winsaveview()
-  autocmd! BufWinEnter * if exists('b:winview') | call winrestview(b:winview) | unlet b:winview
+  autocmd! BufWinEnter *
+    \ if exists('b:winview') |
+    \   call winrestview(b:winview) |
+    \   unlet b:winview
+    \ endif
 
   " strip trailing whitespace on most file-types
   autocmd BufWritePre *
@@ -408,6 +419,23 @@ inoremap <expr> <silent> <S-Tab> completion#tab(0)
 " external file processing
 command! -nargs=? UglifyJS call utils#uglify_js(<args>)
 command! -nargs=? DotToPng call utils#dot_to_png(<args>)
+
+" emacs keys in commandline
+cnoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <M-d> <S-Right><Right><C-w>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+cnoremap <C-d> <Delete>
+
+" hash rocket
+function! s:smart_hash_rocket() abort
+  let l:rv = (completion#check_back_space()) ? '' : ' '
+  return l:rv . '=> '
+endfunction
+imap <expr> <C-l> <SID>smart_hash_rocket()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
@@ -423,9 +451,9 @@ endif
 " }}}
 
 " statusline {{{
-" set statusline=%{strlen(fugitive#statusline())?fugitive#statusline().'\ ':''}
 set statusline=%{strlen(GitGutterStatus())?GitGutterStatus().'\ ':''}
 set statusline+=%<%F
+set statusline+=%{strlen(&ft)?'\ ['.&ft.']':''}
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r
