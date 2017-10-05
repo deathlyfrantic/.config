@@ -199,3 +199,20 @@ function _git_prompt_ahead_behind {
     local ahead=$(echo $revs | grep -c '^<')
     echo $behind $ahead
 }
+
+function zshaddhistory {
+    # don't save boring history
+    if [[ $1 =~ '^ls' ]]; then
+        return 1
+    fi
+    return 0
+}
+
+function hog {
+    local -a contents=("${(@f)$(du -d1 | sort -n | cut -f2)}")
+
+    for i in $contents;
+    do
+        du -d0 -h $i
+    done
+}
