@@ -174,6 +174,10 @@
 	<true/>
 	<key>HotkeyModifiers</key>
 	<integer>524576</integer>
+	<key>LeftCommand</key>
+	<integer>7</integer>
+	<key>LeftOption</key>
+	<integer>2</integer>
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
 	<key>NSFontPanelAttributes</key>
@@ -221,15 +225,15 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>1029 393 224 289 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>2528 227 445 77 1680 -30 1920 1058 </string>
+	<string>1059 171 445 77 0 0 1920 1058 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>530 477 620 392 0 0 1680 1028 </string>
+	<string>650 500 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>901 285 918 381 0 0 1920 1058 </string>
+	<string>1012 663 918 394 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>520 213 730 451 0 0 1920 1058 </string>
+	<string>-1680 30 1680 1050 -1680 30 1680 1028 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1125 26 730 451 0 0 1920 1058 </string>
+	<string>504 281 730 451 0 0 1920 1058 </string>
 	<key>NeverWarnAboutMeta</key>
 	<true/>
 	<key>NeverWarnAboutMeta_selection</key>
@@ -822,7 +826,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Input-Regular 14</string>
+			<string>Inconsolata-Regular 18</string>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
@@ -886,7 +890,7 @@
 			<key>Use Non-ASCII Font</key>
 			<false/>
 			<key>Vertical Spacing</key>
-			<real>1</real>
+			<real>1.0037297628012047</real>
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
@@ -961,7 +965,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-09-27T20:21:29Z</date>
+	<date>2017-10-14T12:41:59Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
@@ -969,7 +973,7 @@
 	<key>ShowFullScreenTabBar</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.47591396233974359</real>
+	<real>0.15831830929487178</real>
 	<key>TabStyle</key>
 	<integer>1</integer>
 	<key>UseBorder</key>
@@ -981,7 +985,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.1.2</string>
+	<string>3.1.3</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
