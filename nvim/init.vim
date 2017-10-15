@@ -23,7 +23,9 @@ if has('vim_starting')
   " install vim-plug if it's not already
   if !filereadable($VIMHOME.'/autoload/plug.vim')
     execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * :PlugInstall<CR> | :UpdateRemotePlugins<CR> | source $MYVIMRC
+    autocmd VimEnter * PlugInstall
+    autocmd VimEnter * UpdateRemotePlugins
+    autocmd VimEnter * nested source $MYVIMRC
   endif
 
   " hide file cruft
@@ -62,22 +64,6 @@ omap ig <Plug>GitGutterTextObjectInnerPending
 omap ag <Plug>GitGutterTextObjectOuterPending
 xmap ig <Plug>GitGutterTextObjectInnerVisual
 xmap ag <Plug>GitGutterTextObjectOuterVisual
-
-function! GitGutterStatus() abort
-  let l:fugstat = fugitive#statusline()
-  if l:fugstat == ''
-    return ''
-  endif
-  let l:stats = gitgutter#hunk#summary(bufnr('%'))
-  let l:symbols = ['+', '~', '-']
-  let l:line = ''
-  for l:i in range(3)
-    if l:stats[l:i] > 0
-      let l:line .= l:symbols[l:i].l:stats[l:i]
-    endif
-  endfor
-  return substitute(l:fugstat, ')]', ')'.l:line.']', '')
-endfunction
 " }}}
 
 " grepper {{{
@@ -86,9 +72,10 @@ nmap gs <Plug>(GrepperOperator)
 xmap gs <Plug>(GrepperOperator)
 " }}}
 
-" gundo {{{
-nnoremap <silent> <C-q> :GundoToggle<CR>
-let g:gundo_preview_bottom = 1
+" undotree {{{
+nnoremap <silent> <C-q> :UndotreeToggle<CR>
+let g:undotree_WindowLayout = 2
+let g:undotree_SetFocusWhenToggle = 1
 " }}}
 
 " tagbar {{{
@@ -129,10 +116,10 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 5
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_enabled_makers = ['python3', 'flake8']
 augroup neomake_custom_config
   autocmd!
-  autocmd VimEnter * let g:neomake_python3_maker = neomake#makers#ft#python#python()
+  autocmd VimEnter * let g:neomake_python_maker = neomake#makers#ft#python#python() |
+                   \ let g:neomake_python_maker['exe'] = substitute(system('which python3'), '\n', '', '')
 augroup END
 " }}}
 
@@ -194,7 +181,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'justinmk/vim-dirvish'
   Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-  Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+  Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
   Plug 'ap/vim-buftabline'
 
   " text manipulation
@@ -247,6 +234,7 @@ set nojoinspaces
 set nostartofline
 set nowrap
 set number
+set scroll=5
 set shiftround
 set shiftwidth=4
 set sidescroll=1
@@ -285,6 +273,7 @@ augroup rc_commands
 
   " mutt and mail
   autocmd BufRead /tmp/mutt-* setlocal filetype=mail
+  autocmd BufRead /private$TMPDIR/mutt-* setlocal filetype=mail
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
 
   " check all the things (except when quitting)
@@ -315,20 +304,17 @@ augroup rc_commands
   autocmd! BufWinEnter *
     \ if exists('b:winview') |
     \   call winrestview(b:winview) |
-    \   unlet b:winview
+    \   unlet b:winview |
     \ endif
 
   " strip trailing whitespace on most file-types
   autocmd BufWritePre *
     \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
-    \   %s/\s\+$//e |
+    \   StripTrailingWhitespace |
     \ endif
 
   " 'compile' sass files on saving, if they aren't _something.scss files
-  autocmd BufWritePost *.scss
-    \ if (executable('sass') || executable('sassc')) && expand('%:t')[0] != '_' |
-    \   execute '!sass -t compressed '.expand('%:p').' '.expand('%:p:r').'.css' |
-    \ endif
+  autocmd BufWritePost *.scss CompileSass
 
   " load fugitive on all buffers
   autocmd BufEnter * call fugitive#detect(expand('%:p'))
@@ -385,7 +371,7 @@ nnoremap <silent> <Space> :nohlsearch<CR>
 " resize windows
 nnoremap <C-Left>  <C-W><
 nnoremap <C-Right> <C-W>>
-nnoremap <C-Up>  <C-W>+
+nnoremap <C-Up>    <C-W>+
 nnoremap <C-Down>  <C-W>-
 
 " switch windows
@@ -399,7 +385,7 @@ nnoremap <silent> <M-h> :bprev<CR>
 nnoremap <silent> <M-l> :bnext<CR>
 
 " strip trailing whitespace
-command! StripTrailingWhitespace %s/\s\+$//e | nohlsearch
+command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s///g
@@ -419,6 +405,8 @@ inoremap <expr> <silent> <S-Tab> completion#tab(0)
 " external file processing
 command! -nargs=? UglifyJS call utils#uglify_js(<args>)
 command! -nargs=? DotToPng call utils#dot_to_png(<args>)
+command! -nargs=? CompileSass call utils#compile_sass(<args>)
+command! -nargs=1 RFC call utils#rfc(<args>)
 
 " emacs keys in commandline
 cnoremap <C-e> <End>
@@ -436,6 +424,12 @@ function! s:smart_hash_rocket() abort
   return l:rv . '=> '
 endfunction
 imap <expr> <C-l> <SID>smart_hash_rocket()
+
+" function! s:auto_close_block() abort
+"   let l:prev = completion#char_before_cursor()
+"   return (l:prev == '{') ? : "\<CR>\<C-i>\<CR>}\<Up>\<End>" : "\<CR>"
+" endfunction
+" inoremap <script> <expr> <CR> <SID>auto_close_block()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
@@ -451,9 +445,24 @@ endif
 " }}}
 
 " statusline {{{
-set statusline=%{strlen(GitGutterStatus())?GitGutterStatus().'\ ':''}
+function! GitGutterStatus() abort
+  let l:fugstat = fugitive#statusline()
+  if l:fugstat == ''
+    return ''
+  endif
+  let l:stats = gitgutter#hunk#summary(bufnr('%'))
+  let l:symbols = ['+', '~', '-']
+  let l:line = ''
+  for l:i in range(3)
+    if l:stats[l:i] > 0
+      let l:line .= l:symbols[l:i].l:stats[l:i]
+    endif
+  endfor
+  return l:fugstat[:-2].l:line.'] '
+endfunction
+
+set statusline=%{GitGutterStatus()}
 set statusline+=%<%F
-set statusline+=%{strlen(&ft)?'\ ['.&ft.']':''}
 set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r

@@ -1,5 +1,4 @@
 " addons for dirvish
-" nmap <C-o> <Plug>(dirvish-toggle)
 nmap - <Plug>(dirvish-toggle)
 nnoremap <silent> <Plug>(dirvish-toggle) :<C-u>call <SID>dirvish_toggle()<CR>
 
