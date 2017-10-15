@@ -18,7 +18,6 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 
 # i have no idea what this stuff does! it was in here from the beginning
-bindkey -v
 zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 
 autoload -Uz compinit
@@ -26,8 +25,6 @@ compinit
 
 # futuristic zsh commands
 autoload zmv
-autoload zcalc
-zmodload zsh/datetime
 
 # completion stuff stolen from github.com/eevee/rc/.zshrc
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=**' 'r:|=**'
@@ -61,6 +58,7 @@ else
 fi
 
 # hopefully a much saner keyboard mapping section
+bindkey -e
 autoload zkbd
 if [[ -a $ZDOTDIR/zkbd/$TERM ]]; then
     source $ZDOTDIR/zkbd/$TERM
@@ -73,3 +71,4 @@ fi
 bindkey '^[[Z' reverse-menu-complete
 bindkey '^J' history-substring-search-down
 bindkey '^K' history-substring-search-up
+bindkey '^W' vi-backward-kill-word
