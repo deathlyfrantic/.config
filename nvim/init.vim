@@ -113,7 +113,7 @@ let g:tagbar_iconchars = ['+', '-']
 
 " neomake {{{
 let g:neomake_open_list = 2
-let g:neomake_list_height = 5
+let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
 augroup neomake_custom_config
@@ -181,7 +181,7 @@ call plug#begin($VIMHOME.'/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'justinmk/vim-dirvish'
   Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-  Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
+  Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
   Plug 'ap/vim-buftabline'
 
   " text manipulation

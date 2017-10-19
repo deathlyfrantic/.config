@@ -33,5 +33,6 @@ function! s:google(url)
 endfunction
 
 function! s:browser(url)
-  silent execute '!xdg-open "'.a:url.'"'
+  let l:open = (has('mac')) ? 'open' : 'xdg-open'
+  silent execute '!'.l:open.' "'.a:url.'"'
 endfunction
