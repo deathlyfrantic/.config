@@ -4,9 +4,10 @@
 # https://github.com/koekeishiya/skhd/issues/1 - key literals
 ctrl + cmd - return : open -nF /Applications/iTerm.app
 ctrl + cmd - g : ~/bin/open-firefox
+ctrl + cmd - d : open /Applications/Dictionary.app
 
 # i never want to hide a window with cmd-h, make it a no-op
-cmd - h : :
+# cmd - h : :
 
 ctrl + cmd - q : chunkc tiling::window --close
 
