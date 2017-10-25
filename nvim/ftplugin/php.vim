@@ -1,3 +1,5 @@
+setlocal commentstring=//%s
+
 iabbrev <buffer> != !==
 iabbrev <buffer> == ===
 iabbrev <buffer> fn function
