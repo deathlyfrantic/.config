@@ -1,5 +1,4 @@
 " addons for dirvish
-nmap - <Plug>(dirvish-toggle)
 nnoremap <silent> <Plug>(dirvish-toggle) :<C-u>call <SID>dirvish_toggle()<CR>
 
 function! s:dirvish_toggle() abort
@@ -43,9 +42,7 @@ augroup dirvish_commands
   autocmd FileType dirvish silent! keeppatterns g@\v/\.[^\/]+/?$@d
   autocmd FileType dirvish execute ':sort r /[^\/]$/'
 
-  if exists('g:ignore_patterns')
-    for pat in g:ignore_patterns
-      execute 'autocmd FileType dirvish silent! keeppatterns g@\v/'.pat.'/?$@d'
-    endfor
-  endif
+  for pat in get(g:, 'ignore_patterns', [])
+    execute 'autocmd FileType dirvish silent! keeppatterns g@\v/'.pat.'/?$@d'
+  endfor
 augroup END

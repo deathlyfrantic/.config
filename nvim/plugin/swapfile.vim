@@ -1,14 +1,12 @@
 function! s:go_away_swap(file, swap)
-  let l:ftime = getftime(a:file)
-  let l:stime = getftime(a:swap)
-  if l:ftime < l:stime
+  if getftime(a:file) < getftime(a:swap)
     let l:choice =  "o"
-    let l:msg = "Swap file for ".a:file." exists; opening read-only."
+    let l:msg = "Swap file for %s exists; opening read-only."
   else
     let l:choice = "d"
-    let l:msg = "Swap file for ".a:file." older than file; deleted."
+    let l:msg = "Swap file for %s older than file; deleted."
   endif
-  call s:delayed_message(l:msg)
+  call s:delayed_message(printf(l:msg, a:file))
   let v:swapchoice = l:choice
 endfunction
 

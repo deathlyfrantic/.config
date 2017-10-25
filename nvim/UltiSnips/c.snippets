@@ -8,14 +8,14 @@ ${VISUAL}$0
 endsnippet
 
 snippet main "Main function"
-int main(int argc, char *argv[argc+1]) {
+int main(int argc, char *argv[]) {
 	$0
 	return EXIT_SUCCESS;
 }
 endsnippet
 
 snippet vmain "Void main function"
-void main(int argc, char *argv[argc+1]) {
+void main(int argc, char *argv[]) {
 	$0
 }
 endsnippet
@@ -24,4 +24,8 @@ snippet for "For loop"
 for (size_t ${1:i} = 0; $1 < ${2:count}; ++$1) {
 	$0
 }
+endsnippet
+
+snippet inc "#include statement"
+#include <$1>
 endsnippet
