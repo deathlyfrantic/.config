@@ -1,4 +1,4 @@
-fpath=($HOME/src/pytasks $HOME/src/kv $fpath)
+fpath=(/usr/local/share/zsh-completions/ $HOME/src/kv $fpath)
 PATH=$HOME/bin:/usr/local/bin:$PATH
 REPORTTIME=5
 

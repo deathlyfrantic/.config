@@ -40,28 +40,28 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x68-0x80000</key>
+		<key>0x68-0x100000</key>
 		<dict>
 			<key>Action</key>
 			<integer>18</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x6a-0x80000</key>
+		<key>0x6a-0x100000</key>
 		<dict>
 			<key>Action</key>
 			<integer>21</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x6b-0x80000</key>
+		<key>0x6b-0x100000</key>
 		<dict>
 			<key>Action</key>
 			<integer>20</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x6c-0x80000</key>
+		<key>0x6c-0x100000</key>
 		<dict>
 			<key>Action</key>
 			<integer>19</integer>
@@ -246,13 +246,13 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>1029 393 224 289 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1234 203 445 77 0 0 1920 1058 </string>
+	<string>1234 69 445 77 0 0 1920 1058 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 500 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1012 585 796 473 0 0 1920 1058 </string>
+	<string>746 266 958 451 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1004 151 730 476 0 0 1920 1058 </string>
+	<string>1068 431 730 526 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>504 281 730 451 0 0 1920 1058 </string>
 	<key>NeverWarnAboutMeta</key>
@@ -986,7 +986,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-16T12:59:20Z</date>
+	<date>2017-10-20T12:59:21Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
