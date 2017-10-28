@@ -27,5 +27,17 @@ for (size_t ${1:i} = 0; $1 < ${2:count}; ++$1) {
 endsnippet
 
 snippet inc "#include statement"
-#include <$1>
+#include "$1"
+endsnippet
+
+snippet externcpp "extern C for cpp compiler"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+$0
+
+#ifdef __cplusplus
+}
+#endif
 endsnippet
