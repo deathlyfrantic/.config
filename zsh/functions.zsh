@@ -205,6 +205,12 @@ function zshaddhistory {
     if [[ $1 =~ '^ls' ]]; then
         return 1
     fi
+    if [[ $1 =~ '^antigen update' ]]; then
+        return 1
+    fi
+    if [[ $1 =~ '^b upgrade' || $1 =~ 'brew upgrade' ]]; then
+        return 1
+    fi
     return 0
 }
 
