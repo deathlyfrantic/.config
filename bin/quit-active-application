@@ -1,0 +1,4 @@
+#!/usr/bin/env osascript
+tell application (path to frontmost application as text)
+    quit
+end tell
