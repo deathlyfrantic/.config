@@ -32,9 +32,8 @@ if has('vim_starting')
   let &directory = $VIMHOME.'/swap'
   let &backupdir = $VIMHOME.'/backup'
   let &undodir   = $VIMHOME.'/undo'
-  let g:gutentags_cache_dir = $XDG_CACHE_HOME.'/tags'
 
-  for dir in [&directory, &backupdir, &undodir, g:gutentags_cache_dir]
+  for dir in [&directory, &backupdir, &undodir]
     if empty(glob(dir))
       silent! call mkdir(dir, 'p')
     endif
@@ -125,7 +124,9 @@ let g:sneak#use_ic_scs = 1
 Plug 'sjl/strftimedammit.vim'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
+
 Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_cache_dir = $XDG_CACHE_HOME.'/tags'
 
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger = '<C-]>'
