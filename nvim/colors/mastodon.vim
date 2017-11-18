@@ -124,3 +124,5 @@ highlight! link Whitespace                Comment
 highlight! link SignifySignAdd            GitGutterAdd
 highlight! link SignifySignChange         GitGutterChange
 highlight! link SignifySignDelete         GitGutterDelete
+highlight! link healthSuccess             GitGutterAdd
+highlight! link healthWarning             GitGutterChange

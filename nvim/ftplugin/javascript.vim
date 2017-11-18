@@ -1,3 +1,5 @@
+setlocal cinoptions-=(0
+
 iabbrev <buffer> != !==
 iabbrev <buffer> == ===
 iabbrev <buffer> fn function
