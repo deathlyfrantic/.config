@@ -55,6 +55,9 @@ let g:ignore_patterns = [
   \ '*.sqlite3',
   \ '.sass-cache',
   \ '.DS_Store',
+  \ 'node_modules',
+  \ 'node_modules/',
+  \ 'package-lock.json',
   \ ]
 " }}}
 
@@ -89,7 +92,6 @@ set showcmd
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
-set synmaxcol=500
 set textwidth=80
 set title
 set ttimeout
@@ -107,6 +109,9 @@ Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'Kareeeeem/python-docstring-comments', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+
+Plug 'mxw/vim-jsx', {'for': 'javascript'}
+let g:jsx_ext_required = 0
 " }}}
 
 " text objects {{{
@@ -122,7 +127,6 @@ let g:sneak#use_ic_scs = 1
 
 " dev tools {{{
 Plug 'sjl/strftimedammit.vim'
-Plug 'honza/vim-snippets'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'ludovicchabant/vim-gutentags'
@@ -133,8 +137,6 @@ let g:UltiSnipsExpandTrigger = '<C-]>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
-let g:ultisnips_python_quoting_style = 'single'
-let g:ultisnips_python_triple_quoting_style = 'double'
 let g:snips_author = 'Zandr Martin'
 
 Plug 'airblade/vim-gitgutter'
@@ -153,11 +155,7 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-augroup neomake_custom_config
-  autocmd!
-  autocmd VimEnter * let g:neomake_python_maker = neomake#makers#ft#python#python() |
-                   \ let g:neomake_python_maker['exe'] = substitute(system('which python3'), '\n', '', '')
-augroup END
+let g:neomake_python_python_exe = substitute(system('which python3'), '\n', '', '')
 " }}}
 
 " panels {{{
@@ -419,13 +417,10 @@ function! GitGutterStatus() abort
     return ''
   endif
   let l:stats = gitgutter#hunk#summary(bufnr('%'))
-  let l:symbols = ['+', '~', '-']
   let l:line = ''
-  for l:i in range(3)
-    if l:stats[l:i] > 0
-      let l:line .= l:symbols[l:i].l:stats[l:i]
-    endif
-  endfor
+  let l:line .= (l:stats[0] > 0) ? '+'.l:stats[0] : ''
+  let l:line .= (l:stats[1] > 0) ? '~'.l:stats[1] : ''
+  let l:line .= (l:stats[2] > 0) ? '-'.l:stats[2] : ''
   return l:fugstat[:-2].l:line.'] '
 endfunction
 

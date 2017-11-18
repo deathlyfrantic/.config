@@ -1,10 +1,24 @@
-snippet ifmain "if require.main === module"
-if (require.main === module) {
+snippet ifmain "if require.main === module" b
+function $1() {
 	$0
+}
+
+if (require.main === module) {
+	${1:${VISUAL:main}}();
 }
 endsnippet
 
-snippet console "const console"
+snippet console "require console" b
 const console = require("console");
+$0
+endsnippet
+
+snippet thisbind "this.func = this.func.bind(this);"
+this.${1:${VISUAL:func}} = this.$1.bind(this);
+$0
+endsnippet
+
+snippet impcomp "import React and Component from react" b
+import React, { Component } from "react";
 $0
 endsnippet
