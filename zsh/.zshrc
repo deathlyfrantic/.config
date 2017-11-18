@@ -41,7 +41,7 @@ zstyle ':completion:*:descriptions' format "$fg_bold[black]:: $fg_bold[blue]%d$r
 zstyle ':completion:*' group-name ''
 
 # Ignore some common useless files
-zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__' '.DS_Store'
+zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__' '.DS_Store' 'node_modules' 'package-lock.json'
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
 # antigen

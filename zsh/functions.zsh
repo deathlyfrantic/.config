@@ -222,3 +222,13 @@ function hog {
         du -d0 -h $i
     done
 }
+
+function timer {
+    if [[ $1 == "" ]]; then
+        local secs=60
+    else
+        local secs=$1
+    fi
+    repeat $secs echo -n "." && sleep 1
+    echo "\n\n### TIMER DONE ###\n"
+}
