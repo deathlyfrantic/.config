@@ -1,4 +1,5 @@
 setlocal cinoptions-=(0
+setlocal cinoptions-=:0
 
 iabbrev <buffer> != !==
 iabbrev <buffer> == ===
@@ -10,9 +11,10 @@ if line('$') == 1 && getline(1) == ""
   call cursor(2, 1)
 endif
 
-let s:node_bin_dir = substitute(system('npm bin'), '\n', '', '')
-let s:local_eslint_path = s:node_bin_dir . '/eslint'
+let eslint = printf('%s/eslint', substitute(system('npm bin'), '\n', '', ''))
 
-if executable(s:local_eslint_path)
-  let b:neomake_javascript_eslint_exe = s:local_eslint_path
+if executable(eslint)
+  let b:neomake_javascript_eslint_exe = eslint
 endif
+
+unlet eslint
