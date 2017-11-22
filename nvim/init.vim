@@ -185,6 +185,17 @@ Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_numbers = 2
+let btl_keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+              \ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
+let g:buftabline_plug_max = len(btl_keys)
+
+for i in range(g:buftabline_plug_max)
+  let key = btl_keys[i]
+  let lhs = has('nvim') ? printf('<M-%s>', key) : ''.key
+  execute printf('nmap <silent> %s <Plug>BufTabLine.Go(%d)', lhs, i+1)
+endfor
+
+unlet btl_keys lhs i key
 " }}}
 
 " text manipulation {{{
