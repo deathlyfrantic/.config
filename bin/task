@@ -1,1 +1,0 @@
-~/src/pytasks/venv/bin/python ~/src/pytasks/tasks.py "$@"
