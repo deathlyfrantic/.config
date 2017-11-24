@@ -11,9 +11,19 @@ let s:headers = [
   \ 'unistd',
   \ ]
 
-for s:h in s:headers
-  execute printf("iabbrev <buffer> %sh #include <%s.h>", s:h, s:h)
+let s:nested_headers = {
+  \ 'systypes': 'sys/types',
+  \ }
+
+for h in s:headers
+  execute printf('iabbrev <buffer> %sh #include <%s.h>', h, h)
 endfor
+
+for [h, f] in items(s:nested_headers)
+  execute printf('iabbrev <buffer> %sh #include <%s.h>', h, f)
+endfor
+
+unlet h f
 
 function! s:allowed_unused_parameter() abort
   let l:args = get(b:, 'neomake_c_clang_args', neomake#makers#ft#c#clang().args)

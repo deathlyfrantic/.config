@@ -3,13 +3,11 @@ command! -nargs=? Wrap call <SID>wrap(<f-args>)
 command! Unwrap call <SID>unwrap()
 
 function! s:wrap(...)
-  let s:orig_colcol = &colorcolumn
-  let s:orig_tw = &textwidth
-
+  let b:orig_cc = &colorcolumn
+  let b:orig_tw = &textwidth
   if a:0
-    execute 'setlocal textwidth='.a:1.' colorcolumn='.a:1
+    execute printf('setlocal textwidth=%s colorcolumn=%s', a:1)
   endif
-
   setlocal wrap linebreak
   inoremap <Up> <C-o>gk
   inoremap <Down> <C-o>gj
@@ -25,7 +23,7 @@ endfunction
 
 function! s:unwrap()
   setlocal nowrap nolinebreak
-  execute 'setlocal textwidth='.s:orig_tw.' colorcolumn='.s:orig_colcol
+  execute printf('setlocal textwidth=%s colorcolumn=%s', b:orig_tw, b:orig_cc)
   iunmap <Up>
   iunmap <Down>
   unmap k

@@ -4,7 +4,7 @@ if has('vim_starting')
   set encoding=utf-8
   let $VIMHOME = split(&runtimepath, ',')[0]
 
-  if $TERM != 'linux' && has('nvim')
+  if $TERM != 'linux' && exists('+termguicolors')
     set termguicolors
     set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
   endif
@@ -169,6 +169,7 @@ if executable('ag')
 endif
 
 Plug 'justinmk/vim-dirvish'
+let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
 
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}

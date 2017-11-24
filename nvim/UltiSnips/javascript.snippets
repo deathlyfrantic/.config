@@ -4,7 +4,7 @@ function $1() {
 }
 
 if (require.main === module) {
-	${1:${VISUAL:main}}();
+	${1:main}();
 }
 endsnippet
 
@@ -16,6 +16,32 @@ endsnippet
 snippet thisbind "this.func = this.func.bind(this);"
 this.${1:${VISUAL:func}} = this.$1.bind(this);
 $0
+endsnippet
+
+snippet reactcomponent "React component skeleton" b
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+class ${1:`!v expand('%:t:r')`} extends Component {
+	constructor(props) {
+		super(props);
+		$2
+	}
+
+	render() {
+		$0
+	}
+}
+
+$1.defaultProps = {
+	$3
+};
+
+$1.propTypes = {
+	$4
+};
+
+export default $1;
 endsnippet
 
 snippet impcomp "import React and Component from react" b

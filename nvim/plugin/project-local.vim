@@ -4,11 +4,11 @@ function! s:source_local_vimrc()
     return
   endif
   let l:dir = expand('%:p:h')
-  " apply settings from lowest dir to highest, so most specific settings are
-  " applied latest
+  " apply settings from lowest dir to highest,
+  " so most specific settings are applied latest
   for l:vimrc in reverse(findfile('.vimrc', l:dir.';', -1))
     if filereadable(l:vimrc)
-      execute 'source '.l:vimrc
+      execute printf('source %s', l:vimrc)
     endif
   endfor
 endfunction
