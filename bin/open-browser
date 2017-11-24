@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+if [[ $1 ]]; then
+    browser=$1
+else
+    browser="Firefox"
+fi
+script=$(<<EOF
+tell application "System Events"
+    if (name of processes) contains "$browser" then
+        tell application "$browser" to activate
+        keystroke "n" using command down
+    else
+        tell application "$browser" to activate
+    end if
+end tell
+EOF
+)
+osascript -e "$script"
