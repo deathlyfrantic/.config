@@ -2,7 +2,7 @@
 command! -nargs=? SetIndent call <SID>set_indent_level(<f-args>)
 
 function! s:set_indent_level(...)
-  let l:levels = {
+  let levels = {
     \ 'xml': 2,
     \ 'html': 2,
     \ 'htmldjango': 2,
@@ -10,8 +10,7 @@ function! s:set_indent_level(...)
     \ 'django': 2,
     \ 'vim': 2,
     \ }
-  let l:level = (a:0) ? a:1 : get(l:levels, &filetype, 4)
-  for l:cmd in ['softtabstop', 'shiftwidth']
-    execute 'setlocal '.l:cmd.'='.l:level
-  endfor
+  let level = (a:0) ? a:1 : get(levels, &filetype, 4)
+  execute printf('setlocal softtabstop=%d', level)
+  execute printf('setlocal shiftwidth=%d', level)
 endfunction

@@ -1,13 +1,13 @@
 " information superhighway
 nmap gw <Plug>(websearch)
 xmap gw <Plug>(websearch)
-nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>google_operator<CR>g@
-xnoremap <silent> <Plug>(websearch) :<C-u>call <SID>google_operator(visualmode())<CR>
+nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>search_operator<CR>g@
+xnoremap <silent> <Plug>(websearch) :<C-u>call <SID>search_operator(visualmode())<CR>
 
 command! -nargs=1 Web call <SID>browser(<f-args>)
-command! -nargs=1 Google call <SID>google(<f-args>)
+command! -nargs=1 Search call <SID>search(<f-args>)
 
-function! s:google_operator(type) abort
+function! s:search_operator(type) abort
   let l:regsave = @@
   let l:selsave = &selection
   let &selection = 'inclusive'
@@ -24,10 +24,10 @@ function! s:google_operator(type) abort
   let &selection = selsave
   let @@ = regsave
 
-  call <SID>google(l:url)
+  call <SID>search(l:url)
 endfunction
 
-function! s:google(url)
+function! s:search(url)
   let l:url = (a:url =~? 'http') ? a:url : 'https://duckduckgo.com/?q='.a:url
   call <SID>browser(l:url)
 endfunction
