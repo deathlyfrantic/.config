@@ -6,12 +6,6 @@ if has('vim_starting')
 
   if $TERM != 'linux' && exists('+termguicolors')
     set termguicolors
-    set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
-  endif
-
-  " set sensible defaults for regular vim
-  if !has('nvim')
-    source $VIMHOME/minimal.vim
   endif
 
   " kill default vim plugins i don't want
@@ -27,17 +21,6 @@ if has('vim_starting')
     autocmd VimEnter * UpdateRemotePlugins
     autocmd VimEnter * nested source $MYVIMRC
   endif
-
-  " hide file cruft
-  let &directory = $VIMHOME.'/swap'
-  let &backupdir = $VIMHOME.'/backup'
-  let &undodir   = $VIMHOME.'/undo'
-
-  for dir in [&directory, &backupdir, &undodir]
-    if empty(glob(dir))
-      silent! call mkdir(dir, 'p')
-    endif
-  endfor
 endif
 " --- end startup --- }}}
 
