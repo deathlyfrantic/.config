@@ -357,6 +357,9 @@ command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s///g
 
+" set indentation
+command! -bar -nargs=1 SetIndent setlocal softtabstop=<args> shiftwidth=<args>
+
 " maintain visual mode for indenting
 vnoremap < <gv
 vnoremap > >gv
