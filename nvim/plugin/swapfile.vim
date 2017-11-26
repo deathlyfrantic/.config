@@ -1,10 +1,10 @@
 function! s:go_away_swap(file, swap)
   if getftime(a:file) < getftime(a:swap)
-    let l:choice =  "o"
-    let l:msg = "Swap file for %s exists; opening read-only."
+    let l:choice =  'o'
+    let l:msg = 'Swap file for %s exists; opening read-only.'
   else
-    let l:choice = "d"
-    let l:msg = "Swap file for %s older than file; deleted."
+    let l:choice = 'd'
+    let l:msg = 'Swap file for %s older than file; deleted.'
   endif
   call s:delayed_message(printf(l:msg, a:file))
   let v:swapchoice = l:choice
@@ -14,7 +14,7 @@ function! s:delayed_message(msg)
   augroup swap_delayed_message
     autocmd!
     autocmd BufEnter * echohl WarningMsg
-    exec "autocmd BufEnter * echomsg '".a:msg."'"
+    execute printf("autocmd BufEnter * echomsg '%s'", a:msg)
     autocmd BufEnter * echohl NONE
     autocmd BufEnter * augroup swap_delayed_message
     autocmd BufEnter * autocmd!
@@ -24,5 +24,5 @@ endfunction
 
 augroup swap_command
   autocmd!
-  autocmd SwapExists * call s:go_away_swap(expand("<afile>"), v:swapname)
+  autocmd SwapExists * call s:go_away_swap(expand('<afile>'), v:swapname)
 augroup END
