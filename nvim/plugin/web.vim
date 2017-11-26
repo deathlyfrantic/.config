@@ -34,5 +34,5 @@ endfunction
 
 function! s:browser(url)
   let l:open = (has('mac')) ? 'open' : 'xdg-open'
-  silent execute '!'.l:open.' "'.a:url.'"'
+  silent execute printf('!%s "%s"', l:open, a:url)
 endfunction

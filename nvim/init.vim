@@ -1,7 +1,6 @@
 " --- startup processes --- {{{
 if has('vim_starting')
   " stuff that should only have to happen once
-  set encoding=utf-8
   let $VIMHOME = split(&runtimepath, ',')[0]
 
   if $TERM != 'linux' && exists('+termguicolors')
@@ -15,12 +14,15 @@ if has('vim_starting')
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
   " install vim-plug if it's not already
-  if !filereadable($VIMHOME.'/autoload/plug.vim')
-    execute '!curl -fLo '.$VIMHOME.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  let s:plug_path = printf('%s/autoload/plug.vim', $VIMHOME)
+  if !filereadable(s:plug_path)
+    execute printf('!curl -fLo %s --create-dirs', s:plug_path)
+      \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall
     autocmd VimEnter * UpdateRemotePlugins
     autocmd VimEnter * nested source $MYVIMRC
   endif
+  unlet s:plug_path
 endif
 " --- end startup --- }}}
 
@@ -86,7 +88,7 @@ set writebackup
 " --- end general settings --- }}}
 
 " --- plugins --- {{{
-call plug#begin($VIMHOME.'/plugged')
+call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'Kareeeeem/python-docstring-comments', {'for': 'python'}
@@ -113,13 +115,13 @@ Plug 'sjl/strftimedammit.vim'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_cache_dir = $XDG_CACHE_HOME.'/tags'
+let g:gutentags_cache_dir = printf('%s/tags', $XDG_CACHE_HOME)
 
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger = '<C-]>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-let g:UltiSnipsSnippetsDir = $VIMHOME.'/UltiSnips'
+let g:UltiSnipsSnippetsDir = printf('%s/UltiSnips', $VIMHOME)
 let g:snips_author = 'Zandr Martin'
 
 Plug 'airblade/vim-gitgutter'
@@ -138,17 +140,20 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_python_exe = substitute(system('which python3'), '\n', '', '')
+let g:neomake_python_python_exe =
+  \ substitute(system('which python3'), '\n', '', '')
 " }}}
 
 " panels {{{
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_open_multiple_files = '1jr'
 if executable('ag')
-  let s:ignore_string = join(map(copy(g:ignore_patterns), '"--ignore ''" . v:val . "''"'), ' ')
-  let g:ctrlp_user_command = 'ag '.s:ignore_string.'%s -l --nocolor -g ""'
+  let ignores = join(map(copy(g:ignore_patterns),
+    \ 'printf("--ignore ''%s''", v:val)'), ' ')
+  let g:ctrlp_user_command = printf('ag %s -l --nocolor -g ""', ignores)
   let g:ctrlp_use_caching = 0
-  let &grepprg='ag --nogroup --nocolor '.s:ignore_string
+  let &grepprg = printf('ag --nogroup --nocolor %s', ignores)
+  unlet ignores
 endif
 
 Plug 'justinmk/vim-dirvish'
@@ -169,17 +174,12 @@ Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_numbers = 2
-let btl_keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-              \ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
-let g:buftabline_plug_max = len(btl_keys)
-
+let keys = '1234567890qwertyuiop'
+let g:buftabline_plug_max = len(keys)
 for i in range(g:buftabline_plug_max)
-  let key = btl_keys[i]
-  let lhs = has('nvim') ? printf('<M-%s>', key) : ''.key
-  execute printf('nmap <silent> %s <Plug>BufTabLine.Go(%d)', lhs, i+1)
+  execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', keys[i], i+1)
 endfor
-
-unlet btl_keys lhs i key
+unlet keys i
 " }}}
 
 " text manipulation {{{
@@ -228,6 +228,9 @@ call plug#end()
 augroup rc_commands
   autocmd!
 
+  " there really should be a has('vim_quitting')
+  autocmd QuitPre * let w:vim_quitting = 1
+
   " omni-complete
   autocmd FileType *
     \ if &omnifunc == '' |
@@ -235,7 +238,8 @@ augroup rc_commands
     \ endif
 
   " specify comment types for commentary
-  autocmd FileType django,htmldjango,jinja,htmljinja setlocal commentstring={#%s#}
+  autocmd FileType django,htmldjango,jinja,htmljinja
+    \ setlocal commentstring={#%s#}
   autocmd FileType cmake setlocal commentstring=#%s
 
   " i will never be working with c++
@@ -247,10 +251,9 @@ augroup rc_commands
 
   " check all the things (except when quitting)
   autocmd BufWritePost *
-    \ if !get(w:, 'neomake_quitting', 0) |
+    \ if !get(w:, 'vim_quitting', 0) |
     \   Neomake |
     \ endif
-  autocmd QuitPre * let w:neomake_quitting = 1
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
@@ -286,7 +289,10 @@ augroup rc_commands
   autocmd BufEnter * call fugitive#detect(expand('%:p'))
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
-  autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC
+    \ if !get(w:, 'vim_quitting', 0) |
+    \   source $MYVIMRC |
+    \ endif
 
   " close preview window when leaving insert mode
   autocmd InsertLeave * pclose!
@@ -381,8 +387,7 @@ cnoremap <C-d> <Delete>
 
 " hash rocket
 function! s:smart_hash_rocket() abort
-  let l:rv = (completion#check_back_space()) ? '' : ' '
-  return l:rv . '=> '
+  return printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
 endfunction
 imap <expr> <C-l> <SID>smart_hash_rocket()
 
