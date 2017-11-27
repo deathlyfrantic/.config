@@ -6,11 +6,9 @@ function! s:wrap(...)
   let b:orig_cc = &colorcolumn
   let b:orig_tw = &textwidth
   if a:0
-    execute printf('setlocal textwidth=%s colorcolumn=%s', a:1)
+    execute printf('setlocal textwidth=%s colorcolumn=%s', a:1, a:1)
   endif
   setlocal wrap linebreak
-  inoremap <Up> <C-o>gk
-  inoremap <Down> <C-o>gj
   noremap k gk
   noremap gk k
   noremap j gj
@@ -24,8 +22,6 @@ endfunction
 function! s:unwrap()
   setlocal nowrap nolinebreak
   execute printf('setlocal textwidth=%s colorcolumn=%s', b:orig_tw, b:orig_cc)
-  iunmap <Up>
-  iunmap <Down>
   unmap k
   unmap gk
   unmap j

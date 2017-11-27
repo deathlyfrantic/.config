@@ -35,7 +35,6 @@ function! s:dirvish_autocmds() abort
   for pat in get(g:, 'ignore_patterns', [])
     execute printf('silent! keeppatterns g@\v/%s/?$@d', pat)
   endfor
-  call fugitive#detect(@%)
 endfunction
 
 augroup dirvish_commands

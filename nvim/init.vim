@@ -150,7 +150,7 @@ let g:ctrlp_open_multiple_files = '1jr'
 if executable('ag')
   let ignores = join(map(copy(g:ignore_patterns),
     \ 'printf("--ignore ''%s''", v:val)'), ' ')
-  let g:ctrlp_user_command = printf('ag %s -l --nocolor -g ""', ignores)
+  let g:ctrlp_user_command = printf('ag %s %%s -l --nocolor -g ""', ignores)
   let g:ctrlp_use_caching = 0
   let &grepprg = printf('ag --nogroup --nocolor %s', ignores)
   unlet ignores
@@ -301,7 +301,7 @@ augroup END
 
 " --- keymaps and commands --- {{{
 " typos
-command! -bang E e<bang>
+command! -bang -nargs=1 -complete=file E e<bang> <args>
 command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Bd bd<bang>
@@ -389,10 +389,7 @@ cnoremap <M-f> <S-Right>
 cnoremap <C-d> <Delete>
 
 " hash rocket
-function! s:smart_hash_rocket() abort
-  return printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
-endfunction
-imap <expr> <C-l> <SID>smart_hash_rocket()
+imap <expr> <C-l> printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
 
 " function! s:auto_close_block() abort
 "   let l:prev = completion#char_before_cursor()
