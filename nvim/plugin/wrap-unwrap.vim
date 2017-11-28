@@ -21,7 +21,9 @@ endfunction
 
 function! s:unwrap()
   setlocal nowrap nolinebreak
-  execute printf('setlocal textwidth=%s colorcolumn=%s', b:orig_tw, b:orig_cc)
+  if exists('b:orig_tw') && exists('b:orig_cc')
+    execute printf('setlocal textwidth=%s colorcolumn=%s', b:orig_tw, b:orig_cc)
+  endif
   unmap k
   unmap gk
   unmap j

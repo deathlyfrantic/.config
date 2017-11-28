@@ -11,8 +11,8 @@ endfunction
 function! s:bool_flip() abort
   let l:pairs = [
     \ ['true', 'false'],
-    \ ['yes', 'no']
-    \ ['on', 'off']
+    \ ['yes', 'no'],
+    \ ['on', 'off'],
     \ ]
   let l:word = expand('<cWORD>')
   for l:pair in l:pairs

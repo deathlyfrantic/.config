@@ -7,7 +7,11 @@ function! utils#uglify_js(...) abort
   if l:file =~? '.min.js'
     return
   endif
-  execute '!uglifyjs '.l:file.' -mo '.fnamemodify(l:file, ':r').'.min.'.fnamemodify(l:file, ':e')
+  execute printf('!uglifyjs %s -mo %s.min.%s',
+    \ l:file,
+    \ fnamemodify(l:file, ':r')
+    \ fnamemodify(l:file, ':e')
+    \ )
 endfunction
 
 function! utils#dot_to_png(...) abort
@@ -16,9 +20,8 @@ function! utils#dot_to_png(...) abort
     return
   endif
   let l:file = a:0 ? a:1 : expand('%:p')
-  let l:output = fnamemodify(l:file, ':r') . '.png'
-  let l:cmd = '!dot '.l:file.' -Tpng > '.l:output
-  execute l:cmd
+  let l:output = printf('%s.png', fnamemodify(l:file, ':r'))
+  execute printf('!dot %s -Tpng > %s', l:file, l:output)
 endfunction
 
 function! utils#compile_sass(...) abort
@@ -30,7 +33,10 @@ function! utils#compile_sass(...) abort
   if fnamemodify(l:file, ':t')[0] == '_'
     return
   endif
-  execute '!sass -t compressed '.l:file.' '.fnamemodify(l:file, ':r').'.css'
+  execute printf('!sass -t compressed %s %s.css',
+    \ l:file,
+    \ fnamemodify(l:file, 'r:')
+    \ )
 endfunction
 
 function! utils#preview(text) abort
@@ -40,9 +46,9 @@ function! utils#preview(text) abort
   let l:win = win_getid()
   let l:winview = winsaveview()
   pclose!
-  execute &previewheight."new"
+  execute printf('%dnew', &previewheight)
   set previewwindow noswapfile nobuflisted buftype=nofile
-  let l:text = (type(a:text) == type([])) ? a:text : split(a:text, "\n")
+  let l:text = (type(a:text) == type([])) ? a:text : split(a:text, '\n')
   call append(0, l:text)
   call cursor(1, 1)
   call win_gotoid(l:win)
@@ -54,5 +60,5 @@ function! utils#rfc(arg) abort
     echoerr 'RFC is not available.'
     return
   endif
-  call utils#preview(system('rfc '.a:arg))
+  call utils#preview(system(printf('rfc %s', a:arg)))
 endfunction
