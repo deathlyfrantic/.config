@@ -15,8 +15,7 @@ function! s:spaced_parens() abort
 endfunction
 
 function! s:spaced_parens_switch(on) abort
-  let l:group = 'spaced-parens-buf-'.bufnr('%')
-  execute 'augroup '.l:group
+  execute printf('augroup spaced-parens-buf-%s', bufnr('%'))
     autocmd!
     if a:on
       autocmd InsertCharPre <buffer> call <SID>spaced_parens()
