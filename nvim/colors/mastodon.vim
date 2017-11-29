@@ -60,32 +60,32 @@ highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold           c
 highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold           cterm=bold           term=bold
 highlight BufTabLineActive      guifg=#9ca7c9 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
 
-highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Directory             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Underlined            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Question              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight MoreMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight ModeMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight SpellRare             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight SpellLocal            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Boolean               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Constant              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Special               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Identifier            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Statement             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight PreProc               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Type                  guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Define                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Number                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Function              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Include               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight PreCondit             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Keyword               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Title                 guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Delimiter             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight StorageClass          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Operator              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight TabLineSel   NONE
+highlight TabLineClose NONE
+highlight Directory    NONE
+highlight Underlined   NONE
+highlight Question     NONE
+highlight MoreMsg      NONE
+highlight ModeMsg      NONE
+highlight SpellRare    NONE
+highlight SpellLocal   NONE
+highlight Boolean      NONE
+highlight Constant     NONE
+highlight Special      NONE
+highlight Identifier   NONE
+highlight Statement    NONE
+highlight PreProc      NONE
+highlight Type         NONE
+highlight Define       NONE
+highlight Number       NONE
+highlight Function     NONE
+highlight Include      NONE
+highlight PreCondit    NONE
+highlight Keyword      NONE
+highlight Title        NONE
+highlight Delimiter    NONE
+highlight StorageClass NONE
+highlight Operator     NONE
 
 highlight! link TabLine                   StatusLine
 highlight! link WildMenu                  Search

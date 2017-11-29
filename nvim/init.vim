@@ -97,6 +97,9 @@ Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 
 Plug 'mxw/vim-jsx', {'for': 'javascript'}
 let g:jsx_ext_required = 0
+
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+let g:rustfmt_autosave = 1
 " }}}
 
 " text objects {{{
@@ -113,6 +116,10 @@ let g:sneak#use_ic_scs = 1
 " dev tools {{{
 Plug 'sjl/strftimedammit.vim'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
+
+Plug 'racer-rust/vim-racer', {'for': 'rust'}
+let g:racer_cmd = substitute(system('which racer'), '\n', '', '')
+let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_cache_dir = printf('%s/tags', $XDG_CACHE_HOME)
