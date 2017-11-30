@@ -156,7 +156,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_open_multiple_files = '1jr'
 if executable('ag')
   let ignores = join(map(copy(g:ignore_patterns),
-    \ 'printf("--ignore ''%s''", v:val)'), ' ')
+    \ {i, v -> printf("--ignore '%s'", v)}))
   let g:ctrlp_user_command = printf('ag %s %%s -l --nocolor -g ""', ignores)
   let g:ctrlp_use_caching = 0
   let &grepprg = printf('ag --nogroup --nocolor %s', ignores)
@@ -265,7 +265,7 @@ augroup rc_commands
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
     \ if winnr('$') == 1 && (&bt ==? 'quickfix' || &bt ==? 'nofile') |
-    \   if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 |
+    \   if len(filter(range(1, bufnr('$')), {i, v -> buflisted(v)})) == 1 |
     \     quit |
     \   else |
     \     bd! |
@@ -419,16 +419,15 @@ endif
 
 " statusline {{{
 function! GitGutterStatus() abort
-  let l:fugstat = fugitive#statusline()
-  if l:fugstat == ''
+  let fugstat = fugitive#statusline()
+  if fugstat == ''
     return ''
   endif
-  let l:stats = gitgutter#hunk#summary(bufnr('%'))
-  let l:line = ''
-  let l:line .= (l:stats[0] > 0) ? '+'.l:stats[0] : ''
-  let l:line .= (l:stats[1] > 0) ? '~'.l:stats[1] : ''
-  let l:line .= (l:stats[2] > 0) ? '-'.l:stats[2] : ''
-  return l:fugstat[:-2].l:line.'] '
+  let stats = gitgutter#hunk#summary(bufnr('%'))
+  let line  = (stats[0] > 0) ? '+'.stats[0] : ''
+  let line .= (stats[1] > 0) ? '~'.stats[1] : ''
+  let line .= (stats[2] > 0) ? '-'.stats[2] : ''
+  return printf('%s%s] ', fugstat[:-2], line)
 endfunction
 
 set statusline=%{GitGutterStatus()}
