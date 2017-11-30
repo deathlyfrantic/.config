@@ -1,6 +1,4 @@
 fpath=(/usr/local/share/zsh-completions/ $HOME/src/kv $fpath)
-PATH=$HOME/bin:/usr/local/bin:/usr/local/opt/sqlite/bin:$PATH
-REPORTTIME=5
 
 # colors are important here in the future, where we live
 autoload colors; colors

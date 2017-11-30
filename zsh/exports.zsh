@@ -1,3 +1,4 @@
+export PATH=$HOME/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/opt/sqlite/bin:$PATH
 export XDG_RUNTIME_DIR=$TMPDIR
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/Library/Caches
@@ -12,3 +13,5 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VISUAL=nvim
 export LSCOLORS=ExGxFxFxCx
 export HOMEBREW_NO_ANALYTICS=1
+export REPORTTIME=5
+export RUST_SRC_PATH="$(rustc --print sysroot)/share/rust/rust_src"
