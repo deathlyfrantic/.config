@@ -11,7 +11,7 @@ function! completion#email(findstart, base) abort
   let aliases = readfile(expand('$XDG_CONFIG_HOME/mutt/aliases.muttrc'))
   let emails = sort(filter(aliases,
     \ {i, v -> substitute(v, '^alias', '', '') =~? a:base}))
-  return map(copy(emails), {i, v -> substitute(v, '^alias \w\+ ', '', '')})
+  return map(emails, {i, v -> substitute(v, '^alias \w\+ ', '', '')})
 endfunction
 
 function! completion#char_before_cursor() abort
@@ -42,5 +42,5 @@ function! completion#snippet(findstart, base) abort
   let snippets = UltiSnips#SnippetsInCurrentScope()
   let keys = filter(sort(keys(snippets)),
     \ {i, v -> substitute(v, '^alias', '', '') =~? a:base})
-  return map(copy(keys), {i, v -> {'word': v, 'menu': snippets[v]}})
+  return map(keys, {i, v -> {'word': v, 'menu': snippets[v]}})
 endfunction

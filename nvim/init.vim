@@ -118,7 +118,7 @@ Plug 'sjl/strftimedammit.vim'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = utils#chomp(system('which racer'))
+let g:racer_cmd = z#chomp(system('which racer'))
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
@@ -147,7 +147,7 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_python_exe = utils#chomp(system('which python3'))
+let g:neomake_python_python_exe = z#chomp(system('which python3'))
 " }}}
 
 " panels {{{
@@ -182,10 +182,10 @@ let g:buftabline_indicators = 1
 let g:buftabline_numbers = 2
 let keys = '1234567890qwertyuiop'
 let g:buftabline_plug_max = len(keys)
-for i in range(g:buftabline_plug_max)
-  execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', keys[i], i+1)
+for [i, k] in z#enumerate(keys, 1)
+  execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', k, i)
 endfor
-unlet keys i
+unlet keys i k
 " }}}
 
 " text manipulation {{{
@@ -299,15 +299,13 @@ augroup rc_commands
     \ if !get(w:, 'vim_quitting', 0) |
     \   source $MYVIMRC |
     \ endif
-
-  " close preview window when leaving insert mode
-  autocmd InsertLeave * pclose!
 augroup END
 " --- end autocommands --- }}}
 
 " --- keymaps and commands --- {{{
 " typos
 command! -bang -nargs=1 -complete=file E e<bang> <args>
+command! -bang -nargs=1 -complete=help H h<bang> <args>
 command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Bd bd<bang>
@@ -379,10 +377,10 @@ inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
 " external file processing
-command! -nargs=? UglifyJS call utils#uglify_js(<args>)
-command! -nargs=? DotToPng call utils#dot_to_png(<args>)
-command! -nargs=? CompileSass call utils#compile_sass(<args>)
-command! -nargs=1 RFC call utils#rfc(<args>)
+command! -nargs=? UglifyJS call z#uglify_js(<args>)
+command! -nargs=? DotToPng call z#dot_to_png(<args>)
+command! -nargs=? CompileSass call z#compile_sass(<args>)
+command! -nargs=1 RFC call z#rfc(<args>)
 
 " emacs keys in command-line
 cnoremap <C-e> <End>
