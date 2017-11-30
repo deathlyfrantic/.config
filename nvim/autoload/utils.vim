@@ -62,3 +62,9 @@ function! utils#rfc(arg) abort
   endif
   call utils#preview(system(printf('rfc %s', a:arg)))
 endfunction
+
+function! utils#chomp(s, ...) abort
+  let sep = (a:0) ? a:000 : ['\r\n', '\r', '\n']
+  let regex = printf('\%%(%s\)$', join(sep, '\|'))
+  return substitute(a:s, regex, '', '')
+endfunction
