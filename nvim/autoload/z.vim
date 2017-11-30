@@ -1,4 +1,4 @@
-function! utils#uglify_js(...) abort
+function! z#uglify_js(...) abort
   if !executable('uglifyjs')
     echoerr 'UglifyJS is not available.'
     return
@@ -14,7 +14,7 @@ function! utils#uglify_js(...) abort
     \ )
 endfunction
 
-function! utils#dot_to_png(...) abort
+function! z#dot_to_png(...) abort
   if !executable('dot')
     echoerr 'Graphviz/Dot is not available.'
     return
@@ -24,7 +24,7 @@ function! utils#dot_to_png(...) abort
   execute printf('!dot %s -Tpng > %s', l:file, l:output)
 endfunction
 
-function! utils#compile_sass(...) abort
+function! z#compile_sass(...) abort
   if !(executable('sass') || executable('sassc'))
     echoerr 'Sass is not available.'
     return
@@ -39,7 +39,15 @@ function! utils#compile_sass(...) abort
     \ )
 endfunction
 
-function! utils#preview(text) abort
+function! z#rfc(arg) abort
+  if !executable('rfc')
+    echoerr 'RFC is not available.'
+    return
+  endif
+  call z#preview(system(printf('rfc %s', a:arg)))
+endfunction
+
+function! z#preview(text) abort
   if &previewwindow
     return
   endif
@@ -55,16 +63,14 @@ function! utils#preview(text) abort
   call winrestview(l:winview)
 endfunction
 
-function! utils#rfc(arg) abort
-  if !executable('rfc')
-    echoerr 'RFC is not available.'
-    return
-  endif
-  call utils#preview(system(printf('rfc %s', a:arg)))
-endfunction
-
-function! utils#chomp(s, ...) abort
-  let sep = (a:0) ? a:000 : ['\r\n', '\r', '\n']
+function! z#chomp(s, ...) abort
+  let sep = a:0 ? a:000 : ['\r\n', '\r', '\n']
   let regex = printf('\%%(%s\)$', join(sep, '\|'))
   return substitute(a:s, regex, '', '')
+endfunction
+
+function! z#enumerate(l, ...) abort
+  let start = a:0 ? a:1 : 0
+  let collection = (type(a:l) == type('')) ? split(a:l, '\zs') : a:l
+  return map(collection, {i, v -> [(i + start), v]})
 endfunction
