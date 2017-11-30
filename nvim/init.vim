@@ -118,7 +118,7 @@ Plug 'sjl/strftimedammit.vim'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = substitute(system('which racer'), '\n', '', '')
+let g:racer_cmd = utils#chomp(system('which racer'))
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
@@ -147,8 +147,7 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_python_exe =
-  \ substitute(system('which python3'), '\n', '', '')
+let g:neomake_python_python_exe = utils#chomp(system('which python3'))
 " }}}
 
 " panels {{{
@@ -397,12 +396,6 @@ cnoremap <C-d> <Delete>
 
 " hash rocket
 imap <expr> <C-l> printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
-
-" function! s:auto_close_block() abort
-"   let l:prev = completion#char_before_cursor()
-"   return (l:prev == '{') ? : "\<CR>\<C-i>\<CR>}\<Up>\<End>" : "\<CR>"
-" endfunction
-" inoremap <script> <expr> <CR> <SID>auto_close_block()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
@@ -436,6 +429,7 @@ set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r
 set statusline+=%{&wrap?'\[wrap]\ ':''}
+set statusline+=%{&paste?'\[paste]\ ':''}
 set statusline+=%=%l,%c%V\ \ \ %P
 " }}}
 " --- end colors and appearance --- }}}
