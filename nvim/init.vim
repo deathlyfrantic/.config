@@ -14,15 +14,14 @@ if has('vim_starting')
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
   " install vim-plug if it's not already
-  let s:plug_path = printf('%s/autoload/plug.vim', $VIMHOME)
-  if !filereadable(s:plug_path)
-    execute printf('!curl -fLo %s --create-dirs', s:plug_path)
+  let plug_path = printf('%s/autoload/plug.vim', $VIMHOME)
+  if !filereadable(plug_path)
+    execute printf('!curl -fLo %s --create-dirs', plug_path)
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall
-    autocmd VimEnter * UpdateRemotePlugins
+    autocmd VimEnter * PlugInstall | UpdateRemotePlugins
     autocmd VimEnter * nested source $MYVIMRC
   endif
-  unlet s:plug_path
+  unlet! plug_path
 endif
 " --- end startup --- }}}
 
@@ -30,17 +29,15 @@ endif
 " ignore patterns - used in a couple places {{{
 let g:ignore_patterns = [
   \ '__pycache__/',
-  \ '__pycache__',
+  \ '*.pyc',
   \ '.git',
   \ '.gitmodules',
-  \ '*.pyc',
   \ '*.swp',
   \ '*.min.js',
   \ '*.sql',
   \ '*.sqlite3',
   \ '.sass-cache',
   \ '.DS_Store',
-  \ 'node_modules',
   \ 'node_modules/',
   \ 'package-lock.json',
   \ ]
@@ -50,7 +47,6 @@ set cinoptions+=:0,(0
 set colorcolumn=+1
 set complete+=i,d,kspell
 set completeopt-=preview
-set completeopt+=longest
 set completefunc=completion#snippet
 set cursorline
 set expandtab
@@ -58,7 +54,7 @@ set fillchars=vert:\│,fold:-
 set fileformats=unix,dos,mac
 set foldlevel=99
 set foldmethod=indent
-set formatoptions+=jnroql
+set formatoptions+=nrol
 set gdefault
 set hidden
 set ignorecase
@@ -73,7 +69,6 @@ set number
 set shiftround
 set shiftwidth=4
 set sidescroll=1
-set showcmd
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
@@ -91,10 +86,8 @@ set writebackup
 call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
-Plug 'Kareeeeem/python-docstring-comments', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-
 Plug 'mxw/vim-jsx', {'for': 'javascript'}
 let g:jsx_ext_required = 0
 
@@ -108,17 +101,11 @@ Plug 'kana/vim-textobj-user'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'glts/vim-textobj-comment'
 Plug 'zandrmartin/vim-textobj-blanklines'
-
-Plug 'justinmk/vim-sneak'
-let g:sneak#use_ic_scs = 1
 " }}}
 
 " dev tools {{{
-Plug 'sjl/strftimedammit.vim'
-Plug 'junegunn/gv.vim', {'on': 'GV'}
-
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = z#chomp(system('which racer'))
+let g:racer_cmd = z#sys_chomp('which racer')
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
@@ -147,7 +134,7 @@ let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_python_exe = z#chomp(system('which python3'))
+let g:neomake_python_python_exe = z#sys_chomp('which python3')
 " }}}
 
 " panels {{{
@@ -159,7 +146,7 @@ if executable('ag')
   let g:ctrlp_user_command = printf('ag %s %%s -l --nocolor -g ""', ignores)
   let g:ctrlp_use_caching = 0
   let &grepprg = printf('ag --nogroup --nocolor %s', ignores)
-  unlet ignores
+  unlet! ignores
 endif
 
 Plug 'justinmk/vim-dirvish'
@@ -185,15 +172,16 @@ let g:buftabline_plug_max = len(keys)
 for [i, k] in z#enumerate(keys, 1)
   execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', k, i)
 endfor
-unlet keys i k
+unlet! keys i k
 " }}}
 
 " text manipulation {{{
-Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeEnable'}
 Plug 'henrik/vim-indexed-search'
 Plug 'junegunn/vim-peekaboo'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'tommcdo/vim-exchange'
+Plug 'tommcdo/vim-lion'
+let g:lion_squeeze_spaces = 1
 
 let g:mta_filetypes = {
   \ 'html': 1,
@@ -205,9 +193,6 @@ let g:mta_filetypes = {
   \ }
 Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
 
-Plug 'tommcdo/vim-lion'
-let g:lion_squeeze_spaces = 1
-
 Plug 'zandrmartin/vim-sparkup/'
 let g:sparkupExecuteMapping = '<C-^>'
 let g:sparkupNextMapping = '<C-f>'
@@ -216,7 +201,6 @@ let g:sparkupFiletypes = keys(g:mta_filetypes)
 
 " tpope's special section {{{
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
@@ -231,7 +215,7 @@ call plug#end()
 " --- end plugins --- }}}
 
 " --- autocommands --- {{{
-augroup rc_commands
+augroup z-rc-commands
   autocmd!
 
   " there really should be a has('vim_quitting')
@@ -282,7 +266,7 @@ augroup rc_commands
   autocmd! BufWinEnter *
     \ if exists('b:winview') |
     \   call winrestview(b:winview) |
-    \   unlet b:winview |
+    \   unlet! b:winview |
     \ endif
 
   " strip trailing whitespace on most file-types
@@ -330,11 +314,7 @@ nmap Y y$
 cnoremap w!! SudoWrite
 
 " current directory in command-line
-cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
-
-" command-line up/down
-cnoremap <C-k> <Up>
-cnoremap <C-j> <Down>
+cnoremap <expr> %% printf('%s/', fnameescape(expand('%:p:h')))
 
 " write then delete buffer; akin to wq
 cnoremap wbd Wbd
@@ -393,7 +373,7 @@ cnoremap <M-f> <S-Right>
 cnoremap <C-d> <Delete>
 
 " hash rocket
-imap <expr> <C-l> printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
+imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
@@ -401,7 +381,7 @@ imap <expr> <C-l> printf('%s=> ', (completion#check_back_space()) ? '' : ' ')
 set background=dark
 if $TERM == 'linux'
   colorscheme default
-elseif strftime('%H') > 21 || strftime('%H') < 6
+elseif strftime('%H') > 21 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
@@ -414,10 +394,10 @@ function! GitGutterStatus() abort
   if fugstat == ''
     return ''
   endif
-  let stats = gitgutter#hunk#summary(bufnr('%'))
-  let line  = (stats[0] > 0) ? '+'.stats[0] : ''
-  let line .= (stats[1] > 0) ? '~'.stats[1] : ''
-  let line .= (stats[2] > 0) ? '-'.stats[2] : ''
+  let [added, changed, deleted] = gitgutter#hunk#summary(bufnr('%'))
+  let line  = added   ? printf('+%d', added)   : ''
+  let line .= changed ? printf('~%d', changed) : ''
+  let line .= deleted ? printf('-%d', deleted) : ''
   return printf('%s%s] ', fugstat[:-2], line)
 endfunction
 

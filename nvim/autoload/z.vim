@@ -69,6 +69,10 @@ function! z#chomp(s, ...) abort
   return substitute(a:s, regex, '', '')
 endfunction
 
+function! z#sys_chomp(s) abort
+  return z#chomp(system(a:s))
+endfunction
+
 function! z#enumerate(l, ...) abort
   let start = a:0 ? a:1 : 0
   let collection = (type(a:l) == type('')) ? split(a:l, '\zs') : a:l
