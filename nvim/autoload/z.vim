@@ -78,3 +78,8 @@ function! z#enumerate(l, ...) abort
   let collection = (type(a:l) == type('')) ? split(a:l, '\zs') : a:l
   return map(collection, {i, v -> [(i + start), v]})
 endfunction
+
+function! z#zip(a, b) abort
+  let collection = len(a:a) > len(a:b) ? a:a[:len(a:b)-1] : a:a
+  return map(collection, {i, v -> [v, a:b[i]]})
+endfunction

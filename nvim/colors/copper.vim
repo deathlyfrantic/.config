@@ -58,35 +58,34 @@ highlight GitGutterAdd          guifg=#7af500 guibg=NONE    gui=NONE           c
 highlight GitGutterChangeDelete guifg=#ff7700 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight ErrorMsg              guifg=#ffffff guibg=#f53900 gui=bold           cterm=bold           term=bold
 highlight WarningMsg            guifg=#ffffff guibg=#ff7700 gui=bold           cterm=bold           term=bold
-highlight Whitespace            guifg=#3f3430 guibg=NONE    gui=NONE           cterm=NONE           term=NONE
 highlight BufTabLineActive      guifg=#c9a79c guibg=#5d4b44 gui=NONE           cterm=NONE           term=NONE
 
-highlight TabLineSel            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight TabLineClose          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Directory             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Underlined            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Question              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight MoreMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight ModeMsg               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight SpellRare             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight SpellLocal            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Boolean               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Constant              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Special               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Identifier            guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Statement             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight PreProc               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Type                  guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Define                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Number                guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Function              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Include               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight PreCondit             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Keyword               guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Title                 guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Delimiter             guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight StorageClass          guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
-highlight Operator              guifg=NONE    guibg=NONE    gui=NONE           cterm=NONE           term=NONE
+highlight TabLineSel   NONE
+highlight TabLineClose NONE
+highlight Directory    NONE
+highlight Underlined   NONE
+highlight Question     NONE
+highlight MoreMsg      NONE
+highlight ModeMsg      NONE
+highlight SpellRare    NONE
+highlight SpellLocal   NONE
+highlight Boolean      NONE
+highlight Constant     NONE
+highlight Special      NONE
+highlight Identifier   NONE
+highlight Statement    NONE
+highlight PreProc      NONE
+highlight Type         NONE
+highlight Define       NONE
+highlight Number       NONE
+highlight Function     NONE
+highlight Include      NONE
+highlight PreCondit    NONE
+highlight Keyword      NONE
+highlight Title        NONE
+highlight Delimiter    NONE
+highlight StorageClass NONE
+highlight Operator     NONE
 
 highlight! link TabLine                   StatusLine
 highlight! link WildMenu                  Search
@@ -99,7 +98,7 @@ highlight! link PmenuSel                  WildMenu
 highlight! link SignColumn                LineNr
 highlight! link FoldColumn                LineNr
 highlight! link Folded                    LineNr
-highlight! link TabLineFill               StatusLine
+highlight! link TabLineFill               TabLine
 highlight! link BufTabLineCurrent         Normal
 highlight! link BufTabLineHidden          TabLine
 highlight! link BufTabLineFill            TabLine
@@ -125,3 +124,5 @@ highlight! link Whitespace                Comment
 highlight! link SignifySignAdd            GitGutterAdd
 highlight! link SignifySignChange         GitGutterChange
 highlight! link SignifySignDelete         GitGutterDelete
+highlight! link healthSuccess             GitGutterAdd
+highlight! link healthWarning             GitGutterChange
