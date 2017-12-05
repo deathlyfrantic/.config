@@ -85,14 +85,12 @@ set writebackup
 " --- plugins --- {{{
 call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'mxw/vim-jsx', {'for': 'javascript'}
 let g:jsx_ext_required = 0
-
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-let g:rustfmt_autosave = 1
 " }}}
 
 " text objects {{{
@@ -143,9 +141,10 @@ let g:ctrlp_open_multiple_files = '1jr'
 if executable('ag')
   let ignores = join(map(copy(g:ignore_patterns),
     \ {i, v -> printf("--ignore '%s'", v)}))
-  let g:ctrlp_user_command = printf('ag %s %%s -l --nocolor -g ""', ignores)
+  let g:ctrlp_user_command = printf('ag %s %%s -l -g ""', ignores)
   let g:ctrlp_use_caching = 0
-  let &grepprg = printf('ag --nogroup --nocolor %s', ignores)
+  let &grepprg = printf('ag --vimgrep %s $*', ignores)
+  set grepformat=%f:%l:%c:%m
   unlet! ignores
 endif
 
@@ -362,7 +361,7 @@ command! -nargs=? DotToPng call z#dot_to_png(<args>)
 command! -nargs=? CompileSass call z#compile_sass(<args>)
 command! -nargs=1 RFC call z#rfc(<args>)
 
-" emacs keys in command-line
+" emacs(-like) keys in command-line
 cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
@@ -371,6 +370,9 @@ cnoremap <M-d> <S-Right><Right><C-w>
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
 cnoremap <C-d> <Delete>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
 
 " hash rocket
 imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
@@ -390,15 +392,14 @@ endif
 
 " statusline {{{
 function! GitGutterStatus() abort
-  let fugstat = fugitive#statusline()
-  if fugstat == ''
+  let status = fugitive#statusline()[:-2]
+  if status == ''
     return ''
   endif
-  let [added, changed, deleted] = gitgutter#hunk#summary(bufnr('%'))
-  let line  = added   ? printf('+%d', added)   : ''
-  let line .= changed ? printf('~%d', changed) : ''
-  let line .= deleted ? printf('-%d', deleted) : ''
-  return printf('%s%s] ', fugstat[:-2], line)
+  for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
+    let status .= num ? printf('%s%d', sym, num) : ''
+  endfor
+  return printf('%s] ', status)
 endfunction
 
 set statusline=%{GitGutterStatus()}
