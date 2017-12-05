@@ -1,4 +1,5 @@
-fpath=(/usr/local/share/zsh-completions/ $HOME/src/kv $fpath)
+fpath=(/usr/local/Cellar/rust/1.22.1/share/rust/rust_src/tools/cargo/src/etc /usr/local/share/zsh-completions/ $HOME/src/kv $fpath)
+
 
 # colors are important here in the future, where we live
 autoload colors; colors
@@ -67,6 +68,6 @@ if [[ -a $ZDOTDIR/zkbd/$TERM ]]; then
     [[ -n ${key[Down]} ]] && bindkey "${key[Down]}" history-substring-search-down
 fi
 bindkey '^[[Z' reverse-menu-complete
-bindkey '^J' history-substring-search-down
-bindkey '^K' history-substring-search-up
+bindkey '^N' history-substring-search-down
+bindkey '^P' history-substring-search-up
 bindkey '^W' vi-backward-kill-word
