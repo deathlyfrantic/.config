@@ -383,7 +383,7 @@ imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 set background=dark
 if $TERM == 'linux'
   colorscheme default
-elseif strftime('%H') > 21 || strftime('%H') < 9
+elseif strftime('%H') > 19 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
