@@ -1,4 +1,10 @@
 setlocal commentstring=//%s
+setlocal completeopt+=preview
+
+augroup php-ftplugin-autocmds
+  autocmd!
+  autocmd InsertLeave <buffer> pclose!
+augroup END
 
 iabbrev <buffer> != !==
 iabbrev <buffer> == ===

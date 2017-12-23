@@ -35,7 +35,7 @@ function! z#compile_sass(...) abort
   endif
   execute printf('!sass -t compressed %s %s.css',
     \ l:file,
-    \ fnamemodify(l:file, 'r:')
+    \ fnamemodify(l:file, ':r')
     \ )
 endfunction
 
