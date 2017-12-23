@@ -1,1 +1,4 @@
-autocmd BufWritePost <buffer> CompileSass
+augroup scss-ftplugin
+  autocmd!
+  autocmd BufWritePost <buffer> CompileSass
+augroup END

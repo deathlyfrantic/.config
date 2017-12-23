@@ -61,7 +61,6 @@ set ignorecase
 set inccommand=split
 set lazyredraw
 set listchars=space:·,eol:¬,tab:▸\ ,trail:·,precedes:↪,extends:↩
-set mouse=
 set nojoinspaces
 set nostartofline
 set nowrap
@@ -85,7 +84,7 @@ set writebackup
 " --- plugins --- {{{
 call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'ElmCast/elm-vim', {'for': 'elm'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
@@ -102,6 +101,9 @@ Plug 'zandrmartin/vim-textobj-blanklines'
 " }}}
 
 " dev tools {{{
+Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
+let g:phpcomplete_parse_docblock_comments = 1
+
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = z#sys_chomp('which racer')
 let g:racer_experimental_completer = 1
@@ -127,12 +129,25 @@ nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
 xmap gs <Plug>(GrepperOperator)
 
+Plug 'sbdchd/neoformat'
+augroup z-rc-neoformat
+  autocmd!
+  autocmd BufWritePre *
+    \ if !get(b:, 'no_neoformat', 0) |
+    \   silent Neoformat |
+    \ endif
+augroup END
+
 Plug 'neomake/neomake'
 let g:neomake_open_list = 2
 let g:neomake_list_height = 10
 let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_python_python_exe = z#sys_chomp('which python3')
+augroup z-rc-neomake
+  autocmd!
+  autocmd BufWritePost * if !get(w:, 'vim_quitting', 0) | Neomake | endif
+augroup END
 " }}}
 
 " panels {{{
@@ -200,16 +215,26 @@ let g:sparkupFiletypes = keys(g:mta_filetypes)
 
 " tpope's special section {{{
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-" }}}
+Plug 'tpope/vim-commentary'
+augroup z-rc-commentary
+  autocmd!
+  autocmd FileType django,htmldjango,jinja,htmljinja
+    \ setlocal commentstring={#%s#}
+  autocmd FileType cmake setlocal commentstring=#%s
+augroup END
+
+Plug 'tpope/vim-fugitive'
+augroup z-rc-fugitive
+  autocmd!
+  autocmd BufEnter * call fugitive#detect(@%)
+augroup END
 call plug#end()
 " --- end plugins --- }}}
 
@@ -226,23 +251,12 @@ augroup z-rc-commands
     \   set omnifunc=syntaxcomplete#Complete |
     \ endif
 
-  " specify comment types for commentary
-  autocmd FileType django,htmldjango,jinja,htmljinja
-    \ setlocal commentstring={#%s#}
-  autocmd FileType cmake setlocal commentstring=#%s
-
   " i will never be working with c++
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
 
   " mutt and mail
   autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
-
-  " check all the things (except when quitting)
-  autocmd BufWritePost *
-    \ if !get(w:, 'vim_quitting', 0) |
-    \   Neomake |
-    \ endif
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
@@ -267,15 +281,6 @@ augroup z-rc-commands
     \   call winrestview(b:winview) |
     \   unlet! b:winview |
     \ endif
-
-  " strip trailing whitespace on most file-types
-  autocmd BufWritePre *
-    \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
-    \   StripTrailingWhitespace |
-    \ endif
-
-  " load fugitive on all buffers
-  autocmd BufEnter * call fugitive#detect(expand('%:p'))
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC
@@ -336,6 +341,13 @@ nnoremap <C-k> <C-W>k
 
 " strip trailing whitespace
 command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
+augroup z-rc-trailing-whitespace
+  autocmd!
+  autocmd BufWritePre *
+    \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
+    \   StripTrailingWhitespace |
+    \ endif
+augroup END
 
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s///g
@@ -374,7 +386,8 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
 
-" hash rocket
+" arrows
+imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
 imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 " --- end keymaps --- }}}
 
@@ -383,7 +396,7 @@ imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 set background=dark
 if $TERM == 'linux'
   colorscheme default
-elseif strftime('%H') > 19 || strftime('%H') < 9
+elseif strftime('%H') > 17 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
