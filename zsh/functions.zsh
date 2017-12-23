@@ -216,7 +216,6 @@ function zshaddhistory {
 
 function hog {
     local -a contents=("${(@f)$(du -d1 | sort -n | cut -f2)}")
-
     for i in $contents;
     do
         du -d0 -h $i
@@ -229,6 +228,13 @@ function timer {
     else
         local secs=$1
     fi
-    repeat $secs echo -n "." && sleep 1
-    echo "\n\n### TIMER DONE ###\n"
+    local pf=" %$(expr $COLUMNS / 2)s\r"
+    printf "\n"
+    for i in $(seq $secs 1);
+    do
+        printf $pf $i
+        sleep 1
+    done
+    printf "$pf\n\n" "DONE"
+    tput bel
 }
