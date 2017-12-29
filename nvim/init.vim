@@ -2,10 +2,7 @@
 if has('vim_starting')
   " stuff that should only have to happen once
   let $VIMHOME = split(&runtimepath, ',')[0]
-
-  if $TERM != 'linux' && exists('+termguicolors')
-    set termguicolors
-  endif
+  set termguicolors
 
   " kill default vim plugins i don't want
   let g:loaded_vimballPlugin = 'v35'
@@ -394,9 +391,7 @@ imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if $TERM == 'linux'
-  colorscheme default
-elseif strftime('%H') > 17 || strftime('%H') < 9
+if strftime('%H') > 17 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
