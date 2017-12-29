@@ -1,6 +1,5 @@
 fpath=(/usr/local/Cellar/rust/1.22.1/share/rust/rust_src/tools/cargo/src/etc /usr/local/share/zsh-completions/ $HOME/src/kv $fpath)
 
-
 # colors are important here in the future, where we live
 autoload colors; colors
 

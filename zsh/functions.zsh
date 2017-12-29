@@ -202,15 +202,19 @@ function _git_prompt_ahead_behind {
 
 function zshaddhistory {
     # don't save boring history
-    if [[ $1 =~ '^ls' ]]; then
-        return 1
-    fi
-    if [[ $1 =~ '^antigen update' ]]; then
-        return 1
-    fi
-    if [[ $1 =~ '^b upgrade' || $1 =~ 'brew upgrade' ]]; then
-        return 1
-    fi
+    local boring=(
+        '^ls'
+        '^antigen update'
+        '^b upgrade' '^brew upgrade'
+        '^b cask upgrade' '^brew cask upgrade'
+    )
+    for i in $boring;
+    do
+        if [[ $1 =~ $i ]];
+        then
+            return 1
+        fi
+    done
     return 0
 }
 
