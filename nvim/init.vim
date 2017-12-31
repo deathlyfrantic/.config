@@ -37,6 +37,7 @@ let g:ignore_patterns = [
   \ '.DS_Store',
   \ 'node_modules/',
   \ 'package-lock.json',
+  \ 'elm-stuff',
   \ ]
 " }}}
 
