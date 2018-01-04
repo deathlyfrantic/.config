@@ -151,6 +151,12 @@ augroup END
 " panels {{{
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_open_multiple_files = '1jr'
+let g:ctrlp_prompt_mappings = {
+  \ 'PrtSelectMove("j")': ['<C-n>', '<Down>'],
+  \ 'PrtSelectMove("k")': ['<C-p>', '<Up>'],
+  \ 'PrtHistory(-1)': ['<C-j>'],
+  \ 'PrtHistory(1)':  ['<C-k>'],
+  \ }
 if executable('ag')
   let ignores = join(map(copy(g:ignore_patterns),
     \ {i, v -> printf("--ignore '%s'", v)}))
@@ -373,6 +379,7 @@ command! -nargs=1 RFC call z#rfc(<args>)
 
 " emacs(-like) keys in command-line
 cnoremap <C-e> <End>
+cnoremap <C-g> <C-c>
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
