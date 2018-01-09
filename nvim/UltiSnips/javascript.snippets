@@ -53,3 +53,20 @@ snippet actype "redux action type const" b
 export const ${1:${VISUAL:ACTION_TYPE}} = "$1";
 $0
 endsnippet
+
+snippet action "redux action function" b
+export const ${1:action} = ($2) => {
+	return {
+		type: $3,
+		payload: {
+			$0
+		}
+	};
+};
+endsnippet
+
+snippet roas "return Object.assign({}, state {" b
+return Object.assign({}, state, {
+	$0
+});
+endsnippet
