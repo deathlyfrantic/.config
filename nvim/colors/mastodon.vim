@@ -89,9 +89,14 @@ highlight Operator     NONE
 
 highlight! link TabLine                   StatusLine
 highlight! link WildMenu                  Search
+highlight! link GitGutterDelete           Error
 highlight! link NeomakeWarningSign        GitGutterChange
 highlight! link NeomakeErrorSign          Error
-highlight! link GitGutterDelete           Error
+highlight! link NeomakeInfoSign           GitGutterChangeLine
+highlight! link NeomakeMessageSign        GitGutterAdd
+highlight! link ALEWarningSign            GitGutterChange
+highlight! link ALEErrorSign              GitGutterChange
+highlight! link ALEInfoSign               GitGutterChangeLine
 highlight! link CursorColumn              CursorLine
 highlight! link ColorColumn               CursorLine
 highlight! link PmenuSel                  WildMenu
