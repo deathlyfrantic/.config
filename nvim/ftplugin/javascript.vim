@@ -13,18 +13,24 @@ iabbrev <buffer> fn function
 
 let b:npm_bin = get(b:, 'npm_bin', z#sys_chomp('npm bin'))
 
+" neomake {{{
+let b:neomake_javascript_enabled_makers = []
 let eslint = printf('%s/eslint', b:npm_bin)
 if executable(eslint)
   let b:neomake_javascript_eslint_exe =
     \ get(b:, 'neomake_javascript_eslint_exe', eslint)
+  let b:neomake_javascript_enabled_makers += ['eslint']
 endif
-unlet eslint
+unlet! eslint
 
-let prettier = printf('%s/prettier', b:npm_bin)
-if executable(prettier)
-  let b:neoformat_javascript_prettier = get(b:, 'neoformat_javascript_prettier',
-    \ extend(neoformat#formatters#javascript#prettier(), {'exe': prettier}))
+let flow = printf('%s/flow', b:npm_bin)
+if executable(flow)
+  let b:neomake_javascript_flow_exe =
+    \ get(b:, 'neomake_javascript_flow_exe', flow)
+  let b:neomake_javascript_enabled_makers += ['flow']
 endif
+unlet! flow
+" }}}
 
 let b:neoformat_enabled_javascript = get(b:, 'neoformat_enabled_javascript',
   \ filter(neoformat#formatters#javascript#enabled(),
