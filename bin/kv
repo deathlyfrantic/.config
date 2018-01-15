@@ -1,1 +1,0 @@
-"$HOME"/src/kv/venv/bin/python "$HOME"/src/kv/kv.py "$@"
