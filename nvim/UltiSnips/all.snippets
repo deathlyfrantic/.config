@@ -12,3 +12,15 @@ tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
 vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
 no sea takimata sanctus est Lorem ipsum dolor sit amet.
 endsnippet
+
+snippet todo "todo" w
+`!v &cms == '/*%s*/' ? '/*' : substitute(&cms, '%s', '', '')` TODO(`!v printf("%s/%s", g:snips_author, strftime("%F"))`): $0`!v &cms == '/*%s*/' ? ' */' : ''`
+endsnippet
+
+snippet fixme "fixme" w
+`!v &cms == '/*%s*/' ? '/*' : substitute(&cms, '%s', '', '')` FIXME(`!v printf("%s/%s", g:snips_author, strftime("%F"))`): $0`!v &cms == '/*%s*/' ? ' */' : ''`
+endsnippet
+
+snippet xxx "xxx" w
+`!v &cms == '/*%s*/' ? '/*' : substitute(&cms, '%s', '', '')` XXX(`!v printf("%s/%s", g:snips_author, strftime("%F"))`): $0`!v &cms == '/*%s*/' ? ' */' : ''`
+endsnippet
