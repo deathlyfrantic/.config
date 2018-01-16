@@ -18,7 +18,7 @@
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
-  echoerr 'The paper colorscheme requires a true-color Vim (Neovim or Gvim).'
+  echoerr 'The snowblind colorscheme requires a true-color Vim (Neovim or Gvim).'
   finish
 endif
 
@@ -28,7 +28,7 @@ if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = 'paper'
+let g:colors_name = 'snowblind'
 
 highlight Normal                guifg=#000000 guibg=#ffffff gui=NONE           cterm=NONE           term=NONE
 highlight Visual                guifg=NONE    guibg=#dddddd gui=NONE           cterm=NONE           term=NONE
