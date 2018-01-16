@@ -144,19 +144,6 @@ augroup z-rc-ale-keymaps
   autocmd VimEnter * nnoremap <silent> [a :ALEPreviousWrap<Enter>
   autocmd VimEnter * nnoremap <silent> ]a :ALENextWrap<Enter>
 augroup END
-
-" Plug 'neomake/neomake'
-" let g:neomake_open_list = 2
-" let g:neomake_list_height = 10
-" let g:neomake_error_sign = {'text': '**', 'texthl': 'NeomakeErrorSign'}
-" let g:neomake_warning_sign = {'text': '!!', 'texthl': 'NeomakeWarningSign'}
-" let g:neomake_info_sign = {'text': '??', 'texthl': 'NeomakeInfoSign'}
-" let g:neomake_message_sign = {'text': '++', 'texthl': 'NeomakeMessageSign'}
-" let g:neomake_python_python_exe = z#sys_chomp('which python3')
-" augroup z-rc-neomake
-"   autocmd!
-"   autocmd BufWritePost * if !get(w:, 'vim_quitting', 0) | Neomake | endif
-" augroup END
 " }}}
 
 " panels {{{
