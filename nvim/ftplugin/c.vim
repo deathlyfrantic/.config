@@ -25,13 +25,5 @@ endfor
 
 unlet h f
 
-function! s:allowed_unused_parameter() abort
-  let l:args = get(b:, 'neomake_c_clang_args', neomake#makers#ft#c#clang().args)
-  let l:unused = '-Wno-unused-parameter'
-  if index(l:args, l:unused) == -1
-    let l:args = add(l:args, l:unused)
-  endif
-  let b:neomake_c_clang_args = l:args
-endfunction
-
-command! -bar -buffer AllowUnusedParameter call <SID>allowed_unused_parameter()
+let b:ale_c_clang_options =
+ \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
