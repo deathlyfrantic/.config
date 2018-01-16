@@ -136,26 +136,37 @@ augroup z-rc-neoformat
     \ endif
 augroup END
 
-Plug 'neomake/neomake'
-let g:neomake_open_list = 2
-let g:neomake_list_height = 10
-let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_python_python_exe = z#sys_chomp('which python3')
-augroup z-rc-neomake
+Plug 'w0rp/ale'
+nnoremap <silent> <Tab> :ALEDetail<Enter>
+augroup z-rc-ale-keymaps
+  " so as not to get overwritten by unimpaired
   autocmd!
-  autocmd BufWritePost * if !get(w:, 'vim_quitting', 0) | Neomake | endif
+  autocmd VimEnter * nnoremap <silent> [a :ALEPreviousWrap<Enter>
+  autocmd VimEnter * nnoremap <silent> ]a :ALENextWrap<Enter>
 augroup END
+
+" Plug 'neomake/neomake'
+" let g:neomake_open_list = 2
+" let g:neomake_list_height = 10
+" let g:neomake_error_sign = {'text': '**', 'texthl': 'NeomakeErrorSign'}
+" let g:neomake_warning_sign = {'text': '!!', 'texthl': 'NeomakeWarningSign'}
+" let g:neomake_info_sign = {'text': '??', 'texthl': 'NeomakeInfoSign'}
+" let g:neomake_message_sign = {'text': '++', 'texthl': 'NeomakeMessageSign'}
+" let g:neomake_python_python_exe = z#sys_chomp('which python3')
+" augroup z-rc-neomake
+"   autocmd!
+"   autocmd BufWritePost * if !get(w:, 'vim_quitting', 0) | Neomake | endif
+" augroup END
 " }}}
 
 " panels {{{
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_open_multiple_files = '1jr'
 let g:ctrlp_prompt_mappings = {
-  \ 'PrtSelectMove("j")': ['<C-n>', '<Down>'],
-  \ 'PrtSelectMove("k")': ['<C-p>', '<Up>'],
-  \ 'PrtHistory(-1)': ['<C-j>'],
-  \ 'PrtHistory(1)':  ['<C-k>'],
+  \ 'PrtSelectMove("j")': ['<C-n>', '<C-j>'],
+  \ 'PrtSelectMove("k")': ['<C-p>', '<C-k>'],
+  \ 'PrtHistory(-1)': ['<Down>'],
+  \ 'PrtHistory(1)':  ['<Up>'],
   \ }
 if executable('ag')
   let ignores = join(map(copy(g:ignore_patterns),
@@ -229,8 +240,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 augroup z-rc-commentary
   autocmd!
-  autocmd FileType django,htmldjango,jinja,htmljinja
-    \ setlocal commentstring={#%s#}
+  autocmd FileType django,htmldjango,jinja,htmljinja setlocal cms={#%s#}
   autocmd FileType cmake setlocal commentstring=#%s
 augroup END
 
@@ -239,6 +249,7 @@ augroup z-rc-fugitive
   autocmd!
   autocmd BufEnter * call fugitive#detect(@%)
 augroup END
+" }}}
 call plug#end()
 " --- end plugins --- }}}
 
@@ -287,10 +298,7 @@ augroup z-rc-commands
     \ endif
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
-  autocmd BufWritePost $MYVIMRC
-    \ if !get(w:, 'vim_quitting', 0) |
-    \   source $MYVIMRC |
-    \ endif
+  autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 " --- end autocommands --- }}}
 
@@ -394,6 +402,10 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
 " arrows
 imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
 imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
+augroup z-rc-arrows
+    autocmd!
+    autocmd FileType c,php imap <buffer> <C-j> ->
+augroup END
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
