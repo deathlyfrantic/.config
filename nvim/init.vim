@@ -242,9 +242,6 @@ call plug#end()
 augroup z-rc-commands
   autocmd!
 
-  " there really should be a has('vim_quitting')
-  autocmd QuitPre * let w:vim_quitting = 1
-
   " omni-complete
   autocmd FileType *
     \ if &omnifunc == '' |
