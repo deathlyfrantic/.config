@@ -37,7 +37,6 @@ let g:ignore_patterns = [
   \ '.DS_Store',
   \ 'node_modules/',
   \ 'package-lock.json',
-  \ 'elm-stuff/',
   \ ]
 " }}}
 
@@ -82,7 +81,6 @@ set writebackup
 " --- plugins --- {{{
 call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
-Plug 'ElmCast/elm-vim', {'for': 'elm'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
