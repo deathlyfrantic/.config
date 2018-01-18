@@ -126,6 +126,7 @@ Plug 'mhinz/vim-grepper'
 nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
 xmap gs <Plug>(GrepperOperator)
+let g:grepper = {'tools': ['rg', 'git', 'grep']}
 
 Plug 'sbdchd/neoformat'
 augroup z-rc-neoformat
@@ -155,14 +156,13 @@ let g:ctrlp_prompt_mappings = {
   \ 'PrtHistory(-1)': ['<Down>'],
   \ 'PrtHistory(1)':  ['<Up>'],
   \ }
-if executable('ag')
-  let ignores = join(map(copy(g:ignore_patterns),
-    \ {i, v -> printf("--ignore '%s'", v)}))
-  let g:ctrlp_user_command = printf('ag %s %%s -l -g ""', ignores)
+if executable('rg')
+  let igs = join(map(copy(g:ignore_patterns), {i, v -> printf("-g '!%s'", v)}))
+  let g:ctrlp_user_command = printf('rg %s %%s -l --files -g ""', igs)
   let g:ctrlp_use_caching = 0
-  let &grepprg = printf('ag --vimgrep %s $*', ignores)
+  let &grepprg = printf('rg --vimgrep %s $*', igs)
   set grepformat=%f:%l:%c:%m
-  unlet! ignores
+  unlet! igs
 endif
 
 Plug 'justinmk/vim-dirvish'
