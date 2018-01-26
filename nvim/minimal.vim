@@ -11,22 +11,24 @@ if has('vim_starting')
     if exists("&t_EI")
       let &t_EI = "\<Esc>[2 q"
     endif
-
-    " it's practically impossible to use vim without these
-    let s:required_plugins = [
-      \ 'https://raw.githubusercontent.com/nelstrom/vim-visual-star-search/master/plugin/visual-star-search.vim',
-      \ 'https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim',
-      \ 'https://raw.githubusercontent.com/tpope/vim-surround/master/plugin/surround.vim',
-      \ 'https://raw.githubusercontent.com/tpope/vim-unimpaired/master/plugin/unimpaired.vim',
-      \ ]
-    for url in s:required_plugins
-      let fname = fnamemodify(url, ':t')
-      let locpath = $VIMHOME.'/plugin/'.fname
-      if !filereadable(locpath)
-        execute '!curl -fLo '.locpath.' --create-dirs '.url
-      endif
-    endfor
   endif
+
+  " it's practically impossible to use vim without these
+  let s:required_plugins = [
+    \ 'nelstrom/vim-visual-star-search/master/plugin/visual-star-search.vim',
+    \ 'tpope/vim-commentary/master/plugin/commentary.vim',
+    \ 'tpope/vim-surround/master/plugin/surround.vim',
+    \ 'tpope/vim-unimpaired/master/plugin/unimpaired.vim',
+    \ ]
+  for url in s:required_plugins
+    let fname = fnamemodify(url, ':t')
+    let locpath = $VIMHOME.'/plugin/'.fname
+    if !filereadable(locpath)
+      execute printf(
+        \ '!curl -fLo %s --create-dirs https://raw.githubusercontent.com/%s',
+        \ locpath, url)
+    endif
+  endfor
 endif
 
 set nocompatible
@@ -40,6 +42,9 @@ set formatoptions+=j
 set hidden
 set hlsearch
 set ignorecase
+if has('nvim')
+  set inccomand=split
+endif
 set incsearch
 set laststatus=2
 set nojoinspaces
@@ -57,7 +62,6 @@ set ttimeout
 set ttimeoutlen=50
 set wildignorecase
 set wildmenu
-set wrap
 
 nmap Y y$
 
@@ -97,6 +101,19 @@ command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 
+cnoremap <C-e> <End>
+cnoremap <C-g> <C-c>
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <M-d> <S-Right><Right><C-w>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+cnoremap <C-d> <Delete>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
+
 colorscheme default
 hi! Search ctermfg=16 ctermbg=231 cterm=NONE
 hi! Visual ctermfg=16 ctermbg=231 cterm=NONE
@@ -117,3 +134,5 @@ endfunction
 
 inoremap <expr> <silent> <Tab> <SID>tab_completion(1)
 inoremap <expr> <silent> <S-Tab> <SID>tab_completion(0)
+
+command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
