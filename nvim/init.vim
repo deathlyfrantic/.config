@@ -365,6 +365,7 @@ inoremap <expr> <silent> <S-Tab> completion#tab(0)
 command! -nargs=? UglifyJS call z#uglify_js(<args>)
 command! -nargs=? DotToPng call z#dot_to_png(<args>)
 command! -nargs=? CompileSass call z#compile_sass(<args>)
+command! -nargs=? PreviewMarkdown call z#preview_markdown(<args>)
 command! -nargs=1 RFC call z#rfc(<args>)
 
 " emacs(-like) keys in command-line
