@@ -81,6 +81,7 @@ set writebackup
 " --- plugins --- {{{
 call plug#begin(printf('%s/plugged', $VIMHOME))
 " filetypes {{{
+Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
