@@ -138,11 +138,13 @@ augroup END
 
 Plug 'w0rp/ale'
 nnoremap <silent> <Tab> :ALEDetail<Enter>
-augroup z-rc-ale-keymaps
-  " so as not to get overwritten by unimpaired
+augroup z-rc-ale
   autocmd!
+  " so as not to get overwritten by unimpaired
   autocmd VimEnter * nnoremap <silent> [a :ALEPreviousWrap<Enter>
   autocmd VimEnter * nnoremap <silent> ]a :ALENextWrap<Enter>
+  autocmd FileType ale-preview nnoremap <buffer> <Tab> :q!<CR>
+  autocmd FileType ale-preview Wrap
 augroup END
 " }}}
 
