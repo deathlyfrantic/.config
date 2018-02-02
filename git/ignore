@@ -7,3 +7,4 @@ __pycache__
 __MACOSX
 elm-stuff
 node_modules
+*.egg-info
