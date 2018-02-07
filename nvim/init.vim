@@ -137,13 +137,13 @@ augroup z-rc-neoformat
 augroup END
 
 Plug 'w0rp/ale'
-nnoremap <silent> <Tab> :ALEDetail<Enter>
+nmap <silent> <CR> <Plug>(ale_detail)
 augroup z-rc-ale
   autocmd!
   " so as not to get overwritten by unimpaired
   autocmd VimEnter * nnoremap <silent> [a :ALEPreviousWrap<Enter>
   autocmd VimEnter * nnoremap <silent> ]a :ALENextWrap<Enter>
-  autocmd FileType ale-preview nnoremap <buffer> <Tab> :q!<CR>
+  autocmd FileType ale-preview nnoremap <buffer> <CR> :q!<CR>
   autocmd FileType ale-preview Wrap
 augroup END
 " }}}
