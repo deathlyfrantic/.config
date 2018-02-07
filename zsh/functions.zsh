@@ -219,14 +219,6 @@ function zshaddhistory {
     return 0
 }
 
-function hog {
-    local -a contents=("${(@f)$(du -d1 | sort -n | cut -f2)}")
-    for i in $contents;
-    do
-        du -d0 -h $i
-    done
-}
-
 function timer {
     if [[ $1 == "" ]]; then
         local secs=60
