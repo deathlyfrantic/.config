@@ -15,3 +15,4 @@ function rgl() { rg -p $* | less }
 # ag colors below, maybe try rg's colors for a while
 # alias rg='rg -S --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold'
 alias va='source venv/bin/activate'
+alias hog='du -d1 -h | sort -h'
