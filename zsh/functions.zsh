@@ -9,6 +9,7 @@ function escape_for_pango {
 
 function set_title {
     local prefix=""
+    local mode=0 # 1 = tab, 2 = window, 0 = both
 
     if [[ $SSH_CONNECTION != "" ]]; then
         prefix="[$USER@$HOST] "
@@ -16,7 +17,7 @@ function set_title {
         prefix="[$USER] "
     fi
 
-    print -n "\e]2;$prefix$1\a"
+    print -n "\e]$mode;$prefix$1\a"
 }
 
 function precmd {
