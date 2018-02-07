@@ -282,6 +282,9 @@ augroup z-rc-commands
     \   unlet! b:winview |
     \ endif
 
+  " no line numbers in term
+  autocmd! TermOpen * setlocal nonumber
+
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
