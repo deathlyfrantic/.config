@@ -11,8 +11,9 @@ alias svn='svn --config-dir "$XDG_CONFIG_HOME"/subversion'
 alias b='brew'
 alias ltmail='DEFAULT_ACCOUNT=lt mutt'
 alias rg='rg -S'
-function rgl() { rg -p $* | less }
+function rgl() { rg -p $* | less } # this is alias-like
 # ag colors below, maybe try rg's colors for a while
 # alias rg='rg -S --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold'
 alias va='source venv/bin/activate'
 alias hog='du -d1 -h | sort -h'
+function mkcd { mkdir -p $1 && cd $1 } # this is alias-like

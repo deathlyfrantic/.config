@@ -29,10 +29,6 @@ function preexec {
     set_title $*
 }
 
-function mkcd {
-    mkdir -p $1 && cd $1
-}
-
 function set_up_prompt {
     local _user="%{$fg[blue]%}%n"
     local _at="%{$fg_bold[blue]%}@%{$reset_color%}"
