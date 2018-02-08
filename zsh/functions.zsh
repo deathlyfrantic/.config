@@ -235,3 +235,34 @@ function timer {
     printf "$pf\n\n" "DONE"
     tput bel
 }
+
+function diffstats {
+    local buf=""
+
+    # storing the entire buffer and processing it once is _much_ faster
+    # than processing each line as it comes in - i tried both
+    while read line; do
+        buf="$buf\n$line"
+    done
+
+    added_lines=$(echo $buf | grep '^+\{1\}[^+]' | wc -l | tr -d " ")
+    added_words=$(echo $buf | grep '^+\{1\}[^+]' | wc -w | tr -d " ")
+    deleted_lines=$(echo $buf | grep '^-\{1\}[^-]' | wc -l | tr -d " ")
+    deleted_words=$(echo $buf | grep '^-\{1\}[^-]' | wc -w | tr -d " ")
+    local total_lines=$(expr $added_lines "+" $deleted_lines)
+    local total_words=$(expr $added_words "+" $deleted_words)
+    local net_lines=$(expr $added_lines "-" $deleted_lines)
+    if [[ $net_lines -gt 0 ]]; then
+        net_lines="+$net_lines"
+    fi
+    local net_words=$(expr $added_words "-" $deleted_words)
+    if [[ $net_words -gt 0 ]]; then
+        net_words="+$net_words"
+    fi
+
+    echo "change lines words
+        total $total_lines $total_words
+        added $added_lines $added_words
+        deleted $deleted_lines $deleted_words
+        net $net_lines $net_words" | column -t
+}
