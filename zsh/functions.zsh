@@ -221,7 +221,7 @@ function timer {
     else
         local secs=$1
     fi
-    local pf=" %$(expr $COLUMNS / 2)s\r"
+    local pf=" %$(($COLUMNS / 2))s\r"
     printf "\n"
     for i in $(seq $secs 1);
     do
@@ -245,13 +245,13 @@ function diffstats {
     added_words=$(echo $buf | grep '^+\{1\}[^+]' | wc -w | tr -d " ")
     deleted_lines=$(echo $buf | grep '^-\{1\}[^-]' | wc -l | tr -d " ")
     deleted_words=$(echo $buf | grep '^-\{1\}[^-]' | wc -w | tr -d " ")
-    local total_lines=$(expr $added_lines "+" $deleted_lines)
-    local total_words=$(expr $added_words "+" $deleted_words)
-    local net_lines=$(expr $added_lines "-" $deleted_lines)
+    local total_lines=$(($added_lines + $deleted_lines))
+    local total_words=$(($added_words + $deleted_words))
+    local net_lines=$(($added_lines - $deleted_lines))
     if [[ $net_lines -gt 0 ]]; then
         net_lines="+$net_lines"
     fi
-    local net_words=$(expr $added_words "-" $deleted_words)
+    local net_words=$(($added_words - $deleted_words))
     if [[ $net_words -gt 0 ]]; then
         net_words="+$net_words"
     fi
