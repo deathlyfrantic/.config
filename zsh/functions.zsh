@@ -140,7 +140,7 @@ function git_prompt {
     fi
 
     # conflicts
-    local conflicts=$(git diff --staged --name-status | grep -c '^U ' | tr -d '[:blank:]')
+    local conflicts=$(git diff --staged --name-status | grep -c '^U ')
     if [[ $conflicts > 0 ]];
     then
         prompt_color_echo "!$conflicts" red bold
@@ -156,7 +156,7 @@ function git_prompt {
     fi
 
     # untracked
-    local untracked=$(git status --porcelain | grep -c '^?? ' | tr -d '[:blank:]')
+    local untracked=$(git status --porcelain | grep -c '^?? ')
     if [[ $untracked > 0 ]];
     then
         prompt_color_echo "_$untracked" magenta bold
@@ -241,10 +241,10 @@ function diffstats {
         buf="$buf\n$line"
     done
 
-    added_lines=$(echo $buf | grep '^+\{1\}[^+]' | wc -l | tr -d " ")
-    added_words=$(echo $buf | grep '^+\{1\}[^+]' | wc -w | tr -d " ")
-    deleted_lines=$(echo $buf | grep '^-\{1\}[^-]' | wc -l | tr -d " ")
-    deleted_words=$(echo $buf | grep '^-\{1\}[^-]' | wc -w | tr -d " ")
+    added_lines=$(echo $buf | grep -c '^+\{1\}[^+]')
+    added_words=$(echo $buf | grep '^+\{1\}[^+]' | wc -w | cat)
+    deleted_lines=$(echo $buf | grep -c '^-\{1\}[^-]')
+    deleted_words=$(echo $buf | grep '^-\{1\}[^-]' | wc -w | cat)
     local total_lines=$(($added_lines + $deleted_lines))
     local total_words=$(($added_words + $deleted_words))
     local net_lines=$(($added_lines - $deleted_lines))
