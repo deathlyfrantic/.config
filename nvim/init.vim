@@ -374,6 +374,9 @@ command! -nargs=? CompileSass call z#compile_sass(<args>)
 command! -nargs=? PreviewMarkdown call z#preview_markdown(<args>)
 command! -nargs=1 RFC call z#rfc(<args>)
 
+" run tests (see plugin/run-tests.vim)
+nmap <leader>t <Plug>(run-tests)
+
 " emacs(-like) keys in command-line
 cnoremap <C-e> <End>
 cnoremap <C-g> <C-c>
