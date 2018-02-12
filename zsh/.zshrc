@@ -70,3 +70,6 @@ bindkey '^[[Z' reverse-menu-complete
 bindkey '^N' history-substring-search-down
 bindkey '^P' history-substring-search-up
 bindkey '^W' vi-backward-kill-word
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
