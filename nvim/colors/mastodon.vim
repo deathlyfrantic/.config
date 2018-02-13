@@ -59,6 +59,7 @@ highlight GitGutterChangeDelete guifg=#ff7722 guibg=NONE    gui=NONE           c
 highlight ErrorMsg              guifg=#ffffff guibg=#f50039 gui=bold           cterm=bold           term=bold
 highlight WarningMsg            guifg=#ffffff guibg=#ff7722 gui=bold           cterm=bold           term=bold
 highlight BufTabLineActive      guifg=#9ca7c9 guibg=#444b5d gui=NONE           cterm=NONE           term=NONE
+highlight TermCursorNC          guifg=#000000 guibg=#606984 gui=NONE           cterm=NONE           term=NONE
 
 highlight TabLineSel   NONE
 highlight TabLineClose NONE
@@ -97,6 +98,7 @@ highlight! link NeomakeMessageSign        GitGutterAdd
 highlight! link ALEWarningSign            GitGutterChange
 highlight! link ALEErrorSign              GitGutterChange
 highlight! link ALEInfoSign               GitGutterChangeLine
+highlight! link TermCursor                Cursor
 highlight! link CursorColumn              CursorLine
 highlight! link ColorColumn               CursorLine
 highlight! link PmenuSel                  WildMenu
