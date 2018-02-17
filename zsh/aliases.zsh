@@ -17,3 +17,5 @@ function rgl() { rg -p $* | less } # this is alias-like
 alias va='source venv/bin/activate'
 alias hog='du -d1 -h | sort -h'
 function mkcd { mkdir -p $1 && cd $1 } # this is alias-like
+alias diffstat='diffstat -C'
+alias diff='diff --color=auto'
