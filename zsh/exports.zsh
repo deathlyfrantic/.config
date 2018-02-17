@@ -7,7 +7,6 @@ export EDITOR=nvim
 export INPUTRC="$XDG_CONFIG_HOME"/inputrc
 export LESSHISTFILE=-
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
-export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/startup.py
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VISUAL=nvim
