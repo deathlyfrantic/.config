@@ -31,7 +31,6 @@ let g:ignore_patterns = [
   \ '.gitmodules',
   \ '*.swp',
   \ '*.min.js',
-  \ '*.sql',
   \ '*.sqlite3',
   \ '.sass-cache',
   \ '.DS_Store',
