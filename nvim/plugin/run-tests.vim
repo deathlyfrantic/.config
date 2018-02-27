@@ -18,13 +18,32 @@ function! s:javascript() abort
   endif
 endfunction
 
-function! s:new_test_window() abort
-  let size = winheight(0) / 3
-  execute printf('rightbelow %snew', size)
+function! s:sh() abort
+  if executable('shunit2') && filereadable('test.sh')
+    return 'shunit2 test.sh'
+  endif
+endfunction
+
+function! s:new_test_buffer() abort
   let s:test_buffer = bufnr('%')
   autocmd BufDelete <buffer> let s:test_buffer = -1
   autocmd TermClose <buffer> call <SID>scroll_to_end()
   nnoremap <buffer> q :bd!<CR>
+endfunction
+
+function! s:load_or_create_buffer() abort
+  if bufexists(s:test_buffer)
+    execute printf('b%s', s:test_buffer)
+  else
+    enew
+    call s:new_test_buffer()
+  endif
+endfunction
+
+function! s:new_test_window() abort
+  let size = winheight(0) / 3
+  execute printf('rightbelow %ssp', size)
+  call s:load_or_create_buffer()
 endfunction
 
 function! s:ensure_test_window() abort
@@ -56,7 +75,9 @@ function! s:orchestrate_tests() abort
   " account for 'javascript.jsx'
   let l:ft = (&ft =~? 'javascript') ? 'javascript' : &ft
   try
-    let Runner = function(printf('s:%s', l:ft))
+    let Runner = has_key(b:, 'test_command')
+      \ ? {->b:test_command}
+      \ : function(printf('s:%s', l:ft))
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
     echomsg printf('No tests available for filetype "%s"', &ft)
     return

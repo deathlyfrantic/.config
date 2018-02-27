@@ -378,7 +378,7 @@ command! -nargs=? PreviewMarkdown call z#preview_markdown(<args>)
 command! -nargs=1 RFC call z#rfc(<args>)
 
 " run tests (see plugin/run-tests.vim)
-nmap <leader>t <Plug>(run-tests)
+nmap <silent> <leader>t <Plug>(run-tests)
 
 " emacs(-like) keys in command-line
 cnoremap <C-e> <End>
