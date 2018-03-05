@@ -252,6 +252,8 @@ augroup z-rc-commands
     \   set omnifunc=syntaxcomplete#Complete |
     \ endif
 
+  autocmd BufNewFile,BufReadPost .php_cs,.php_cs.dist setlocal filetype=php
+
   " i will never be working with c++
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
 
