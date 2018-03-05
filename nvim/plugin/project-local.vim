@@ -13,4 +13,4 @@ function! s:source_local_vimrc()
   endfor
 endfunction
 
-autocmd BufNewFile,BufReadPre * call <SID>source_local_vimrc()
+autocmd BufNewFile,BufReadPre * nested call <SID>source_local_vimrc()
