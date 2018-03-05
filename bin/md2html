@@ -10,6 +10,9 @@ if len(argv) < 2:
 
 mdfile = argv[1]
 htmlfile = argv[2] if len(argv) > 2 else mdfile.replace('.md', '.html')
+extensions = ['markdown.extensions.fenced_code',
+              'markdown.extensions.footnotes']
 
 with open(mdfile, 'r') as input_file, open(htmlfile, 'w') as output_file:
-    output_file.write(markdown.markdown(input_file.read()))
+    output_file.write(markdown.markdown(input_file.read(),
+                                        extensions=extensions))
