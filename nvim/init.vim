@@ -380,6 +380,9 @@ command! -nargs=1 RFC call z#rfc(<args>)
 " run tests (see plugin/run-tests.vim)
 nmap <silent> <leader>t <Plug>(run-tests)
 
+" copy entire buffer to system clipboard
+nnoremap <leader>a m`gg"+yG``
+
 " emacs(-like) keys in command-line
 cnoremap <C-e> <End>
 cnoremap <C-g> <C-c>
