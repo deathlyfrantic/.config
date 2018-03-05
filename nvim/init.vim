@@ -139,13 +139,10 @@ augroup z-rc-neoformat
 augroup END
 
 Plug 'w0rp/ale'
-nmap <silent> <CR> <Plug>(ale_detail)
+nnoremap <silent> [a :ALEPreviousWrap<Enter>
+nnoremap <silent> ]a :ALENextWrap<Enter>
 augroup z-rc-ale
   autocmd!
-  " so as not to get overwritten by unimpaired
-  autocmd VimEnter * nnoremap <silent> [a :ALEPreviousWrap<Enter>
-  autocmd VimEnter * nnoremap <silent> ]a :ALENextWrap<Enter>
-  autocmd FileType ale-preview nnoremap <buffer> <CR> :q!<CR>
   autocmd FileType ale-preview Wrap
 augroup END
 " }}}
@@ -227,6 +224,8 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+let g:nremap = {'[a': '', ']a': ''}
+
 Plug 'tpope/vim-commentary'
 augroup z-rc-commentary
   autocmd!
