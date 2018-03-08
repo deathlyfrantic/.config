@@ -461,7 +461,7 @@ endfunction
 
 set statusline=%{GitGutterStatus()}
 set statusline+=%<%F
-set statusline+=%{&ff!='unix'?'\ \ ['.&ff.']':''}
+set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r
 set statusline+=%{&wrap?'\[wrap]\ ':''}
