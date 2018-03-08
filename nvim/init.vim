@@ -238,6 +238,21 @@ augroup z-rc-fugitive
   autocmd!
   autocmd BufEnter * call fugitive#detect(@%)
 augroup END
+
+Plug 'tpope/vim-db'
+function! s:db_command(...) abort
+  let cmd = ':DB '
+  if exists('b:db_url')
+    let cmd .= 'b:db_url '
+    let cmd .= a:0 ? a:1.' ' : ''
+  endif
+  return cmd
+endfunction
+nnoremap <expr> <leader>d <SID>db_command()
+nnoremap <expr> <leader>ds <SID>db_command('SELECT *')
+nnoremap <expr> <leader>di <SID>db_command('INSERT INTO')
+nnoremap <expr> <leader>du <SID>db_command('UPDATE')
+nnoremap <expr> <leader>dd <SID>db_command('DELETE FROM')
 " }}}
 call plug#end()
 " --- end plugins --- }}}
