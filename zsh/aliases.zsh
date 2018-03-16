@@ -9,7 +9,6 @@ alias xmllint='xmllint --format'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqlite3/sqliterc'
 alias svn='svn --config-dir "$XDG_CONFIG_HOME"/subversion'
 alias b='brew'
-alias ltmail='DEFAULT_ACCOUNT=lt mutt'
 alias rg='rg -S'
 function rgl() { rg -p $* | less } # this is alias-like
 # ag colors below, maybe try rg's colors for a while
