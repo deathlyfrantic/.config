@@ -243,7 +243,7 @@ augroup z-rc-fugitive
   autocmd BufEnter * call fugitive#detect(@%)
 augroup END
 
-Plug 'tpope/vim-db'
+Plug 'tpope/vim-dadbod'
 function! s:db_command(...) abort
   let cmd = ':DB '
   if exists('b:db_url')
