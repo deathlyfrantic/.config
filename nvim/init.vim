@@ -97,9 +97,6 @@ Plug 'zandrmartin/vim-textobj-blanklines'
 " }}}
 
 " dev tools {{{
-Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
-let g:phpcomplete_parse_docblock_comments = 1
-
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = z#sys_chomp('which racer')
 let g:racer_experimental_completer = 1
@@ -270,8 +267,6 @@ augroup z-rc-commands
     \ if &omnifunc == '' |
     \   set omnifunc=syntaxcomplete#Complete |
     \ endif
-
-  autocmd BufNewFile,BufReadPost .php_cs,.php_cs.dist setlocal filetype=php
 
   " i will never be working with c++
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
