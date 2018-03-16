@@ -192,12 +192,15 @@ unlet! keys i k
 " }}}
 
 " text manipulation {{{
-Plug 'henrik/vim-indexed-search'
 Plug 'junegunn/vim-peekaboo'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 let g:lion_squeeze_spaces = 1
+
+Plug 'henrik/vim-indexed-search'
+let g:indexed_search_dont_move = 1
+let g:indexed_search_n_always_searches_forward = 0
 
 let g:mta_filetypes = {
   \ 'html': 1,
