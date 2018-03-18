@@ -1,4 +1,3 @@
-setlocal commentstring=//%s
 setlocal completeopt+=preview
 
 augroup php-ftplugin-autocmds

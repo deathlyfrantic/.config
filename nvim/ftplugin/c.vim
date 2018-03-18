@@ -1,5 +1,3 @@
-setlocal commentstring=//%s
-
 let s:headers = [
   \ 'signal',
   \ 'stdbool',
