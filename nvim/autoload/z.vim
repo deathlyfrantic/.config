@@ -46,7 +46,7 @@ function! z#preview_markdown(...) abort
   endif
   let l:file = a:0 ? a:1 : expand('%:p')
   let l:output = printf('%s%s.html', $TMPDIR, fnamemodify(l:file, ':t:r'))
-  execute printf('!md2html %s %s; open %s', l:file, l:output, l:output)
+  execute printf('!md2html %s %s; open -g %s', l:file, l:output, l:output)
 endfunction
 
 function! z#rfc(arg) abort
