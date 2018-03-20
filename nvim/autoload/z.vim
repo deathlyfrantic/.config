@@ -66,6 +66,8 @@ function! z#preview(text) abort
   pclose!
   execute printf('%dnew', &previewheight)
   set previewwindow noswapfile nobuflisted buftype=nofile
+  nnoremap <silent> <buffer> q :pclose!<CR>
+  nnoremap <silent> <buffer> <C-c> :pclose!<CR>
   let l:text = (type(a:text) == type([])) ? a:text : split(a:text, '\n')
   call append(0, l:text)
   call cursor(1, 1)
