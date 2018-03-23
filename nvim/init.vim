@@ -250,7 +250,7 @@ function! s:db_command(...) abort
   endif
   return cmd
 endfunction
-nnoremap <expr> <leader>d <SID>db_command()
+nnoremap <expr> <leader>db <SID>db_command()
 nnoremap <expr> <leader>ds <SID>db_command('SELECT *')
 nnoremap <expr> <leader>di <SID>db_command('INSERT INTO')
 nnoremap <expr> <leader>du <SID>db_command('UPDATE')
