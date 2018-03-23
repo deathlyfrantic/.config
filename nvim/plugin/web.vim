@@ -33,6 +33,6 @@ function! s:search(url)
 endfunction
 
 function! s:browser(url)
-  let l:open = (has('mac')) ? 'open' : 'xdg-open'
+  let l:open = has('mac') ? 'open -g' : 'xdg-open'
   silent execute printf('!%s "%s"', l:open, a:url)
 endfunction
