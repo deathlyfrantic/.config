@@ -1,7 +1,7 @@
 setlocal omnifunc=python3complete#Complete
 
 function! s:pydoc_man(...) abort
-  call utils#preview(systemlist(printf('pydoc3 %s', a:1)))
+  call z#preview(systemlist(printf('pydoc3 %s', a:1)))
 endfunction
 
 command! -nargs=1 PydocPreview call <SID>pydoc_man(<f-args>)
