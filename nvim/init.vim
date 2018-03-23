@@ -424,7 +424,7 @@ augroup END
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if strftime('%H') > 17 || strftime('%H') < 9
+if strftime('%H') > 18 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
