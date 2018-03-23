@@ -1,7 +1,7 @@
 let s:test_buffer = -1
 
 function! s:python() abort
-  return executable('pytest') ? 'pytest' : 'python -m unittest'
+  return executable('pytest') ? 'pytest' : 'python3 -m unittest'
 endfunction
 
 function! s:javascript() abort
