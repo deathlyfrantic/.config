@@ -195,9 +195,9 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 let g:lion_squeeze_spaces = 1
 
-Plug 'henrik/vim-indexed-search'
-let g:indexed_search_dont_move = 1
-let g:indexed_search_n_always_searches_forward = 0
+Plug 'google/vim-searchindex'
+nmap * *N
+nmap # #N
 
 let g:mta_filetypes = {
   \ 'html': 1,
