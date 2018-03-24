@@ -8,10 +8,14 @@ function! completion#email(findstart, base) abort
   if a:findstart
     return completion#findstart()
   endif
-  let aliases = readfile(expand('$XDG_CONFIG_HOME/mutt/aliases.muttrc'))
-  let emails = sort(filter(aliases,
-    \ {i, v -> substitute(v, '^alias', '', '') =~? a:base}))
-  return map(emails, {i, v -> substitute(v, '^alias \w\+ ', '', '')})
+  if !exists('s:email_aliases')
+    let files = globpath('$XDG_CONFIG_HOME/mutt', '*', 0, 1)
+    let lines = z#flatten(map(files, {_, file -> readfile(file)}))
+    let s:email_aliases = filter(lines, {_, line -> line =~? '^alias'})
+  endif
+  let emails = sort(filter(deepcopy(s:email_aliases),
+    \ {_, alias -> substitute(alias, '^alias', '', '') =~? a:base}))
+  return map(emails, {_, alias -> substitute(alias, '^alias \w\+ ', '', '')})
 endfunction
 
 function! completion#char_before_cursor() abort
