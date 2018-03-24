@@ -40,7 +40,6 @@ function! completion#snippet(findstart, base) abort
     return completion#findstart()
   endif
   let snippets = UltiSnips#SnippetsInCurrentScope()
-  let keys = filter(sort(keys(snippets)),
-    \ {i, v -> substitute(v, '^alias', '', '') =~? a:base})
+  let keys = filter(sort(keys(snippets)), {i, v -> v =~? a:base})
   return map(keys, {i, v -> {'word': v, 'menu': snippets[v]}})
 endfunction
