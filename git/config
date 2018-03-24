@@ -31,3 +31,5 @@
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h^^^%Cred%d %Creset%s^^^%Cgreen(%ar)^^^%C(bold blue)%an%Creset' | column -s '^^^' -t"
 [format]
     pretty = "%C(yellow)%h %Cgreen(%ar) %C(bold blue)%an %Cred%d %Creset%s"
+[commit]
+	verbose = 1
