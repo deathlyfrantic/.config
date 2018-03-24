@@ -95,3 +95,11 @@ function! z#zip(a, b) abort
   let collection = len(a:a) > len(a:b) ? a:a[:len(a:b)-1] : a:a
   return map(collection, {i, v -> [v, a:b[i]]})
 endfunction
+
+function! z#flatten(list) abort
+  let rv = []
+  for item in a:list
+    let rv += type(item) == type([]) ? z#flatten(item) : [item]
+  endfor
+  return rv
+endfunction
