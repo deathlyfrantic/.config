@@ -398,19 +398,6 @@ nmap <silent> <leader>t <Plug>(run-tests)
 " copy entire buffer to system clipboard
 nnoremap <leader>a m`gg"+yG``
 
-" emacs(-like) keys in command-line
-cnoremap <C-e> <End>
-cnoremap <C-g> <C-c>
-cnoremap <C-a> <Home>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <M-d> <S-Right><Right><C-w>
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
-cnoremap <C-d> <Delete>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
 
 " arrows
 imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
