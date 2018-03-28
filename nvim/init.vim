@@ -406,6 +406,18 @@ augroup z-rc-arrows
     autocmd!
     autocmd FileType c,php imap <buffer> <C-j> ->
 augroup END
+
+" quickfix
+function! s:quickfix_toggle() abort
+  let qf = filter(getbufinfo(), {_, b -> getbufvar(b.bufnr, '&ft') == 'qf'})
+  return len(qf) ? ":cclose\<CR>" : ":copen\<CR>"
+endfunction
+nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
+augroup z-rc-quickfix
+  autocmd!
+  autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
+  autocmd FileType qf nnoremap <silent> <buffer> q :cclose<CR>
+augroup END
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
