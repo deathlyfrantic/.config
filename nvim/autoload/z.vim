@@ -103,3 +103,21 @@ function! z#flatten(list) abort
   endfor
   return rv
 endfunction
+
+function! z#echohl(hl, msg) abort
+  let l:msg = type(a:msg) == type([]) ? a:msg : [a:msg]
+  let l:echo = index(['WarningMsg', 'ErrorMsg'], a:hl) > -1 ? 'echomsg' : 'echo'
+  execute printf('echohl %s', a:hl)
+  for m in l:msg
+    execute printf("%s m", l:echo)
+  endfor
+  echohl None
+endfunction
+
+function! z#echowarn(msg) abort
+  call z#echohl('WarningMsg', a:msg)
+endfunction
+
+function! z#echoerr(msg) abort
+  call z#echohl('ErrorMsg', a:msg)
+endfunction
