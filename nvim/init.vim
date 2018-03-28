@@ -398,6 +398,8 @@ nmap <silent> <leader>t <Plug>(run-tests)
 " copy entire buffer to system clipboard
 nnoremap <leader>a m`gg"+yG``
 
+" insert a single space
+nnoremap <leader><Space> i<Space><Esc>
 
 " arrows
 imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
