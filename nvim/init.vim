@@ -11,7 +11,7 @@ if has('vim_starting')
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
   " install vim-plug if it's not already
-  let plug_path = printf('%s/autoload/plug.vim', $VIMHOME)
+  let plug_path = expand('$VIMHOME/autoload/plug.vim')
   if !filereadable(plug_path)
     execute printf('!curl -fLo %s --create-dirs', plug_path)
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -78,7 +78,7 @@ set writebackup
 " --- end general settings --- }}}
 
 " --- plugins --- {{{
-call plug#begin(printf('%s/plugged', $VIMHOME))
+call plug#begin(expand('$VIMHOME/plugged'))
 " filetypes {{{
 Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
@@ -102,13 +102,13 @@ let g:racer_cmd = z#sys_chomp('which racer')
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_cache_dir = printf('%s/tags', $XDG_CACHE_HOME)
+let g:gutentags_cache_dir = expand('$XDG_CACHE_HOME/tags')
 
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger = '<C-]>'
 let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-let g:UltiSnipsSnippetsDir = printf('%s/UltiSnips', $VIMHOME)
+let g:UltiSnipsSnippetsDir = expand('$VIMHOME/UltiSnips')
 let g:snips_author = 'Zandr Martin'
 
 Plug 'airblade/vim-gitgutter'
