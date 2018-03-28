@@ -90,7 +90,7 @@ function! s:orchestrate_tests() abort
       \ ? {->b:test_command}
       \ : function(printf('s:%s', l:ft))
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
-    echomsg printf('No tests available for filetype "%s"', &ft)
+    call z#echowarn(printf("No tests available for filetype '%s'.", &ft))
     return
   endtry
   let current_window = win_getid()
@@ -98,7 +98,9 @@ function! s:orchestrate_tests() abort
   if type(cmd) == type('')
     call s:run_tests(cmd)
   else
-    echomsg printf("Test runner '%s' invalid; didn't return command.", Runner)
+    call z#echoerr(
+      \ printf("Test runner '%s' invalid; didn't return command.", Runner)
+      \ )
   endif
   call win_gotoid(current_window)
 endfunction
