@@ -278,8 +278,8 @@ augroup z-rc-commands
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
-    \ if winnr('$') == 1 && (&bt ==? 'quickfix' || &bt ==? 'nofile') |
-    \   if len(filter(range(1, bufnr('$')), {i, v -> buflisted(v)})) == 1 |
+    \ if winnr('$') == 1 && &bt =~? 'quickfix\|nofile' |
+    \   if len(filter(getbufinfo(), {_, b -> b.listed})) == 1
     \     quit |
     \   else |
     \     bd! |
@@ -362,7 +362,7 @@ command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 augroup z-rc-trailing-whitespace
   autocmd!
   autocmd BufWritePre *
-    \ if index(['mail', 'snippets', 'conf'], &ft) == -1 |
+    \ if &ft =~? 'mail\|snippets\|conf' |
     \   StripTrailingWhitespace |
     \ endif
 augroup END
