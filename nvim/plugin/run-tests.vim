@@ -11,7 +11,7 @@ function! s:javascript() abort
   endif
   let package = json_decode(readfile(package_json))
   let scripts = get(package, 'scripts', {})
-  if get(scripts, 'test', '') != ''
+  if get(scripts, 'test')
     return 'npm test'
   endif
 endfunction
