@@ -2,17 +2,12 @@
 nnoremap <silent> <Plug>(dirvish-toggle) :<C-u>call <SID>dirvish_toggle()<CR>
 
 function! s:dirvish_toggle() abort
-  let i = 1
-  let dirvish_already_open = 0
-  while i <= bufnr('$')
-    if bufexists(i) && bufloaded(i) && getbufvar(i, '&filetype') ==? 'dirvish'
-      let dirvish_already_open = 1
-      execute printf('%dbd!', i)
-    endif
-    let i += 1
-  endwhile
-  if !dirvish_already_open
+  let bufs = filter(getbufinfo(),
+    \ {_, b -> b.loaded && getbufvar(b.bufnr, '&ft') ==? 'dirvish'}) 
+  if len(bufs) == 0
     35vsp +Dirvish
+  else
+    execute printf('bd! %s', join(map(bufs, {_, b -> b.bufnr})))
   endif
 endfunction
 
