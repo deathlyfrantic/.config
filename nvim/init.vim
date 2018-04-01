@@ -135,6 +135,8 @@ augroup z-rc-neoformat
 augroup END
 
 Plug 'w0rp/ale'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
 nnoremap <silent> [a :ALEPreviousWrap<Enter>
 nnoremap <silent> ]a :ALENextWrap<Enter>
 augroup z-rc-ale
