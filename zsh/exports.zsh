@@ -13,4 +13,3 @@ export VISUAL=nvim
 export LSCOLORS=ExGxFxFxCx
 export HOMEBREW_NO_ANALYTICS=1
 export REPORTTIME=5
-export RUST_SRC_PATH="$XDG_DATA_HOME/rust-src/src"
