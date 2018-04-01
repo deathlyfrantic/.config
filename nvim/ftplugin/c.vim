@@ -1,4 +1,5 @@
 let s:headers = [
+  \ 'limits',
   \ 'signal',
   \ 'stdbool',
   \ 'stdint',
