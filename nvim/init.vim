@@ -41,7 +41,6 @@ let g:ignore_patterns = [
 
 set cinoptions+=:0,(0
 set colorcolumn=+1
-set complete+=i,d,kspell
 set completeopt-=preview
 set completefunc=completion#snippet
 set cursorline
