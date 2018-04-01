@@ -92,7 +92,7 @@ Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-user'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'glts/vim-textobj-comment'
-Plug 'zandrmartin/vim-textobj-blanklines'
+Plug 'deathlyfrantic/vim-textobj-blanklines'
 " }}}
 
 " dev tools {{{
@@ -210,7 +210,7 @@ let g:mta_filetypes = {
   \ }
 Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
 
-Plug 'zandrmartin/vim-sparkup/'
+Plug 'deathlyfrantic/vim-sparkup/'
 let g:sparkupExecuteMapping = '<C-^>'
 let g:sparkupNextMapping = '<C-f>'
 let g:sparkupFiletypes = keys(g:mta_filetypes)
