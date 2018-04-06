@@ -14,9 +14,7 @@ function! s:delayed_message(msg)
   augroup swap_delayed_message
     autocmd!
     execute printf("autocmd BufEnter * call z#echowarn('%s')", a:msg)
-    autocmd BufEnter * augroup swap_delayed_message
-    autocmd BufEnter * autocmd!
-    autocmd BufEnter * augroup END
+    autocmd BufEnter * autocmd! swap_delayed_message
   augroup END
 endfunction
 
