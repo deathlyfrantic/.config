@@ -425,6 +425,13 @@ augroup z-rc-quickfix
   autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
   autocmd FileType qf nnoremap <silent> <buffer> q :cclose<CR>
 augroup END
+
+" close all open man pages
+function! s:close_man_pages() abort
+  let bufs = filter(getbufinfo(), {_, b -> b.listed && b.name =~? '^man://'})
+  execute printf('bd! %s', join(map(bufs, {_, b -> b.bufnr}), ' '))
+endfunction
+command! ManClose call <SID>close_man_pages()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
