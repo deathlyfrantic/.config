@@ -363,7 +363,7 @@ command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 augroup z-rc-trailing-whitespace
   autocmd!
   autocmd BufWritePre *
-    \ if &ft =~? 'mail\|snippets\|conf' |
+    \ if &ft !~? 'mail\|snippets\|conf' |
     \   StripTrailingWhitespace |
     \ endif
 augroup END
