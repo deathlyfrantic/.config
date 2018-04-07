@@ -115,6 +115,10 @@ omap ig <Plug>GitGutterTextObjectInnerPending
 omap ag <Plug>GitGutterTextObjectOuterPending
 xmap ig <Plug>GitGutterTextObjectInnerVisual
 xmap ag <Plug>GitGutterTextObjectOuterVisual
+augroup z-rc-gitgutter
+  autocmd!
+  autocmd InsertLeave * GitGutter
+augroup END
 
 Plug 'mhinz/vim-grepper'
 nnoremap g/ :Grepper<CR>
