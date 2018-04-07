@@ -1,6 +1,6 @@
 function! s:go_away_swap(file, swap)
   if getftime(a:file) < getftime(a:swap)
-    let l:choice =  'o'
+    let l:choice = 'o'
     let l:msg = 'Swap file for %s exists; opening read-only.'
   else
     let l:choice = 'd'

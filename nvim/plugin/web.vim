@@ -28,7 +28,7 @@ function! s:search_operator(type) abort
 endfunction
 
 function! s:search(url)
-  let l:url = (a:url =~? 'http') ? a:url : 'https://duckduckgo.com/?q='.a:url
+  let l:url = a:url =~? 'http' ? a:url : 'https://duckduckgo.com/?q='.a:url
   call <SID>browser(l:url)
 endfunction
 
