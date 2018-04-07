@@ -1,6 +1,6 @@
 function! s:source_local_vimrc()
   " prevent this from breaking fugitive's Gdiff, don't run on dirvish etc
-  if expand('%') =~? 'fugitive://' || index(['help', 'nofile'], &buftype) != -1
+  if expand('%') =~? 'fugitive://' || &bt =~? 'help\|nofile'
     return
   endif
   let l:dir = expand('%:p:h')
