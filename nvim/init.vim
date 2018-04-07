@@ -214,7 +214,7 @@ let g:mta_filetypes = {
   \ }
 Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
 
-Plug 'deathlyfrantic/vim-sparkup/'
+Plug 'deathlyfrantic/vim-sparkup/', {'for': keys(g:mta_filetypes)}
 let g:sparkupExecuteMapping = '<C-^>'
 let g:sparkupNextMapping = '<C-f>'
 let g:sparkupFiletypes = keys(g:mta_filetypes)
