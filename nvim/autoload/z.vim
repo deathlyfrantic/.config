@@ -40,13 +40,13 @@ function! z#compile_sass(...) abort
 endfunction
 
 function! z#preview_markdown(...) abort
-  if !executable('md2html')
-    echoerr 'Unable to convert Markdown (md2html is not available).'
+  if !executable('cmark')
+    echoerr 'Unable to convert Markdown (cmark is not available).'
     return
   endif
   let l:file = a:0 ? a:1 : expand('%:p')
   let l:output = printf('%s%s.html', $TMPDIR, fnamemodify(l:file, ':t:r'))
-  execute printf('!md2html %s %s; open -g %s', l:file, l:output, l:output)
+  execute printf('!cmark %s > %s; open -g %s', l:file, l:output, l:output)
 endfunction
 
 function! z#rfc(arg) abort
