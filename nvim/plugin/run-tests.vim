@@ -64,7 +64,7 @@ endfunction
 function! s:on_term_exit(job_id, exit_code, event)
   if a:exit_code == 0
     call timer_start(1000, function('s:close_test_buffer'))
-    echomsg 'Tests pass. (Test runner exit code was 0.)'
+    call z#echohl('GitGutterAdd', 'Tests pass. (Test runner exit code was 0.)')
   else
     call s:scroll_to_end()
   endif
