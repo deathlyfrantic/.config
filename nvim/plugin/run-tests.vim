@@ -63,7 +63,7 @@ endfunction
 
 function! s:on_term_exit(job_id, exit_code, event)
   if a:exit_code == 0
-    call timer_start(1000, function("s:close_test_buffer"))
+    call timer_start(1000, function('s:close_test_buffer'))
     echomsg 'Tests pass. (Test runner exit code was 0.)'
   else
     call s:scroll_to_end()
@@ -90,10 +90,10 @@ endfunction
 
 function! s:orchestrate_tests() abort
   " account for 'javascript.jsx'
-  let l:ft = (&ft =~? 'javascript') ? 'javascript' : &ft
+  let l:ft = &ft =~? 'javascript' ? 'javascript' : &ft
   try
     let Runner = has_key(b:, 'test_command')
-      \ ? {->b:test_command}
+      \ ? {-> b:test_command}
       \ : function(printf('s:%s', l:ft))
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
     call z#echowarn(printf("No tests available for filetype '%s'.", &ft))
