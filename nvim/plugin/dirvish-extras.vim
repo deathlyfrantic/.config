@@ -3,7 +3,7 @@ nnoremap <silent> <Plug>(dirvish-toggle) :<C-u>call <SID>dirvish_toggle()<CR>
 
 function! s:dirvish_toggle() abort
   let bufs = filter(getbufinfo(),
-    \ {_, b -> b.loaded && getbufvar(b.bufnr, '&ft') ==? 'dirvish'}) 
+    \ {_, b -> b.loaded && getbufvar(b.bufnr, '&ft') ==? 'dirvish'})
   if len(bufs) == 0
     35vsp +Dirvish
   else
