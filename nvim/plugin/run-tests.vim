@@ -71,12 +71,12 @@ function! s:on_term_exit(job_id, exit_code, event)
 endfunction
 
 function! s:scroll_to_end() abort
-  " let current_window = win_getid()
+  let current_window = win_getid()
   for window in win_findbuf(s:test_buffer)
     call win_gotoid(window)
     normal G
   endfor
-  " call win_gotoid(current_window)
+  call win_gotoid(current_window)
 endfunction
 
 function! s:run_tests(cmd) abort
