@@ -1,5 +1,11 @@
 let s:test_buffer = -1
 
+function! s:rust() abort
+  if executable('cargo')
+    return 'cargo test'
+  endif
+endfunction
+
 function! s:python() abort
   return executable('pytest') ? 'pytest' : 'python3 -m unittest'
 endfunction
