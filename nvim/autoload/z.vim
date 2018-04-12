@@ -106,7 +106,7 @@ endfunction
 
 function! z#echohl(hl, msg) abort
   let l:msg = type(a:msg) == v:t_list ? a:msg : [a:msg]
-  let l:echo = index(['WarningMsg', 'ErrorMsg'], a:hl) > -1 ? 'echomsg' : 'echo'
+  let l:echo = 'WarningMsg\|ErrorMsg' =~? a:hl ? 'echomsg' : 'echo'
   execute printf('echohl %s', a:hl)
   for m in l:msg
     execute printf("%s m", l:echo)
