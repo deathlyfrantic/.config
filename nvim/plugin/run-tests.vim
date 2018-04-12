@@ -101,7 +101,7 @@ function! s:orchestrate_tests() abort
   endtry
   let current_window = win_getid()
   let cmd = Runner()
-  if type(cmd) == type('')
+  if type(cmd) == v:t_string
     call s:run_tests(cmd)
   else
     echoerr printf("Test runner '%s' invalid; didn't return command.", Runner)
