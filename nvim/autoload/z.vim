@@ -68,7 +68,7 @@ function! z#preview(text) abort
   set previewwindow noswapfile nobuflisted buftype=nofile
   nnoremap <silent> <buffer> q :pclose!<CR>
   nnoremap <silent> <buffer> <C-c> :pclose!<CR>
-  let l:text = (type(a:text) == type([])) ? a:text : split(a:text, '\n')
+  let l:text = type(a:text) == v:t_list ? a:text : split(a:text, '\n')
   call append(0, l:text)
   call cursor(1, 1)
   call win_gotoid(l:win)
@@ -87,7 +87,7 @@ endfunction
 
 function! z#enumerate(l, ...) abort
   let start = a:0 ? a:1 : 0
-  let collection = (type(a:l) == type('')) ? split(a:l, '\zs') : a:l
+  let collection = type(a:l) == v:t_string ? split(a:l, '\zs') : a:l
   return map(collection, {i, v -> [(i + start), v]})
 endfunction
 
@@ -99,13 +99,13 @@ endfunction
 function! z#flatten(list) abort
   let rv = []
   for item in a:list
-    let rv += type(item) == type([]) ? z#flatten(item) : [item]
+    let rv += type(item) == v:t_list ? z#flatten(item) : [item]
   endfor
   return rv
 endfunction
 
 function! z#echohl(hl, msg) abort
-  let l:msg = type(a:msg) == type([]) ? a:msg : [a:msg]
+  let l:msg = type(a:msg) == v:t_list ? a:msg : [a:msg]
   let l:echo = index(['WarningMsg', 'ErrorMsg'], a:hl) > -1 ? 'echomsg' : 'echo'
   execute printf('echohl %s', a:hl)
   for m in l:msg
