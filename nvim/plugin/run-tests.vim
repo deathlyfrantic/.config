@@ -104,7 +104,9 @@ function! s:orchestrate_tests() abort
   if type(cmd) == v:t_string
     call s:run_tests(cmd)
   else
-    echoerr printf("Test runner '%s' invalid; didn't return command.", Runner)
+    call z#echoerr(
+      \ printf("Test runner '%s' invalid; didn't return command.", Runner)
+      \ )
   endif
   call win_gotoid(current_window)
 endfunction

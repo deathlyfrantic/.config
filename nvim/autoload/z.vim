@@ -117,3 +117,7 @@ endfunction
 function! z#echowarn(msg) abort
   call z#echohl('WarningMsg', a:msg)
 endfunction
+
+function! z#echoerr(msg) abort
+  call z#echohl('ErrorMsg', a:msg)
+endfunction
