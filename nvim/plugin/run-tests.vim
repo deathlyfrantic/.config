@@ -1,9 +1,10 @@
 let s:test_buffer = -1
 
 function! s:rust() abort
-  if executable('cargo')
-    return 'cargo test'
+  if !executable('cargo')
+    throw '`cargo` does not exist or is not executable'
   endif
+  return 'cargo test'
 endfunction
 
 function! s:python() abort
@@ -13,19 +14,24 @@ endfunction
 function! s:javascript() abort
   let package_json = findfile('package.json', ';')
   if package_json == ''
-    return
+    throw 'no `package.json` file found'
   endif
   let package = json_decode(readfile(package_json))
   let scripts = get(package, 'scripts', {})
   if get(scripts, 'test')
     return 'npm test'
   endif
+  throw '`package.json` has no `test` command defined'
 endfunction
 
 function! s:sh() abort
-  if executable('shunit2') && filereadable('test.sh')
-    return 'shunit2 test.sh'
+  if !executable('shunit2')
+    throw '`shunit2` does not exist or is not executable'
   endif
+  if !filereadable('test.sh')
+    throw '`test.sh` is not readable'
+  endif
+  return 'shunit2 test.sh'
 endfunction
 
 function! s:new_test_buffer() abort
@@ -99,14 +105,17 @@ function! s:orchestrate_tests() abort
     call z#echowarn(printf("No tests available for filetype '%s'.", &ft))
     return
   endtry
+  try
+    let cmd = Runner()
+  catch
+    call z#echoerr(printf('Test runner failed: %s', v:exception))
+    return
+  endtry
   let current_window = win_getid()
-  let cmd = Runner()
   if type(cmd) == v:t_string
     call s:run_tests(cmd)
   else
-    call z#echoerr(
-      \ printf("Test runner '%s' invalid; didn't return command.", Runner)
-      \ )
+    call z#echoerr(printf("Test runner '%s' didn't return command.", Runner))
   endif
   call win_gotoid(current_window)
 endfunction
