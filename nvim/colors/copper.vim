@@ -136,3 +136,4 @@ highlight! link SignifySignChange         GitGutterChange
 highlight! link SignifySignDelete         GitGutterDelete
 highlight! link healthSuccess             GitGutterAdd
 highlight! link healthWarning             GitGutterChange
+highlight! link rustCharacter             String
