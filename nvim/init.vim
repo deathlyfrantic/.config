@@ -410,8 +410,8 @@ nnoremap <leader><Space> i<Space><Esc>
 imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
 imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
 augroup z-rc-arrows
-    autocmd!
-    autocmd FileType c,php imap <buffer> <C-j> ->
+  autocmd!
+  autocmd FileType c,php imap <buffer> <C-j> ->
 augroup END
 
 " quickfix
