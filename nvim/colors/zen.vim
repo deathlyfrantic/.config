@@ -136,32 +136,6 @@ call s:hi('Delimiter'            , 'NONE', 'NONE', 'NONE')
 call s:hi('StorageClass'         , 'NONE', 'NONE', 'NONE')
 call s:hi('Operator'             , 'NONE', 'NONE', 'NONE')
 
-highlight! link NeomakeWarningSign MatchParen
-highlight! link NeomakeErrorSign   Error
-highlight! link GitGutterDelete    Error
-highlight! link CursorColumn       CursorLine
-highlight! link ColorColumn        CursorLine
-highlight! link PmenuSel           WildMenu
-highlight! link SignColumn         LineNr
-highlight! link FoldColumn         LineNr
-highlight! link Folded             LineNr
-highlight! link TabLineFill        TabLine
-highlight! link BufTabLineActive   StatusLine
-highlight! link BufTabLineCurrent  TabLineSel
-highlight! link BufTabLineHidden   TabLine
-highlight! link BufTabLineFill     TabLine
-highlight! link CtrlPMode1         StatusLine
-highlight! link CtrlPMode2         StatusLine
-highlight! link SpecialKey         LineNr
-highlight! link NonText            LineNr
-highlight! link Conceal            Comment
-highlight! link phpDocTags         Comment
-highlight! link IncSearch          Search
-highlight! link gitcommitOverflow  Error
-highlight! link SneakPluginTarget  Search
-highlight! link diffAdded          DiffAdd
-highlight! link diffRemoved        DiffDelete
-highlight! link mailQuoted1        String
-highlight! link mailQuoted2        Comment
-
 unlet s:palette
+
+source $VIMHOME/colors/mono-base.vim
