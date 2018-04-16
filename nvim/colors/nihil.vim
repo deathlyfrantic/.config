@@ -73,62 +73,7 @@ highlight DiffChange            ctermfg=226  ctermbg=NONE cterm=NONE           g
 highlight DiffText              ctermfg=226  ctermbg=100  cterm=NONE           guifg=#ffff00 guibg=#878700 gui=NONE
 highlight DiffDelete            ctermfg=196  ctermbg=88   cterm=NONE           guifg=#ff0000 guibg=#870000 gui=NONE
 highlight GitGutterChangeDelete ctermfg=202  ctermbg=NONE cterm=NONE           guifg=#ff5f00 guibg=NONE    gui=NONE
-highlight TabLineSel            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight TabLineClose          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Directory             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Underlined            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Question              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight MoreMsg               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight ModeMsg               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight SpellRare             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight SpellLocal            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Boolean               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Constant              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Special               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Identifier            ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Statement             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight PreProc               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Type                  ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Define                ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Number                ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Function              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Include               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight PreCondit             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Keyword               ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Title                 ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Delimiter             ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight StorageClass          ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
-highlight Operator              ctermfg=NONE ctermbg=NONE cterm=NONE           guifg=NONE    guibg=NONE    gui=NONE
 highlight ErrorMsg              ctermfg=231  ctermbg=196  cterm=bold           guifg=#ffffff guibg=#ff0000 gui=bold
 highlight WarningMsg            ctermfg=231  ctermbg=202  cterm=bold           guifg=#ffffff guibg=#ff5f00 gui=bold
 
-highlight! link NeomakeWarningSign    MatchParen
-highlight! link NeomakeErrorSign      Error
-highlight! link GitGutterChange       GitGutterChangeDelete
-highlight! link GitGutterDelete       Error
-highlight! link CursorColumn          CursorLine
-highlight! link ColorColumn           CursorLine
-highlight! link Pmenu                 StatusLine
-highlight! link PmenuSel              WildMenu
-highlight! link SignColumn            LineNr
-highlight! link FoldColumn            LineNr
-highlight! link Folded                LineNr
-highlight! link TabLine               StatusLine
-highlight! link TabLineFill           StatusLine
-highlight! link BufTabLineActive      StatusLine
-highlight! link BufTabLineCurrent     TabLineSel
-highlight! link BufTabLineHidden      StatusLine
-highlight! link BufTabLineFill        StatusLine
-highlight! link CtrlPMode1            StatusLine
-highlight! link CtrlPMode2            StatusLine
-highlight! link SpecialKey            Comment
-highlight! link NonText               Comment
-highlight! link Conceal               Comment
-highlight! link phpDocTags            Comment
-highlight! link IncSearch             Search
-highlight! link gitcommitOverflow     Error
-highlight! link SneakPluginTarget     Search
-highlight! link diffAdded             DiffAdd
-highlight! link diffRemoved           DiffDelete
-highlight! link mailQuoted1           String
-highlight! link mailQuoted2           Comment
+source $VIMHOME/colors/mono-base.vim
