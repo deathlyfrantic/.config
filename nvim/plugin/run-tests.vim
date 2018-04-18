@@ -50,9 +50,8 @@ function! s:load_or_create_buffer() abort
 endfunction
 
 function! s:new_test_window() abort
-  let term_height = expand('$LINES')
-  let size = term_height != '$LINES' ? term_height / 3 : 20
-  execute printf('botright %ssp', size)
+  let height = &lines / 3
+  execute printf('botright %ssp', height)
   call s:load_or_create_buffer()
 endfunction
 
