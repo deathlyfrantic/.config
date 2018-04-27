@@ -18,9 +18,13 @@
 	<false/>
 	<key>Default Bookmark Guid</key>
 	<string>BCAEC9EF-6E63-42A1-BA61-174C4A2D2D42</string>
+	<key>DimBackgroundWindows</key>
+	<false/>
 	<key>DimOnlyText</key>
 	<true/>
 	<key>EnableDivisionView</key>
+	<false/>
+	<key>EnableProxyIcon</key>
 	<false/>
 	<key>FocusFollowsMouse</key>
 	<true/>
@@ -166,6 +170,8 @@
 	<true/>
 	<key>HideScrollbar</key>
 	<true/>
+	<key>HideTab</key>
+	<true/>
 	<key>Hotkey</key>
 	<false/>
 	<key>HotkeyChar</key>
@@ -176,6 +182,8 @@
 	<true/>
 	<key>HotkeyModifiers</key>
 	<integer>524576</integer>
+	<key>JobName</key>
+	<false/>
 	<key>LeftCommand</key>
 	<integer>7</integer>
 	<key>LeftOption</key>
@@ -183,7 +191,7 @@
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
 	<key>NSColorPanelMode</key>
-	<string>7</string>
+	<string>6</string>
 	<key>NSColorPickerPreferredRGBEntryMode</key>
 	<integer>2</integer>
 	<key>NSFontPanelAttributes</key>
@@ -258,17 +266,17 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>1417 530 228 280 0 0 2560 1418 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>978 33 445 77 0 0 2560 1418 </string>
+	<string>1100 412 445 77 0 0 2560 1418 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 499 620 392 0 0 1920 1058 </string>
+	<string>970 769 620 392 0 0 2560 1418 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>220 120 606 469 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>920 793 796 473 0 0 2560 1418 </string>
+	<string>1253 935 796 473 0 0 2560 1418 </string>
 	<key>NSWindow Frame com.apple.typography_panel_SourceCodePro-Regular</key>
 	<string>346 503 260 136 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>82 818 730 526 0 0 2560 1418 </string>
+	<string>1696 282 730 526 0 0 2560 1418 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>738 540 730 526 0 0 2560 1418 </string>
 	<key>NeverWarnAboutMeta</key>
@@ -867,7 +875,7 @@
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
-			<false/>
+			<integer>2</integer>
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
@@ -940,6 +948,8 @@
 			<string>/Users/zandr</string>
 		</dict>
 	</array>
+	<key>NoSyncHaveUsedCopyMode</key>
+	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -1006,7 +1016,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-07T13:19:50Z</date>
+	<date>2018-04-25T14:53:48Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
@@ -1014,6 +1024,8 @@
 	<key>ShowFullScreenTabBar</key>
 	<false/>
 	<key>ShowNewOutputIndicator</key>
+	<false/>
+	<key>SmartPlacement</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.15831830929487178</real>
@@ -1025,12 +1037,14 @@
 	<false/>
 	<key>UseLionStyleFullscreen</key>
 	<false/>
+	<key>UseMetal</key>
+	<false/>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.1.5</string>
+	<string>3.1.6</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
