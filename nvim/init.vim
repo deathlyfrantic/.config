@@ -117,7 +117,7 @@ xmap ig <Plug>GitGutterTextObjectInnerVisual
 xmap ag <Plug>GitGutterTextObjectOuterVisual
 augroup z-rc-gitgutter
   autocmd!
-  autocmd InsertLeave * GitGutter
+  autocmd TextChanged,InsertLeave * GitGutter
 augroup END
 
 Plug 'mhinz/vim-grepper'
