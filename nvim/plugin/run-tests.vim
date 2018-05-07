@@ -18,7 +18,7 @@ function! s:javascript() abort
   endif
   let package = json_decode(readfile(package_json))
   let scripts = get(package, 'scripts', {})
-  if get(scripts, 'test')
+  if !empty(get(scripts, 'test'))
     return 'npm test'
   endif
   throw '`package.json` has no `test` command defined'
