@@ -62,5 +62,5 @@ highlight BufTabLineActive      guifg=#aaaaaa guibg=#000000 gui=NONE           c
 
 source $VIMHOME/colors/mono-base.vim
 
-highlight BoldyMcBoldFace gui=bold
-match BoldyMcBoldFace /./
+" highlight BoldyMcBoldFace gui=bold
+" match BoldyMcBoldFace /./
