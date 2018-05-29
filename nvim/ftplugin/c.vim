@@ -8,6 +8,7 @@ let s:headers = [
   \ 'string',
   \ 'time',
   \ 'unistd',
+  \ 'ctype',
   \ ]
 
 let s:nested_headers = {
