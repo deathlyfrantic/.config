@@ -243,7 +243,7 @@ augroup END
 Plug 'tpope/vim-fugitive'
 augroup z-rc-fugitive
   autocmd!
-  autocmd BufEnter * call fugitive#detect(@%)
+  autocmd BufEnter * call FugitiveDetect(@%)
 augroup END
 
 Plug 'tpope/vim-dadbod'
@@ -462,7 +462,7 @@ let g:terminal_color_15 = '#eeeeec'
 
 " statusline {{{
 function! GitGutterStatus() abort
-  let status = fugitive#statusline()[:-2]
+  let status = FugitiveStatusline()[:-2]
   if status == ''
     return ''
   endif
