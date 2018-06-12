@@ -45,7 +45,7 @@ set completeopt-=preview
 set completefunc=completion#snippet
 set cursorline
 set expandtab
-set fillchars=vert:\│,fold:-
+set fillchars=fold:-
 set fileformats=unix,dos,mac
 set foldlevel=99
 set foldmethod=indent
@@ -62,7 +62,6 @@ set nowrap
 set number
 set shiftround
 set shiftwidth=4
-set sidescroll=1
 set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
