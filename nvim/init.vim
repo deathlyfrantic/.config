@@ -221,6 +221,7 @@ let g:sparkupFiletypes = keys(g:mta_filetypes)
 
 " tpope's special section {{{
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-apathy'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
@@ -436,7 +437,7 @@ command! ManClose call <SID>close_man_pages()
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if strftime('%H') > 18 || strftime('%H') < 9
+if strftime('%H') > 20 || strftime('%H') < 8
   colorscheme copper
 else
   colorscheme mastodon
