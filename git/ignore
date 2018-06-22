@@ -9,3 +9,4 @@ elm-stuff
 node_modules
 *.egg-info
 .ctags
+Session.vim
