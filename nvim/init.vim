@@ -100,7 +100,7 @@ let g:racer_cmd = z#sys_chomp('which racer')
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_cache_dir = expand('$XDG_CACHE_HOME/tags')
+let g:gutentags_ctags_tagfile = '.ctags'
 
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger = '<C-]>'
