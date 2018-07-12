@@ -224,6 +224,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-apathy'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-sleuth'
@@ -480,6 +481,7 @@ set statusline+=\ %h%m%r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%{&paste?'\[paste]\ ':''}
 set statusline+=%{gutentags#statusline('[Gutentags:\ ',']')}
+set statusline+=%{ObsessionStatus()}
 set statusline+=\ \ \ %l,%c%V\ \ \ %P
 " }}}
 " --- end colors and appearance --- }}}
