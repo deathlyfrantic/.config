@@ -202,21 +202,6 @@ let g:lion_squeeze_spaces = 1
 Plug 'google/vim-searchindex'
 nmap * *N
 nmap # #N
-
-let g:mta_filetypes = {
-  \ 'html': 1,
-  \ 'xhtml': 1,
-  \ 'xml': 1,
-  \ 'jinja': 1,
-  \ 'htmljinja': 1,
-  \ 'htmldjango': 1,
-  \ }
-Plug 'Valloric/MatchTagAlways', {'for': keys(g:mta_filetypes)}
-
-Plug 'deathlyfrantic/vim-sparkup/', {'for': keys(g:mta_filetypes)}
-let g:sparkupExecuteMapping = '<C-^>'
-let g:sparkupNextMapping = '<C-f>'
-let g:sparkupFiletypes = keys(g:mta_filetypes)
 " }}}
 
 " tpope's special section {{{
