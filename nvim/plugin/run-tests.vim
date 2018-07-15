@@ -1,5 +1,18 @@
 let s:test_buffer = -1
 
+function! s:makefile_test() abort
+  if !filereadable('Makefile')
+    throw 'no `Makefile` found'
+  endif
+  let contents = readfile('Makefile')
+  for line in contents
+    if line =~? '^test:'
+      return 'make test'
+    endif
+  endfor
+  throw 'no `test` make target found in `Makefile`'
+endfunction
+
 function! s:rust() abort
   if !executable('cargo')
     throw '`cargo` does not exist or is not executable'
@@ -93,28 +106,34 @@ function! s:run_tests(cmd) abort
   call win_gotoid(current_window)
 endfunction
 
-function! s:orchestrate_tests() abort
+function! s:get_normalized_filetype() abort
   " account for 'javascript.jsx'
-  let l:ft = &ft =~? 'javascript' ? 'javascript' : &ft
+  return &ft =~? 'javascript' ? 'javascript' : &ft
+endfunction
+
+function! s:orchestrate_tests() abort
+  let test_cmds = []
+  let errs = []
   try
     let Runner = has_key(b:, 'test_command')
       \ ? {-> b:test_command}
-      \ : function(printf('s:%s', l:ft))
+      \ : function(printf('s:%s', s:get_normalized_filetype()))
+    let test_cmds = [Runner()]
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
-    call z#echowarn(printf("No tests available for filetype '%s'.", &ft))
-    return
+    let errs += [printf("No tests available for filetype '%s'.", &ft)]
+  catch " runner didn't return a valid command
+    let errs += [printf('Test runner failed: %s', v:exception)]
   endtry
   try
-    let cmd = Runner()
+    let test_cmds += [s:makefile_test()]
   catch
-    call z#echoerr(printf('Test runner failed: %s', v:exception))
-    return
+    let errs += [printf('%s', v:exception)]
   endtry
   let current_window = win_getid()
-  if type(cmd) == v:t_string
-    call s:run_tests(cmd)
+  if len(test_cmds)
+    call s:run_tests(test_cmds[0])
   else
-    call z#echoerr(printf("Test runner '%s' didn't return command.", Runner))
+    call z#echoerr(printf(join(errs, ' and ')))
   endif
   call win_gotoid(current_window)
 endfunction
