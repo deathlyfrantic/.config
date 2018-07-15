@@ -1,4 +1,6 @@
 let s:headers = [
+  \ 'assert',
+  \ 'ctype',
   \ 'limits',
   \ 'signal',
   \ 'stdbool',
@@ -8,7 +10,6 @@ let s:headers = [
   \ 'string',
   \ 'time',
   \ 'unistd',
-  \ 'ctype',
   \ ]
 
 let s:nested_headers = {
