@@ -1,5 +1,5 @@
 snippet once "Header guard" b
-#ifndef ${1:`!v '_'.substitute(toupper(expand('%:t')), '[^A-Z0-9]', '_', 'g')`}
+#ifndef ${1:`!v toupper(fnamemodify(getcwd(), ':t')).'_'.substitute(toupper(expand('%:t')), '[^A-Z0-9]', '_', 'g')`}
 #define $1
 
 ${VISUAL}$0
