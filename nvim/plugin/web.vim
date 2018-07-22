@@ -4,6 +4,8 @@ xmap gw <Plug>(websearch)
 nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>search_operator<CR>g@
 xnoremap <silent> <Plug>(websearch) :<C-u>call <SID>search_operator(visualmode())<CR>
 
+" Browse alias is for Fugitive's Gbrowse
+command! -nargs=1 Browse Web <args>
 command! -nargs=1 Web call <SID>browser(<f-args>)
 command! -nargs=1 Search call <SID>search(<f-args>)
 
@@ -34,5 +36,5 @@ endfunction
 
 function! s:browser(url)
   let l:open = has('mac') ? 'open -g' : 'xdg-open'
-  silent execute printf('!%s "%s"', l:open, a:url)
+  silent execute printf('!%s %s', l:open, shellescape(a:url, 1))
 endfunction

@@ -7,6 +7,7 @@ if has('vim_starting')
   " kill default vim plugins i don't want
   let g:loaded_vimballPlugin = 'v35'
   let g:loaded_netrwPlugin = 'v153'
+  let g:loaded_netrw = 'v153'
   let g:loaded_tutor_mode_plugin = 1
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
@@ -231,7 +232,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fubitive'
 Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'tpope/vim-rhubarb'
-let g:netrw_browsex_viewer = 'open -g' " fugitive uses netrw to open urls
 function! s:repo_url_transform(opts, ...)
   " transform repo urls so my ssh config method works
   if a:0 || type(a:opts) != v:t_dict
