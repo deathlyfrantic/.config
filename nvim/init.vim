@@ -255,6 +255,7 @@ function! s:repo_url_transform(opts, ...)
 endfunction
 let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
   \ [function('s:repo_url_transform')])
+noremap <silent> <leader>gb :Gbrowse!<CR>
 augroup z-rc-fugitive
   autocmd!
   autocmd BufEnter * call FugitiveDetect(@%)
