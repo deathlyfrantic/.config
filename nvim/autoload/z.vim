@@ -121,3 +121,21 @@ endfunction
 function! z#echoerr(msg) abort
   call z#echohl('ErrorMsg', a:msg)
 endfunction
+
+function! z#multisub(expr, pat, sub, ...)
+  let flags = a:0 ? a:1 : ''
+  let pat = type(a:pat) == v:t_list ? a:pat : [a:pat]
+  if type(a:sub) == v:t_list
+    let sub = a:sub
+  else
+    let sub = []
+    for _ in pat
+      let sub += [a:sub]
+    endfor
+  endif
+  let rv = a:expr
+  for [search, replace] in z#zip(pat, sub)
+    let rv = substitute(rv, search, replace, flags)
+  endfor
+  return rv
+endfunction
