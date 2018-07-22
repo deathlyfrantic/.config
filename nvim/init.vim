@@ -228,6 +228,33 @@ augroup z-rc-commentary
 augroup END
 
 Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fubitive'
+Plug 'tommcdo/vim-fugitive-blame-ext'
+Plug 'tpope/vim-rhubarb'
+let g:netrw_browsex_viewer = 'open -g' " fugitive uses netrw to open urls
+function! s:repo_url_transform(opts, ...)
+  " transform repo urls so my ssh config method works
+  if a:0 || type(a:opts) != v:t_dict
+    return ''
+  endif
+  let url = z#multisub(a:opts.remote, ['^github', '^bitbucket'],
+    \ ['https://github.com', 'https://bitbucket.org'])
+  if url == a:opts.remote
+    return ''
+  endif
+  let new_opts = extend(deepcopy(a:opts), {'remote': url})
+  for Handler in g:fugitive_browse_handlers
+    if Handler != function('s:repo_url_transform')
+      let result = Handler(new_opts)
+      if !empty(result)
+        return result
+      endif
+    endif
+  endfor
+  return ''
+endfunction
+let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
+  \ [function('s:repo_url_transform')])
 augroup z-rc-fugitive
   autocmd!
   autocmd BufEnter * call FugitiveDetect(@%)
