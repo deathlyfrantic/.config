@@ -289,12 +289,11 @@ augroup z-rc-commands
     \   set omnifunc=syntaxcomplete#Complete |
     \ endif
 
-  " i will never be working with c++
+  " custom filetype overrides
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
-
-  " mutt and mail
   autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
+  autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
