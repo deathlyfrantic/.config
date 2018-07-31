@@ -59,6 +59,7 @@ function! s:load_or_create_buffer() abort
   else
     enew
     call s:new_test_buffer()
+    normal G
   endif
 endfunction
 
