@@ -118,7 +118,7 @@ xmap ig <Plug>GitGutterTextObjectInnerVisual
 xmap ag <Plug>GitGutterTextObjectOuterVisual
 augroup z-rc-gitgutter
   autocmd!
-  autocmd TextChanged,InsertLeave * GitGutter
+  autocmd BufEnter,TextChanged,InsertLeave * GitGutter
 augroup END
 
 Plug 'mhinz/vim-grepper'
@@ -271,7 +271,7 @@ function! s:db_command(...) abort
   return cmd
 endfunction
 nnoremap <expr> <leader>db <SID>db_command()
-nnoremap <expr> <leader>ds <SID>db_command('SELECT *')
+nnoremap <expr> <leader>ds <SID>db_command('SELECT * FROM')
 nnoremap <expr> <leader>di <SID>db_command('INSERT INTO')
 nnoremap <expr> <leader>du <SID>db_command('UPDATE')
 nnoremap <expr> <leader>dd <SID>db_command('DELETE FROM')
