@@ -172,10 +172,10 @@ Plug 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
 
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-let g:undotree_WindowLayout = 2
-let g:undotree_SetFocusWhenToggle = 1
-nnoremap <silent> <C-q> :UndotreeToggle<CR>
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+let g:gundo_prefer_python3 = 1
+let g:gundo_preview_bottom = 1
+nnoremap <silent> <C-q> :GundoToggle<CR>
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 let g:tagbar_autofocus = 1
