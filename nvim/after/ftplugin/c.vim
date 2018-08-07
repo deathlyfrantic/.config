@@ -1,3 +1,4 @@
+setlocal cinoptions+=l1
 let s:headers = [
   \ 'assert',
   \ 'ctype',
