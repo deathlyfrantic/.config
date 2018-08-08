@@ -119,6 +119,7 @@ xmap ag <Plug>GitGutterTextObjectOuterVisual
 augroup z-rc-gitgutter
   autocmd!
   autocmd BufEnter,TextChanged,InsertLeave * GitGutter
+  autocmd BufDelete */.git/COMMIT_EDITMSG GitGutterAll
 augroup END
 
 Plug 'mhinz/vim-grepper'
