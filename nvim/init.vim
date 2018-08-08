@@ -421,8 +421,15 @@ nnoremap <leader>a m`gg"+yG``
 nnoremap <leader><Space> i<Space><Esc>
 
 " arrows
-imap <expr> <C-j> printf('%s-> ', completion#check_back_space() ? '' : ' ')
-imap <expr> <C-l> printf('%s=> ', completion#check_back_space() ? '' : ' ')
+function! s:arrow(fat) abort
+  let before = completion#check_back_space() ? '' : ' '
+  let arrow = a:fat ? '=>' : '->'
+  let [l:line, l:col] = [getline('.'), col('.')]
+  let after = (len(l:line) <= l:col || l:line[l:col] !~ '^\s*$') ? ' ' : ''
+  return before.arrow.after
+endfunction
+imap <expr> <C-j> <SID>arrow(0)
+imap <expr> <C-l> <SID>arrow(1)
 augroup z-rc-arrows
   autocmd!
   autocmd FileType c,php imap <buffer> <C-j> ->
