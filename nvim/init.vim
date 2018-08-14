@@ -110,6 +110,10 @@ let g:UltiSnipsJumpForwardTrigger = '<C-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 let g:UltiSnipsSnippetsDir = expand('$VIMHOME/UltiSnips')
 let g:snips_author = 'Zandr Martin'
+augroup z-rc-disable-ultisnips-autotrigger
+  autocmd!
+  autocmd VimEnter * autocmd! UltiSnips_AutoTrigger
+augroup END
 
 Plug 'airblade/vim-gitgutter'
 omap ig <Plug>GitGutterTextObjectInnerPending
