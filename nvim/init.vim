@@ -122,7 +122,7 @@ xmap ig <Plug>GitGutterTextObjectInnerVisual
 xmap ag <Plug>GitGutterTextObjectOuterVisual
 augroup z-rc-gitgutter
   autocmd!
-  autocmd BufEnter,TextChanged,InsertLeave * GitGutter
+  autocmd BufEnter,TextChanged,InsertLeave,BufWritePost * GitGutter
   autocmd BufDelete */.git/COMMIT_EDITMSG GitGutterAll
 augroup END
 
