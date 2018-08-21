@@ -35,6 +35,7 @@ function set_up_prompt {
     local _dot=" %{$fg_bold[black]%}::%{$reset_color%} "
     local _host="%{$fg[blue]%}%m"
     local _path='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
+    local _jobs="%(1j.%{$fg_bold[black]%} :: %{$reset_color%}jobs%{$fg_bold[black]%}/%{$fg_bold[blue]%}%j.)"
 
     if [[ $TERM == 'linux' || $TERM == 'xterm' ]];
     then
@@ -43,7 +44,7 @@ function set_up_prompt {
         local _green=$(echo -e '\e[38;2;138;226;52m')
     fi
 
-    local _base="$_path %(!.%{$fg_bold[red]%}#.%{$_green%}$)%{$reset_color%} "
+    local _base="$_path$_jobs %(!.%{$fg_bold[red]%}#.%{$_green%}$)%{$reset_color%} "
 
     if [[ $SSH_CONNECTION != '' ]];
     then
