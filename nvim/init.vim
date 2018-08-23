@@ -56,19 +56,14 @@ set title
 set ttimeout
 set ttimeoutlen=50
 set undofile
-set wildignore+=__pycache__/
-set wildignore+=*.pyc
-set wildignore+=Pipfile.lock
+set wildignore+=node_modules/,package-lock.json,*.min.js
+set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/
 set wildignore+=Cargo.lock
-set wildignore+=.git
-set wildignore+=.gitmodules
+set wildignore+=.git,.gitmodules
 set wildignore+=*.swp
-set wildignore+=*.min.js
 set wildignore+=*.sqlite3
 set wildignore+=.sass-cache
 set wildignore+=.DS_Store
-set wildignore+=node_modules/
-set wildignore+=package-lock.json
 set wildignorecase
 set writebackup
 " --- end general settings --- }}}
