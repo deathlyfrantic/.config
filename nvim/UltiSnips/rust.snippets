@@ -1,0 +1,11 @@
+snippet tests "tests boilerplate" b
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn test_$1() {
+		$0
+	}
+}
+endsnippet
