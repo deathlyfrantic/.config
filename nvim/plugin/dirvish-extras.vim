@@ -27,7 +27,7 @@ function! s:dirvish_autocmds() abort
   nnoremap <silent> <buffer> <CR> :<C-u>call <SID>dirvish_open()<CR>
   nnoremap <silent> <buffer> q :<C-u>call <SID>dirvish_toggle()<CR>
   silent! keeppatterns g@\v/\.[^\/]+/?$@d
-  for pat in get(g:, 'ignore_patterns', [])
+  for pat in split(&wildignore, ',')
     execute printf('silent! keeppatterns g@\v/%s/?$@d', pat)
   endfor
 endfunction

@@ -24,22 +24,6 @@ endif
 " --- end startup --- }}}
 
 " --- general settings --- {{{
-" ignore patterns - used in a couple places {{{
-let g:ignore_patterns = [
-  \ '__pycache__/',
-  \ '*.pyc',
-  \ '.git',
-  \ '.gitmodules',
-  \ '*.swp',
-  \ '*.min.js',
-  \ '*.sqlite3',
-  \ '.sass-cache',
-  \ '.DS_Store',
-  \ 'node_modules/',
-  \ 'package-lock.json',
-  \ ]
-" }}}
-
 set cinoptions+=:0,(0
 set colorcolumn=+1
 set completeopt-=preview
@@ -72,7 +56,19 @@ set title
 set ttimeout
 set ttimeoutlen=50
 set undofile
-let &wildignore=join(g:ignore_patterns, ',')
+set wildignore+=__pycache__/
+set wildignore+=*.pyc
+set wildignore+=Pipfile.lock
+set wildignore+=Cargo.lock
+set wildignore+=.git
+set wildignore+=.gitmodules
+set wildignore+=*.swp
+set wildignore+=*.min.js
+set wildignore+=*.sqlite3
+set wildignore+=.sass-cache
+set wildignore+=.DS_Store
+set wildignore+=node_modules/
+set wildignore+=package-lock.json
 set wildignorecase
 set writebackup
 " --- end general settings --- }}}
@@ -165,7 +161,7 @@ let g:ctrlp_prompt_mappings = {
   \ 'PrtHistory(1)':  ['<Up>'],
   \ }
 if executable('rg')
-  let igs = join(map(copy(g:ignore_patterns), {i, v -> printf("-g '!%s'", v)}))
+  let igs = join(map(split(&wildignore, ','), {i, v -> printf("-g '!%s'", v)}))
   let g:ctrlp_user_command = printf('rg %s %%s --files -g ""', igs)
   let g:ctrlp_use_caching = 0
   let &grepprg = printf('rg --vimgrep %s $*', igs)
