@@ -463,7 +463,7 @@ command! ManClose call <SID>close_man_pages()
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if strftime('%H') > 20 || strftime('%H') < 9
+if strftime('%H') > 19 || strftime('%H') < 9
   colorscheme copper
 else
   colorscheme mastodon
