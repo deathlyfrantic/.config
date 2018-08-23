@@ -56,6 +56,7 @@ highlight! link phpDocTags                Comment
 highlight! link rustAttribute             Comment
 highlight! link rustDerive                Comment
 highlight! link rustDeriveTrait           Comment
+highlight! link rustCommentLineDoc        Comment
 highlight! link IncSearch                 Search
 highlight! link gitcommitOverflow         Error
 highlight! link Sneak                     Search
