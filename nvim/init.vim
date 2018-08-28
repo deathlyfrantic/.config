@@ -201,6 +201,10 @@ let g:lion_squeeze_spaces = 1
 Plug 'google/vim-searchindex'
 nmap * *N
 nmap # #N
+
+Plug 'AndrewRadev/switch.vim'
+let g:switch_mapping = 'Q'
+let g:switch_custom_definitions = [['on', 'off'], ['yes', 'no']]
 " }}}
 
 " tpope's special section {{{
