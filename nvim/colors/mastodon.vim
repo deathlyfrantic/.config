@@ -17,7 +17,7 @@
 " DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 " TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 " OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-if !has('gui_running') && !((&termguicolors) || (has('nvim') && $NVIM_TUI_ENABLE_TRUE_COLOR))
+if !has('gui_running') && !&termguicolors
   echoerr 'The mastodon colorscheme requires a true-color Vim (Neovim or Gvim).'
   finish
 endif
