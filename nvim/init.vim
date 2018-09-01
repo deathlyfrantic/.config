@@ -54,8 +54,6 @@ set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
 set textwidth=80
 set title
-set ttimeout
-set ttimeoutlen=50
 set undofile
 set wildignore+=node_modules/,package-lock.json,*.min.js
 set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/
@@ -66,7 +64,6 @@ set wildignore+=*.sqlite3
 set wildignore+=.sass-cache
 set wildignore+=.DS_Store
 set wildignorecase
-set writebackup
 " --- end general settings --- }}}
 
 " --- plugins --- {{{
