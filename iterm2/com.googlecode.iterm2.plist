@@ -266,17 +266,17 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>1417 530 228 280 0 0 2560 1418 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1101 177 445 77 0 0 2560 1418 </string>
+	<string>1856 33 445 77 0 0 2560 1418 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>970 769 620 392 0 0 2560 1418 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>220 120 606 469 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1385 598 796 486 0 0 2560 1418 </string>
+	<string>1422 531 796 486 0 0 2560 1418 </string>
 	<key>NSWindow Frame com.apple.typography_panel_SourceCodePro-Regular</key>
 	<string>346 503 260 136 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>938 555 730 526 0 0 2560 1418 </string>
+	<string>0 842 810 551 0 0 2560 1418 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>383 304 730 526 0 0 1680 1028 </string>
 	<key>NeverWarnAboutMeta</key>
@@ -871,7 +871,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>InconsolataABM-Regular 18</string>
+			<string>SFMono-Regular 16</string>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1016,7 +1016,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-08-08T10:39:00Z</date>
+	<date>2018-09-03T14:10:43Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
