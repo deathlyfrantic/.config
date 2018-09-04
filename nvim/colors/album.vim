@@ -29,7 +29,7 @@ highlight PmenuThumb            ctermfg=250  ctermbg=250  cterm=NONE
 highlight Error                 ctermfg=231  ctermbg=197  cterm=NONE
 highlight SpellBad              ctermfg=197  ctermbg=NONE cterm=underline
 highlight SpellCap              ctermfg=215  ctermbg=NONE cterm=underline
-highlight Search                ctermfg=232  ctermbg=114  cterm=bold
+highlight Search                ctermfg=232  ctermbg=114  cterm=NONE
 highlight TODO                  ctermfg=228  ctermbg=NONE cterm=bold,underline
 highlight DiffAdd               ctermfg=120  ctermbg=29   cterm=NONE
 highlight DiffChange            ctermfg=228  ctermbg=NONE cterm=NONE
