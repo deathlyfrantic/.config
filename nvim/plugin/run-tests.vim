@@ -134,7 +134,7 @@ function! s:orchestrate_tests() abort
   if len(test_cmds)
     call s:run_tests(test_cmds[0])
   else
-    call z#echoerr(printf(join(errs, ' and ')))
+    call z#echoerr(join(errs, ' and '))
   endif
   call win_gotoid(current_window)
 endfunction
