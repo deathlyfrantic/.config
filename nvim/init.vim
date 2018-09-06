@@ -346,6 +346,7 @@ nnoremap gV `[v`]
 
 " turns out i do not need an escape key
 inoremap jk <Esc>
+tnoremap jk <C-\><C-n>
 
 " why isn't this default, idgaf about vi-compatibility
 nmap Y y$
