@@ -76,7 +76,7 @@ function prompt-color-echo {
 
 function prompt-git-status {
     local branch=$(git symbolic-ref HEAD 2>&1)
-    if [[ $branch =~ "fatal: not a git repository" ]]; then
+    if [[ $branch =~ "fatal: " ]]; then
         return
     fi
 
