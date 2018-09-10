@@ -331,13 +331,8 @@ augroup END
 command! -bang -nargs=1 -complete=file E e<bang> <args>
 command! -bang -nargs=1 -complete=help H h<bang> <args>
 command! -bang Q q<bang>
-command! -bang W w<bang>
-command! -bang Bd bd<bang>
-command! -bang BD bd<bang>
 command! -bang Qa qa<bang>
 command! -bang QA qa<bang>
-command! -bang Wa wa<bang>
-command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 command! -bang BD Bd<bang>
