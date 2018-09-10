@@ -8,7 +8,7 @@ setopt appendhistory autocd extended_history share_history menu_complete prompt_
 unsetopt beep case_glob flowcontrol
 
 # prompt
-set_up_prompt
+set-up-prompt
 
 # history
 HISTFILE="$XDG_DATA_HOME"/zsh-history
