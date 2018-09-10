@@ -75,19 +75,17 @@ function prompt-color-echo {
 }
 
 function prompt-git-status {
-    local branch=$(git symbolic-ref HEAD 2>&1)
-    if [[ $branch =~ "fatal: " ]]; then
+    local porcelain=$(git status --porcelain=2 --branch 2>&1)
+    if [[ $porcelain =~ "fatal:" ]]; then
         return
     fi
 
-    local porcelain=$(git status --porcelain=2 --branch)
-
     # branch name (and ahead/behind if applicable)
-    if [[ $branch =~ "fatal: ref HEAD is not a symbolic ref" ]]; then
+    local branch=$(echo $porcelain | grep branch.head | cut -d' ' -f3)
+    if [[ $branch == "(detached)" ]]; then
         branch=":"$(git rev-parse --short HEAD)
         prompt-color-echo $branch reset
     else
-        branch=$(echo $branch | cut -d/ -f3)
         prompt-color-echo $branch reset
 
         local branchab=$(echo $porcelain | grep branch.ab)
