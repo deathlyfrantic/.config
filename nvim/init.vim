@@ -339,12 +339,21 @@ command! -bang BD Bd<bang>
 
 " don't change window layout when deleting buffer
 function! s:buf_delete(bufnum, bang) abort
-  for buf in reverse(getbufinfo())
-    if buf.listed && buf.bufnr != a:bufnum
-      execute printf('buffer %s', buf.bufnr)
-      break
-    endif
-  endfor
+  if getbufvar(a:bufnum, '&modified') && a:bang == ''
+    let m = 'E89: No write since last change for buffer %d (add ! to override)'
+    call z#echoerr(printf(m, a:bufnum))
+    return
+  endif
+  if bufexists(0)
+    buffer #
+  else
+    for buf in reverse(getbufinfo())
+      if buf.listed && buf.bufnr != a:bufnum
+        execute 'buffer' buf.bufnr
+        break
+      endif
+    endfor
+  endif
   execute printf('bd%s %s', a:bang, a:bufnum)
 endfunction
 command! -bang Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
