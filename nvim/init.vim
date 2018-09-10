@@ -342,6 +342,7 @@ function! s:buf_delete(bufnum, bang) abort
   for buf in reverse(getbufinfo())
     if buf.listed && buf.bufnr != a:bufnum
       execute printf('buffer %s', buf.bufnr)
+      break
     endif
   endfor
   execute printf('bd%s %s', a:bang, a:bufnum)
