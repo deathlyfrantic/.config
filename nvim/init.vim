@@ -340,6 +340,18 @@ command! -bang Wa wa<bang>
 command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
+command! -bang BD Bd<bang>
+
+" don't change window layout when deleting buffer
+function! s:buf_delete(bufnum, bang) abort
+  for buf in reverse(getbufinfo())
+    if buf.listed && buf.bufnr != a:bufnum
+      execute printf('buffer %s', buf.bufnr)
+    endif
+  endfor
+  execute printf('bd%s %s', a:bang, a:bufnum)
+endfunction
+command! -bang Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
 
 " select last-pasted text
 nnoremap gV `[v`]
@@ -359,7 +371,7 @@ cnoremap <expr> %% printf('%s/', fnameescape(expand('%:p:h')))
 
 " write then delete buffer; akin to wq
 cnoremap wbd Wbd
-command! -bang Wbd w<bang> | bd<bang>
+command! -bang Wbd w<bang> | Bd<bang>
 
 " hide search highlighting
 nnoremap <silent> <Space> :nohlsearch<CR>
