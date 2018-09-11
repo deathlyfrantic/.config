@@ -441,8 +441,9 @@ nnoremap <leader><Space> i<Space><Esc>
 function! s:arrow(fat) abort
   let before = completion#check_back_space() ? '' : ' '
   let arrow = a:fat ? '=>' : '->'
-  let [l:line, l:col] = [getline('.'), col('.')]
-  let after = (len(l:line) <= l:col || l:line[l:col] !~ '^\s*$') ? ' ' : ''
+  let [l:line, l:col] = [getline('.'), col('.') - 1]
+  let after = (len(l:line) <= l:col || l:line[l:col] !~ '^\s*$')
+    \ ? ' ' : "\<Right>"
   return before.arrow.after
 endfunction
 imap <expr> <C-j> <SID>arrow(0)
