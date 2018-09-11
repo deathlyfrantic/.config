@@ -87,53 +87,42 @@ function prompt-git-status {
         prompt-color-echo $branch reset
     else
         prompt-color-echo $branch reset
-
         local branchab=$(echo $porcelain | grep branch.ab)
         local ahead=$(echo $branchab | cut -d' ' -f3 | tr -d '+')
         local behind=$(echo $branchab | cut -d' ' -f4 | tr -d '-')
-
-        if [[ $behind > 0 ]]; then
-            prompt-color-echo "<$behind" red bold
-        fi
-
-        if [[ $ahead > 0 ]]; then
-            prompt-color-echo ">$ahead" cyan bold
-        fi
+        prompt-git-status-echo-if-nonzero $behind "<" red bold
+        prompt-git-status-echo-if-nonzero $ahead ">" cyan bold
     fi
 
     # separator
     prompt-color-echo / black bold
 
-    local clean=""
+    # staged/conflicts/changed/untracked
     local staged=$(echo $porcelain | grep -c '^[12] [MADRC]\.')
     local conflicts=$(echo $porcelain | grep -c '^u ')
     local changed=$(echo $porcelain | grep -c '^[12] \.[MADRC]')
     local untracked=$(echo $porcelain | grep -c '^? ')
+    prompt-git-status-echo-if-nonzero $staged "-" yellow bold
+    prompt-git-status-echo-if-nonzero $conflicts "!" red bold
+    prompt-git-status-echo-if-nonzero $changed "+" blue bold
+    prompt-git-status-echo-if-nonzero $untracked "_" magenta bold
 
-    if [[ $staged > 0 ]]; then
-        prompt-color-echo "-$staged" yellow bold
-        clean="no"
-    fi
-
-    if [[ $conflicts > 0 ]]; then
-        prompt-color-echo "!$conflicts" red bold
-        clean="no"
-    fi
-
-    if [[ $changed > 0 ]]; then
-        prompt-color-echo "+$changed" blue bold
-        clean="no"
-    fi
-
-    if [[ $untracked > 0 ]]; then
-        prompt-color-echo "_$untracked" magenta bold
-        clean="no"
-    fi
-
-    if [[ $clean == "" ]]; then
+    # clean
+    if [[ $(($staged + $conflicts + $changed + $untracked)) == 0 ]]; then
         prompt-color-echo "=" green bold
     fi
 
     # separator between widgets
     prompt-separator
+}
+
+function prompt-git-status-echo-if-nonzero {
+    local number=$1
+    local symbol=$2
+    local color=$3
+    local bold=$4
+
+    if [[ $number > 0 ]]; then
+        prompt-color-echo "$symbol$number" $color $bold
+    fi
 }
