@@ -88,10 +88,12 @@ function prompt-git-status {
     else
         prompt-color-echo $branch reset
         local branchab=$(echo $porcelain | grep branch.ab)
-        local ahead=$(echo $branchab | cut -d' ' -f3 | tr -d '+')
-        local behind=$(echo $branchab | cut -d' ' -f4 | tr -d '-')
-        prompt-git-status-echo-if-nonzero $behind "<" red bold
-        prompt-git-status-echo-if-nonzero $ahead ">" cyan bold
+        if [[ $branchab != "" ]]; then
+            local ahead=$(echo $branchab | cut -d' ' -f3 | tr -d '+')
+            local behind=$(echo $branchab | cut -d' ' -f4 | tr -d '-')
+            prompt-git-status-echo-if-nonzero $behind "<" red bold
+            prompt-git-status-echo-if-nonzero $ahead ">" cyan bold
+        fi
     fi
 
     # separator
