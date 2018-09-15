@@ -40,7 +40,7 @@ set hidden
 set ignorecase
 set inccommand=split
 set lazyredraw
-set listchars=space:·,eol:¬,tab:▸\ ,trail:·,precedes:↪,extends:↩
+set listchars=space:␣,eol:¬,tab:▸⁃,trail:␣,precedes:⤷,extends:⤶
 set matchpairs+=<:>
 set nojoinspaces
 set nostartofline
