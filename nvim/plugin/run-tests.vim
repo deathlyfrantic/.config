@@ -121,7 +121,7 @@ function! s:orchestrate_tests() abort
       \ : function(printf('s:%s', s:get_normalized_filetype()))
     let test_cmds = [Runner()]
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
-    let errs += [printf("No tests available for filetype '%s'.", &ft)]
+    let errs += [printf("No tests available for filetype '%s'", &ft)]
   catch " runner didn't return a valid command
     let errs += [printf('Test runner failed: %s', v:exception)]
   endtry
