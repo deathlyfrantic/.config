@@ -1,13 +1,15 @@
 let s:test_buffer = -1
 
 function! s:makefile_test() abort
-  if !filereadable('Makefile')
+  let makefile = findfile('Makefile', ';')
+  if makefile == ''
     throw 'no `Makefile` found'
   endif
-  let contents = readfile('Makefile')
+  let contents = readfile(makefile)
+  let makefile_dir = fnamemodify(makefile, ':h')
   for line in contents
     if line =~? '^test:'
-      return 'make test'
+      return printf('(cd %s && make test)', makefile_dir)
     endif
   endfor
   throw 'no `test` make target found in `Makefile`'
