@@ -429,7 +429,9 @@ command! -nargs=? PreviewMarkdown call z#preview_markdown(<args>)
 command! -nargs=1 RFC call z#rfc(<args>)
 
 " run tests (see plugin/run-tests.vim)
-nmap <silent> <leader>t <Plug>(run-tests)
+nmap <silent> <leader>t <Plug>(run-test-nearest)
+nmap <silent> <leader>T <Plug>(run-test-file)
+nmap <silent> <leader><C-t> <Plug>(run-test-suite)
 
 " copy entire buffer to system clipboard
 nnoremap <leader>a m`gg"+yG``
