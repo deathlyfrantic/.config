@@ -444,7 +444,7 @@ function! s:arrow(fat) abort
   let before = completion#check_back_space() ? '' : ' '
   let arrow = a:fat ? '=>' : '->'
   let [line, col] = [getline('.'), col('.') - 1]
-  let after = (len(line) <= col || line[col] !~ '^\s*$') \ ? ' ' : "\<Right>"
+  let after = (len(line) <= col || line[col] !~ '^\s*$') ? ' ' : "\<Right>"
   return before.arrow.after
 endfunction
 imap <expr> <C-j> <SID>arrow(0)
