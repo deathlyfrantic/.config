@@ -207,7 +207,6 @@ let g:switch_custom_definitions = [['on', 'off'], ['yes', 'no']]
 " tpope's special section {{{
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-apathy'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
