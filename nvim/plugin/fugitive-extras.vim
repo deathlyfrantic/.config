@@ -1,3 +1,27 @@
+" transform repo urls so my ssh config method works
+function! s:repo_url_transform(opts, ...)
+  if a:0 || type(a:opts) != v:t_dict
+    return ''
+  endif
+  let url = z#multisub(a:opts.remote, ['^github', '^bitbucket'],
+    \ ['https://github.com', 'https://bitbucket.org'])
+  if url == a:opts.remote
+    return ''
+  endif
+  let new_opts = extend(deepcopy(a:opts), {'remote': url})
+  for Handler in g:fugitive_browse_handlers
+    if Handler != function('s:repo_url_transform')
+      let result = Handler(new_opts)
+      if !empty(result)
+        return result
+      endif
+    endif
+  endfor
+  return ''
+endfunction
+let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
+  \ [function('s:repo_url_transform')])
+
 " this is a modified version of vim-fugitive-blame-ext by Tom McDonald
 " see: https://github.com/tommcdo/vim-fugitive-blame-ext
 let s:subj_cmd = 'git --git-dir=%s show -s --pretty=format:%%s %s'
