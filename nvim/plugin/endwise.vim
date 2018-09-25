@@ -16,31 +16,16 @@ augroup endwise " {{{1
     \ 'words': 'function,do,then',
     \ 'pattern': '^\s*\zs\%(\%(local\s\+\)\=function\)\>\%(.*\<end\>\)\@!\|\<\%(then\|do\)\ze\s*$',
     \ 'syngroups': 'luaFunction,luaStatement,luaCond'}
-  autocmd FileType elixir let b:endwise = {
-    \ 'addition': 'end',
-    \ 'words': 'do,fn',
-    \ 'pattern': '.*[^.:@$]\zs\<\%(do\(:\)\@!\|fn\)\>\ze\%(.*[^.:@$]\<end\>\)\@!',
-    \ 'syngroups': 'elixirBlockDefinition'}
   autocmd FileType ruby let b:endwise = {
     \ 'addition': 'end',
     \ 'words': 'module,class,def,if,unless,case,while,until,begin,do',
     \ 'pattern': '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|module_function\s\+\)*\zs\%(module\|class\|def\|if\|unless\|case\|while\|until\|for\|\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$',
     \ 'syngroups': 'rubyModule,rubyClass,rubyDefine,rubyControl,rubyConditional,rubyRepeat'}
-  autocmd FileType crystal let b:endwise = {
-    \ 'addition': 'end',
-    \ 'words': 'module,class,lib,macro,struct,union,enum,def,if,unless,ifdef,case,while,until,for,begin,do',
-    \ 'pattern': '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|abstract\s\+\)*\zs\%(module\|class\|lib\|macro\|struct\|union\|enum\|def\|if\|unless\|ifdef\|case\|while\|until\|for\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$',
-    \ 'syngroups': 'crystalModule,crystalClass,crystalLib,crystalMacro,crystalStruct,crystalDefine,crystalConditional,crystalRepeat,crystalControl'}
   autocmd FileType sh,zsh let b:endwise = {
     \ 'addition': '\=submatch(0)=="then" ? "fi" : submatch(0)=="case" ? "esac" : "done"',
     \ 'words': 'then,case,do',
     \ 'pattern': '\%(^\s*\zscase\>\ze\|\zs\<\%(do\|then\)\ze\s*$\)',
     \ 'syngroups': 'shConditional,shLoop,shIf,shFor,shRepeat,shCaseEsac,zshConditional,zshRepeat,zshDelimiter'}
-  autocmd FileType vb,vbnet,aspvbs let b:endwise = {
-    \ 'addition': 'End &',
-    \ 'words': 'Function,Sub,Class,Module,Enum,Namespace',
-    \ 'pattern': '\%(\<End\>.*\)\@<!\<&\>',
-    \ 'syngroups': 'vbStatement,vbnetStorage,vbnetProcedure,vbnet.*Words,AspVBSStatement'}
   autocmd FileType vim let b:endwise = {
     \ 'addition': '\=submatch(0)=~"aug\\%[roup]" ? submatch(0) . " END" : "end" . submatch(0)',
     \ 'words': 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!',
@@ -56,10 +41,6 @@ augroup endwise " {{{1
     \ 'words': 'interface,implementation',
     \ 'pattern': '^\s*@\%(interface\|implementation\)\>',
     \ 'syngroups': 'objcObjDef'}
-  autocmd FileType matlab let b:endwise = {
-    \ 'addition': 'end',
-    \ 'words': 'function,if,for',
-    \ 'syngroups': 'matlabStatement,matlabFunction,matlabConditional,matlabRepeat'}
   autocmd FileType htmldjango let b:endwise = {
     \ 'addition': '{% end& %}',
     \ 'words': 'autoescape,block,blocktrans,cache,comment,filter,for,if,ifchanged,ifequal,ifnotequal,language,spaceless,verbatim,with',
