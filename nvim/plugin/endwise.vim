@@ -72,6 +72,11 @@ augroup endwise " {{{1
         \ let b:endwise_addition = 'endsnippet' |
         \ let b:endwise_words = 'snippet' |
         \ let b:endwise_syngroups = 'snipSnippet,snipSnippetHeader,snipSnippetHeaderKeyword'
+  autocmd FileType rust
+    \ let b:endwise_addition = '}' |
+    \ let b:endwise_words = 'fn,impl,struct,enum' |
+    \ let b:endwise_pattern = '^\s*\%(\%[pub ]fn\|impl\|struct\|enum\|mod\).*{$' |
+    \ let b:endwise_syngroups = 'rustKeyword,rustFoldBraces,rustStructure,dummy'
   autocmd FileType * call s:abbrev()
 augroup END " }}}1
 
@@ -169,7 +174,11 @@ function! s:crend(always)
   elseif getline('.') !~ '^\s*#\=$'
     return n
   endif
-  let line = s:mysearchpair(beginpat,endpat,synidpat)
+  if b:endwise_addition =~ '}\%[;]'
+    let line = s:mysearchpair('{', '}', synidpat)
+  else
+    let line = s:mysearchpair(beginpat, endpat, synidpat)
+  endif
   " even is false if no end was found, or if the end found was less
   " indented than the current line
   let even = strlen(matchstr(getline(line),'^\s*')) >= strlen(space)
