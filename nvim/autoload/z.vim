@@ -64,7 +64,7 @@ function! z#preview(text) abort
   let l:win = win_getid()
   let l:winview = winsaveview()
   pclose!
-  execute printf('%dnew', &previewheight)
+  execute printf('topleft %dnew', &previewheight)
   set previewwindow noswapfile nobuflisted buftype=nofile
   nnoremap <silent> <buffer> q :pclose!<CR>
   nnoremap <silent> <buffer> <C-c> :pclose!<CR>
