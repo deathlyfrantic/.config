@@ -9,7 +9,7 @@ if exists("g:loaded_endwise") || &cp
 endif
 let g:loaded_endwise = 1
 
-augroup endwise " {{{1
+augroup endwise
   autocmd!
   autocmd FileType lua let b:endwise = {
     \ 'addition': 'end',
@@ -58,14 +58,12 @@ augroup endwise " {{{1
     \ 'words': 'fn,impl,struct,enum',
     \ 'pattern': '^\s*\%(\%[pub ]fn\|impl\|struct\|enum\|mod\).*{$',
     \ 'syngroups': 'rustKeyword,rustFoldBraces,rustStructure,dummy'}
-augroup END " }}}1
+augroup END
 
 function! s:teardownMappings()
   inoremap <buffer> <C-X><CR> <C-X><CR>
   inoremap <buffer> <CR> <CR>
 endfunction
-
-" Functions {{{1
 
 function! EndwiseDiscretionary()
   return <SID>crend(0)
@@ -74,10 +72,6 @@ endfunction
 function! EndwiseAlways()
   return <SID>crend(1)
 endfunction
-
-" }}}1
-
-" Maps {{{1
 
 if maparg("<Plug>DiscretionaryEnd") == ""
   inoremap <silent> <SID>DiscretionaryEnd <C-R>=<SID>crend(0)<CR>
@@ -101,10 +95,6 @@ if !exists('g:endwise_no_mappings')
   endif
   autocmd endwise CmdwinEnter * call s:teardownMappings()
 endif
-
-" }}}1
-
-" Code {{{1
 
 function! s:mysearchpair(beginpat, endpat, synidpat)
   let s:lastline = line('.')
@@ -176,7 +166,3 @@ function! s:synid()
   let s:lastline = line('.')
   return s
 endfunction
-
-" }}}1
-
-" vim:set sw=2 sts=2:
