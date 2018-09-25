@@ -12,66 +12,66 @@ let g:loaded_endwise = 1
 augroup endwise " {{{1
   autocmd!
   autocmd FileType lua
-        \ let b:endwise_addition = 'end' |
-        \ let b:endwise_words = 'function,do,then' |
-        \ let b:endwise_pattern = '^\s*\zs\%(\%(local\s\+\)\=function\)\>\%(.*\<end\>\)\@!\|\<\%(then\|do\)\ze\s*$' |
-        \ let b:endwise_syngroups = 'luaFunction,luaStatement,luaCond'
+    \ let b:endwise_addition = 'end' |
+    \ let b:endwise_words = 'function,do,then' |
+    \ let b:endwise_pattern = '^\s*\zs\%(\%(local\s\+\)\=function\)\>\%(.*\<end\>\)\@!\|\<\%(then\|do\)\ze\s*$' |
+    \ let b:endwise_syngroups = 'luaFunction,luaStatement,luaCond'
   autocmd FileType elixir
-        \ let b:endwise_addition = 'end' |
-        \ let b:endwise_words = 'do,fn' |
-        \ let b:endwise_pattern = '.*[^.:@$]\zs\<\%(do\(:\)\@!\|fn\)\>\ze\%(.*[^.:@$]\<end\>\)\@!' |
-        \ let b:endwise_syngroups = 'elixirBlockDefinition'
+    \ let b:endwise_addition = 'end' |
+    \ let b:endwise_words = 'do,fn' |
+    \ let b:endwise_pattern = '.*[^.:@$]\zs\<\%(do\(:\)\@!\|fn\)\>\ze\%(.*[^.:@$]\<end\>\)\@!' |
+    \ let b:endwise_syngroups = 'elixirBlockDefinition'
   autocmd FileType ruby
-        \ let b:endwise_addition = 'end' |
-        \ let b:endwise_words = 'module,class,def,if,unless,case,while,until,begin,do' |
-        \ let b:endwise_pattern = '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|module_function\s\+\)*\zs\%(module\|class\|def\|if\|unless\|case\|while\|until\|for\|\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$' |
-        \ let b:endwise_syngroups = 'rubyModule,rubyClass,rubyDefine,rubyControl,rubyConditional,rubyRepeat'
+    \ let b:endwise_addition = 'end' |
+    \ let b:endwise_words = 'module,class,def,if,unless,case,while,until,begin,do' |
+    \ let b:endwise_pattern = '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|module_function\s\+\)*\zs\%(module\|class\|def\|if\|unless\|case\|while\|until\|for\|\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$' |
+    \ let b:endwise_syngroups = 'rubyModule,rubyClass,rubyDefine,rubyControl,rubyConditional,rubyRepeat'
   autocmd FileType crystal
-        \ let b:endwise_addition = 'end' |
-        \ let b:endwise_words = 'module,class,lib,macro,struct,union,enum,def,if,unless,ifdef,case,while,until,for,begin,do' |
-        \ let b:endwise_pattern = '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|abstract\s\+\)*\zs\%(module\|class\|lib\|macro\|struct\|union\|enum\|def\|if\|unless\|ifdef\|case\|while\|until\|for\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$' |
-        \ let b:endwise_syngroups = 'crystalModule,crystalClass,crystalLib,crystalMacro,crystalStruct,crystalDefine,crystalConditional,crystalRepeat,crystalControl'
+    \ let b:endwise_addition = 'end' |
+    \ let b:endwise_words = 'module,class,lib,macro,struct,union,enum,def,if,unless,ifdef,case,while,until,for,begin,do' |
+    \ let b:endwise_pattern = '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|abstract\s\+\)*\zs\%(module\|class\|lib\|macro\|struct\|union\|enum\|def\|if\|unless\|ifdef\|case\|while\|until\|for\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$' |
+    \ let b:endwise_syngroups = 'crystalModule,crystalClass,crystalLib,crystalMacro,crystalStruct,crystalDefine,crystalConditional,crystalRepeat,crystalControl'
   autocmd FileType sh,zsh
-        \ let b:endwise_addition = '\=submatch(0)=="then" ? "fi" : submatch(0)=="case" ? "esac" : "done"' |
-        \ let b:endwise_words = 'then,case,do' |
-        \ let b:endwise_pattern = '\%(^\s*\zscase\>\ze\|\zs\<\%(do\|then\)\ze\s*$\)' |
-        \ let b:endwise_syngroups = 'shConditional,shLoop,shIf,shFor,shRepeat,shCaseEsac,zshConditional,zshRepeat,zshDelimiter'
+    \ let b:endwise_addition = '\=submatch(0)=="then" ? "fi" : submatch(0)=="case" ? "esac" : "done"' |
+    \ let b:endwise_words = 'then,case,do' |
+    \ let b:endwise_pattern = '\%(^\s*\zscase\>\ze\|\zs\<\%(do\|then\)\ze\s*$\)' |
+    \ let b:endwise_syngroups = 'shConditional,shLoop,shIf,shFor,shRepeat,shCaseEsac,zshConditional,zshRepeat,zshDelimiter'
   autocmd FileType vb,vbnet,aspvbs
-        \ let b:endwise_addition = 'End &' |
-        \ let b:endwise_words = 'Function,Sub,Class,Module,Enum,Namespace' |
-        \ let b:endwise_pattern = '\%(\<End\>.*\)\@<!\<&\>' |
-        \ let b:endwise_syngroups = 'vbStatement,vbnetStorage,vbnetProcedure,vbnet.*Words,AspVBSStatement'
+    \ let b:endwise_addition = 'End &' |
+    \ let b:endwise_words = 'Function,Sub,Class,Module,Enum,Namespace' |
+    \ let b:endwise_pattern = '\%(\<End\>.*\)\@<!\<&\>' |
+    \ let b:endwise_syngroups = 'vbStatement,vbnetStorage,vbnetProcedure,vbnet.*Words,AspVBSStatement'
   autocmd FileType vim
-        \ let b:endwise_addition = '\=submatch(0)=~"aug\\%[roup]" ? submatch(0) . " END" : "end" . submatch(0)' |
-        \ let b:endwise_words = 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!' |
-        \ let b:endwise_end_pattern = '\%(end\%(fu\%[nction]\|wh\%[hile]\|if\|for\|try\)\)\|aug\%[roup]\%(\s\+\cEND\)' |
-        \ let b:endwise_syngroups = 'vimFuncKey,vimNotFunc,vimCommand,vimAugroupKey,vimAugroup,vimAugroupError'
+    \ let b:endwise_addition = '\=submatch(0)=~"aug\\%[roup]" ? submatch(0) . " END" : "end" . submatch(0)' |
+    \ let b:endwise_words = 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!' |
+    \ let b:endwise_end_pattern = '\%(end\%(fu\%[nction]\|wh\%[hile]\|if\|for\|try\)\)\|aug\%[roup]\%(\s\+\cEND\)' |
+    \ let b:endwise_syngroups = 'vimFuncKey,vimNotFunc,vimCommand,vimAugroupKey,vimAugroup,vimAugroupError'
   autocmd FileType c,cpp,xdefaults,haskell
-        \ let b:endwise_addition = '#endif' |
-        \ let b:endwise_words = 'if,ifdef,ifndef' |
-        \ let b:endwise_pattern = '^\s*#\%(if\|ifdef\|ifndef\)\>' |
-        \ let b:endwise_syngroups = 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'
+    \ let b:endwise_addition = '#endif' |
+    \ let b:endwise_words = 'if,ifdef,ifndef' |
+    \ let b:endwise_pattern = '^\s*#\%(if\|ifdef\|ifndef\)\>' |
+    \ let b:endwise_syngroups = 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'
   autocmd FileType objc
-        \ let b:endwise_addition = '@end' |
-        \ let b:endwise_words = 'interface,implementation' |
-        \ let b:endwise_pattern = '^\s*@\%(interface\|implementation\)\>' |
-        \ let b:endwise_syngroups = 'objcObjDef'
+    \ let b:endwise_addition = '@end' |
+    \ let b:endwise_words = 'interface,implementation' |
+    \ let b:endwise_pattern = '^\s*@\%(interface\|implementation\)\>' |
+    \ let b:endwise_syngroups = 'objcObjDef'
   autocmd FileType matlab
-        \ let b:endwise_addition = 'end' |
-        \ let b:endwise_words = 'function,if,for' |
-        \ let b:endwise_syngroups = 'matlabStatement,matlabFunction,matlabConditional,matlabRepeat'
+    \ let b:endwise_addition = 'end' |
+    \ let b:endwise_words = 'function,if,for' |
+    \ let b:endwise_syngroups = 'matlabStatement,matlabFunction,matlabConditional,matlabRepeat'
   autocmd FileType htmldjango
-        \ let b:endwise_addition = '{% end& %}' |
-        \ let b:endwise_words = 'autoescape,block,blocktrans,cache,comment,filter,for,if,ifchanged,ifequal,ifnotequal,language,spaceless,verbatim,with' |
-        \ let b:endwise_syngroups = 'djangoTagBlock,djangoStatement'
+    \ let b:endwise_addition = '{% end& %}' |
+    \ let b:endwise_words = 'autoescape,block,blocktrans,cache,comment,filter,for,if,ifchanged,ifequal,ifnotequal,language,spaceless,verbatim,with' |
+    \ let b:endwise_syngroups = 'djangoTagBlock,djangoStatement'
   autocmd FileType htmljinja,jinja.html
-        \ let b:endwise_addition = '{% end& %}' |
-        \ let b:endwise_words = 'autoescape,block,cache,call,filter,for,if,macro,raw,set,trans,with' |
-        \ let b:endwise_syngroups = 'jinjaTagBlock,jinjaStatement'
+    \ let b:endwise_addition = '{% end& %}' |
+    \ let b:endwise_words = 'autoescape,block,cache,call,filter,for,if,macro,raw,set,trans,with' |
+    \ let b:endwise_syngroups = 'jinjaTagBlock,jinjaStatement'
   autocmd FileType snippets
-        \ let b:endwise_addition = 'endsnippet' |
-        \ let b:endwise_words = 'snippet' |
-        \ let b:endwise_syngroups = 'snipSnippet,snipSnippetHeader,snipSnippetHeaderKeyword'
+    \ let b:endwise_addition = 'endsnippet' |
+    \ let b:endwise_words = 'snippet' |
+    \ let b:endwise_syngroups = 'snipSnippet,snipSnippetHeader,snipSnippetHeaderKeyword'
   autocmd FileType rust
     \ let b:endwise_addition = '}' |
     \ let b:endwise_words = 'fn,impl,struct,enum' |
@@ -115,12 +115,12 @@ if maparg("<Plug>DiscretionaryEnd") == ""
 endif
 
 if !exists('g:endwise_no_mappings')
-  if maparg('<CR>','i') =~# '<C-R>=.*crend(.)<CR>\|<\%(Plug\|SNR\|SID\)>.*End'
+  if maparg('<CR>', 'i') =~# '<C-R>=.*crend(.)<CR>\|<\%(Plug\|SNR\|SID\)>.*End'
     " Already mapped
-  elseif maparg('<CR>','i') =~ '<CR>'
-    exe "imap <script> <C-X><CR> ".maparg('<CR>','i')."<SID>AlwaysEnd"
-    exe "imap <silent> <script> <CR>      ".maparg('<CR>','i')."<SID>DiscretionaryEnd"
-  elseif maparg('<CR>','i') =~ '<Plug>\w\+CR'
+  elseif maparg('<CR>', 'i') =~ '<CR>'
+    exe "imap <script> <C-X><CR> ".maparg('<CR>', 'i')."<SID>AlwaysEnd"
+    exe "imap <silent> <script> <CR> ".maparg('<CR>', 'i')."<SID>DiscretionaryEnd"
+  elseif maparg('<CR>', 'i') =~ '<Plug>\w\+CR'
     exe "imap <C-X><CR> ".maparg('<CR>', 'i')."<Plug>AlwaysEnd"
     exe "imap <silent> <CR> ".maparg('<CR>', 'i')."<Plug>DiscretionaryEnd"
   else
@@ -134,10 +134,10 @@ endif
 
 " Code {{{1
 
-function! s:mysearchpair(beginpat,endpat,synidpat)
+function! s:mysearchpair(beginpat, endpat, synidpat)
   let s:lastline = line('.')
   call s:synid()
-  let line = searchpair(a:beginpat,'',a:endpat,'Wn','<SID>synid() !~# "^'.substitute(a:synidpat,'\\','\\\\','g').'$"',line('.')+50)
+  let line = searchpair(a:beginpat, '', a:endpat, 'Wn', '<SID>synid() !~# "^'.substitute(a:synidpat, '\\', '\\\\', 'g').'$"', line('.') + 50)
   return line
 endfunction
 
@@ -147,17 +147,17 @@ function! s:crend(always)
     return n
   endif
   let synids = join(map(split(b:endwise_syngroups, ','), 'hlID(v:val)'), ',')
-  let wordchoice = '\%('.substitute(b:endwise_words,',','\\|','g').'\)'
+  let wordchoice = '\%('.substitute(b:endwise_words, ',', '\\|', 'g').'\)'
   if exists("b:endwise_pattern")
-    let beginpat = substitute(b:endwise_pattern,'&',substitute(wordchoice,'\\','\\&','g'),'g')
+    let beginpat = substitute(b:endwise_pattern, '&', substitute(wordchoice, '\\', '\\&', 'g'), 'g')
   else
     let beginpat = '\<'.wordchoice.'\>'
   endif
   let lnum = line('.') - 1
-  let space = matchstr(getline(lnum),'^\s*')
-  let col  = match(getline(lnum),beginpat) + 1
-  let word  = matchstr(getline(lnum),beginpat)
-  let endword = substitute(word,'.*',b:endwise_addition,'')
+  let space = matchstr(getline(lnum), '^\s*')
+  let col = match(getline(lnum), beginpat) + 1
+  let word = matchstr(getline(lnum), beginpat)
+  let endword = substitute(word, '.*', b:endwise_addition, '')
   let y = n.endword."\<C-O>O"
   if exists("b:endwise_end_pattern")
     let endpat = '\w\@<!'.substitute(word, '.*', substitute(b:endwise_end_pattern, '\\', '\\\\', 'g'), '').'\w\@!'
@@ -166,10 +166,10 @@ function! s:crend(always)
   else
     let endpat = '\w\@<!'.substitute('\w\+', '.*', b:endwise_addition, '').'\w\@!'
   endif
-  let synidpat  = '\%('.substitute(synids,',','\\|','g').'\)'
+  let synidpat = '\%('.substitute(synids, ',', '\\|', 'g').'\)'
   if a:always
     return y
-  elseif col <= 0 || synID(lnum,col,1) !~ '^'.synidpat.'$'
+  elseif col <= 0 || synID(lnum, col, 1) !~ '^'.synidpat.'$'
     return n
   elseif getline('.') !~ '^\s*#\=$'
     return n
@@ -181,7 +181,7 @@ function! s:crend(always)
   endif
   " even is false if no end was found, or if the end found was less
   " indented than the current line
-  let even = strlen(matchstr(getline(line),'^\s*')) >= strlen(space)
+  let even = strlen(matchstr(getline(line), '^\s*')) >= strlen(space)
   if line == 0
     let even = 0
   endif
@@ -197,11 +197,10 @@ endfunction
 function! s:synid()
   " Checking this helps to force things to stay in sync
   while s:lastline < line('.')
-    let s = synID(s:lastline,indent(s:lastline)+1,1)
+    let s = synID(s:lastline, indent(s:lastline) + 1, 1)
     let s:lastline = nextnonblank(s:lastline + 1)
   endwhile
-
-  let s = synID(line('.'),col('.'),1)
+  let s = synID(line('.'), col('.'), 1)
   let s:lastline = line('.')
   return s
 endfunction
