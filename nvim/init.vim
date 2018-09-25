@@ -229,29 +229,9 @@ augroup END
 Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-rhubarb'
-function! s:repo_url_transform(opts, ...)
-  " transform repo urls so my ssh config method works
-  if a:0 || type(a:opts) != v:t_dict
-    return ''
-  endif
-  let url = z#multisub(a:opts.remote, ['^github', '^bitbucket'],
-    \ ['https://github.com', 'https://bitbucket.org'])
-  if url == a:opts.remote
-    return ''
-  endif
-  let new_opts = extend(deepcopy(a:opts), {'remote': url})
-  for Handler in g:fugitive_browse_handlers
-    if Handler != function('s:repo_url_transform')
-      let result = Handler(new_opts)
-      if !empty(result)
-        return result
-      endif
-    endif
-  endfor
-  return ''
-endfunction
-let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
-  \ [function('s:repo_url_transform')])
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
 noremap <silent> <leader>gb :Gbrowse!<CR>
 augroup z-rc-fugitive
   autocmd!
