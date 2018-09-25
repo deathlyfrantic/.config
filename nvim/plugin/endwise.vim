@@ -77,16 +77,7 @@ augroup endwise " {{{1
     \ let b:endwise_words = 'fn,impl,struct,enum' |
     \ let b:endwise_pattern = '^\s*\%(\%[pub ]fn\|impl\|struct\|enum\|mod\).*{$' |
     \ let b:endwise_syngroups = 'rustKeyword,rustFoldBraces,rustStructure,dummy'
-  autocmd FileType * call s:abbrev()
 augroup END " }}}1
-
-function! s:abbrev()
-  if exists('g:endwise_abbreviations')
-    for word in split(get(b:, 'endwise_words', ''), ',')
-      execute 'iabbrev <buffer><script>' word word.'<CR><SID>DiscretionaryEnd<Space><C-U><BS>'
-    endfor
-  endif
-endfunction
 
 function! s:teardownMappings()
   inoremap <buffer> <C-X><CR> <C-X><CR>
