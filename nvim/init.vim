@@ -228,7 +228,6 @@ augroup END
 
 Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fubitive'
-Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'tpope/vim-rhubarb'
 function! s:repo_url_transform(opts, ...)
   " transform repo urls so my ssh config method works
