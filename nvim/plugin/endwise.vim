@@ -64,6 +64,19 @@ augroup endwise
     \ 'words': 'fn,impl,struct,enum',
     \ 'pattern': '^\s*\%(\%[pub ]fn\|impl\|struct\|enum\|mod\).*{$',
     \ 'syngroups': 'rustKeyword,rustFoldBraces,rustStructure,dummy'}
+  autocmd FileType javascript,javascript.jsx let b:endwise = [{
+    \ 'addition': '}',
+    \ 'words': 'class,function',
+    \ 'pattern': '^\s*\(class\|function\).*{$',
+    \ 'syngroups': 'jsClassKeyword,jsClassDefinition,jsFunction,jsFuncBlock'},
+    \ {'addition': '}',
+    \ 'words': '',
+    \ 'pattern': '^\s*\w*(.*) \={$',
+    \ 'syngroups': 'jsClassFuncName,jsClassBlock'},
+    \ {'addition': '};',
+    \ 'words': '',
+    \ 'pattern': '^\s*.*\w* \== \=\%[function] \=(.*) \=\%[=>] \={$',
+    \ 'syngroups': 'jsStorageClass,jsVariableDef,jsOperator,jsArrowFunction,jsFuncBraces,jsFuncBlock,jsFunction,jsFuncParens'}]
 augroup END
 
 function! s:teardownMappings()
