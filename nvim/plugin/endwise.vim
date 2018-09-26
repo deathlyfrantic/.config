@@ -84,14 +84,6 @@ function! s:teardownMappings()
   inoremap <buffer> <CR> <CR>
 endfunction
 
-function! EndwiseDiscretionary()
-  return <SID>crend(0)
-endfunction
-
-function! EndwiseAlways()
-  return <SID>crend(1)
-endfunction
-
 if maparg('<Plug>DiscretionaryEnd') == ''
   inoremap <silent> <SID>DiscretionaryEnd <C-R>=<SID>crend(0)<CR>
   inoremap <silent> <SID>AlwaysEnd        <C-R>=<SID>crend(1)<CR>
