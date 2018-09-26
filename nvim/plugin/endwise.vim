@@ -4,10 +4,10 @@
 " License:      Same as Vim itself.  See :help license
 " GetLatestVimScripts: 2386 1 :AutoInstall: endwise.vim
 
-if exists("g:loaded_endwise") || &cp
-  finish
-endif
-let g:loaded_endwise = 1
+" if exists('g:loaded_endwise') || &cp
+"   finish
+" endif
+" let g:loaded_endwise = 1
 
 augroup endwise
   autocmd!
@@ -31,11 +31,19 @@ augroup endwise
     \ 'words': 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!',
     \ 'end_pattern': '\%(end\%(fu\%[nction]\|wh\%[hile]\|if\|for\|try\)\)\|aug\%[roup]\%(\s\+\cEND\)',
     \ 'syngroups': 'vimFuncKey,vimNotFunc,vimCommand,vimAugroupKey,vimAugroup,vimAugroupError'}
-  autocmd FileType c,cpp,xdefaults,haskell let b:endwise = {
+  autocmd FileType c let b:endwise = [{
     \ 'addition': '#endif',
     \ 'words': 'if,ifdef,ifndef',
     \ 'pattern': '^\s*#\%(if\|ifdef\|ifndef\)\>',
-    \ 'syngroups': 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'}
+    \ 'syngroups': 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'},
+    \ {'addition': '};',
+    \ 'words': 'enum,struct,union',
+    \ 'pattern': '^\s*\(enum\|struct\|union\) \w* \={$',
+    \ 'syngroups': 'cStructure'},
+    \ {'addition': '}',
+    \ 'words': '',
+    \ 'pattern': '^\s*.*) {$',
+    \ 'syngroups': 'cType,cParen'}]
   autocmd FileType objc let b:endwise = {
     \ 'addition': '@end',
     \ 'words': 'interface,implementation',
@@ -73,7 +81,7 @@ function! EndwiseAlways()
   return <SID>crend(1)
 endfunction
 
-if maparg("<Plug>DiscretionaryEnd") == ""
+if maparg('<Plug>DiscretionaryEnd') == ''
   inoremap <silent> <SID>DiscretionaryEnd <C-R>=<SID>crend(0)<CR>
   inoremap <silent> <SID>AlwaysEnd        <C-R>=<SID>crend(1)<CR>
   imap    <script> <Plug>DiscretionaryEnd <SID>DiscretionaryEnd
@@ -104,56 +112,60 @@ function! s:mysearchpair(beginpat, endpat, synidpat)
 endfunction
 
 function! s:crend(always)
-  let n = ""
-  if !exists("b:endwise")
+  let n = ''
+  if !exists('b:endwise')
     return n
   endif
-  let synids = join(map(split(b:endwise.syngroups, ','), 'hlID(v:val)'), ',')
-  let wordchoice = '\%('.substitute(b:endwise.words, ',', '\\|', 'g').'\)'
-  if has_key(b:endwise, "pattern")
-    let beginpat = substitute(b:endwise.pattern, '&', substitute(wordchoice, '\\', '\\&', 'g'), 'g')
-  else
-    let beginpat = '\<'.wordchoice.'\>'
-  endif
-  let lnum = line('.') - 1
-  let space = matchstr(getline(lnum), '^\s*')
-  let col = match(getline(lnum), beginpat) + 1
-  let word = matchstr(getline(lnum), beginpat)
-  let endword = substitute(word, '.*', b:endwise.addition, '')
-  let y = n.endword."\<C-O>O"
-  if has_key(b:endwise, "end_pattern")
-    let endpat = '\w\@<!'.substitute(word, '.*', substitute(b:endwise.end_pattern, '\\', '\\\\', 'g'), '').'\w\@!'
-  elseif b:endwise.addition[0:1] ==# '\='
-    let endpat = '\w\@<!'.endword.'\w\@!'
-  else
-    let endpat = '\w\@<!'.substitute('\w\+', '.*', b:endwise.addition, '').'\w\@!'
-  endif
-  let synidpat = '\%('.substitute(synids, ',', '\\|', 'g').'\)'
-  if a:always
+  let endwise = type(b:endwise) == v:t_list ? b:endwise : [b:endwise]
+  for ew in endwise
+    let synids = join(map(split(ew.syngroups, ','), 'hlID(v:val)'), ',')
+    let wordchoice = '\%('.substitute(ew.words, ',', '\\|', 'g').'\)'
+    if has_key(ew, 'pattern')
+      let beginpat = substitute(ew.pattern, '&', substitute(wordchoice, '\\', '\\&', 'g'), 'g')
+    else
+      let beginpat = '\<'.wordchoice.'\>'
+    endif
+    let lnum = line('.') - 1
+    let space = matchstr(getline(lnum), '^\s*')
+    let col = match(getline(lnum), beginpat) + 1
+    let word = matchstr(getline(lnum), beginpat)
+    let endword = substitute(word, '.*', ew.addition, '')
+    let y = n.endword."\<C-O>O"
+    if has_key(ew, 'end_pattern')
+      let endpat = '\w\@<!'.substitute(word, '.*', substitute(ew.end_pattern, '\\', '\\\\', 'g'), '').'\w\@!'
+    elseif ew.addition[0:1] ==# '\='
+      let endpat = '\w\@<!'.endword.'\w\@!'
+    else
+      let endpat = '\w\@<!'.substitute('\w\+', '.*', ew.addition, '').'\w\@!'
+    endif
+    let synidpat = '\%('.substitute(synids, ',', '\\|', 'g').'\)'
+    if a:always
+      return y
+    elseif col <= 0 || synID(lnum, col, 1) !~ '^'.synidpat.'$'
+      continue
+    elseif getline('.') !~ '^\s*#\=$'
+      continue
+    endif
+    if ew.addition =~ '}\%[;]'
+      let line = s:mysearchpair('{', '}', synidpat)
+    else
+      let line = s:mysearchpair(beginpat, endpat, synidpat)
+    endif
+    " even is false if no end was found, or if the end found was less
+    " indented than the current line
+    let even = strlen(matchstr(getline(line), '^\s*')) >= strlen(space)
+    if line == 0
+      let even = 0
+    endif
+    if !even && line == line('.') + 1
+      return y
+    endif
+    if even
+      continue
+    endif
     return y
-  elseif col <= 0 || synID(lnum, col, 1) !~ '^'.synidpat.'$'
-    return n
-  elseif getline('.') !~ '^\s*#\=$'
-    return n
-  endif
-  if b:endwise.addition =~ '}\%[;]'
-    let line = s:mysearchpair('{', '}', synidpat)
-  else
-    let line = s:mysearchpair(beginpat, endpat, synidpat)
-  endif
-  " even is false if no end was found, or if the end found was less
-  " indented than the current line
-  let even = strlen(matchstr(getline(line), '^\s*')) >= strlen(space)
-  if line == 0
-    let even = 0
-  endif
-  if !even && line == line('.') + 1
-    return y
-  endif
-  if even
-    return n
-  endif
-  return y
+  endfor
+  return n
 endfunction
 
 function! s:synid()
