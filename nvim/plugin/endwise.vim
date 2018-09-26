@@ -1,13 +1,11 @@
-" Location:     plugin/endwise.vim
-" Author:       Tim Pope <http://tpo.pe/>
-" Version:      1.2
-" License:      Same as Vim itself.  See :help license
-" GetLatestVimScripts: 2386 1 :AutoInstall: endwise.vim
+" this is a modified version of endwise by Tim Pope
+" see: https://github.com/tpope/vim-endwise
+" this file is licensed under the same license as vim. see :help license
 
-" if exists('g:loaded_endwise') || &cp
-"   finish
-" endif
-" let g:loaded_endwise = 1
+if exists('g:loaded_endwise')
+  finish
+endif
+let g:loaded_endwise = 1
 
 augroup endwise
   autocmd!
