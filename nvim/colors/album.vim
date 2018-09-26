@@ -1,5 +1,5 @@
-if &t_Co < 256
-  echoerr 'The album colorscheme requires a 256-color Vim.'
+if !has('gui_running') && !&termguicolors
+  echoerr 'The album colorscheme requires a true-color Vim (Neovim or Gvim).'
   finish
 endif
 
@@ -11,38 +11,38 @@ endif
 
 let g:colors_name = 'album'
 
-highlight Normal                ctermfg=253  ctermbg=234  cterm=NONE
-highlight NormalNC              ctermfg=250  ctermbg=NONE cterm=NONE
-highlight Visual                ctermfg=NONE ctermbg=232  cterm=NONE
-highlight CursorLine            ctermfg=NONE ctermbg=235  cterm=NONE
-highlight CursorLineNr          ctermfg=240  ctermbg=235  cterm=NONE
-highlight LineNr                ctermfg=238  ctermbg=NONE cterm=NONE
-highlight StatusLine            ctermfg=253  ctermbg=65   cterm=NONE
-highlight StatusLineNC          ctermfg=232  ctermbg=65   cterm=NONE
-highlight VertSplit             ctermfg=232  ctermbg=NONE cterm=NONE
-highlight Comment               ctermfg=240  ctermbg=NONE cterm=NONE
-highlight String                ctermfg=247  ctermbg=NONE cterm=NONE
-highlight MatchParen            ctermfg=215  ctermbg=236  cterm=bold
-highlight Pmenu                 ctermfg=232  ctermbg=244  cterm=NONE
-highlight PmenuSbar             ctermfg=246  ctermbg=246  cterm=NONE
-highlight PmenuThumb            ctermfg=250  ctermbg=250  cterm=NONE
-highlight Error                 ctermfg=197  ctermbg=NONE cterm=NONE
-highlight SpellBad              ctermfg=197  ctermbg=NONE cterm=underline
-highlight SpellCap              ctermfg=215  ctermbg=NONE cterm=underline
-highlight Search                ctermfg=232  ctermbg=114  cterm=NONE
-highlight TODO                  ctermfg=228  ctermbg=NONE cterm=bold,underline
-highlight DiffAdd               ctermfg=120  ctermbg=29   cterm=NONE
-highlight DiffChange            ctermfg=228  ctermbg=NONE cterm=NONE
-highlight DiffText              ctermfg=228  ctermbg=101  cterm=NONE
-highlight DiffDelete            ctermfg=197  ctermbg=88   cterm=NONE
-highlight GitGutterAdd          ctermfg=120  ctermbg=NONE cterm=NONE
-highlight GitGutterChange       ctermfg=215  ctermbg=NONE cterm=NONE
-highlight GitGutterChangeDelete ctermfg=209  ctermbg=NONE cterm=NONE
-highlight GitGutterDelete       ctermfg=197  ctermbg=NONE cterm=NONE
-highlight ErrorMsg              ctermfg=231  ctermbg=197  cterm=bold
-highlight WarningMsg            ctermfg=231  ctermbg=173  cterm=bold
-highlight BufTabLineActive      ctermfg=253  ctermbg=65   cterm=NONE
-highlight Cursor                ctermfg=bg   ctermbg=fg   cterm=NONE
-highlight TermCursor            ctermfg=bg   ctermbg=fg   cterm=NONE
+highlight Normal                guifg=#dadada guibg=#1c1c1c gui=NONE           cterm=NONE
+highlight NormalNC              guifg=#bcbcbc guibg=NONE    gui=NONE           cterm=NONE
+highlight Visual                guifg=NONE    guibg=#080808 gui=NONE           cterm=NONE
+highlight CursorLine            guifg=NONE    guibg=#262626 gui=NONE           cterm=NONE
+highlight CursorLineNr          guifg=#585858 guibg=#262626 gui=NONE           cterm=NONE
+highlight LineNr                guifg=#444444 guibg=NONE    gui=NONE           cterm=NONE
+highlight StatusLine            guifg=#dadada guibg=#5f875f gui=NONE           cterm=NONE
+highlight StatusLineNC          guifg=#080808 guibg=#5f875f gui=NONE           cterm=NONE
+highlight VertSplit             guifg=#080808 guibg=NONE    gui=NONE           cterm=NONE
+highlight Comment               guifg=#585858 guibg=NONE    gui=NONE           cterm=NONE
+highlight String                guifg=#9e9e9e guibg=NONE    gui=NONE           cterm=NONE
+highlight MatchParen            guifg=#ffaf5f guibg=#303030 gui=bold           cterm=bold
+highlight Pmenu                 guifg=#080808 guibg=#808080 gui=NONE           cterm=NONE
+highlight PmenuSbar             guifg=#949494 guibg=#949494 gui=NONE           cterm=NONE
+highlight PmenuThumb            guifg=#bcbcbc guibg=#bcbcbc gui=NONE           cterm=NONE
+highlight Error                 guifg=#ff005f guibg=NONE    gui=NONE           cterm=NONE
+highlight SpellBad              guifg=#ff005f guibg=NONE    gui=underline      cterm=underline
+highlight SpellCap              guifg=#ffaf5f guibg=NONE    gui=underline      cterm=underline
+highlight Search                guifg=#080808 guibg=#87d787 gui=NONE           cterm=NONE
+highlight TODO                  guifg=#ffff87 guibg=NONE    gui=bold,underline cterm=bold,underline
+highlight DiffAdd               guifg=#87ff87 guibg=#00875f gui=NONE           cterm=NONE
+highlight DiffChange            guifg=#ffff87 guibg=NONE    gui=NONE           cterm=NONE
+highlight DiffText              guifg=#ffff87 guibg=#87875f gui=NONE           cterm=NONE
+highlight DiffDelete            guifg=#ff005f guibg=#870000 gui=NONE           cterm=NONE
+highlight GitGutterAdd          guifg=#87ff87 guibg=NONE    gui=NONE           cterm=NONE
+highlight GitGutterChange       guifg=#ffaf5f guibg=NONE    gui=NONE           cterm=NONE
+highlight GitGutterChangeDelete guifg=#ff875f guibg=NONE    gui=NONE           cterm=NONE
+highlight GitGutterDelete       guifg=#ff005f guibg=NONE    gui=NONE           cterm=NONE
+highlight ErrorMsg              guifg=#ffffff guibg=#ff005f gui=bold           cterm=bold
+highlight WarningMsg            guifg=#ffffff guibg=#d7875f gui=bold           cterm=bold
+highlight BufTabLineActive      guifg=#dadada guibg=#5f875f gui=NONE           cterm=NONE
+highlight Cursor                guifg=bg      guibg=fg      gui=NONE           cterm=NONE
+highlight TermCursor            guifg=bg      guibg=fg      gui=NONE           cterm=NONE
 
 source $VIMHOME/colors/mono-base.vim
