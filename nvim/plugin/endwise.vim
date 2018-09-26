@@ -91,21 +91,19 @@ if maparg('<Plug>DiscretionaryEnd') == ''
   imap    <script> <Plug>AlwaysEnd        <SID>AlwaysEnd
 endif
 
-if !exists('g:endwise_no_mappings')
-  if maparg('<CR>', 'i') =~# '<C-R>=.*crend(.)<CR>\|<\%(Plug\|SNR\|SID\)>.*End'
-    " Already mapped
-  elseif maparg('<CR>', 'i') =~ '<CR>'
-    exe "imap <script> <C-X><CR> ".maparg('<CR>', 'i')."<SID>AlwaysEnd"
-    exe "imap <silent> <script> <CR> ".maparg('<CR>', 'i')."<SID>DiscretionaryEnd"
-  elseif maparg('<CR>', 'i') =~ '<Plug>\w\+CR'
-    exe "imap <C-X><CR> ".maparg('<CR>', 'i')."<Plug>AlwaysEnd"
-    exe "imap <silent> <CR> ".maparg('<CR>', 'i')."<Plug>DiscretionaryEnd"
-  else
-    imap <script> <C-X><CR> <CR><SID>AlwaysEnd
-    imap <CR> <CR><Plug>DiscretionaryEnd
-  endif
-  autocmd endwise CmdwinEnter * call s:teardownMappings()
+if maparg('<CR>', 'i') =~# '<C-R>=.*crend(.)<CR>\|<\%(Plug\|SNR\|SID\)>.*End'
+  " Already mapped
+elseif maparg('<CR>', 'i') =~ '<CR>'
+  exe "imap <script> <C-X><CR> ".maparg('<CR>', 'i')."<SID>AlwaysEnd"
+  exe "imap <silent> <script> <CR> ".maparg('<CR>', 'i')."<SID>DiscretionaryEnd"
+elseif maparg('<CR>', 'i') =~ '<Plug>\w\+CR'
+  exe "imap <C-X><CR> ".maparg('<CR>', 'i')."<Plug>AlwaysEnd"
+  exe "imap <silent> <CR> ".maparg('<CR>', 'i')."<Plug>DiscretionaryEnd"
+else
+  imap <script> <C-X><CR> <CR><SID>AlwaysEnd
+  imap <CR> <CR><Plug>DiscretionaryEnd
 endif
+autocmd endwise CmdwinEnter * call s:teardownMappings()
 
 function! s:mysearchpair(beginpat, endpat, synidpat)
   let s:lastline = line('.')
