@@ -62,7 +62,7 @@ augroup endwise
   autocmd FileType rust let b:endwise = {
     \ 'addition': '}',
     \ 'words': 'fn,impl,struct,enum',
-    \ 'pattern': '^\s*\%(\%[pub ]fn\|impl\|struct\|enum\|mod\).*{$',
+    \ 'pattern': '^\s*\%[pub ]\(fn\|impl\|struct\|enum\|mod\).*{$',
     \ 'syngroups': 'rustKeyword,rustFoldBraces,rustStructure,dummy'}
   autocmd FileType javascript,javascript.jsx let b:endwise = [{
     \ 'addition': '}',
