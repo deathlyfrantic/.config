@@ -322,7 +322,7 @@ function! s:buf_delete(bufnum, bang) abort
     call z#echoerr(printf(m, a:bufnum))
     return
   endif
-  if bufexists(0)
+  if bufexists(0) && buflisted(0)
     buffer #
   else
     for buf in reverse(getbufinfo())
