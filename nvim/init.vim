@@ -69,6 +69,7 @@ set wildignorecase
 " --- plugins --- {{{
 call plug#begin(expand('$VIMHOME/plugged'))
 " filetypes {{{
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
