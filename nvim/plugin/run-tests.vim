@@ -1,19 +1,29 @@
 let s:test_buffer = -1
 
-function! s:find_nearest_test(pattern, atom, ...) abort
-  let l:match = matchlist(getline('.'), a:pattern)
-  let before_stop = a:0 > 0 ? a:1 : 0
-  let after_stop = a:0 > 1 ? a:2 : line('$')
+function! FindNearestTest(pattern, atom)
+  return <SID>find_nearest_test(a:pattern, a:atom)
+endfunction
+
+function! s:get_match_lines(start, num) abort
+  if a:num == 0
+    return getline(a:start)
+  endif
+  return join(getline(a:start, a:start + a:num), "\n")
+endfunction
+
+function! s:find_nearest_test(pattern, atom) abort
+  let num_lines = len(split(a:pattern, '\\n')) - 1
+  let l:match = matchlist(s:get_match_lines(line('.'), num_lines), a:pattern)
   if len(l:match) > 0
     return l:match[a:atom]
   endif
-  let before_line = search(a:pattern, 'bn', before_stop)
-  if before_line != 0
-    return matchlist(getline(before_line), a:pattern)[a:atom]
+  let before = search(a:pattern, 'bnW')
+  if before != 0
+    return matchlist(s:get_match_lines(before, num_lines), a:pattern)[a:atom]
   endif
-  let after_line = search(a:pattern, 'n', after_stop)
-  if after_line != 0
-    return matchlist(getline(after_line), a:pattern)[a:atom]
+  let after = search(a:pattern, 'nW')
+  if after != 0
+    return matchlist(s:get_match_lines(after, num_lines), a:pattern)[a:atom]
   endif
   return ''
 endfunction
@@ -42,7 +52,7 @@ function! s:rust(selection) abort
     if mod_tests_line == 0
       return 'cargo test'
     endif
-    let nearest = s:find_nearest_test('^\s*fn \(\w*\)(', 1, mod_tests_line)
+    let nearest = s:find_nearest_test('#\[test]\n\s*fn\s\+\(\w*\)(', 1)
     return printf('cargo test %s', nearest)
   elseif a:selection == 'file'
     return printf('cargo test %s::', expand('%:t:r'))
