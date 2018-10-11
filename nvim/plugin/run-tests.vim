@@ -185,8 +185,8 @@ function! s:run_tests(cmd) abort
 endfunction
 
 function! s:get_normalized_filetype() abort
-  " account for 'javascript.jsx'
-  return &ft =~? 'javascript' ? 'javascript' : &ft
+  " account for 'javascript.jsx', also for this script typescript == javascript
+  return &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
 endfunction
 
 function! s:orchestrate_tests(selection) abort
