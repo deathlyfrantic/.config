@@ -12,13 +12,12 @@ endif
 let g:colors_name = 'album'
 
 highlight Normal                guifg=#dadada guibg=#1c1c1c gui=NONE           cterm=NONE
-highlight NormalNC              guifg=#bcbcbc guibg=NONE    gui=NONE           cterm=NONE
 highlight Visual                guifg=NONE    guibg=#080808 gui=NONE           cterm=NONE
 highlight CursorLine            guifg=NONE    guibg=#262626 gui=NONE           cterm=NONE
 highlight CursorLineNr          guifg=#585858 guibg=#262626 gui=NONE           cterm=NONE
 highlight LineNr                guifg=#444444 guibg=NONE    gui=NONE           cterm=NONE
 highlight StatusLine            guifg=#dadada guibg=#5f875f gui=NONE           cterm=NONE
-highlight StatusLineNC          guifg=#080808 guibg=#5f875f gui=NONE           cterm=NONE
+highlight StatusLineNC          guifg=#080808 guibg=#3f5a3f gui=NONE           cterm=NONE
 highlight VertSplit             guifg=#080808 guibg=NONE    gui=NONE           cterm=NONE
 highlight Comment               guifg=#585858 guibg=NONE    gui=NONE           cterm=NONE
 highlight String                guifg=#9e9e9e guibg=NONE    gui=NONE           cterm=NONE
@@ -42,7 +41,5 @@ highlight GitGutterDelete       guifg=#ff005f guibg=NONE    gui=NONE           c
 highlight ErrorMsg              guifg=#ffffff guibg=#ff005f gui=bold           cterm=bold
 highlight WarningMsg            guifg=#ffffff guibg=#d7875f gui=bold           cterm=bold
 highlight BufTabLineActive      guifg=#dadada guibg=#5f875f gui=NONE           cterm=NONE
-highlight Cursor                guifg=bg      guibg=fg      gui=NONE           cterm=NONE
-highlight TermCursor            guifg=bg      guibg=fg      gui=NONE           cterm=NONE
 
 source $VIMHOME/colors/mono-base.vim
