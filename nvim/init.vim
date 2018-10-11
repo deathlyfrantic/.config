@@ -208,7 +208,6 @@ let g:switch_custom_definitions = [['on', 'off'], ['yes', 'no']]
 " tpope's special section {{{
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-apathy'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
@@ -217,6 +216,9 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 let g:nremap = {'[a': '', ']a': ''}
+
+Plug 'tpope/vim-eunuch'
+cnoremap w!! SudoWrite
 
 Plug 'tpope/vim-commentary'
 augroup z-rc-commentary
@@ -346,9 +348,6 @@ tnoremap jk <C-\><C-n>
 
 " why isn't this default, idgaf about vi-compatibility
 nmap Y y$
-
-" sudo write
-cnoremap w!! SudoWrite
 
 " current directory in command-line
 cnoremap <expr> %% printf('%s/', fnameescape(expand('%:p:h')))
