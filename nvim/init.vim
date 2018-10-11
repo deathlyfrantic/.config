@@ -335,7 +335,7 @@ function! s:buf_delete(bufnum, bang) abort
   endif
   execute printf('bd%s %s', a:bang, a:bufnum)
 endfunction
-command! -bang Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
+command! -bang -bar Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
 
 " select last-pasted text
 nnoremap gV `[v`]
