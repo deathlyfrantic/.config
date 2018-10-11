@@ -339,6 +339,26 @@ function! s:buf_delete(bufnum, bang) abort
 endfunction
 command! -bang -bar Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
 
+" auto linenumbers
+function! s:auto_hide_gutters() abort
+  for w in getwininfo()
+    let bufnum = winbufnr(w.winid)
+    if getbufvar(bufnum, '&buftype') =~ 'terminal\|help\|nofile'
+      continue
+    endif
+    let tw = getbufvar(bufnum, '&textwidth')
+    if tw == 0
+      continue
+    endif
+    call setwinvar(w.winid, '&signcolumn', w.width <= tw + 2 ? 'no' : 'auto')
+    call setwinvar(w.winid, '&number', w.width <= tw + 6 ? 0 : 1)
+  endfor
+endfunction
+augroup z-rc-auto-hide-gutters
+  autocmd!
+  autocmd VimEnter,VimResized,WinEnter,BufWinEnter * call s:auto_hide_gutters()
+augroup END
+
 " select last-pasted text
 nnoremap gV `[v`]
 
@@ -360,10 +380,10 @@ command! -bang Wbd w<bang> | Bd<bang>
 nnoremap <silent> <Space> :nohlsearch<CR>
 
 " resize windows
-nnoremap <C-Left>  <C-W><
-nnoremap <C-Right> <C-W>>
-nnoremap <C-Up>    <C-W>+
-nnoremap <C-Down>  <C-W>-
+nnoremap <silent> <C-Left>  <C-W><:<C-U>call <SID>auto_hide_gutters()<CR>
+nnoremap <silent> <C-Right> <C-W>>:<C-U>call <SID>auto_hide_gutters()<CR>
+nnoremap <silent> <C-Up>    <C-W>+
+nnoremap <silent> <C-Down>  <C-W>-
 
 " switch windows
 nnoremap <C-h> <C-W>h
