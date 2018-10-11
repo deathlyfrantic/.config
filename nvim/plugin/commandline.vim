@@ -36,7 +36,10 @@ endfunction
 
 function! s:delete_word() abort
   let [pos, cmd] = [getcmdpos(), getcmdline()]
-  let end = cmd[pos] =~ '\W' ? pos + 1 : pos
+  let end = pos
+  while cmd[end] =~ '\W' && end < len(cmd)
+    let end += 1
+  endwhile
   while end < len(cmd)
     if cmd[end] =~ '\W'
       break
