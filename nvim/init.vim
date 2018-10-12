@@ -304,6 +304,7 @@ augroup z-rc-commands
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC | SetIndent 2
+  autocmd BufWritePost $VIMHOME/plugin/*.vim source %
 augroup END
 " --- end autocommands --- }}}
 
