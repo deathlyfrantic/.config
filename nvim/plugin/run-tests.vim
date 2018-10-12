@@ -126,6 +126,7 @@ endfunction
 
 function! s:new_test_buffer() abort
   let s:test_buffer = bufnr('%')
+  set nobuflisted
   autocmd BufDelete <buffer> let s:test_buffer = -1
   nnoremap <silent> <buffer> q :bd!<CR>
 endfunction
