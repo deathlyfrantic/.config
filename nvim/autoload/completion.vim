@@ -1,7 +1,5 @@
 function! completion#findstart() abort
-  " must call getcurpos() first here; searchpos() moves the cursor,
-  " so calling getcurpos() after searchpos() returns the wrong position
-  let [curpos, pos] = [getcurpos(), searchpos('\s', 'b')]
+  let [curpos, pos] = [getcurpos(), searchpos('\s', 'bn')]
   return pos[0] == curpos[1] ? pos[1] : 0
 endfunction
 
