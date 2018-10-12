@@ -133,7 +133,7 @@ endfunction
 
 function! s:load_or_create_buffer() abort
   if bufexists(s:test_buffer)
-    execute printf('b%s', s:test_buffer)
+    execute 'b' s:test_buffer
   else
     enew
     call s:new_test_buffer()
@@ -143,19 +143,18 @@ endfunction
 
 function! s:new_test_window() abort
   let height = &lines / 3
-  execute printf('botright %ssp', height)
+  execute 'botright' height 'sp'
   call s:load_or_create_buffer()
 endfunction
 
 function! s:ensure_test_window() abort
-  let test_buf_windows = win_findbuf(s:test_buffer)
-  if len(test_buf_windows) < 1
+  if len(win_findbuf(s:test_buffer)) < 1
     call s:new_test_window()
   endif
 endfunction
 
 function! s:close_test_buffer(...)
-  execute printf('silent bd! %s', s:test_buffer)
+  silent execute 'bd!' s:test_buffer
 endfunction
 
 function! s:on_term_exit(job_id, exit_code, event)
@@ -206,7 +205,7 @@ function! s:orchestrate_tests(selection) abort
   try
     let test_cmds += [s:makefile_test()]
   catch
-    let errs += [printf('%s', v:exception)]
+    let errs += [v:exception]
   endtry
   let current_window = win_getid()
   if len(test_cmds)

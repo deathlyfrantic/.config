@@ -8,7 +8,7 @@ function! s:source_local_vimrc()
   " so most specific settings are applied latest
   for l:vimrc in reverse(findfile('.vimrc', l:dir.';', -1))
     if filereadable(l:vimrc)
-      execute printf('source %s', l:vimrc)
+      execute 'source' l:vimrc
     endif
   endfor
 endfunction
