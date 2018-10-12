@@ -3,15 +3,12 @@ function! z#uglify_js(...) abort
     echoerr 'UglifyJS is not available.'
     return
   endif
-  let l:file = a:0 ? a:1 : expand('%:p')
-  if l:file =~? '.min.js'
+  let filename = a:0 ? a:1 : expand('%:p')
+  if filename =~? '\.min\.js$'
     return
   endif
-  execute printf('!uglifyjs %s -mo %s.min.%s',
-    \ l:file,
-    \ fnamemodify(l:file, ':r')
-    \ fnamemodify(l:file, ':e')
-    \ )
+  let [root, ext] = [fnamemodify(filename, ':r'), fnamemodify(filename, ':e')]
+  execute '!uglifyjs' filename '-mo' root.'min'.ext
 endfunction
 
 function! z#dot_to_png(...) abort
@@ -19,9 +16,9 @@ function! z#dot_to_png(...) abort
     echoerr 'Graphviz/Dot is not available.'
     return
   endif
-  let l:file = a:0 ? a:1 : expand('%:p')
-  let l:output = printf('%s.png', fnamemodify(l:file, ':r'))
-  execute printf('!dot %s -Tpng > %s', l:file, l:output)
+  let filename = a:0 ? a:1 : expand('%:p')
+  let outfile = fnamemodify(filename, ':r').'.png'
+  execute '!dot' filename '-Tpng >' outfile
 endfunction
 
 function! z#compile_sass(...) abort
@@ -29,14 +26,12 @@ function! z#compile_sass(...) abort
     echoerr 'Sass is not available.'
     return
   endif
-  let l:file = a:0 ? a:1 : expand('%:p')
-  if fnamemodify(l:file, ':t')[0] == '_'
+  let filename = a:0 ? a:1 : expand('%:p')
+  if fnamemodify(filename, ':t')[0] == '_'
     return
   endif
-  execute printf('!sass -t compressed %s %s.css',
-    \ l:file,
-    \ fnamemodify(l:file, ':r')
-    \ )
+  let outfile = fnamemodify(filename, ':r').'.css'
+  execute '!sass -t compressed' filename outfile
 endfunction
 
 function! z#preview_markdown(...) abort
@@ -44,9 +39,9 @@ function! z#preview_markdown(...) abort
     echoerr 'Unable to convert Markdown (cmark is not available).'
     return
   endif
-  let l:file = a:0 ? a:1 : expand('%:p')
-  let l:output = printf('%s%s.html', $TMPDIR, fnamemodify(l:file, ':t:r'))
-  execute printf('!cmark %s > %s; open -g %s', l:file, l:output, l:output)
+  let filename = a:0 ? a:1 : expand('%:p')
+  let outfile = $TMPDIR.fnamemodify(filename, ':t:r').'.html'
+  execute '!cmark' filename '>' outfile '; open -g' outfile
 endfunction
 
 function! z#rfc(arg) abort
@@ -54,7 +49,7 @@ function! z#rfc(arg) abort
     echoerr 'RFC is not available.'
     return
   endif
-  call z#preview(system(printf('rfc %s', a:arg)))
+  call z#preview(system('rfc '.a:arg))
 endfunction
 
 function! z#preview(text) abort
@@ -64,7 +59,7 @@ function! z#preview(text) abort
   let l:win = win_getid()
   let l:winview = winsaveview()
   pclose!
-  execute printf('topleft %dnew', &previewheight)
+  execute 'topleft' &previewheight 'new'
   set previewwindow noswapfile nobuflisted buftype=nofile
   nnoremap <silent> <buffer> q :pclose!<CR>
   nnoremap <silent> <buffer> <C-c> :pclose!<CR>
@@ -77,7 +72,7 @@ endfunction
 
 function! z#chomp(s, ...) abort
   let sep = a:0 ? a:000 : ['\r\n', '\r', '\n']
-  let regex = printf('\%%(%s\)$', join(sep, '\|'))
+  let regex = printf('\%%(%s\)*$', join(sep, '\|'))
   return substitute(a:s, regex, '', '')
 endfunction
 
@@ -107,11 +102,14 @@ endfunction
 function! z#echohl(hl, msg) abort
   let l:msg = type(a:msg) == v:t_list ? a:msg : [a:msg]
   let l:echo = 'WarningMsg\|ErrorMsg' =~? a:hl ? 'echomsg' : 'echo'
-  execute printf('echohl %s', a:hl)
-  for m in l:msg
-    execute printf("%s m", l:echo)
-  endfor
-  echohl None
+  execute 'echohl' a:hl
+  try
+    for m in l:msg
+      execute l:echo 'm'
+    endfor
+  finally
+    echohl None
+  endtry
 endfunction
 
 function! z#echowarn(msg) abort
