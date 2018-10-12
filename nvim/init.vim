@@ -14,7 +14,7 @@ if has('vim_starting')
   " install vim-plug if it's not already
   let plug_path = expand('$VIMHOME/autoload/plug.vim')
   if !filereadable(plug_path)
-    execute printf('!curl -fLo %s --create-dirs', plug_path)
+    execute '!curl -fLo' plug_path '--create-dirs'
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall | UpdateRemotePlugins
     autocmd VimEnter * nested source $MYVIMRC
@@ -336,7 +336,7 @@ function! s:buf_delete(bufnum, bang) abort
       endif
     endfor
   endif
-  execute printf('bd%s %s', a:bang, a:bufnum)
+  execute 'bd'.a:bang a:bufnum
 endfunction
 command! -bang -bar Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
 
@@ -371,7 +371,7 @@ tnoremap jk <C-\><C-n>
 nmap Y y$
 
 " current directory in command-line
-cnoremap <expr> %% printf('%s/', fnameescape(expand('%:p:h')))
+cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
 
 " write then delete buffer; akin to wq
 cnoremap wbd Wbd
@@ -468,7 +468,7 @@ augroup END
 " close all open man pages
 function! s:close_man_pages() abort
   let bufs = filter(getbufinfo(), {_, b -> b.listed && b.name =~? '^man://'})
-  execute printf('bd! %s', join(map(bufs, {_, b -> b.bufnr}), ' '))
+  execute 'bd!' join(map(bufs, {_, b -> b.bufnr}), ' ')
 endfunction
 command! ManClose call <SID>close_man_pages()
 " --- end keymaps --- }}}
@@ -506,9 +506,9 @@ function! GitGutterStatus() abort
     return ''
   endif
   for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
-    let status .= num ? printf('%s%d', sym, num) : ''
+    let status .= num ? sym.num : ''
   endfor
-  return printf('%s] ', status)
+  return status.']'
 endfunction
 
 set statusline=%{GitGutterStatus()}
