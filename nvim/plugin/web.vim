@@ -1,8 +1,8 @@
 let s:search_url = 'https://duckduckgo.com/?q=%s'
 
-function! s:search_operator(type) abort
-  let l:regsave = @@
-  let l:selsave = &selection
+function! s:operator(type) abort
+  let regsave = @@
+  let selsave = &selection
   let &selection = 'inclusive'
   if a:type =~? 'v'
     silent execute 'normal! gvy'
@@ -11,20 +11,20 @@ function! s:search_operator(type) abort
   else
     silent execute 'normal! `[v`]y'
   endif
-  let l:url = @@
+  let url = @@
   let &selection = selsave
   let @@ = regsave
-  call <SID>search(l:url)
+  call <SID>search(url)
 endfunction
 
 function! s:search(url)
-  let l:url = a:url =~? 'http' ? a:url : printf(s:search_url, a:url)
-  call <SID>browser(l:url)
+  let url = a:url =~? 'http' ? a:url : printf(s:search_url, a:url)
+  call <SID>browser(url)
 endfunction
 
 function! s:browser(url)
-  let l:open = has('mac') ? 'open -g' : 'xdg-open'
-  silent execute printf('!%s %s', l:open, shellescape(a:url, 1))
+  let open = has('mac') ? 'open -g' : 'xdg-open'
+  silent execute '!' open shellescape(a:url, 1)
 endfunction
 
 " Browse alias is for Fugitive's Gbrowse
@@ -32,7 +32,7 @@ command! -nargs=1 Browse Web <args>
 command! -nargs=1 Web call <SID>browser(<f-args>)
 command! -nargs=1 Search call <SID>search(<f-args>)
 
-nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>search_operator<CR>g@
-xnoremap <silent> <Plug>(websearch) :call <SID>search_operator(visualmode())<CR>
+nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>operator<CR>g@
+xnoremap <silent> <Plug>(websearch) :<C-U>call <SID>operator(visualmode())<CR>
 nmap gw <Plug>(websearch)
 xmap gw <Plug>(websearch)
