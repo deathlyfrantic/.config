@@ -39,10 +39,10 @@ function! completion#snippet(findstart, base) abort
   if a:findstart
     return completion#findstart()
   endif
-  if !exists('*UltiSnips#SnippetsInCurrentScope')
+  if !exists('*snippets#available_snippets')
     return []
   endif
-  let snippets = UltiSnips#SnippetsInCurrentScope()
+  let snippets = snippets#available_snippets()
   let keys = filter(sort(keys(snippets)), {_, key -> key =~? a:base})
   return map(keys, {_, key -> {'word': key, 'menu': snippets[key]}})
 endfunction

@@ -94,17 +94,6 @@ let g:racer_experimental_completer = 1
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.ctags'
 
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger = '<C-]>'
-let g:UltiSnipsJumpForwardTrigger = '<C-f>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-let g:UltiSnipsSnippetsDir = expand('$VIMHOME/UltiSnips')
-let g:snips_author = 'Zandr Martin'
-augroup z-rc-disable-ultisnips-autotrigger
-  autocmd!
-  autocmd VimEnter * autocmd! UltiSnips_AutoTrigger
-augroup END
-
 Plug 'airblade/vim-gitgutter'
 omap ig <Plug>GitGutterTextObjectInnerPending
 omap ag <Plug>GitGutterTextObjectOuterPending
@@ -274,6 +263,7 @@ augroup z-rc-commands
   autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
   autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
   autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
+  autocmd BufNewFile,BufReadPost *.snippets setlocal filetype=snippets
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *

@@ -1,0 +1,41 @@
+snippet main "main function"
+int main(int argc, char *argv[]) {
+	%#;
+	return EXIT_SUCCESS;
+}
+endsnippet
+
+snippet vmain "void main function"
+void main(int argc, char *argv[]) {
+	%#;
+}
+endsnippet
+
+snippet for "for loop"
+for (size_t i = 0; i < %#;; i++) {
+	%#;
+}
+endsnippet
+
+snippet forj "for loop with j as variable"
+for (size_t j = 0; j < %#;; j++) {
+	%#;
+}
+endsnippet
+
+snippet inc "#include statement"
+#include "%#;"
+%#;
+endsnippet
+
+snippet externcpp "extern C for cpp compiler"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+%#;
+
+#ifdef __cplusplus
+}
+#endif
+endsnippet

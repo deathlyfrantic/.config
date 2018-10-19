@@ -1,0 +1,27 @@
+snippet tests "tests boilerplate"
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn test_%#;() {
+		%#;
+	}
+}
+endsnippet
+
+snippet test "#[test] fn" b
+#[test]
+fn test_%#;() {
+	%#;
+}
+endsnippet
+
+snippet der "blank derive directive"
+#[derive(%#;)]
+endsnippet
+
+snippet dd "#[derive(Debug)]"
+#[derive(Debug)]
+%#;
+endsnippet

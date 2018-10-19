@@ -1,15 +1,15 @@
-snippet ifmain "if __name__ == '__main__'" b
-def $1():
-	$0
+snippet ifmain "if __name__ == '__main__'"
+def main():
+	%#;
 
 if __name__ == '__main__':
-	${1:${VISUAL:main}}()
+	main()
 endsnippet
 
 snippet logfn "generic logging function" b
 from pprint import pprint
 def log(s):
-	with open('${1:`!v getcwd()`/log.txt}', 'a') as f:
+	with open('log.txt', 'a') as f:
 		pprint(s, stream=f)
-$0
+%#;
 endsnippet
