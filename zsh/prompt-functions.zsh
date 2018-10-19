@@ -8,7 +8,7 @@ function set-up-prompt {
     if [[ -z "$COLORTERM" ]]; then
         local green=$fg_bold[green]
     else
-        local green=$(echo -e '\e[38;2;138;226;52m')
+        local green=$(echo -e '\e[92;m')
     fi
 
     local base="$cwd$jobs %(!.%{$fg_bold[red]%}#.%{$green%}$)%{$reset_color%} "
