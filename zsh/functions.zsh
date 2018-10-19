@@ -48,3 +48,10 @@ function timer {
     printf "$pf\n\n" "DONE"
     tput bel
 }
+
+function nofail {
+    false
+    until [[ $? -eq 0 ]]; do
+        $*
+    done
+}
