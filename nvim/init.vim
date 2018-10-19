@@ -462,8 +462,8 @@ endfunction
 nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
 augroup z-rc-quickfix
   autocmd!
-  autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
-  autocmd FileType qf nnoremap <silent> <buffer> q :cclose<CR>
+  autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR> |
+    \ nnoremap <silent> <buffer> q :cclose<CR>
 augroup END
 
 " close all open man pages
