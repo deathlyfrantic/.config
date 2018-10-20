@@ -3,6 +3,19 @@ fpath=(/usr/local/share/zsh-completions/ $fpath)
 # colors are important here in the future, where we live
 autoload colors; colors
 
+typeset -A fg_bright
+if [[ -n "$COLORTERM" ]]; then
+    fg_bright+=(black   $(echo -e '\e[90;m'))
+    fg_bright+=(red     $(echo -e '\e[91;m'))
+    fg_bright+=(green   $(echo -e '\e[92;m'))
+    fg_bright+=(yellow  $(echo -e '\e[93;m'))
+    fg_bright+=(blue    $(echo -e '\e[94;m'))
+    fg_bright+=(magenta $(echo -e '\e[95;m'))
+    fg_bright+=(cyan    $(echo -e '\e[96;m'))
+else
+    set -A fg_bright ${(kv)fg_bold}
+fi
+
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
 unsetopt beep case_glob flowcontrol
