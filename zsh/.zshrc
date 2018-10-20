@@ -19,6 +19,7 @@ fi
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
 unsetopt beep case_glob flowcontrol
+[[ "$TERM_PROGRAM" == 'iTerm.app' ]] && setopt combiningchars
 
 # prompt
 set-up-prompt
