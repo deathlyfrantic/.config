@@ -2,16 +2,10 @@ function set-up-prompt {
     local user=$(prompt-color-echo %n blue)
     local at=$(prompt-color-echo @ blue bold)
     local host=$(prompt-color-echo %m blue)
-    local cwd='%{$fg[white]%}${${(%):-%~}//\//%{$fg_bold[black]%\}/%{$reset_color%\}}'
+    local cwd='${${(%):-%~}//\//%{$fg_bright[black]%\}/%{$reset_color%\}}'
     local jobs='%(1j.$(prompt-widget jobs %j before).)'
-
-    if [[ -z "$COLORTERM" ]]; then
-        local green=$fg_bold[green]
-    else
-        local green=$(echo -e '\e[92;m')
-    fi
-
-    local base="$cwd$jobs %(!.%{$fg_bold[red]%}#.%{$green%}$)%{$reset_color%} "
+    local char=' %(!.%{$fg_bold[red]%}#.%{$fg_bright[green]%}$)'
+    local base="$cwd$jobs$char%{$reset_color%} "
 
     if [[ $SSH_CONNECTION != '' ]]; then
         PROMPT=$user$at$host$(prompt-separator)$base
@@ -25,7 +19,7 @@ function set-up-prompt {
 }
 
 function prompt-timestamp {
-    local sep=$(prompt-color-echo : black bold)
+    local sep=$(prompt-color-echo : black bright)
     local hrs=$(prompt-color-echo %D{%H} reset)
     local min=$(prompt-color-echo %D{%M} reset)
     local sec=$(prompt-color-echo %D{%S} reset)
@@ -33,7 +27,7 @@ function prompt-timestamp {
 }
 
 function prompt-separator {
-    prompt-color-echo " :: " black bold
+    prompt-color-echo " :: " black bright
 }
 
 function prompt-venv {
@@ -53,8 +47,8 @@ function prompt-widget {
         prompt-separator
     fi
     prompt-color-echo $left reset
-    prompt-color-echo / black bold
-    prompt-color-echo $right blue bold
+    prompt-color-echo / black bright
+    prompt-color-echo $right blue bright
     if [[ $sep == "after" ]]; then
         prompt-separator
     fi
@@ -63,10 +57,12 @@ function prompt-widget {
 function prompt-color-echo {
     local text=$1
     local color=$2
-    local bold=$3
+    local modifier=$3
     if [[ $color == "reset" ]]; then
         local esc=$reset_color
-    elif [[ $bold != "" ]]; then
+    elif [[ $modifier == "bright" ]]; then
+        local esc=$fg_bright[$color]
+    elif [[ $modifier == "bold" ]]; then
         local esc=$fg_bold[$color]
     else
         local esc=$fg[$color]
@@ -91,27 +87,27 @@ function prompt-git-status {
         if [[ $branchab != "" ]]; then
             local ahead=$(echo $branchab | cut -d' ' -f3 | tr -d '+')
             local behind=$(echo $branchab | cut -d' ' -f4 | tr -d '-')
-            prompt-git-status-echo-if-nonzero $behind "<" red bold
-            prompt-git-status-echo-if-nonzero $ahead ">" cyan bold
+            prompt-git-status-echo-if-nonzero $behind "<" red bright
+            prompt-git-status-echo-if-nonzero $ahead ">" cyan bright
         fi
     fi
 
     # separator
-    prompt-color-echo / black bold
+    prompt-color-echo / black bright
 
     # staged/conflicts/changed/untracked
     local staged=$(echo $porcelain | grep -c '^[12] [MADRC]\.')
     local conflicts=$(echo $porcelain | grep -c '^u ')
     local changed=$(echo $porcelain | grep -c '^[12] \.[MADRC]')
     local untracked=$(echo $porcelain | grep -c '^? ')
-    prompt-git-status-echo-if-nonzero $staged "-" yellow bold
-    prompt-git-status-echo-if-nonzero $conflicts "!" red bold
-    prompt-git-status-echo-if-nonzero $changed "+" blue bold
-    prompt-git-status-echo-if-nonzero $untracked "_" magenta bold
+    prompt-git-status-echo-if-nonzero $staged "-" yellow bright
+    prompt-git-status-echo-if-nonzero $conflicts "!" red bright
+    prompt-git-status-echo-if-nonzero $changed "+" blue bright
+    prompt-git-status-echo-if-nonzero $untracked "_" magenta bright
 
     # clean
     if [[ $(($staged + $conflicts + $changed + $untracked)) == 0 ]]; then
-        prompt-color-echo "=" green bold
+        prompt-color-echo "=" green bright
     fi
 
     # separator between widgets
@@ -122,9 +118,9 @@ function prompt-git-status-echo-if-nonzero {
     local number=$1
     local symbol=$2
     local color=$3
-    local bold=$4
+    local modifier=$4
 
     if [[ $number > 0 ]]; then
-        prompt-color-echo "$symbol$number" $color $bold
+        prompt-color-echo "$symbol$number" $color $modifier
     fi
 }
