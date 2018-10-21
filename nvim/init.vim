@@ -499,7 +499,7 @@ function! GitGutterStatus() abort
   for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
     let status .= num ? sym.num : ''
   endfor
-  return status.']'
+  return status.'] '
 endfunction
 
 set statusline=%{GitGutterStatus()}
