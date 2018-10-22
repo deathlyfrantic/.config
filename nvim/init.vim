@@ -412,11 +412,7 @@ inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
 " external file processing
-command! -nargs=? UglifyJS call z#uglify_js(<args>)
-command! -nargs=? DotToPng call z#dot_to_png(<args>)
-command! -nargs=? CompileSass call z#compile_sass(<args>)
-command! -nargs=? PreviewMarkdown call z#preview_markdown(<args>)
-command! -nargs=1 RFC call z#rfc(<args>)
+command! -nargs=1 RFC call z#preview(system('rfc '.<args>))
 
 " run tests (see plugin/run-tests.vim)
 nmap <silent> <leader>t <Plug>(run-test-nearest)
