@@ -64,7 +64,7 @@ function! s:show_log_message()
   let blame = s:log_message(line)
   echo s:truncate_message(blame.subj)
   if len(blame.body)
-    call z#preview(blame.body)
+    call z#preview(extend([blame.subj, ''], blame.body))
   else
     pclose!
   endif
