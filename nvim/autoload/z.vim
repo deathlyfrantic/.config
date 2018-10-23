@@ -83,3 +83,7 @@ function! z#multisub(expr, pat, sub, ...)
   endfor
   return rv
 endfunction
+
+function! z#trim(s) abort
+  return z#multisub(a:s, ['^[\s\n\r]*', '[\s\n\r]*$'], '', '')
+endfunction
