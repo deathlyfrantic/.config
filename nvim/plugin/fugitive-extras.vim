@@ -75,4 +75,5 @@ augroup fugitive-extras-blame
   autocmd BufReadPost,BufNewFile *.fugitiveblame
     \ let b:blame_messages = get(b:, 'blame_messages', {})
   autocmd BufEnter,CursorMoved *.fugitiveblame call <SID>show_log_message()
+  autocmd BufUnload *.fugitiveblame pclose!
 augroup END
