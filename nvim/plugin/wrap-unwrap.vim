@@ -1,7 +1,3 @@
-" handy wrap/unwrap mappings
-command! -nargs=? Wrap call <SID>wrap(<f-args>)
-command! Unwrap call <SID>unwrap()
-
 function! s:wrap(...)
   let b:orig_cc = &colorcolumn
   let b:orig_tw = &textwidth
@@ -33,3 +29,6 @@ function! s:unwrap()
   unmap ^
   unmap g^
 endfunction
+
+command! -nargs=? Wrap call <SID>wrap(<f-args>)
+command! Unwrap call <SID>unwrap()
