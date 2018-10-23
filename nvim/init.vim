@@ -487,7 +487,7 @@ let g:terminal_color_15 = '#eeeeec'
 " }}}
 
 " statusline {{{
-function! GitGutterStatus() abort
+function! GitStatus() abort
   let status = FugitiveStatusline()[:-2]
   if status == ''
     return ''
@@ -498,7 +498,7 @@ function! GitGutterStatus() abort
   return status.'] '
 endfunction
 
-set statusline=%{GitGutterStatus()}
+set statusline=%{GitStatus()}
 set statusline+=%<%F
 set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
