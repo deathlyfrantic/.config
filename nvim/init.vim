@@ -249,6 +249,14 @@ call plug#end()
 " --- end plugins --- }}}
 
 " --- autocommands --- {{{
+augroup filetypedetect
+  autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
+  autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
+  autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
+  autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
+  autocmd BufNewFile,BufReadPost *.snippets setlocal filetype=snippets
+augroup END
+
 augroup z-rc-commands
   autocmd!
 
@@ -257,13 +265,6 @@ augroup z-rc-commands
     \ if &omnifunc == '' |
     \   set omnifunc=syntaxcomplete#Complete |
     \ endif
-
-  " custom filetype overrides
-  autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
-  autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
-  autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
-  autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
-  autocmd BufNewFile,BufReadPost *.snippets setlocal filetype=snippets
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
