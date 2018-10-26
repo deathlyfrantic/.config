@@ -42,8 +42,7 @@
                 },
                 "to": [
                   {
-                    "shell_command":
-                      "open '/Applications/Utilities/Activity Monitor.app'"
+                    "shell_command": "open '/Applications/Utilities/Activity Monitor.app'"
                   }
                 ],
                 "type": "basic"
@@ -88,8 +87,7 @@
                 },
                 "to": [
                   {
-                    "shell_command":
-                      "/Users/zandr/bin/open-browser Safari Technology Preview"
+                    "shell_command": "/Users/zandr/bin/open-browser Safari"
                   }
                 ],
                 "type": "basic"
