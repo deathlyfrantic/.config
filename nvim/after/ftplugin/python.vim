@@ -16,3 +16,6 @@ function! s:docstring_highlight() abort
 endfunction
 
 autocmd Syntax <buffer> call <SID>docstring_highlight()
+
+let b:neoformat_python_black = get(b:, 'neoformat_python_black',
+  \ extend(neoformat#formatters#python#black(), {'args': ['-l 80', '-']}))
