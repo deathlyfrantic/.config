@@ -2,7 +2,7 @@
 if [[ -n "$*" ]]; then
     browser="$*"
 else
-    browser="Safari Technology Preview"
+    browser="Safari"
 fi
 script=$(<<EOF
 tell application "System Events"
