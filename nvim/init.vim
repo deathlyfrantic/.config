@@ -375,7 +375,7 @@ augroup z-rc-trailing-whitespace
 augroup END
 
 " un-dos files with ^M line endings
-command! Undos e ++ff=unix | %s///g
+command! Undos e ++ff=unix | %s/\r//g
 
 " set indentation
 command! -bar -nargs=1 SetIndent setlocal softtabstop=<args> shiftwidth=<args>
