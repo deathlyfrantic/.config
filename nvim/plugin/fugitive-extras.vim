@@ -29,7 +29,7 @@ let s:body_cmd = 'git --git-dir=%s show -s --pretty=format:%%b %s'
 
 function! s:log_message(commit)
   if a:commit =~ '^0\+$'
-    return '(Not Committed Yet)'
+    return {'subj': '(Not Committed Yet)', 'body': ''}
   endif
   if !has_key(b:blame_messages, a:commit)
     let subj = system(printf(s:subj_cmd, b:git_dir, a:commit))
