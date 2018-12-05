@@ -25,3 +25,11 @@ snippet dd "#[derive(Debug)]"
 #[derive(Debug)]
 %#;
 endsnippet
+
+snippet display "impl fmt::Display for struct"
+impl fmt::Display for %#; {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "%#;", %#;)
+    }
+}
+endsnippet
