@@ -135,6 +135,12 @@ function! s:trigger() abort
   endif
 endfunction
 
+function! s:edit(...) abort
+  let l:ft = &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
+  let name = a:0 ? a:1 : l:ft
+  execute 'e' expand(printf('$VIMHOME/snippets/%s.snippets', name))
+endfunction
+
 autocmd VimEnter * call <SID>load_global_snippets()
 autocmd FileType * call <SID>load_filetype_snippets()
 
@@ -142,3 +148,4 @@ inoremap <C-]> <Esc>:call <SID>trigger()<Enter>
 inoremap <C-f> <C-o>:call <SID>jump(1)<Enter>
 
 command! -nargs=* Snippet call s:snippet(<f-args>)
+command! -nargs=* SnippetEdit call s:edit(<f-args>)
