@@ -40,6 +40,6 @@ highlight GitGutterChangeDelete guifg=#ff875f guibg=NONE    gui=NONE           c
 highlight GitGutterDelete       guifg=#ff005f guibg=NONE    gui=NONE           cterm=NONE
 highlight ErrorMsg              guifg=#ffffff guibg=#ff005f gui=bold           cterm=bold
 highlight WarningMsg            guifg=#ffffff guibg=#d7875f gui=bold           cterm=bold
-highlight BufTabLineActive      guifg=#dadada guibg=#5f875f gui=NONE           cterm=NONE
+highlight BufTabLineActive      guifg=#080808 guibg=#5f875f gui=NONE           cterm=NONE
 
 source $VIMHOME/colors/mono-base.vim
