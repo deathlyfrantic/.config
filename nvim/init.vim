@@ -334,6 +334,9 @@ function! s:buf_delete(bufnum, bang) abort
 endfunction
 command! -bang -bar Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
 
+" fit current window to contents
+command! Fit silent! execute 'resize' line('$')
+
 " select last-pasted text
 nnoremap gV `[v`]
 
