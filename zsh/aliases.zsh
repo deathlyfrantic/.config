@@ -23,3 +23,4 @@ function mkcd { mkdir -p $1 && cd $1 } # this is alias-like
 alias diffstat='diffstat -C'
 alias diff='diff --color=auto'
 alias pstree='pstree -g3'
+alias mpv='open -na /Applications/mpv.app'
