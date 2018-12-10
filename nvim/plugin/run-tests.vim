@@ -47,17 +47,20 @@ function! s:rust(selection) abort
   if !executable('cargo')
     throw '`cargo` does not exist or is not executable'
   endif
+  " change to source dir in case file is in a subproject, but strip off the
+  " trailing 'src' component e.g. /code/project/src/main.rs -> /code/project
+  let cmd = printf('(cd %s && cargo test)', expand('%:p:h:h'))
   if a:selection == 'nearest'
     let mod_tests_line = search('^mod tests {$', 'n')
     if mod_tests_line == 0
-      return 'cargo test'
+      return cmd
     endif
     let nearest = s:find_nearest_test('#\[test]\n\s*fn\s\+\(\w*\)(', 1)
-    return printf('cargo test %s', nearest)
+    return cmd[:-2] . printf(' %s)', nearest)
   elseif a:selection == 'file'
-    return printf('cargo test %s::', expand('%:t:r'))
+    return cmd[:-2] . printf(' %s::)', expand('%:t:r'))
   endif
-  return 'cargo test'
+  return cmd
 endfunction
 
 function! s:python_pytest(selection) abort
