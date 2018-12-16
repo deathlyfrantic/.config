@@ -84,6 +84,14 @@ function! z#multisub(expr, pat, sub, ...)
   return rv
 endfunction
 
+function! z#ltrim(s) abort
+  return substitute(a:s, '^[[:space:]]*', '', '')
+endfunction
+
+function! z#rtrim(s) abort
+  return substitute(a:s, '[[:space:]]*$', '', '')
+endfunction
+
 function! z#trim(s) abort
-  return z#multisub(a:s, ['^[[:space:]]*', '[[:space:]]*$'], '', '')
+  return z#ltrim(z#rtrim(a:s))
 endfunction
