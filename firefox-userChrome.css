@@ -1,0 +1,5 @@
+.tabbrowser-tab:not([pinned]) .tab-close-button {
+  display: -moz-box !important;
+  -moz-box-ordinal-group: 0 !important;
+  margin-right: 3px !important;
+}
