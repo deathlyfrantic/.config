@@ -318,7 +318,7 @@ command! -bang BD Bd<bang>
 function! s:buf_delete(bufnum, bang) abort
   if getbufvar(a:bufnum, '&modified') && a:bang == ''
     let m = 'E89: No write since last change for buffer %d (add ! to override)'
-    call z#echoerr(printf(m, a:bufnum))
+    call z#echoerr(m, a:bufnum)
     return
   endif
   if bufexists(0) && buflisted(0)

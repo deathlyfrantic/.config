@@ -102,7 +102,7 @@ function! s:trigger() abort
   if has_key(all, word)
     let snippet = all[word]
   else
-    call z#echowarn(printf('No snippet for "%s" found', word))
+    call z#echowarn('No snippet for "%s" found', word)
     return
   endif
   let start_pos = getpos('.')

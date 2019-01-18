@@ -45,25 +45,26 @@ function! z#flatten(list) abort
   return rv
 endfunction
 
-function! z#echohl(hl, msg) abort
-  let l:msg = type(a:msg) == v:t_list ? a:msg : [a:msg]
+function! z#echohl(hl, ...) abort
+  if !a:0
+    throw 'A message is required for this function.'
+  endif
+  let msg = a:0 > 1 ? call('printf', a:000) : a:1
   let l:echo = 'WarningMsg\|ErrorMsg' =~? a:hl ? 'echomsg' : 'echo'
   execute 'echohl' a:hl
   try
-    for m in l:msg
-      execute l:echo 'm'
-    endfor
+    execute l:echo 'msg'
   finally
     echohl None
   endtry
 endfunction
 
-function! z#echowarn(msg) abort
-  call z#echohl('WarningMsg', a:msg)
+function! z#echowarn(...) abort
+  call call('z#echohl', ['WarningMsg'] + a:000)
 endfunction
 
-function! z#echoerr(msg) abort
-  call z#echohl('ErrorMsg', a:msg)
+function! z#echoerr(...) abort
+  call call('z#echohl', ['ErrorMsg'] + a:000)
 endfunction
 
 function! z#multisub(expr, pat, sub, ...)
