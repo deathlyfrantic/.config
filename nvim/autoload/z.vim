@@ -16,16 +16,6 @@ function! z#preview(text) abort
   call winrestview(l:winview)
 endfunction
 
-function! z#chomp(s, ...) abort
-  let sep = a:0 ? a:000 : ['\r\n', '\r', '\n']
-  let regex = printf('\%%(%s\)*$', join(sep, '\|'))
-  return substitute(a:s, regex, '', '')
-endfunction
-
-function! z#sys_chomp(s) abort
-  return z#chomp(system(a:s))
-endfunction
-
 function! z#enumerate(l, ...) abort
   let start = a:0 ? a:1 : 0
   let collection = type(a:l) == v:t_string ? split(a:l, '\zs') : a:l
