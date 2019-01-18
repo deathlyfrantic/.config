@@ -88,7 +88,7 @@ Plug 'deathlyfrantic/vim-textobj-blanklines'
 
 " dev tools {{{
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = z#sys_chomp('which racer')
+let g:racer_cmd = z#rtrim(system('which racer'))
 let g:racer_experimental_completer = 1
 
 Plug 'ludovicchabant/vim-gutentags'
