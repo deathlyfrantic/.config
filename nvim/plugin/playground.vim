@@ -105,11 +105,7 @@ function! s:get_normalized_filetype() abort
 endfunction
 
 function! s:open_pg(...) abort
-  if a:0
-    let l:ft = a:1
-  else
-    let l:ft = s:get_normalized_filetype()
-  endif
+  let l:ft = a:0 ? a:1 : s:get_normalized_filetype()
   if !has_key(s:grounds, l:ft)
     call z#echoerr('No playground information found for filetype "%s"', l:ft)
     return
