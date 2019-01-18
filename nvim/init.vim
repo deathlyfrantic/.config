@@ -161,12 +161,12 @@ let g:mundo_preview_bottom = 1
 let g:mundo_preview_statusline = 'Mundo Preview'
 let g:mundo_tree_statusline = 'Mundo'
 let g:mundo_verbose_graph = 0
-nnoremap <silent> <C-q> :MundoToggle<CR>
+nnoremap <silent> <C-q> <Cmd>MundoToggle<CR>
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 let g:tagbar_autofocus = 1
 let g:tagbar_iconchars = ['+', '-']
-nnoremap <silent> <C-t> :TagbarToggle<CR>
+nnoremap <silent> <C-t> <Cmd>TagbarToggle<CR>
 
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1
