@@ -12,8 +12,3 @@ function! s:compile_sass(...) abort
 endfunction
 
 command! -buffer -nargs=? CompileSass call <SID>compile_sass(<args>)
-
-augroup scss-ftplugin
-  autocmd!
-  autocmd BufWritePost <buffer> CompileSass
-augroup END
