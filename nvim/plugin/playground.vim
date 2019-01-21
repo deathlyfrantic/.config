@@ -1,4 +1,6 @@
+let s:next_pg_num = get(s:, 'next_pg_num', -1)
 let s:pg_output_buffer = -1
+let s:pg_spawning_buffer = -1
 
 let s:grounds = {
   \ 'c': {
@@ -27,12 +29,10 @@ let s:grounds = {
   \ 'python': {
   \   'extension': 'py',
   \   'command': 'python3 %s',
-  \   'template': [],
   \ },
   \ 'javascript': {
   \   'extension': 'js',
   \   'command': 'node %s',
-  \   'template': [],
   \ }
   \ }
 
@@ -45,7 +45,7 @@ endfunction
 
 function! s:load_or_create_buffer() abort
   if bufexists(s:pg_output_buffer)
-    execute 'b' s:pg_output_buffer
+    execute 'buffer' s:pg_output_buffer
   else
     enew
     call s:new_pg_output_buffer()
@@ -55,8 +55,8 @@ endfunction
 
 function! s:new_pg_window() abort
   let window = filter(getwininfo(), {i, v -> v.winnr == winnr()})[0]
-  let height = window.height / 3
-  execute 'belowright' height 'sp'
+  let height = min([window.height / 3, 15])
+  execute 'belowright' height 'split'
   call s:load_or_create_buffer()
 endfunction
 
@@ -67,9 +67,10 @@ function! s:ensure_pg_window() abort
 endfunction
 
 function! s:delete_output_buffer() abort
-  if s:pg_output_buffer != -1
-    silent execute 'bd!' s:pg_output_buffer
+  if s:pg_output_buffer != -1 && bufexists(s:pg_output_buffer)
+    silent execute 'bdelete!' s:pg_output_buffer
   endif
+  let s:pg_output_buffer = -1
 endfunction
 
 function! s:scroll_to_end(...) abort
@@ -85,17 +86,27 @@ function! s:run_pg(cmd) abort
   call s:ensure_pg_window()
   let current_window = win_getid()
   call win_gotoid(win_findbuf(s:pg_output_buffer)[0])
-  set nomodified
+  setlocal nomodified
   call termopen(a:cmd, {'on_exit': function('s:scroll_to_end')})
   call win_gotoid(current_window)
 endfunction
 
+function! s:pgnum() abort
+  let s:next_pg_num += 1
+  return s:next_pg_num
+endfunction
+
 function! s:open_pg_buffer(ground) abort
-  execute 'e' printf('%s.%s', tempname(), a:ground.extension)
+  let s:pg_spawning_buffer = bufnr('%')
+  execute 'edit' printf('%s/_pg%s.%s', expand('%:h'), s:pgnum(),
+    \ a:ground.extension)
   let command = printf(a:ground.command, @%)
   execute 'autocmd BufWritePost <buffer> call s:run_pg("'.command.'")'
   autocmd BufDelete <buffer> call s:delete_output_buffer()
-  call setline(1, a:ground.template)
+  autocmd BufDelete <buffer> execute 'buffer' s:pg_spawning_buffer
+  autocmd BufDelete <buffer> let s:pg_spawning_buffer = -1
+  autocmd BufDelete <buffer> execute 'silent !rm' expand('<afile>')
+  call setline(1, get(a:ground, 'template', []))
   call feedkeys("ggI\<C-f>")
 endfunction
 
