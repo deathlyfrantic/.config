@@ -45,7 +45,6 @@ set matchpairs+=<:>
 set nojoinspaces
 set nostartofline
 set nowrap
-set number
 set shiftround
 set shiftwidth=4
 set shortmess-=F
