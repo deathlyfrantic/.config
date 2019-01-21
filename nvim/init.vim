@@ -54,14 +54,12 @@ set softtabstop=4
 set textwidth=80
 set title
 set undofile
-set wildignore+=node_modules/,package-lock.json,*.min.js
-set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/
-set wildignore+=Cargo.lock
-set wildignore+=.git,.gitmodules
-set wildignore+=*.swp
-set wildignore+=*.sqlite3
-set wildignore+=.sass-cache
-set wildignore+=.DS_Store
+set wildignore+=node_modules/,package-lock.json,*.min.js    " javascript
+set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/ " python
+set wildignore+=Cargo.lock,*/target/*                       " rust
+set wildignore+=.git,.gitmodules                            " git
+set wildignore+=*.swp                                       " vim
+set wildignore+=.DS_Store                                   " macos
 set wildignorecase
 " --- end general settings --- }}}
 
