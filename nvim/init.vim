@@ -2,7 +2,6 @@
 if has('vim_starting')
   " stuff that should only have to happen once
   let $VIMHOME = split(&runtimepath, ',')[0]
-  set termguicolors
 
   " kill default vim plugins i don't want
   let g:loaded_vimballPlugin = 'v35'
@@ -443,10 +442,15 @@ command! ManClose call <SID>close_man_pages()
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if strftime('%H') > 19 || strftime('%H') < 9
-  colorscheme copper
+if len($COLORTERM) " heuristic to determine whether we're using terminal.app
+  set termguicolors
+  if strftime('%H') > 19 || strftime('%H') < 9
+    colorscheme copper
+  else
+    colorscheme album
+  endif
 else
-  colorscheme mastodon
+  colorscheme album-256
 endif
 let g:terminal_color_0  = '#2e3436'
 let g:terminal_color_1  = '#cc0000'
