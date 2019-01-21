@@ -84,6 +84,7 @@ Plug 'deathlyfrantic/vim-textobj-blanklines'
 " }}}
 
 " dev tools {{{
+Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = z#rtrim(system('which racer'))
 let g:racer_experimental_completer = 1
