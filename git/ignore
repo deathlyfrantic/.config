@@ -10,3 +10,5 @@ node_modules
 *.egg-info
 .ctags
 Session.vim
+.sass-cache
+*.swp
