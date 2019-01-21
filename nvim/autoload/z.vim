@@ -86,3 +86,21 @@ endfunction
 function! z#trim(s) abort
   return z#ltrim(z#rtrim(a:s))
 endfunction
+
+function! z#any(items, f) abort
+  for item in a:items
+    if a:f(item)
+      return 1
+    endif
+  endfor
+  return 0
+endfunction
+
+function! z#all(items, f) abort
+  for item in a:items
+    if !a:f(item)
+      return 0
+    endif
+  endfor
+  return 1
+endfunction
