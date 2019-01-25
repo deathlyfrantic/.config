@@ -143,9 +143,9 @@ colors:
   # Cursor colors
   #
   # These will only be used when the `custom_cursor_colors` field is set to `true`.
-  cursor:
-    text: '0x000000'
-    cursor: '0xffffff'
+  # cursor:
+  #   text: '0x000000'
+  #   cursor: '0xffffff'
 
   # Normal colors
   normal:
