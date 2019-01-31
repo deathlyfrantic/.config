@@ -77,7 +77,7 @@ function prompt-git-status {
     fi
 
     # branch name (and ahead/behind if applicable)
-    local branch=$(echo $porcelain | grep branch.head | cut -d' ' -f3)
+    local branch=$(echo $porcelain | awk '$2 == "branch.head" { print $3 }')
     if [[ $branch == "(detached)" ]]; then
         branch=":"$(git rev-parse --short HEAD)
         prompt-color-echo $branch reset
@@ -85,8 +85,8 @@ function prompt-git-status {
         prompt-color-echo $branch reset
         local branchab=$(echo $porcelain | grep branch.ab)
         if [[ $branchab != "" ]]; then
-            local ahead=$(echo $branchab | cut -d' ' -f3 | tr -d '+')
-            local behind=$(echo $branchab | cut -d' ' -f4 | tr -d '-')
+            local ahead=$(echo $branchab | awk '{ print $3 + 0 }')
+            local behind=$(echo $branchab | awk '{ print $4 + 0 }')
             prompt-git-status-echo-if-nonzero $behind "<" red bright
             prompt-git-status-echo-if-nonzero $ahead ">" cyan bright
         fi
