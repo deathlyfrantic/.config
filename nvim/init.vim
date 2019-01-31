@@ -417,6 +417,8 @@ imap <expr> <C-l> <SID>arrow(1)
 augroup z-rc-arrows
   autocmd!
   autocmd FileType c,php imap <buffer> <C-j> ->
+  autocmd FileType vim imap <buffer> <expr> <C-j>
+    \ completion#char_before_cursor() == "{" ? "-> " : <SID>arrow(0)
 augroup END
 
 " quickfix
