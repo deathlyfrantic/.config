@@ -356,8 +356,8 @@ command! -bang Wbd w<bang> | Bd<bang>
 nnoremap <silent> <Space> :nohlsearch<CR>
 
 " resize windows
-nmap <silent> <C-Left>  <C-W><<Plug>(auto-gutters)
-nmap <silent> <C-Right> <C-W>><Plug>(auto-gutters)
+nnoremap <silent> <C-Left>  <C-W><
+nnoremap <silent> <C-Right> <C-W>>
 nnoremap <silent> <C-Up>    <C-W>+
 nnoremap <silent> <C-Down>  <C-W>-
 
