@@ -59,7 +59,7 @@ endfunction
 
 function! z#multisub(expr, pat, sub, ...)
   let flags = a:0 ? a:1 : ''
-  let pat = type(a:pat) == v:t_list ? a:pat : [a:pat]
+  let pat = z#to_list(a:pat)
   if type(a:sub) == v:t_list
     let sub = a:sub
   else
@@ -122,4 +122,8 @@ function! z#find_project_dir(...) abort
     let dir = fnamemodify(dir, ':h')
   endwhile
   return 0
+endfunction
+
+function! z#to_list(x) abort
+  return type(a:x) == v:t_list ? a:x : [a:x]
 endfunction
