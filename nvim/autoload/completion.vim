@@ -31,7 +31,7 @@ function! completion#email(findstart, base) abort
     let s:email_aliases = filter(lines, {_, line -> line =~? '^alias'})
   endif
   let emails = sort(filter(deepcopy(s:email_aliases),
-    \ {_, alias -> substitute(alias, '^alias', '', '') =~? a:base}))
+        \ {_, alias -> substitute(alias, '^alias', '', '') =~? a:base}))
   return map(emails, {_, alias -> substitute(alias, '^alias \w\+ ', '', '')})
 endfunction
 

@@ -197,8 +197,8 @@ function! s:orchestrate_tests(selection) abort
   let errs = []
   try
     let Runner = has_key(b:, 'test_command')
-      \ ? {-> b:test_command}
-      \ : function(printf('s:%s', s:get_normalized_filetype()))
+          \ ? {-> b:test_command}
+          \ : function(printf('s:%s', s:get_normalized_filetype()))
     let test_cmds = [Runner(a:selection)]
   catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
     let errs += [printf("No tests available for filetype '%s'", &ft)]

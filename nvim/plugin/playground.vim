@@ -3,38 +3,38 @@ let s:pg_output_buffer = -1
 let s:pg_spawning_buffer = -1
 
 let s:grounds = {
-  \ 'c': {
-  \   'extension': 'c',
-  \   'command': 'cc %s -o $TMPDIR/a.out && $TMPDIR/a.out',
-  \   'template': [
-  \     '#include <stdio.h>',
-  \     '#include <stdlib.h>',
-  \     '#include <string.h>',
-  \     '',
-  \     'int main(void) {',
-  \     '  %#;',
-  \     '  return EXIT_SUCCESS;',
-  \     '}'
-  \   ],
-  \ },
-  \ 'rust': {
-  \   'extension': 'rs',
-  \   'command': 'rustc %s -o $TMPDIR/a.out && $TMPDIR/a.out',
-  \   'template': [
-  \      'fn main() {',
-  \      '    %#;',
-  \      '}',
-  \   ]
-  \ },
-  \ 'python': {
-  \   'extension': 'py',
-  \   'command': 'python3 %s',
-  \ },
-  \ 'javascript': {
-  \   'extension': 'js',
-  \   'command': 'node %s',
-  \ }
-  \ }
+      \ 'c': {
+      \   'extension': 'c',
+      \   'command': 'cc %s -o $TMPDIR/a.out && $TMPDIR/a.out',
+      \   'template': [
+      \     '#include <stdio.h>',
+      \     '#include <stdlib.h>',
+      \     '#include <string.h>',
+      \     '',
+      \     'int main(void) {',
+      \     '  %#;',
+      \     '  return EXIT_SUCCESS;',
+      \     '}'
+      \   ],
+      \ },
+      \ 'rust': {
+      \   'extension': 'rs',
+      \   'command': 'rustc %s -o $TMPDIR/a.out && $TMPDIR/a.out',
+      \   'template': [
+      \      'fn main() {',
+      \      '    %#;',
+      \      '}',
+      \   ]
+      \ },
+      \ 'python': {
+      \   'extension': 'py',
+      \   'command': 'python3 %s',
+      \ },
+      \ 'javascript': {
+      \   'extension': 'js',
+      \   'command': 'node %s',
+      \ }
+      \ }
 
 function! s:new_pg_output_buffer() abort
   let s:pg_output_buffer = bufnr('%')
@@ -99,7 +99,7 @@ endfunction
 function! s:open_pg_buffer(ground) abort
   let s:pg_spawning_buffer = bufnr('%')
   execute 'edit' printf('%s/_pg%s.%s', expand('%:h'), s:pgnum(),
-    \ a:ground.extension)
+        \ a:ground.extension)
   let command = printf(a:ground.command, @%)
   execute 'autocmd BufWritePost <buffer> call s:run_pg("'.command.'")'
   autocmd BufDelete <buffer> call s:delete_output_buffer()

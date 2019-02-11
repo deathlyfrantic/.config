@@ -1,11 +1,11 @@
 let s:packages = []
 let s:lazy = {'ft': {}, 'on_cmd': {}, 'on_map': {}}
 let s:packager_installed = get(s:, 'packager_installed',
-  \ isdirectory(expand('$VIMHOME/pack/packager')))
+      \ isdirectory(expand('$VIMHOME/pack/packager')))
 
 if !s:packager_installed
   execute '!git clone https://github.com/kristijanhusak/vim-packager'
-    \ expand('$VIMHOME/pack/packager/opt/vim-packager')
+        \ expand('$VIMHOME/pack/packager/opt/vim-packager')
   let s:packager_installed = 1
 endif
 
