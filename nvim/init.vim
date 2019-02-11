@@ -66,33 +66,33 @@ augroup z-rc-commands
 
   " omni-complete
   autocmd FileType *
-    \ if &omnifunc == '' |
-    \   set omnifunc=syntaxcomplete#Complete |
-    \ endif
+        \ if &omnifunc == '' |
+        \   set omnifunc=syntaxcomplete#Complete |
+        \ endif
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
-    \ if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish') |
-    \   if len(filter(getbufinfo(), {_, b -> b.listed})) == 1 |
-    \     quit |
-    \   else |
-    \     bd! |
-    \   endif |
-    \ endif
+        \ if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish') |
+        \   if len(filter(getbufinfo(), {_, b -> b.listed})) == 1 |
+        \     quit |
+        \   else |
+        \     bd! |
+        \   endif |
+        \ endif
 
   " see :help last-position-jump
   autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   execute "normal! g`\"zvzz" |
-    \ endif
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   execute "normal! g`\"zvzz" |
+        \ endif
 
   " don't move my position when switching buffers
   autocmd! BufWinLeave * let b:winview = winsaveview()
   autocmd! BufWinEnter *
-    \ if exists('b:winview') |
-    \   call winrestview(b:winview) |
-    \   unlet! b:winview |
-    \ endif
+        \ if exists('b:winview') |
+        \   call winrestview(b:winview) |
+        \   unlet! b:winview |
+        \ endif
 
   " no line numbers in term
   autocmd! TermOpen * setlocal nonumber
@@ -100,7 +100,7 @@ augroup z-rc-commands
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC | SetIndent 2
   autocmd BufWritePost $VIMHOME/{plugin,autoload}/*.vim
-      \ execute 'source' expand('<afile>')
+        \ execute 'source' expand('<afile>')
   autocmd BufWritePost $VIMHOME/colors/*.vim exec 'color' expand('<afile>:t:r')
 augroup END
 " --- end autocommands --- }}}
@@ -177,9 +177,9 @@ command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
 augroup z-rc-trailing-whitespace
   autocmd!
   autocmd BufWritePre *
-    \ if &ft !~? 'mail\|snippets\|conf' |
-    \   StripTrailingWhitespace |
-    \ endif
+        \ if &ft !~? 'mail\|snippets\|conf' |
+        \   StripTrailingWhitespace |
+        \ endif
 augroup END
 
 " un-dos files with ^M line endings
@@ -223,7 +223,7 @@ augroup z-rc-arrows
   autocmd!
   autocmd FileType c,php imap <buffer> <C-j> ->
   autocmd FileType vim imap <buffer> <expr> <C-j>
-    \ completion#char_before_cursor() == "{" ? "-> " : <SID>arrow(0)
+        \ completion#char_before_cursor() == "{" ? "-> " : <SID>arrow(0)
 augroup END
 
 " quickfix
@@ -235,7 +235,7 @@ nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
 augroup z-rc-quickfix
   autocmd!
   autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR> |
-    \ nnoremap <silent> <buffer> q :cclose<CR>
+        \ nnoremap <silent> <buffer> q :cclose<CR>
 augroup END
 
 " close all open man pages

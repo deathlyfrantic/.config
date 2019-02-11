@@ -10,73 +10,73 @@ let g:loaded_endwise = 1
 augroup endwise
   autocmd!
   autocmd FileType lua let b:endwise = {
-    \ 'addition': 'end',
-    \ 'words': 'function,do,then',
-    \ 'pattern': '^\s*\zs\%(\%(local\s\+\)\=function\)\>\%(.*\<end\>\)\@!\|\<\%(then\|do\)\ze\s*$',
-    \ 'syngroups': 'luaFunction,luaStatement,luaCond'}
+        \ 'addition': 'end',
+        \ 'words': 'function,do,then',
+        \ 'pattern': '^\s*\zs\%(\%(local\s\+\)\=function\)\>\%(.*\<end\>\)\@!\|\<\%(then\|do\)\ze\s*$',
+        \ 'syngroups': 'luaFunction,luaStatement,luaCond'}
   autocmd FileType ruby let b:endwise = {
-    \ 'addition': 'end',
-    \ 'words': 'module,class,def,if,unless,case,while,until,begin,do',
-    \ 'pattern': '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|module_function\s\+\)*\zs\%(module\|class\|def\|if\|unless\|case\|while\|until\|for\|\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$',
-    \ 'syngroups': 'rubyModule,rubyClass,rubyDefine,rubyControl,rubyConditional,rubyRepeat'}
+        \ 'addition': 'end',
+        \ 'words': 'module,class,def,if,unless,case,while,until,begin,do',
+        \ 'pattern': '^\(.*=\)\?\s*\%(private\s\+\|protected\s\+\|public\s\+\|module_function\s\+\)*\zs\%(module\|class\|def\|if\|unless\|case\|while\|until\|for\|\|begin\)\>\%(.*[^.:@$]\<end\>\)\@!\|\<do\ze\%(\s*|.*|\)\=\s*$',
+        \ 'syngroups': 'rubyModule,rubyClass,rubyDefine,rubyControl,rubyConditional,rubyRepeat'}
   autocmd FileType sh,zsh let b:endwise = {
-    \ 'addition': '\=submatch(0)=="then" ? "fi" : submatch(0)=="case" ? "esac" : "done"',
-    \ 'words': 'then,case,do',
-    \ 'pattern': '\%(^\s*\zscase\>\ze\|\zs\<\%(do\|then\)\ze\s*$\)',
-    \ 'syngroups': 'shConditional,shLoop,shIf,shFor,shRepeat,shCaseEsac,zshConditional,zshRepeat,zshDelimiter'}
+        \ 'addition': '\=submatch(0)=="then" ? "fi" : submatch(0)=="case" ? "esac" : "done"',
+        \ 'words': 'then,case,do',
+        \ 'pattern': '\%(^\s*\zscase\>\ze\|\zs\<\%(do\|then\)\ze\s*$\)',
+        \ 'syngroups': 'shConditional,shLoop,shIf,shFor,shRepeat,shCaseEsac,zshConditional,zshRepeat,zshDelimiter'}
   autocmd FileType vim let b:endwise = {
-    \ 'addition': '\=submatch(0)=~"aug\\%[roup]" ? submatch(0) . " END" : "end" . submatch(0)',
-    \ 'words': 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!',
-    \ 'end_pattern': '\%(end\%(fu\%[nction]\|wh\%[hile]\|if\|for\|try\)\)\|aug\%[roup]\%(\s\+\cEND\)',
-    \ 'syngroups': 'vimFuncKey,vimNotFunc,vimCommand,vimAugroupKey,vimAugroup,vimAugroupError'}
+        \ 'addition': '\=submatch(0)=~"aug\\%[roup]" ? submatch(0) . " END" : "end" . submatch(0)',
+        \ 'words': 'fu\%[nction],wh\%[ile],if,for,try,aug\%[roup]\%(\s\+\cEND\)\@!',
+        \ 'end_pattern': '\%(end\%(fu\%[nction]\|wh\%[hile]\|if\|for\|try\)\)\|aug\%[roup]\%(\s\+\cEND\)',
+        \ 'syngroups': 'vimFuncKey,vimNotFunc,vimCommand,vimAugroupKey,vimAugroup,vimAugroupError'}
   autocmd FileType c let b:endwise = [{
-    \ 'addition': '#endif',
-    \ 'words': 'if,ifdef,ifndef',
-    \ 'pattern': '^\s*#\%(if\|ifdef\|ifndef\)\>',
-    \ 'syngroups': 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'},
-    \ {'addition': '};',
-    \ 'words': 'enum,struct,union',
-    \ 'pattern': '^\s*\(enum\|struct\|union\) \w* \={$',
-    \ 'syngroups': 'cStructure'},
-    \ {'addition': '}',
-    \ 'words': '',
-    \ 'pattern': '^\s*.*) {$',
-    \ 'syngroups': 'cType,cParen'}]
+        \ 'addition': '#endif',
+        \ 'words': 'if,ifdef,ifndef',
+        \ 'pattern': '^\s*#\%(if\|ifdef\|ifndef\)\>',
+        \ 'syngroups': 'cPreCondit,cPreConditMatch,cCppInWrapper,xdefaultsPreProc'},
+        \ {'addition': '};',
+        \ 'words': 'enum,struct,union',
+        \ 'pattern': '^\s*\(enum\|struct\|union\) \w* \={$',
+        \ 'syngroups': 'cStructure'},
+        \ {'addition': '}',
+        \ 'words': '',
+        \ 'pattern': '^\s*.*) {$',
+        \ 'syngroups': 'cType,cParen'}]
   autocmd FileType objc let b:endwise = {
-    \ 'addition': '@end',
-    \ 'words': 'interface,implementation',
-    \ 'pattern': '^\s*@\%(interface\|implementation\)\>',
-    \ 'syngroups': 'objcObjDef'}
+        \ 'addition': '@end',
+        \ 'words': 'interface,implementation',
+        \ 'pattern': '^\s*@\%(interface\|implementation\)\>',
+        \ 'syngroups': 'objcObjDef'}
   autocmd FileType htmldjango let b:endwise = {
-    \ 'addition': '{% end& %}',
-    \ 'words': 'autoescape,block,blocktrans,cache,comment,filter,for,if,ifchanged,ifequal,ifnotequal,language,spaceless,verbatim,with',
-    \ 'syngroups': 'djangoTagBlock,djangoStatement'}
+        \ 'addition': '{% end& %}',
+        \ 'words': 'autoescape,block,blocktrans,cache,comment,filter,for,if,ifchanged,ifequal,ifnotequal,language,spaceless,verbatim,with',
+        \ 'syngroups': 'djangoTagBlock,djangoStatement'}
   autocmd FileType htmljinja,jinja.html let b:endwise = {
-    \ 'addition': '{% end& %}',
-    \ 'words': 'autoescape,block,cache,call,filter,for,if,macro,raw,set,trans,with',
-    \ 'syngroups': 'jinjaTagBlock,jinjaStatement'}
+        \ 'addition': '{% end& %}',
+        \ 'words': 'autoescape,block,cache,call,filter,for,if,macro,raw,set,trans,with',
+        \ 'syngroups': 'jinjaTagBlock,jinjaStatement'}
   autocmd FileType snippets let b:endwise = {
-    \ 'addition': 'endsnippet',
-    \ 'words': 'snippet',
-    \ 'syngroups': 'snipSnippet,snipSnippetHeader,snipSnippetHeaderKeyword'}
+        \ 'addition': 'endsnippet',
+        \ 'words': 'snippet',
+        \ 'syngroups': 'snipSnippet,snipSnippetHeader,snipSnippetHeaderKeyword'}
   autocmd FileType rust let b:endwise = {
-    \ 'addition': '}',
-    \ 'words': 'fn,impl,struct,enum',
-    \ 'pattern': '^\s*\%[pub ]\(fn\|impl\|struct\|enum\|mod\).*{$',
-    \ 'syngroups': 'rustKeyword,rustFoldBraces,rustStructure,dummy'}
+        \ 'addition': '}',
+        \ 'words': 'fn,impl,struct,enum',
+        \ 'pattern': '^\s*\%[pub ]\(fn\|impl\|struct\|enum\|mod\).*{$',
+        \ 'syngroups': 'rustKeyword,rustFoldBraces,rustStructure,dummy'}
   autocmd FileType javascript,javascript.jsx let b:endwise = [{
-    \ 'addition': '}',
-    \ 'words': 'class,function',
-    \ 'pattern': '^\s*\(class\|function\).*{$',
-    \ 'syngroups': 'jsClassKeyword,jsClassDefinition,jsFunction,jsFuncBlock'},
-    \ {'addition': '}',
-    \ 'words': '',
-    \ 'pattern': '^\s*\w*(.*) \={$',
-    \ 'syngroups': 'jsClassFuncName,jsClassBlock'},
-    \ {'addition': '};',
-    \ 'words': '',
-    \ 'pattern': '^\s*.*\w* \== \=\%[function] \=(.*) \=\%[=>] \={$',
-    \ 'syngroups': 'jsStorageClass,jsVariableDef,jsOperator,jsArrowFunction,jsFuncBraces,jsFuncBlock,jsFunction,jsFuncParens'}]
+        \ 'addition': '}',
+        \ 'words': 'class,function',
+        \ 'pattern': '^\s*\(class\|function\).*{$',
+        \ 'syngroups': 'jsClassKeyword,jsClassDefinition,jsFunction,jsFuncBlock'},
+        \ {'addition': '}',
+        \ 'words': '',
+        \ 'pattern': '^\s*\w*(.*) \={$',
+        \ 'syngroups': 'jsClassFuncName,jsClassBlock'},
+        \ {'addition': '};',
+        \ 'words': '',
+        \ 'pattern': '^\s*.*\w* \== \=\%[function] \=(.*) \=\%[=>] \={$',
+        \ 'syngroups': 'jsStorageClass,jsVariableDef,jsOperator,jsArrowFunction,jsFuncBraces,jsFuncBlock,jsFunction,jsFuncParens'}]
 augroup END
 
 function! s:teardownMappings()

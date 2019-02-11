@@ -41,17 +41,17 @@ nnoremap g/ :Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
 xmap gs <Plug>(GrepperOperator)
 let g:grepper = {
-  \ 'tools': ['rg', 'git', 'grep'],
-  \ 'rg': {'grepprg': 'rg -H --no-heading -S --vimgrep'}
-  \ }
+      \ 'tools': ['rg', 'git', 'grep'],
+      \ 'rg': {'grepprg': 'rg -H --no-heading -S --vimgrep'}
+      \ }
 
 Package 'sbdchd/neoformat'
 augroup z-rc-neoformat
   autocmd!
   autocmd BufWritePre *
-    \ if !get(b:, 'no_neoformat', 0) |
-    \   silent Neoformat |
-    \ endif
+        \ if !get(b:, 'no_neoformat', 0) |
+        \   silent Neoformat |
+        \ endif
 augroup END
 
 Package 'w0rp/ale'
@@ -69,11 +69,11 @@ augroup END
 Package 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_open_multiple_files = '1jr'
 let g:ctrlp_prompt_mappings = {
-  \ 'PrtSelectMove("j")': ['<C-n>', '<C-j>'],
-  \ 'PrtSelectMove("k")': ['<C-p>', '<C-k>'],
-  \ 'PrtHistory(-1)': ['<Down>'],
-  \ 'PrtHistory(1)':  ['<Up>'],
-  \ }
+      \ 'PrtSelectMove("j")': ['<C-n>', '<C-j>'],
+      \ 'PrtSelectMove("k")': ['<C-p>', '<C-k>'],
+      \ 'PrtHistory(-1)': ['<Down>'],
+      \ 'PrtHistory(1)':  ['<Up>'],
+      \ }
 if executable('rg')
   let igs = join(map(split(&wildignore, ','), {i, v -> printf("-g '!%s'", v)}))
   let g:ctrlp_user_command = printf('rg %s %%s --files -g ""', igs)

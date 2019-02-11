@@ -4,7 +4,7 @@ function! s:repo_url_transform(opts, ...)
     return ''
   endif
   let url = z#multisub(a:opts.remote, ['^github', '^bitbucket'],
-    \ ['https://github.com', 'https://bitbucket.org'])
+        \ ['https://github.com', 'https://bitbucket.org'])
   if url == a:opts.remote
     return ''
   endif
@@ -20,7 +20,7 @@ function! s:repo_url_transform(opts, ...)
   return ''
 endfunction
 let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
-  \ [function('s:repo_url_transform')])
+      \ [function('s:repo_url_transform')])
 
 " this is a modified version of vim-fugitive-blame-ext by Tom McDonald
 " see: https://github.com/tommcdo/vim-fugitive-blame-ext
@@ -73,7 +73,7 @@ endfunction
 augroup fugitive-extras-blame
   autocmd!
   autocmd BufReadPost,BufNewFile *.fugitiveblame
-    \ let b:blame_messages = get(b:, 'blame_messages', {})
+        \ let b:blame_messages = get(b:, 'blame_messages', {})
   autocmd BufEnter,CursorMoved *.fugitiveblame call <SID>show_log_message()
   autocmd BufUnload *.fugitiveblame pclose!
 augroup END

@@ -10,12 +10,12 @@ setlocal keywordprg=:PydocPreview
 " highlight docstrings as comments
 function! s:docstring_highlight() abort
   syntax region pythonDocstring start=+^\s*[uU]\?[rR]\?\%("""\|'''\)+
-    \ end=+\%("""\|'''\)+ keepend excludenl
-    \ contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
+        \ end=+\%("""\|'''\)+ keepend excludenl
+        \ contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
   highlight default link pythonDocstring pythonComment
 endfunction
 
 autocmd Syntax <buffer> call <SID>docstring_highlight()
 
 let b:neoformat_python_black = get(b:, 'neoformat_python_black',
-  \ extend(neoformat#formatters#python#black(), {'args': ['-l 80', '-']}))
+      \ extend(neoformat#formatters#python#black(), {'args': ['-l 80', '-']}))
