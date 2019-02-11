@@ -254,7 +254,7 @@ if len($COLORTERM) " heuristic to determine whether we're using terminal.app
   if strftime('%H') > 19 || strftime('%H') < 9
     colorscheme copper
   else
-    colorscheme album
+    colorscheme gaia
   endif
 else
   colorscheme album-256
