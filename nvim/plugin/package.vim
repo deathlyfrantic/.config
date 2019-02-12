@@ -9,32 +9,26 @@ if !s:packager_installed
   let s:packager_installed = 1
 endif
 
-function! s:pkg_name(name) abort
-  if a:name =~ '/'
-    return matchstr(a:name, '\/[^\/]*$')[1:]
-  endif
-  return a:name
-endfunction
-
-function! s:add_package(name, ...) abort
+function! s:add_package(path, ...) abort
   let opts = a:0 ? a:1 : {}
+  let name = fnamemodify(a:path, ':t')
   if has_key(opts, 'for')
     let opts.type = 'opt'
     for ft in z#to_list(opts.for)
       if !has_key(s:lazy.ft, ft)
         let s:lazy.ft[ft] = []
       endif
-      let s:lazy.ft[ft] += [s:pkg_name(a:name)]
+      let s:lazy.ft[ft] += [name]
     endfor
   endif
   if has_key(opts, 'on')
     let opts.type = 'opt'
     for on in z#to_list(opts.on)
       let map_list = on =~? '^<Plug>' ? s:lazy.on_map : s:lazy.on_cmd
-      let map_list[on] = s:pkg_name(a:name)
+      let map_list[on] = name
     endfor
   endif
-  let s:packages += [[a:name, opts]]
+  let s:packages += [[a:path, opts]]
 endfunction
 
 function! s:pkg_cmd(cmd, name) abort
