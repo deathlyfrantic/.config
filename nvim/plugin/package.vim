@@ -72,7 +72,7 @@ for [ft, pkgs] in items(s:lazy.ft)
 endfor
 
 for [cmd, pkg] in items(s:lazy.on_cmd)
-  execute 'command!' cmd 'call <SID>pkg_cmd("'.cmd.'", "'.pkg.'")'
+  execute 'command! -bar' cmd 'call <SID>pkg_cmd("'.cmd.'", "'.pkg.'")'
 endfor
 
 for [map, pkg] in items(s:lazy.on_map)
