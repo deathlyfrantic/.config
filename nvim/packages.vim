@@ -47,7 +47,7 @@ let g:grepper = {
       \ 'rg': {'grepprg': 'rg -H --no-heading -S --vimgrep'}
       \ }
 
-Package 'sbdchd/neoformat'
+Package 'sbdchd/neoformat', {'on': 'Neoformat'}
 augroup z-rc-neoformat
   autocmd!
   autocmd BufWritePre *
@@ -68,7 +68,8 @@ augroup END
 " }}}
 
 " panels {{{
-Package 'ctrlpvim/ctrlp.vim'
+Package 'ctrlpvim/ctrlp.vim', {'on': '<Plug>(ctrlp)'}
+nmap <C-p> <Plug>(ctrlp)
 let g:ctrlp_open_multiple_files = '1jr'
 let g:ctrlp_prompt_mappings = {
       \ 'PrtSelectMove("j")': ['<C-n>', '<C-j>'],
@@ -85,7 +86,7 @@ if executable('rg')
   unlet! igs
 endif
 
-Package 'justinmk/vim-dirvish'
+Package 'justinmk/vim-dirvish', {'on': 'Dirvish'}
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
 
@@ -124,7 +125,8 @@ Package 'google/vim-searchindex'
 nmap * *N
 nmap # #N
 
-Package 'AndrewRadev/switch.vim'
+Package 'AndrewRadev/switch.vim', {'on': 'Switch'}
+nnoremap Q <Cmd>Switch<CR>
 let g:switch_mapping = 'Q'
 let g:switch_custom_definitions = [['on', 'off'], ['yes', 'no']]
 " }}}
