@@ -1,3 +1,5 @@
+Package 'kristijanhusak/vim-packager', {'type': 'opt'}
+
 " filetypes {{{
 Package 'rust-lang/rust.vim', {'for': 'rust'}
 Package 'cespare/vim-toml', {'for': 'toml'}
