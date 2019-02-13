@@ -200,9 +200,6 @@ vnoremap <C-x> <C-x>gv
 inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
 
-" external file processing
-command! -nargs=1 RFC call z#preview(system('rfc '.<args>))
-
 " copy entire buffer to system clipboard
 nnoremap <leader>a m`gg"+yG``
 
