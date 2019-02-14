@@ -1,9 +1,5 @@
 let s:test_buffer = -1
 
-function! FindNearestTest(pattern, atom)
-  return <SID>find_nearest_test(a:pattern, a:atom)
-endfunction
-
 function! s:get_match_lines(start, num) abort
   if a:num == 0
     return getline(a:start)
