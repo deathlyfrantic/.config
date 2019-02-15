@@ -47,8 +47,7 @@ function! s:packager_init() abort
   packadd vim-packager
   call packager#init()
   for [name, opts] in s:packages
-    let func = isdirectory(expand(name)) ? 'local' : 'add'
-    call function('packager#'.func)(name, opts)
+    call packager#{isdirectory(expand(name)) ? 'local' : 'add'}(name, opts)
   endfor
 endfunction
 
