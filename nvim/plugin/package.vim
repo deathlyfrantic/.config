@@ -37,9 +37,12 @@ function! s:pkg_cmd(cmd, name) abort
   execute a:cmd
 endfunction
 
-function! s:pkg_map(map, name) abort
+function! s:pkg_map(map, name, visual) abort
   execute 'silent! unmap' a:map
   execute 'packadd' a:name
+  if a:visual
+    call feedkeys('gv', 'n')
+  endif
   call feedkeys(substitute(a:map, '^<Plug>', "\<Plug>", ''))
 endfunction
 
@@ -75,6 +78,6 @@ for [cmd, pkg] in items(s:lazy.on_cmd)
 endfor
 
 for [map, pkg] in items(s:lazy.on_map)
-  execute 'nmap <expr> <silent>' map '<SID>pkg_map("'.map.'", "'.pkg.'")'
-  execute 'xmap <expr> <silent>' map '<SID>pkg_map("'.map.'", "'.pkg.'")'
+  execute 'nmap <silent>' map ':call <SID>pkg_map("'.map.'", "'.pkg.'", 0)<CR>'
+  execute 'xmap <silent>' map ':call <SID>pkg_map("'.map.'", "'.pkg.'", 1)<CR>'
 endfor
