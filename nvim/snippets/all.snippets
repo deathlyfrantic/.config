@@ -12,3 +12,7 @@ tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
 vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
 no sea takimata sanctus est Lorem ipsum dolor sit amet.
 endsnippet
+
+snippet <expr> modeline "vim modeline"
+'vim:'.(&et ? printf('et sw=%i ts=%i', &sw, &ts) :  printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts)).(&tw ? ' tw='. &tw : '').(&fdm == 'marker' ? ' fdm=marker' : '').':'
+endsnippet
