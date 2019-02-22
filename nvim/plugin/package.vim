@@ -9,7 +9,10 @@ if !s:packager_installed
   let s:packager_installed = 1
 endif
 
-function! s:add_package(path, ...) abort
+function! s:add_package(bang, path, ...) abort
+  if a:bang == '!'
+    unlet! s:packager_initialized
+  endif
   let opts = a:0 ? a:1 : {}
   let name = fnamemodify(a:path, ':t')
   if has_key(opts, 'for')
@@ -47,6 +50,10 @@ function! s:pkg_map(map, name, visual) abort
 endfunction
 
 function! s:packager_init() abort
+  if get(s:, 'packager_initialized', 0)
+    return
+  endif
+  let s:packager_initialized = 1
   packadd vim-packager
   call packager#init()
   for [name, opts] in s:packages
@@ -54,7 +61,7 @@ function! s:packager_init() abort
   endfor
 endfunction
 
-command! -nargs=+ Package call <SID>add_package(<args>)
+command! -bang -nargs=+ Package call <SID>add_package(<q-bang>, <args>)
 command! PackClean call <SID>packager_init() | call packager#clean()
 command! PackInstall call <SID>packager_init() | call packager#install()
 command! PackStatus call <SID>packager_init() | call packager#status()
