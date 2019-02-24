@@ -39,7 +39,7 @@ augroup z-rc-gitgutter
 augroup END
 
 Package 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
-nnoremap g/ :Grepper<CR>
+nnoremap g/ <Cmd>Grepper<CR>
 nmap gs <Plug>(GrepperOperator)
 xmap gs <Plug>(GrepperOperator)
 let g:grepper = {
@@ -59,8 +59,8 @@ augroup END
 Package 'w0rp/ale'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
-nnoremap <silent> [a :ALEPreviousWrap<Enter>
-nnoremap <silent> ]a :ALENextWrap<Enter>
+nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
+nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
 augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview Wrap
