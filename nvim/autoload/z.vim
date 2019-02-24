@@ -114,14 +114,21 @@ function! z#find_project_dir(...) abort
   let markers = ['.git']
   let l:ft = &ft =~? 'javascript' ? 'javascript' : &ft
   call extend(markers, get(ft_markers, l:ft, []))
-  let dir = a:0 ? a:1 : expand('%:h')
-  while dir != expand('~')
+  let start = a:0 ? a:1 : expand('%:h')
+  if start =~? '^term://'
+    let start = getcwd()
+  endif
+  let dir = start
+  while dir != expand('~') && dir != '/'
     if z#any(markers, {d -> isdirectory(dir.'/'.d) || filereadable(dir.'/'.d)})
       return fnamemodify(dir, ':p')
     endif
     let dir = fnamemodify(dir, ':h')
+    if dir == '.'
+      break
+    endif
   endwhile
-  return 0
+  return start
 endfunction
 
 function! z#to_list(x) abort
