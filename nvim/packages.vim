@@ -36,15 +36,6 @@ augroup z-rc-gitgutter
   autocmd BufDelete */.git/COMMIT_EDITMSG GitGutterAll
 augroup END
 
-Package 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
-nnoremap g/ <Cmd>Grepper<CR>
-nmap gs <Plug>(GrepperOperator)
-xmap gs <Plug>(GrepperOperator)
-let g:grepper = {
-      \ 'tools': ['rg', 'git', 'grep'],
-      \ 'rg': {'grepprg': 'rg -H --no-heading -S --vimgrep'}
-      \ }
-
 Package 'sbdchd/neoformat', {'on': 'Neoformat'}
 augroup z-rc-neoformat
   autocmd!
