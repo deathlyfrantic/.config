@@ -4,7 +4,7 @@ function! s:better_ctrl_g() abort
   let parts += [printf('buf %d:', bufnr('%'))]
   let bn = expand('%:p')
   let parts += strlen(bn) ? [printf('"%s"', bn)] : ['"[No Name]"']
-  for attr in [&filetype, &fileformat, &fileencoding]
+  for attr in filter([&filetype, &fileformat, &fileencoding], {_, v -> len(v)})
     let parts += [printf('[%s]', attr)]
   endfor
   let parts += &modified ? ['[modified]'] : []
