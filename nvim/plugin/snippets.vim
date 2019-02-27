@@ -66,7 +66,7 @@ function! s:parse_snippet_file(file) abort
       let in_snippet = 1
       let snippet = s:parse_snippet_line(line)
     elseif line =~? '^endsnippet' && in_snippet
-      let snippet.rhs = join(body, "\n")
+      let snippet.rhs = join(body, snippet.expr ? '' : "\n")
       let snippets += [snippet]
       let [in_snippet, body, snippet] = [0, [], {}]
     elseif in_snippet
