@@ -14,5 +14,11 @@ no sea takimata sanctus est Lorem ipsum dolor sit amet.
 endsnippet
 
 snippet <expr> modeline "vim modeline"
-'vim:set '.(len(&ft) ? printf('ft=%s ', &ft) : '').(&et ? printf('et sw=%i ts=%i', &sw, &ts) :  printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts)).(&tw ? ' tw='. &tw : '').(&fdm == 'marker' ? ' fdm=marker' : '').':'
+'vim:set '
+	. (len(&ft) ? printf('ft=%s ', &ft) : '')
+	. (&et ? printf('et sw=%i ts=%i', &sw, &ts) 
+		: printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts))
+	. (&tw ? ' tw='. &tw : '')
+	. (&fdm == 'marker' ? ' fdm=marker' : '')
+	. ':'
 endsnippet
