@@ -37,8 +37,11 @@ augroup z-rc-gitgutter
 augroup END
 
 Package 'sbdchd/neoformat', {'on': 'Neoformat'}
+let g:neoformat_basic_format_trim = 1
+let g:neoformat_enabled_yaml = []
 augroup z-rc-neoformat
   autocmd!
+  autocmd FileType mail let b:neoformat_basic_format_trim = 0
   autocmd BufWritePre *
         \ if !get(b:, 'no_neoformat', 0) |
         \   silent Neoformat |
