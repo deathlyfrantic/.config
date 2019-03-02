@@ -167,16 +167,6 @@ nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
-" strip trailing whitespace
-command! -bar StripTrailingWhitespace %s/\s\+$//e | nohlsearch
-augroup z-rc-trailing-whitespace
-  autocmd!
-  autocmd BufWritePre *
-        \ if &ft !~? 'mail\|snippets\|conf' |
-        \   StripTrailingWhitespace |
-        \ endif
-augroup END
-
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s/\r//g
 
