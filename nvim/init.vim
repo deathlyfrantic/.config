@@ -34,6 +34,7 @@ set matchpairs+=<:>
 set nojoinspaces
 set nostartofline
 set nowrap
+set omnifunc=syntaxcomplete#Complete
 set shiftround
 set shiftwidth=4
 set shortmess-=F
@@ -63,12 +64,6 @@ augroup END
 
 augroup z-rc-commands
   autocmd!
-
-  " omni-complete
-  autocmd FileType *
-        \ if &omnifunc == '' |
-        \   set omnifunc=syntaxcomplete#Complete |
-        \ endif
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
