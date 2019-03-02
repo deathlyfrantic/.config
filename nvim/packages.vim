@@ -160,8 +160,7 @@ Package 'tpope/vim-dadbod', {'on': 'DB'}
 function! s:db_command(...) abort
   let cmd = ':DB '
   if exists('b:db_url')
-    let cmd .= 'b:db_url '
-    let cmd .= a:0 ? a:1.' ' : ''
+    let cmd .= 'b:db_url '.(a:0 ? a:1.' ' : '')
   endif
   return cmd
 endfunction
