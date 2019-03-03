@@ -1,7 +1,7 @@
 function! s:operator(type) abort
   let regsave = @@
   let selsave = &selection
-  if a:type =~? 'v\|line'
+  if a:type =~? 'v\|line\|'
     silent execute 'normal! y'
   else
     silent execute 'normal! `[v`]y'
@@ -33,6 +33,6 @@ command! -nargs=+ Grep call <SID>grep(<q-args>)
 
 execute 'nnoremap g/ :Grep '
 nnoremap <silent> <Plug>(Grep) :set opfunc=<SID>operator<CR>g@
-xnoremap <silent> <Plug>(Grep) <Cmd>call <SID>operator(visualmode())<CR>
+xnoremap <silent> <Plug>(Grep) <Cmd>call <SID>operator(mode())<CR>
 nmap gs <Plug>(Grep)
 xmap gs <Plug>(Grep)

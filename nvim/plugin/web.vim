@@ -4,7 +4,7 @@ function! s:operator(type) abort
   let regsave = @@
   let selsave = &selection
   let &selection = 'inclusive'
-  if a:type =~? 'v\|line'
+  if a:type =~? 'v\|line\|'
     silent execute 'normal! y'
   else
     silent execute 'normal! `[v`]y'
@@ -31,6 +31,6 @@ command! -nargs=1 Web call <SID>browser(<f-args>)
 command! -nargs=1 Search call <SID>search(<f-args>)
 
 nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>operator<CR>g@
-xnoremap <silent> <Plug>(websearch) <Cmd>call <SID>operator(visualmode())<CR>
+xnoremap <silent> <Plug>(websearch) <Cmd>call <SID>operator(mode())<CR>
 nmap gw <Plug>(websearch)
 xmap gw <Plug>(websearch)
