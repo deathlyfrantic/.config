@@ -1,7 +1,7 @@
 function! s:operator(type) abort
   let selsave = &selection
   let &selection = 'inclusive'
-  if a:type !~? 'v\|line'
+  if a:type !~? 'v\|line\|'
     silent execute 'normal! `[v`]'
   endif
   let l:equalprg = &equalprg
@@ -12,6 +12,6 @@ function! s:operator(type) abort
 endfunction
 
 nnoremap <silent> <Plug>(pipe) :set opfunc=<SID>operator<CR>g@
-xnoremap <silent> <Plug>(pipe) <Cmd>call <SID>operator(visualmode())<CR>
+xnoremap <silent> <Plug>(pipe) <Cmd>call <SID>operator(mode())<CR>
 nmap g\| <Plug>(pipe)
 xmap g\| <Plug>(pipe)
