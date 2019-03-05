@@ -18,7 +18,7 @@ highlight CursorLineNr          guifg=#585858 guibg=#262626 gui=NONE           c
 highlight LineNr                guifg=#444444 guibg=NONE    gui=NONE           cterm=NONE
 highlight StatusLine            guifg=#080808 guibg=#877a5c gui=NONE           cterm=NONE
 highlight StatusLineNC          guifg=#080808 guibg=#4e473a gui=NONE           cterm=NONE
-highlight VertSplit             guifg=#080808 guibg=NONE    gui=NONE           cterm=NONE
+highlight VertSplit             guifg=#4e473a guibg=NONE    gui=NONE           cterm=NONE
 highlight Comment               guifg=#585858 guibg=NONE    gui=NONE           cterm=NONE
 highlight String                guifg=#9e9e9e guibg=NONE    gui=NONE           cterm=NONE
 highlight MatchParen            guifg=#e09a5c guibg=#404040 gui=bold           cterm=bold
