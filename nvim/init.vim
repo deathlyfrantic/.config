@@ -167,6 +167,9 @@ nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
+" open terminal split
+nnoremap <C-W><C-t> :botright vsp +term<CR>:startinsert<CR>
+
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s/\r//g
 
