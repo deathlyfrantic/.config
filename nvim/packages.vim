@@ -22,9 +22,6 @@ Package 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = z#rtrim(system('which racer'))
 let g:racer_experimental_completer = 1
 
-Package 'ludovicchabant/vim-gutentags'
-let g:gutentags_ctags_tagfile = '.ctags'
-
 Package 'airblade/vim-gitgutter'
 omap ig <Plug>GitGutterTextObjectInnerPending
 omap ag <Plug>GitGutterTextObjectOuterPending
