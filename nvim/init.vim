@@ -281,7 +281,6 @@ set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%{&paste?'\[paste]\ ':''}
-set statusline+=%{gutentags#statusline('[Gutentags:\ ',']')}
 set statusline+=%{ObsessionStatus()}
 set statusline+=\ \ \ %l,%c%V\ \ \ %P
 " }}}
