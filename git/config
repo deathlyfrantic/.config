@@ -4,6 +4,7 @@
 [core]
     editor = nvim
     autocrlf = input
+    hooksPath = ~/.config/git/hooks
 [merge]
     conflictstyle = diff3
     tool = vimdiff
@@ -29,5 +30,6 @@
     deploy = "!git push origin master && git push live master"
     deploytest = "!git push origin master && git push test master"
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h^^^%Cred%d %Creset%s^^^%Cgreen(%ar)^^^%C(bold blue)%an%Creset' | column -s '^^^' -t"
+    ctags = "!~/.config/git/hooks/make-ctags"
 [commit]
-	verbose = 1
+    verbose = 1
