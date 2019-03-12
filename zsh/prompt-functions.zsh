@@ -96,9 +96,9 @@ function prompt-git-status {
     prompt-color-echo / black bright
 
     # staged/conflicts/changed/untracked
-    local staged=$(echo $porcelain | grep -c '^[12] [MADRC]\.')
+    local staged=$(echo $porcelain | grep -c '^[12] [MADRC].')
     local conflicts=$(echo $porcelain | grep -c '^u ')
-    local changed=$(echo $porcelain | grep -c '^[12] \.[MADRC]')
+    local changed=$(echo $porcelain | grep -c '^[12] .[MADRC]')
     local untracked=$(echo $porcelain | grep -c '^? ')
     prompt-git-status-echo-if-nonzero $staged "-" yellow bright
     prompt-git-status-echo-if-nonzero $conflicts "!" red bright
