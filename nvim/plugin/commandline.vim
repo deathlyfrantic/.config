@@ -51,7 +51,7 @@ endfunction
 
 function! s:kill_line() abort
   let [pos, cmd] = [getcmdpos(), getcmdline()]
-  return pos == 1 ? '' : cmd[:pos-2]
+  return pos == 1 ? '' : cmd[:pos - 2]
 endfunction
 
 cnoremap <C-a> <Home>
