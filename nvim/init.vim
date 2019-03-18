@@ -187,6 +187,10 @@ vnoremap <C-x> <C-x>gv
 " completion
 inoremap <expr> <silent> <Tab> completion#tab(1)
 inoremap <expr> <silent> <S-Tab> completion#tab(0)
+augroup z-rc-completion
+  autocmd!
+  autocmd CompleteDone * call completion#undouble()
+augroup END
 
 " copy entire buffer to system clipboard
 nnoremap <leader>a m`gg"+yG``
