@@ -50,10 +50,10 @@ function! s:pkg_ft(ft, pkgs, clear) abort
   augroup END
 endfunction
 
-function! s:pkg_cmd(cmd, name) abort
+function! s:pkg_cmd(cmd, name, bang, args) abort
   execute 'silent! delcommand' a:cmd
   execute 'packadd' a:name
-  execute a:cmd
+  execute printf('%s%s %s', a:cmd, a:bang, a:args)
 endfunction
 
 function! s:pkg_map(map, name, visual) abort
@@ -90,7 +90,8 @@ for [ft, pkgs] in items(s:lazy.ft)
 endfor
 
 for [cmd, pkg] in items(s:lazy.on_cmd)
-  execute 'command! -bar' cmd 'call <SID>pkg_cmd("'.cmd.'", "'.pkg.'")'
+  execute 'command! -bang -bar -nargs=*' cmd
+        \ 'call <SID>pkg_cmd("'.cmd.'", "'.pkg.'", <q-bang>, <q-args>)'
 endfor
 
 for [map, pkg] in items(s:lazy.on_map)
