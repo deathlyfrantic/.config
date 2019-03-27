@@ -112,12 +112,8 @@ function! z#find_project_dir(...) abort
         \ 'python': ['Pipfile', 'Pipfile.lock', 'requirements.txt']
         \ }
   let markers = ['.git']
-  let l:ft = &ft =~? 'javascript' ? 'javascript' : &ft
-  call extend(markers, get(ft_markers, l:ft, []))
-  let start = a:0 ? a:1 : expand('%:h')
-  if start =~? '^term://'
-    let start = getcwd()
-  endif
+  call extend(markers, get(ft_markers, &ft, []))
+  let start = a:0 ? a:1 : getcwd()
   let dir = start
   while dir != expand('~') && dir != '/'
     if z#any(markers, {d -> isdirectory(dir.'/'.d) || filereadable(dir.'/'.d)})
