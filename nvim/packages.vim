@@ -50,11 +50,11 @@ let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
 nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
-nnoremap <silent> <CR> <Cmd>ALEDetail<CR>
 augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview Wrap
   autocmd FileType ale-preview nnoremap <silent> <buffer> <CR> :quit<CR>
+  autocmd FileType *\(qf\)\@<! nnoremap <silent> <buffer> <CR> :ALEDetail<CR>
 augroup END
 " }}}
 
