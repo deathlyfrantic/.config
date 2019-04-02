@@ -55,6 +55,7 @@ augroup z-rc-ale
   autocmd FileType ale-preview Wrap
   autocmd FileType ale-preview nnoremap <silent> <buffer> <CR> :quit<CR>
   autocmd FileType *\(qf\)\@<! nnoremap <silent> <buffer> <CR> :ALEDetail<CR>
+  autocmd FileType java let b:ale_enabled = 0
 augroup END
 " }}}
 
