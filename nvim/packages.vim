@@ -78,7 +78,7 @@ if executable('rg')
   unlet! igs
 endif
 
-Package 'justinmk/vim-dirvish', {'on': 'Dirvish'}
+Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
 
