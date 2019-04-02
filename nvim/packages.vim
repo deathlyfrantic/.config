@@ -73,8 +73,6 @@ if executable('rg')
   let igs = join(map(split(&wildignore, ','), {i, v -> printf("-g '!%s'", v)}))
   let g:ctrlp_user_command = printf('rg %s %%s --files -g ""', igs)
   let g:ctrlp_use_caching = 0
-  let &grepprg = printf('rg --vimgrep %s $*', igs)
-  set grepformat=%f:%l:%c:%m
   unlet! igs
 endif
 
