@@ -1,0 +1,1 @@
+iabbrev <buffer> fn function
