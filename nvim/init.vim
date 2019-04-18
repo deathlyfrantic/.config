@@ -169,6 +169,7 @@ nnoremap <C-k> <C-W>k
 
 " open terminal split
 nnoremap <C-W><C-t> :botright vsp +term<CR>:startinsert<CR>
+nnoremap <C-W>T :botright sp +term<CR>:startinsert<CR>
 nnoremap <C-W>t :belowright 20sp +term<CR>:startinsert<CR>
 
 " un-dos files with ^M line endings
