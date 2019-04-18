@@ -65,6 +65,9 @@ augroup END
 augroup z-rc-commands
   autocmd!
 
+  " always turn off paste (just in case)
+  autocmd InsertLeave * set nopaste
+
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
         \ if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish') |
