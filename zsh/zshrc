@@ -5,13 +5,13 @@ autoload colors; colors
 
 typeset -A fg_bright
 if [[ -n "$COLORTERM" ]]; then
-    fg_bright+=(black   $(echo -e '\e[90;m'))
-    fg_bright+=(red     $(echo -e '\e[91;m'))
-    fg_bright+=(green   $(echo -e '\e[92;m'))
-    fg_bright+=(yellow  $(echo -e '\e[93;m'))
-    fg_bright+=(blue    $(echo -e '\e[94;m'))
-    fg_bright+=(magenta $(echo -e '\e[95;m'))
-    fg_bright+=(cyan    $(echo -e '\e[96;m'))
+    fg_bright+=(black   $(echo -e '\e[90m'))
+    fg_bright+=(red     $(echo -e '\e[91m'))
+    fg_bright+=(green   $(echo -e '\e[92m'))
+    fg_bright+=(yellow  $(echo -e '\e[93m'))
+    fg_bright+=(blue    $(echo -e '\e[94m'))
+    fg_bright+=(magenta $(echo -e '\e[95m'))
+    fg_bright+=(cyan    $(echo -e '\e[96m'))
 else
     set -A fg_bright ${(kv)fg_bold}
 fi
