@@ -1,10 +1,10 @@
 function set-up-prompt {
     local user=$(prompt-color-echo %n blue)
-    local at=$(prompt-color-echo @ blue bold)
+    local at=$(prompt-color-echo @ blue bright)
     local host=$(prompt-color-echo %m blue)
     local cwd='${${(%):-%~}//\//%{$fg_bright[black]%\}/%{$reset_color%\}}'
     local jobs='%(1j.$(prompt-widget jobs %j before).)'
-    local char=' %(!.%{$fg_bold[red]%}#.%{$fg_bright[green]%}$)'
+    local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
     local base="$cwd$jobs$char%{$reset_color%} "
 
     if [[ $SSH_CONNECTION != '' ]]; then
