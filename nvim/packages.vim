@@ -147,10 +147,6 @@ nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
 noremap <silent> <leader>gb :Gbrowse!<CR>
-augroup z-rc-fugitive
-  autocmd!
-  autocmd BufEnter * call FugitiveDetect(@%)
-augroup END
 
 Package 'tpope/vim-dadbod', {'on': 'DB'}
 function! s:db_command(...) abort
