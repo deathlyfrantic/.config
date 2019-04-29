@@ -66,7 +66,7 @@ function! s:pkg_map(map, name, visual) abort
 endfunction
 
 function! s:packager_init() abort
-  if get(s:, 'packager_initialized', 0)
+  if get(s:, 'packager_initialized')
     return
   endif
   let s:packager_initialized = 1
