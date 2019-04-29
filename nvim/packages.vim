@@ -109,11 +109,6 @@ let g:lion_squeeze_spaces = 1
 Package 'google/vim-searchindex'
 nmap * *N
 nmap # #N
-
-Package 'AndrewRadev/switch.vim', {'on': 'Switch'}
-nnoremap Q <Cmd>Switch<CR>
-let g:switch_mapping = 'Q'
-let g:switch_custom_definitions = [['on', 'off'], ['yes', 'no']]
 " }}}
 
 " tpope's special section {{{
