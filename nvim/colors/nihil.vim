@@ -1,10 +1,3 @@
-if !has('gui_running') && !&termguicolors
-  if &t_Co < 256
-    echoerr 'The nihil colorscheme requires a 256-color terminal or true-color Vim (Neovim or Gvim).'
-    finish
-  endif
-endif
-
 highlight clear
 
 if exists('syntax_on')

@@ -244,7 +244,6 @@ command! ManClose call <SID>close_man_pages()
 " colors {{{
 set background=dark
 if len($COLORTERM) " heuristic to determine whether we're using terminal.app
-  set termguicolors
   if strftime('%H') > 19 || strftime('%H') < 9
     colorscheme copper
   else

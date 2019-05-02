@@ -1,7 +1,4 @@
-if &t_Co < 256
-  echoerr 'The album-256 colorscheme requires a 256-color Vim.'
-  finish
-endif
+set notermguicolors
 
 highlight clear
 
