@@ -1,7 +1,4 @@
-if !has('gui_running') && !&termguicolors
-  echoerr 'The gaia colorscheme requires a true-color Vim (Neovim or Gvim).'
-  finish
-endif
+set termguicolors
 
 highlight clear
 
