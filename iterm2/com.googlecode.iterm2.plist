@@ -267,19 +267,19 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSColorPanel</key>
-	<string>1908 391 228 232 0 0 2560 1417 </string>
+	<string>1955 179 228 232 0 0 2560 1417 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1134 91 445 77 0 0 2560 1417 </string>
+	<string>782 66 445 77 0 0 2560 1417 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>970 768 620 392 0 0 2560 1417 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>220 120 606 469 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>911 905 918 423 0 0 2560 1417 </string>
+	<string>852 943 918 423 0 0 2560 1417 </string>
 	<key>NSWindow Frame com.apple.typography_panel_SourceCodePro-Regular</key>
 	<string>346 503 260 136 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 2560 1417 0 0 2560 1417 </string>
+	<string>0 24 2560 1393 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>738 540 910 526 0 0 2560 1417 </string>
 	<key>NeverWarnAboutMeta</key>
@@ -1023,7 +1023,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Thin Strokes</key>
-			<integer>3</integer>
+			<integer>0</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
@@ -1039,7 +1039,7 @@
 			<key>Use Non-ASCII Font</key>
 			<false/>
 			<key>Vertical Spacing</key>
-			<real>1</real>
+			<real>1.0050298851656625</real>
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
@@ -1120,7 +1120,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-12-06T06:45:37Z</date>
+	<date>2019-05-19T10:09:25Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
@@ -1150,7 +1150,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.6</string>
+	<string>3.2.9</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
