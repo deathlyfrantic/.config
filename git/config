@@ -1,5 +1,5 @@
 [user]
-    email = zandrmartin@gmail.com
+    email = git@zandr.me
     name = Zandr Martin
 [core]
     editor = nvim
