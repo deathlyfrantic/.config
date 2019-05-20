@@ -566,7 +566,7 @@ key_bindings:
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"  } # Alt + |
 
   # tmux stuff: prefix
-  - { key: F,     mods: Command,       chars: "\x1b[24~"       }
+  - { key: B,     mods: Command,       chars: "\x1b[24~"       }
   # switch panes/tabs/whatever
   - { key: Key1,  mods: Command,       chars: "\x1b[24~1"      }
   - { key: Key2,  mods: Command,       chars: "\x1b[24~2"      }
