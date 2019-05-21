@@ -157,5 +157,3 @@ nnoremap <expr> <leader>di <SID>db_command('INSERT INTO')
 nnoremap <expr> <leader>du <SID>db_command('UPDATE')
 nnoremap <expr> <leader>dd <SID>db_command('DELETE FROM')
 " }}}
-
-" vim: fdm=marker
