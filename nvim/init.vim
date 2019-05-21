@@ -32,6 +32,7 @@ set lazyredraw
 set listchars=space:␣,eol:¬,tab:▸⁃,trail:␣,precedes:⤷,extends:⤶
 set matchpairs+=<:>
 set nojoinspaces
+set nomodeline
 set nostartofline
 set nowrap
 set omnifunc=syntaxcomplete#Complete
