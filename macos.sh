@@ -47,3 +47,6 @@ ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Pro
 # set up readline-style key bindings
 [ -d ~/Library/KeyBindings ] || mkdir ~/Library/KeyBindings
 cp ~/.config/DefaultKeyBinding.dict ~/Library/KeyBindings/
+
+# populate terminfo database for tmux
+tic ~/.config/tmux/tmux-256color.terminfo
