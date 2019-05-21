@@ -156,16 +156,18 @@ function! s:close_test_buffer(...)
   silent execute 'bd!' s:test_buffer
 endfunction
 
-function! s:on_term_exit(job_id, exit_code, event)
+function! s:on_term_exit(close, job_id, exit_code, event)
   if a:exit_code == 0
-    call timer_start(1000, function('s:close_test_buffer'))
+    if a:close
+      call timer_start(1000, function('s:close_test_buffer'))
+    endif
     call z#echohl('GitGutterAdd', 'Tests pass. (Test runner exit code was 0.)')
   else
     call s:scroll_to_end()
   endif
 endfunction
 
-function! s:scroll_to_end() abort
+function! s:scroll_to_end(...) abort
   let current_window = win_getid()
   for window in win_findbuf(s:test_buffer)
     call win_gotoid(window)
@@ -174,12 +176,12 @@ function! s:scroll_to_end() abort
   call win_gotoid(current_window)
 endfunction
 
-function! s:run_tests(cmd) abort
+function! s:run_tests(cmd, close) abort
   call s:ensure_test_window()
   let current_window = win_getid()
   call win_gotoid(win_findbuf(s:test_buffer)[0])
   set nomodified
-  call termopen(a:cmd, {'on_exit': function('s:on_term_exit')})
+  call termopen(a:cmd, {'on_exit': function('s:on_term_exit', [a:close])})
   call win_gotoid(current_window)
 endfunction
 
@@ -188,7 +190,7 @@ function! s:get_normalized_filetype() abort
   return &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
 endfunction
 
-function! s:orchestrate_tests(selection) abort
+function! s:orchestrate_tests(selection, bang) abort
   let test_cmds = []
   let errs = []
   try
@@ -208,16 +210,16 @@ function! s:orchestrate_tests(selection) abort
   endtry
   let current_window = win_getid()
   if len(test_cmds)
-    call s:run_tests(test_cmds[0])
+    call s:run_tests(test_cmds[0], a:bang != '!')
   else
     call z#echoerr(join(errs, ' and '))
   endif
   call win_gotoid(current_window)
 endfunction
 
-command! RunTestNearest call <SID>orchestrate_tests('nearest')
-command! RunTestFile call <SID>orchestrate_tests('file')
-command! RunTestSuite call <SID>orchestrate_tests('all')
+command! -bang RunTestNearest call <SID>orchestrate_tests('nearest', <q-bang>)
+command! -bang RunTestFile call <SID>orchestrate_tests('file', <q-bang>)
+command! -bang RunTestSuite call <SID>orchestrate_tests('all', <q-bang>)
 
 nnoremap <Plug>(run-test-nearest) :RunTestNearest<CR>
 nnoremap <Plug>(run-test-file) :RunTestFile<CR>
