@@ -6,7 +6,7 @@ let s:marker = '%#;'
 let s:snippets = get(s:, 'snippets', {})
 
 function! s:available_snippets() abort
-  return extend(copy(s:snippets), b:snippets)
+  return extend(copy(s:snippets), get(b:, 'snippets', {}))
 endfunction
 
 function! snippets#available_snippets() abort
