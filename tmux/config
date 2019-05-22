@@ -56,8 +56,8 @@ set -g message-style fg=colour254,bg=colour234
 set -g status-justify right
 set -g status-left ""
 set -g status-right ""
-set -g window-status-format "#[fg=colour247,bg=colour234] #I #W "
-set -g window-status-current-format "#[fg=white,bg=colour240,noreverse] #I #W "
+set -g window-status-format "#[fg=colour247,bg=colour234] #I #T "
+set -g window-status-current-format "#[fg=white,bg=colour240,noreverse] #I #T "
 
 # hide status bar if there's only a single window
 set-hook -g window-linked \
