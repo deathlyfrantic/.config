@@ -44,6 +44,7 @@ set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
 set textwidth=80
 set title
+set titlestring=nvim\ %t
 set undofile
 set wildignore+=node_modules/,package-lock.json,*.min.js    " javascript
 set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/ " python
