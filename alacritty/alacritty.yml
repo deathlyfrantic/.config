@@ -487,6 +487,7 @@ key_bindings:
   - { key: NumpadEnter,             chars: "\n"                          }
 
   # make alt work on macos
+  # (from https://github.com/jwilm/alacritty/issues/62#issuecomment-347552058)
   - { key: A,         mods: Alt,       chars: "\x1ba"  }
   - { key: B,         mods: Alt,       chars: "\x1bb"  }
   - { key: C,         mods: Alt,       chars: "\x1bc"  }
@@ -563,7 +564,11 @@ key_bindings:
   - { key: Backslash, mods: Alt,       chars: "\x1b\\" } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"  } # Alt + |
 
-  # tmux stuff: prefix
+  # make ctrl-q work (https://github.com/jwilm/alacritty/issues/1359)
+  - { key: Q,         mods: Control,   chars: "\x11"   } # Ctrl + Q
+
+  # tmux (https://arslan.io/2018/02/05/gpu-accelerated-terminal-alacritty/)
+  # prefix
   - { key: B,     mods: Command,       chars: "\x1b[24~"       }
   # switch panes/tabs/whatever
   - { key: Key1,  mods: Command,       chars: "\x1b[24~1"      }
