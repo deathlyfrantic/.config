@@ -221,10 +221,10 @@ command! -bang RunTestNearest call <SID>orchestrate_tests('nearest', <q-bang>)
 command! -bang RunTestFile call <SID>orchestrate_tests('file', <q-bang>)
 command! -bang RunTestSuite call <SID>orchestrate_tests('all', <q-bang>)
 
-nnoremap <Plug>(run-test-nearest) :RunTestNearest<CR>
-nnoremap <Plug>(run-test-file) :RunTestFile<CR>
-nnoremap <Plug>(run-test-suite) :RunTestSuite<CR>
+nmap <silent> <leader>t :RunTestNearest<CR>
+nmap <silent> <leader>T :RunTestFile<CR>
+nmap <silent> <leader><C-t> :RunTestSuite<CR>
 
-nmap <silent> <leader>t <Plug>(run-test-nearest)
-nmap <silent> <leader>T <Plug>(run-test-file)
-nmap <silent> <leader><C-t> <Plug>(run-test-suite)
+nmap <silent> g<leader>t :RunTestNearest!<CR>
+nmap <silent> g<leader>T :RunTestFile!<CR>
+nmap <silent> g<leader><C-t> :RunTestSuite!<CR>
