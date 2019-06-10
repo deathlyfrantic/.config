@@ -282,6 +282,6 @@ set statusline+=\ %h%m%r%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%{&paste?'\[paste]\ ':''}
 set statusline+=%{ObsessionStatus()}
-set statusline+=\ \ \ %l,%c%V\ \ \ %P
+set statusline+=\ \ \ %l,%c%V%6P
 " }}}
 " --- end colors and appearance --- }}}
