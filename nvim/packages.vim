@@ -75,12 +75,10 @@ Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
 
-Package 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
-let g:mundo_preview_bottom = 1
-let g:mundo_preview_statusline = 'Mundo Preview'
-let g:mundo_tree_statusline = 'Mundo'
-let g:mundo_verbose_graph = 0
-nnoremap <silent> <C-q> <Cmd>MundoToggle<CR>
+Package 'mbbill/undotree', {'on': 'UndotreeToggle'}
+let g:undotree_WindowLayout = 2
+let g:undotree_SetFocusWhenToggle = 1
+nnoremap <silent> <C-q> :UndotreeToggle<CR>
 
 Package 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 let g:tagbar_autofocus = 1
