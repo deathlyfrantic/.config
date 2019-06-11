@@ -91,7 +91,7 @@ function! s:javascript_mocha(selection) abort
     let escaped = substitute(test, '\([{\[()\]}]\)', '\\\1', 'g')
     return printf('npx mocha -- --grep="%s"', escaped)
   elseif a:selection == 'file'
-    return printf('npx mocha -- %s', expand('%:p'))
+    return printf('npx mocha -- spec %s', expand('%:p'))
   endif
   return 'npm test'
 endfunction
