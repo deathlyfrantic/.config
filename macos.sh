@@ -50,3 +50,10 @@ cp ~/.config/DefaultKeyBinding.dict ~/Library/KeyBindings/
 
 # populate terminfo database for tmux
 tic ~/.config/tmux/tmux-256color.terminfo
+
+# link files that don't work with XDG dirs
+cd ~
+ln -s ~/.config/urlview .urlview
+ln -s ~/.config/inputrc .inputrc
+ln -s ~/.config/bin .
+cd -
