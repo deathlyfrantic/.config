@@ -42,7 +42,7 @@ curl https://sh.rustup.rs -sSf | sh
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
 
 # link custom firefox css
-ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Profile/$profile/chrome/userChrome.css
+ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Profiles/$profile/chrome/userChrome.css
 
 # set up readline-style key bindings
 [ -d ~/Library/KeyBindings ] || mkdir ~/Library/KeyBindings
