@@ -106,13 +106,12 @@ function! z#all(items, f) abort
 endfunction
 
 function! z#find_project_dir(...) abort
-  let ft_markers = {
-        \ 'javascript': ['node_modules', 'package.json', 'package-lock.json'],
-        \ 'rust': ['Cargo.toml', 'Cargo.lock'],
-        \ 'python': ['Pipfile', 'Pipfile.lock', 'requirements.txt']
-        \ }
-  let markers = ['.git']
-  call extend(markers, get(ft_markers, &ft, []))
+  let markers = [
+        \ 'Cargo.toml', 'Cargo.lock',
+        \ 'node_modules', 'package.json', 'package-lock.json',
+        \ 'requirements.txt',
+        \ '.git',
+        \ ]
   let start = a:0 ? a:1 : getcwd()
   let dir = start
   while dir != expand('~') && dir != '/'
