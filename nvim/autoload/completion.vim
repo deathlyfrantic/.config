@@ -35,18 +35,6 @@ function! completion#email(findstart, base) abort
   return map(emails, {_, alias -> substitute(alias, '^alias \w\+ ', '', '')})
 endfunction
 
-function! completion#snippet(findstart, base) abort
-  if a:findstart
-    return completion#findstart()
-  endif
-  if !exists('*snippets#available_snippets')
-    return []
-  endif
-  let snippets = snippets#available_snippets()
-  let keys = filter(sort(keys(snippets)), {_, key -> key =~? a:base})
-  return map(keys, {_, key -> {'word': key, 'menu': snippets[key]}})
-endfunction
-
 function! completion#undouble()
   " stolen from Damian Conway
   " (https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/.vimrc#L1285-L1298)

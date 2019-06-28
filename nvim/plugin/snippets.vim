@@ -141,6 +141,19 @@ function! s:edit(...) abort
   execute 'e' expand(printf('$VIMHOME/snippets/%s.snippets', name))
 endfunction
 
+function! snippets#complete(findstart, base) abort
+  if a:findstart
+    return completion#findstart()
+  endif
+  let snippets = snippets#available_snippets()
+  let keys = filter(sort(keys(snippets)), {_, key -> key =~? a:base})
+  return map(keys, {_, key -> {'word': key, 'menu': snippets[key]}})
+endfunction
+
+if empty(&completefunc)
+  set completefunc=snippets#complete
+endif
+
 autocmd VimEnter * call <SID>load_global_snippets()
 autocmd FileType * call <SID>load_filetype_snippets()
 
