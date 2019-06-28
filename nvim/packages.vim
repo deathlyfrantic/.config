@@ -96,6 +96,10 @@ for [i, k] in z#enumerate(keys, 1)
   execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', k, i)
 endfor
 unlet! keys i k
+
+Package 'wellle/tmux-complete.vim'
+let g:tmuxcomplete#trigger = ''
+inoremap <C-x><C-t> <Cmd>call completion#wrap('tmuxcomplete#complete')<CR>
 " }}}
 
 " text manipulation {{{
