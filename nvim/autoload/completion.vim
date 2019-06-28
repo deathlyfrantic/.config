@@ -26,8 +26,7 @@ function! completion#email(findstart, base) abort
     return completion#findstart()
   endif
   if !exists('s:email_aliases')
-    let files = globpath('$XDG_CONFIG_HOME/mutt', '*', 0, 1)
-    let lines = z#flatten(map(files, {_, file -> readfile(file)}))
+    let lines = readfile(expand('$XDG_CONFIG_HOME/mutt/aliases.muttrc'))
     let s:email_aliases = filter(lines, {_, line -> line =~? '^alias'})
   endif
   let emails = sort(filter(deepcopy(s:email_aliases),
