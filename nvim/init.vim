@@ -22,7 +22,6 @@ endif
 set cinoptions+=:0,(0
 set colorcolumn=+1
 set completeopt-=preview
-set completefunc=completion#snippet
 set cursorline
 set expandtab
 set fillchars=fold:-
