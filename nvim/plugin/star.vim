@@ -83,7 +83,7 @@ function! s:open_star_buffer(mode) abort
   enew
   let &l:statusline='[Star ('.z#find_project_dir().')] '.s:find_cmd()
   let cmd = s:cmd(a:mode)
-  set nomodifiable nobuflisted buftype=nofile
+  setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
   call termopen(cmd, {'on_exit': function('s:on_exit', [a:mode])})
   silent! execute 'resize' line('$')
