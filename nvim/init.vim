@@ -87,7 +87,8 @@ augroup z-rc-commands
 
   " see :help last-position-jump
   autocmd BufReadPost *
-        \ if &ft != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") |
+        \ if expand('%') !~ 'COMMIT_EDITMSG'
+        \     && line("'\"") > 1 && line("'\"") <= line("$") |
         \   execute "normal! g`\"zvzz" |
         \ endif
 
