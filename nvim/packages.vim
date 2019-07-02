@@ -43,8 +43,6 @@ augroup z-rc-neoformat
 augroup END
 
 Package 'w0rp/ale'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
 nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
