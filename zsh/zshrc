@@ -4,7 +4,7 @@ fpath=(/usr/local/share/zsh-completions/ $fpath)
 autoload colors; colors
 
 typeset -A fg_bright
-if [[ -n "$COLORTERM" || $TERM_PROGRAM == "Apple_Terminal" ]]; then
+if [[ -n "$COLORTERM" || -n $VIMHOME || $TERM_PROGRAM == "Apple_Terminal" ]]; then
     fg_bright+=(black   $(echo -e '\e[90m'))
     fg_bright+=(red     $(echo -e '\e[91m'))
     fg_bright+=(green   $(echo -e '\e[92m'))
