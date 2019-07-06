@@ -12,12 +12,6 @@ if has('vim_starting')
 endif
 " --- end startup --- }}}
 
-" work around alacritty/tmux cursor shape bug
-" https://github.com/jwilm/alacritty/issues/2398#issuecomment-489818162
-if len($TMUX) && len($ALACRITTY_LOG)
-  set guicursor=
-endif
-
 " --- general settings --- {{{
 set cinoptions+=:0,(0
 set colorcolumn=+1
