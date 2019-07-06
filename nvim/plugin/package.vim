@@ -7,6 +7,12 @@ if !s:packager_installed
   execute '!git clone https://github.com/kristijanhusak/vim-packager'
         \ expand('$VIMHOME/pack/packager/opt/vim-packager')
   let s:packager_installed = 1
+  augroup package-install
+    autocmd!
+    autocmd VimEnter * PackInstall |
+          \ autocmd! package-install |
+          \ augroup! package-install
+  augroup END
 endif
 
 function! s:add_package(bang, path, ...) abort
