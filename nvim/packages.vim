@@ -46,6 +46,7 @@ Package 'w0rp/ale'
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
 nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
+nnoremap Q <Cmd>ALEDetail<CR>
 augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview Wrap
