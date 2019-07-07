@@ -20,6 +20,10 @@ bind-key j select-pane -D
 bind-key k select-pane -U
 bind-key l select-pane -R
 
+# move windows
+bind-key S-Left swap-window -t -1
+bind-key S-Right swap-window -t +1
+
 # resize panes
 bind-key Left resize-pane -L
 bind-key Right resize-pane -R

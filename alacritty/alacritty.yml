@@ -588,6 +588,9 @@ key_bindings:
   - { key: J,        mods: Command,       chars: "\x1b[24~j"      }
   - { key: K,        mods: Command,       chars: "\x1b[24~k"      }
   - { key: L,        mods: Command,       chars: "\x1b[24~l"      }
+  # move windows
+  - { key: Left,     mods: Shift|Command, chars: "\x1b[24~\x1b[1;2D" }
+  - { key: Right,    mods: Shift|Command, chars: "\x1b[24~\x1b[1;2C" }
   # resize windows
   - { key: Right,    mods: Command,       chars: "\x1b[24~\x1b[C" }
   - { key: Left,     mods: Command,       chars: "\x1b[24~\x1b[D" }
