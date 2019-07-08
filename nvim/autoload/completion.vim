@@ -45,5 +45,5 @@ function! completion#wrap(f) abort
   let F = type(a:f) == v:t_string ? function(a:f) : a:f
   let [col, start] = [col('.'), F(1, 0)]
   let base = getline('.')[start:col]
-  call complete(max([col - 2, 1]), F(0, base))
+  call complete(start + 1, F(0, base))
 endfunction
