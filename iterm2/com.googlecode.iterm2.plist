@@ -190,14 +190,6 @@
 	<integer>2</integer>
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
-	<key>NSColorPanelMode</key>
-	<string>1</string>
-	<key>NSColorPickerPreferredRGBEntryMode</key>
-	<integer>2</integer>
-	<key>NSColorPickerSlidersDefaults</key>
-	<string>1</string>
-	<key>NSFontPanelAttributes</key>
-	<string>1, 4</string>
 	<key>NSFontPanelSizeList</key>
 	<array>
 		<string>9</string>
@@ -207,7 +199,6 @@
 		<string>13</string>
 		<string>14</string>
 		<string>15</string>
-		<string>16</string>
 		<string>18</string>
 		<string>24</string>
 		<string>36</string>
@@ -217,12 +208,12 @@
 		<string>96</string>
 		<string>144</string>
 		<string>288</string>
-		<string>17</string>
+		<string>16</string>
 	</array>
 	<key>NSFontPanelSizeSliderParams</key>
-	<string>1 0 100</string>
+	<string>0 0 100</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Documents</string>
+	<string>~/.config/iterm2</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -233,11 +224,6 @@
 	<false/>
 	<key>NSScrollViewShouldScrollUnderTitlebar</key>
 	<false/>
-	<key>NSSplitView Subview Frames NSColorPanelSplitView</key>
-	<array>
-		<string>0.000000, 0.000000, 228.000000, 251.000000, NO, NO</string>
-		<string>0.000000, 252.000000, 228.000000, 43.000000, NO, NO</string>
-	</array>
 	<key>NSTableView Columns v2 KeyBingingTable</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -266,22 +252,12 @@
 		<key>TB Is Shown</key>
 		<integer>1</integer>
 	</dict>
-	<key>NSWindow Frame NSColorPanel</key>
-	<string>1955 179 228 232 0 0 2560 1417 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>782 66 445 77 0 0 2560 1417 </string>
-	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>970 768 620 392 0 0 2560 1417 </string>
-	<key>NSWindow Frame SessionsPreferences</key>
-	<string>220 120 606 469 0 0 1680 1028 </string>
+	<string>1502 128 445 77 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>852 943 918 423 0 0 2560 1417 </string>
-	<key>NSWindow Frame com.apple.typography_panel_SourceCodePro-Regular</key>
-	<string>346 503 260 136 0 0 1920 1080 </string>
+	<string>792 555 1016 512 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 24 2560 1393 0 0 2560 1417 </string>
-	<key>NSWindow Frame iTerm Window 1</key>
-	<string>738 540 910 526 0 0 2560 1417 </string>
+	<string>0 0 2560 1417 0 0 2560 1417 </string>
 	<key>NeverWarnAboutMeta</key>
 	<true/>
 	<key>NeverWarnAboutMeta_selection</key>
@@ -880,7 +856,7 @@
 			<key>Prompt Before Closing 2</key>
 			<integer>2</integer>
 			<key>Right Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Rows</key>
 			<integer>25</integer>
 			<key>Screen</key>
@@ -1048,16 +1024,10 @@
 			<string>/Users/zandr</string>
 		</dict>
 	</array>
-	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
-	<true/>
-	<key>NoSyncHaveRequestedFullDiskAccess</key>
-	<true/>
-	<key>NoSyncHaveUsedCopyMode</key>
-	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>32F139B0-3908-4C84-875C-9D4428FC200A</string>
+	<string>F5F27836-9222-48BE-8AD3-81A29A747C44</string>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1065,7 +1035,7 @@
 	<key>NoSyncPermissionToShowTip</key>
 	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>526942769.32174498</real>
+	<real>582468319.83189595</real>
 	<key>OpenArrangementAtStartup</key>
 	<false/>
 	<key>OpenNoWindowsAtStartup</key>
@@ -1106,7 +1076,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>~/.config/iterm2/</string>
+	<string>/Users/zandr/.config/iterm2</string>
 	<key>QuitWhenAllWindowsClosed</key>
 	<true/>
 	<key>RunJobsInServers</key>
@@ -1116,11 +1086,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/final.xml?shard=86</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=7</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-05-19T10:09:25Z</date>
+	<date>2019-07-09T20:41:44Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SearchCommand</key>
