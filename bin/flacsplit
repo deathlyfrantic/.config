@@ -1,7 +1,0 @@
-if [[ $1 == "" ]]; then
-    _this=$(basename "$0")
-    echo "Usage: $_this input.cue input.flac"
-    exit 1
-fi
-
-shnsplit -f "$1" -t '%n - %t' -o flac "$2"
