@@ -25,7 +25,8 @@ function! s:find_cmd() abort
         \ {_, b -> b.listed && b.loaded && b.name != ''
         \       && getbufvar(b.bufnr, '&bt') != 'nofile'}),
         \ {_, b -> fnamemodify(b.name, ':p:~:.')})
-  return printf('rg --files %s', join(map(open_files, {_, f -> '-g !'.f})))
+  return printf('rg --files %s', join(map(
+        \ open_files, {_, f -> '-g !'.shellescape(escape(f, ' ['))})))
 endfunction
 
 function! s:star_cmd() abort
@@ -60,11 +61,12 @@ endfunction
 
 function! s:open_file(f) abort
   if filereadable(a:f)
-    execute 'edit' z#find_project_dir().a:f
+    execute 'edit' escape(z#find_project_dir().a:f, ' [')
   endif
 endfunction
 
 function! s:on_exit(mode, job_id, exit_code, event) abort
+  wincmd p
   if s:buffer != -1
     silent! execute 'bdelete!' s:buffer
     let s:buffer = -1
@@ -78,10 +80,11 @@ function! s:on_exit(mode, job_id, exit_code, event) abort
 endfunction
 
 function! s:open_star_buffer(mode) abort
+  let current_buffer = bufnr('%')
   let height = min([10, &lines / 3])
   execute 'botright' height 'split'
   enew
-  let &l:statusline='[Star ('.z#find_project_dir().')] '.s:find_cmd()
+  let &l:statusline='[Star ('.z#find_project_dir()[:-2].')] '.s:find_cmd()
   let cmd = s:cmd(a:mode)
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
