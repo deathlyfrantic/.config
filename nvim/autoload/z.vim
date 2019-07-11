@@ -123,7 +123,7 @@ function! z#find_project_dir(...) abort
       return dir
     endif
   endwhile
-  return start
+  return fnamemodify(start, ':p')
 endfunction
 
 function! z#to_list(x) abort
