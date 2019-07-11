@@ -42,8 +42,8 @@ function! s:star_cmd() abort
 endfunction
 
 function! s:cmd(mode) abort
-  let cmd = printf('(cd %s && %%s | %s > %s)', z#find_project_dir(),
-        \ s:star_cmd(), s:file)
+  let cmd = printf('(cd %s && %%s | %s > %s)',
+        \ shellescape(z#find_project_dir()), s:star_cmd(), s:file)
   if a:mode == 'files'
     return printf(cmd, s:find_cmd())
   elseif a:mode == 'buffers'
