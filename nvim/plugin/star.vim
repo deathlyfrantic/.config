@@ -21,9 +21,8 @@ function! s:find_cmd() abort
       return 'git ls-files'
     endif
   endfor
-  let open_files = map(filter(getbufinfo(),
-        \ {_, b -> b.listed && b.loaded && b.name != ''
-        \       && getbufvar(b.bufnr, '&bt') != 'nofile'}),
+  let open_files = map(filter(getbufinfo({'buflisted': 1, 'bufloaded': 1}),
+        \ {_, b -> b.name != '' && getbufvar(b.bufnr, '&bt') != 'nofile'}),
         \ {_, b -> fnamemodify(b.name, ':p:~:.')})
   return printf('rg --files %s', join(map(
         \ open_files, {_, f -> '-g !'.shellescape(escape(f, ' ['))})))

@@ -72,7 +72,7 @@ augroup z-rc-commands
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
         \ if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish') |
-        \   if len(filter(getbufinfo(), {_, b -> b.listed})) == 1 |
+        \   if len(getbufinfo({'buflisted': 1})) == 1 |
         \     quit |
         \   else |
         \     bd! |
@@ -126,8 +126,8 @@ function! s:buf_delete(bufnum, bang) abort
   if bufexists(0) && buflisted(0)
     buffer #
   else
-    for buf in reverse(getbufinfo())
-      if buf.listed && buf.bufnr != a:bufnum
+    for buf in reverse(getbufinfo({'buflisted': 1}))
+      if buf.bufnr != a:bufnum
         execute 'buffer' buf.bufnr
         break
       endif
@@ -224,8 +224,8 @@ augroup END
 
 " quickfix
 function! s:quickfix_toggle() abort
-  let qf = filter(getbufinfo(), {_, b -> getbufvar(b.bufnr, '&ft') == 'qf'})
-  return len(qf) ? ":cclose\<CR>" : ":copen\<CR>"
+  let open = z#any(getbufinfo(), {b -> getbufvar(b.bufnr, '&ft') == 'qf'})
+  return open ? ":cclose\<CR>" : ":copen\<CR>"
 endfunction
 nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
 augroup z-rc-quickfix

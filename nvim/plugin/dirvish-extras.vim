@@ -1,6 +1,6 @@
 function! s:dirvish_toggle() abort
-  let bufs = filter(getbufinfo(),
-        \ {_, b -> b.loaded && getbufvar(b.bufnr, '&ft') ==? 'dirvish'})
+  let bufs = filter(getbufinfo({'bufloaded': 1}),
+        \ {_, b -> getbufvar(b.bufnr, '&ft') ==? 'dirvish'})
   if len(bufs) == 0
     35vsp +Dirvish
   else
