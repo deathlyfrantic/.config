@@ -11,7 +11,7 @@ function! s:go_away_swap(file, swap)
 endfunction
 
 function! s:delayed_message(msg)
-  augroup swap_delayed_message
+  augroup swap-delayed-message
     autocmd!
     execute printf("autocmd BufEnter * call z#echowarn('%s')", a:msg)
     autocmd BufEnter * autocmd! swap_delayed_message
