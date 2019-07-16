@@ -129,3 +129,12 @@ endfunction
 function! z#to_list(x) abort
   return type(a:x) == v:t_list ? a:x : [a:x]
 endfunction
+
+function! z#char_before_cursor() abort
+  let col = col('.') - 2
+  return col < 0 ? '' : getline('.')[col]
+endfunction
+
+function! z#char_after_cursor() abort
+  return getline('.')[col('.') - 1]
+endfunction

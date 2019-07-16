@@ -3,13 +3,8 @@ function! completion#findstart() abort
   return pos[0] == curpos[1] ? pos[1] : 0
 endfunction
 
-function! completion#char_before_cursor() abort
-  let col = col('.') - 2
-  return col < 0 ? '' : getline('.')[col]
-endfunction
-
 function! completion#check_back_space() abort
-  return completion#char_before_cursor() =~ '^\s*$'
+  return z#char_before_cursor() =~ '^\s*$'
 endfunction
 
 function! completion#tab(fwd) abort

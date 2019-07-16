@@ -10,19 +10,20 @@ let s:qpairs = extend(deepcopy(s:pairs), {
       \ '`': '`'
       \ })
 
-function! s:next_char() abort
-  return getline('.')[col('.') - 1]
-endfunction
-
 function! s:add_pair(left) abort
-  return s:next_char() =~ '\h' ? a:left : a:left.s:pairs[a:left]."\<Left>"
+  " don't add pair if next char is a word char, i.e. if we type ( here:
+  "   |foo
+  " don't add )
+  return z#char_after_cursor() =~ '\h'
+        \ ? a:left
+        \ : a:left.s:pairs[a:left]."\<Left>"
 endfunction
 
 function! s:quote(q) abort
-  if s:next_char() == a:q
+  if z#char_after_cursor() == a:q
     return "\<Right>"
   endif
-  if a:q != "'" || completion#char_before_cursor() !~ '\h'
+  if a:q != "'" || z#char_before_cursor() !~ '\h'
     " don't add closing ' if in a word, like in a contraction
     return a:q.a:q."\<Left>"
   endif
@@ -30,17 +31,17 @@ function! s:quote(q) abort
 endfunction
 
 function! s:close(right) abort
-  return s:next_char() == a:right ? "\<Right>" : a:right
+  return z#char_after_cursor() == a:right ? "\<Right>" : a:right
 endfunction
 
 function! s:backspace() abort
-  return s:next_char() is get(s:qpairs, completion#char_before_cursor())
+  return z#char_after_cursor() is get(s:qpairs, z#char_before_cursor())
         \ ? "\<Delete>\<Backspace>"
         \ : "\<Backspace>"
 endfunction
 
 function! s:enter() abort
-  return s:next_char() is get(s:pairs, completion#char_before_cursor())
+  return z#char_after_cursor() is get(s:pairs, z#char_before_cursor())
         \ ? "\<Enter>\<Esc>O"
         \ : "\<Enter>"
 endfunction
