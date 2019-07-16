@@ -116,6 +116,7 @@ nmap # #N
 " tpope's special section {{{
 Package 'tpope/vim-abolish'
 Package 'tpope/vim-apathy'
+Package 'tpope/vim-endwise'
 Package 'tpope/vim-obsession'
 Package 'tpope/vim-repeat'
 Package 'tpope/vim-scriptease'
