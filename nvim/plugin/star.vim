@@ -60,8 +60,9 @@ function! s:open_buffer(b) abort
 endfunction
 
 function! s:open_file(f) abort
-  if filereadable(a:f)
-    execute 'edit' escape(z#find_project_dir().a:f, ' [')
+  let file = escape(z#find_project_dir().a:f, ' [')
+  if filereadable(file)
+    execute 'edit' file
   endif
 endfunction
 
