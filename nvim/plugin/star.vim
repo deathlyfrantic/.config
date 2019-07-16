@@ -85,7 +85,7 @@ function! s:open_star_buffer(mode) abort
   let height = min([10, &lines / 3])
   execute 'botright' height 'split'
   enew
-  let &l:statusline='[Star ('.z#find_project_dir()[:-2].')] '.s:find_cmd()
+  let &l:statusline='[Star('.z#find_project_dir()[:-2].')] '.s:find_cmd()
   let cmd = s:cmd(a:mode)
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
