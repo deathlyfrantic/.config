@@ -120,7 +120,7 @@ function! z#find_project_dir(...) abort
     endif
     let dir = fnamemodify(dir, ':h')
     if dir == '.'
-      return dir
+      return fnamemodify(dir, ':p')
     endif
   endwhile
   return fnamemodify(start, ':p')
