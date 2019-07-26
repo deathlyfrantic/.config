@@ -46,6 +46,14 @@ function! s:enter() abort
         \ : "\<Enter>"
 endfunction
 
+function! s:angle() abort
+  " since < is overloaded, we only want to auto-close it if we're in a generic
+  " parameter, and the heuristic we're using for that is the previous character
+  " is not whitespace. i.e. auto-close this: `struct Foo<'a>`, do not auto-close
+  " this: `if x < y`
+  return z#char_before_cursor() =~ '\s' ? '<' : "<>\<Left>"
+endfunction
+
 for [left, right] in items(s:pairs)
   execute 'inoremap <expr>' left '<SID>add_pair("'.left.'")'
   execute 'inoremap <expr>' right '<SID>close("'.right.'")'
@@ -65,6 +73,9 @@ augroup autopairs
   autocmd!
   " rust lifetime specifiers are of the form 'a
   autocmd FileType rust inoremap <buffer> ' '
+  " rust and typescript generic parameters
+  autocmd FileType rust,typescript inoremap <expr> <buffer> < <SID>angle() |
+        \ inoremap <expr> <buffer> > <SID>close('>')
   " vim comments start with "
   autocmd FileType vim inoremap <buffer> " "
 augroup END
