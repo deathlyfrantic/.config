@@ -10,11 +10,16 @@ let s:qpairs = extend(deepcopy(s:pairs), {
       \ '`': '`'
       \ })
 
+function! s:in_string() abort
+  return z#any(synstack(line('.'), col('.')),
+        \ {id -> synIDattr(synIDtrans(id), 'name') =~? 'string'})
+endfunction
+
 function! s:add_pair(left) abort
   " don't add pair if next char is a word char, i.e. if we type ( here:
   "   |foo
   " don't add )
-  return z#char_after_cursor() =~ '\h'
+  return z#char_after_cursor() =~ '\h' || s:in_string()
         \ ? a:left
         \ : a:left.s:pairs[a:left]."\<Left>"
 endfunction
@@ -23,7 +28,7 @@ function! s:quote(q) abort
   if z#char_after_cursor() == a:q
     return "\<Right>"
   endif
-  if a:q != "'" || z#char_before_cursor() !~ '\h'
+  if (a:q != "'" || z#char_before_cursor() !~ '\h') && !s:in_string()
     " don't add closing ' if in a word, like in a contraction
     return a:q.a:q."\<Left>"
   endif
@@ -34,16 +39,16 @@ function! s:close(right) abort
   return z#char_after_cursor() == a:right ? "\<Right>" : a:right
 endfunction
 
+function! s:in_pair(pairs) abort
+  return z#char_after_cursor() is get(a:pairs, z#char_before_cursor())
+endfunction
+
 function! s:backspace() abort
-  return z#char_after_cursor() is get(s:qpairs, z#char_before_cursor())
-        \ ? "\<Delete>\<Backspace>"
-        \ : "\<Backspace>"
+  return s:in_pair(s:qpairs) ? "\<Delete>\<Backspace>" : "\<Backspace>"
 endfunction
 
 function! s:enter() abort
-  return z#char_after_cursor() is get(s:pairs, z#char_before_cursor())
-        \ ? "\<Enter>\<Esc>O"
-        \ : "\<Enter>"
+  return s:in_pair(s:pairs) ? "\<Enter>\<Esc>O" : "\<Enter>"
 endfunction
 
 function! s:angle() abort
