@@ -47,6 +47,26 @@ function! s:backspace() abort
   return s:in_pair(s:qpairs) ? "\<Delete>\<Backspace>" : "\<Backspace>"
 endfunction
 
+function! s:ctrl_w() abort
+  if !s:in_pair(s:qpairs)
+    return "\<C-w>"
+  endif
+  let col = col('.')
+  let [i, before, after, line] = [col - 1, -1, 1, getline('.')]
+  while line[i] !~ '\k\|\s' && i > 0
+    let before += 1
+    let i -= 1
+  endwhile
+  let i = col + 1
+  while line[i] !~ '\k\|\s' && i < len(line) + 1
+    let after += 1
+    let i += 1
+  endwhile
+  " backspace over what ^W would, and delete up to that many characters worth of
+  " closing pairs in front of the cursor
+  return repeat("\<Delete>", min([before, after])).repeat("\<Backspace>", before)
+endfunction
+
 function! s:enter() abort
   return s:in_pair(s:pairs) ? "\<Enter>\<Esc>O" : "\<Enter>"
 endfunction
@@ -69,6 +89,7 @@ inoremap <expr> " <SID>quote('"')
 inoremap <expr> ` <SID>quote('`')
 
 inoremap <expr> <Backspace> <SID>backspace()
+inoremap <expr> <C-w> <SID>ctrl_w()
 
 " enter mapping is set up this way to chain with endwise
 inoremap <expr> <Plug>autopairsCR <SID>enter()
