@@ -4,7 +4,7 @@ function set_title {
 
     if [[ $SSH_CONNECTION != "" ]]; then
         prefix="[$USER@$HOST] "
-    elif [[ $USER != "zandr" && $USER != "zmartin" ]]; then
+    elif [[ $USER != "zandr" ]]; then
         prefix="[$USER] "
     fi
 
