@@ -33,3 +33,11 @@ impl fmt::Display for %#; {
 	}
 }
 endsnippet
+
+snippet default "impl Default for struct"
+impl Default for %#; {
+	fn default() -> Self {
+		%#;
+	}
+}
+endsnippet
