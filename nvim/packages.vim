@@ -71,6 +71,20 @@ if executable('rg')
   unlet! igs
 endif
 
+Package 'mtth/scratch.vim', {'on': [
+      \ '<Plug>(scratch-insert-reuse)',
+      \ '<Plug>(scratch-insert-clear)',
+      \ '<Plug>(scratch-selection-reuse)',
+      \ '<Plug>(scratch-selection-clear)',
+      \ ]}
+let g:scratch_no_mappings = 1
+let g:scratch_insert_autohide = 0
+let g:scratch_persistence_file = expand('$XDG_DATA_HOME/nvim/scratch.txt')
+nmap <Leader>s <Plug>(scratch-insert-reuse)
+nmap <Leader>S <Plug>(scratch-insert-clear)
+xmap <Leader>s <Plug>(scratch-selection-reuse)
+xmap <Leader>S <Plug>(scratch-selection-clear)
+
 Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
