@@ -10,6 +10,8 @@ let s:qpairs = extend(deepcopy(s:pairs), {
       \ '`': '`'
       \ })
 
+let s:left = "\<C-g>U\<Left>"
+
 function! s:in_string() abort
   return z#any(synstack(line('.'), col('.')),
         \ {id -> synIDattr(synIDtrans(id), 'name') =~? 'string'})
@@ -21,7 +23,7 @@ function! s:add_pair(left) abort
   " don't add )
   return z#char_after_cursor() =~ '\h' || s:in_string()
         \ ? a:left
-        \ : a:left.s:pairs[a:left]."\<Left>"
+        \ : a:left.s:pairs[a:left].s:left
 endfunction
 
 function! s:quote(q) abort
@@ -30,7 +32,7 @@ function! s:quote(q) abort
   endif
   if (a:q != "'" || z#char_before_cursor() !~ '\h') && !s:in_string()
     " don't add closing ' if in a word, like in a contraction
-    return a:q.a:q."\<Left>"
+    return a:q.a:q.s:left
   endif
   return a:q
 endfunction
@@ -76,7 +78,7 @@ function! s:angle() abort
   " parameter, and the heuristic we're using for that is the previous character
   " is not whitespace. i.e. auto-close this: `struct Foo<'a>`, do not auto-close
   " this: `if x < y`
-  return z#char_before_cursor() =~ '\s' ? '<' : "<>\<Left>"
+  return z#char_before_cursor() =~ '\s' ? '<' : "<>".s:left
 endfunction
 
 for [left, right] in items(s:pairs)
