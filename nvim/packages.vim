@@ -84,6 +84,10 @@ nmap <Leader>s <Plug>(scratch-insert-reuse)
 nmap <Leader>S <Plug>(scratch-insert-clear)
 xmap <Leader>s <Plug>(scratch-selection-reuse)
 xmap <Leader>S <Plug>(scratch-selection-clear)
+augroup z-rc-scratch
+  autocmd!
+  autocmd FileType scratch set tw=0 | Wrap
+augroup END
 
 Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
