@@ -153,7 +153,7 @@ function! s:ensure_test_window() abort
 endfunction
 
 function! s:close_test_buffer(...)
-  silent execute 'bd!' s:test_buffer
+  silent! execute 'bd!' s:test_buffer
 endfunction
 
 function! s:on_term_exit(close, job_id, exit_code, event)
