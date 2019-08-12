@@ -20,7 +20,7 @@ Package '~/src/vim/textobj-blanklines'
 " dev tools {{{
 Package 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Package 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = z#rtrim(system('which racer'))
+let g:racer_cmd = trim(system('which racer'))
 let g:racer_experimental_completer = 1
 
 Package 'airblade/vim-gitgutter'

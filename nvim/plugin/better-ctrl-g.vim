@@ -1,6 +1,6 @@
 function! s:better_ctrl_g() abort
   let gs = GitStatus()
-  let parts = strlen(gs) ? [z#rtrim(gs)] : []
+  let parts = strlen(gs) ? [trim(gs)] : []
   let parts += [printf('buf %d:', bufnr('%'))]
   let bn = expand('%:p')
   let parts += strlen(bn) ? [printf('"%s"', bn)] : ['"[No Name]"']
