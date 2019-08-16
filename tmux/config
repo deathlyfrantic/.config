@@ -46,6 +46,11 @@ bind-key -Troot S-PageUp copy-mode -eu
 bind-key -Tcopy-mode S-PageUp send -X page-up
 bind-key -Tcopy-mode S-PageDown send -X page-down
 
+# use pbcopy to integrate with system clipboard
+bind-key -Tcopy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel pbcopy
+bind-key -Tcopy-mode-vi Enter send-keys -X copy-pipe-and-cancel pbcopy
+bind-key -Tcopy-mode-vi C-j send-keys -X copy-pipe-and-cancel pbcopy
+
 # be able to scroll with mouse
 set -g mouse on
 
