@@ -5,7 +5,7 @@ let s:no_semi_lines = {
       \   '^function.*{',
       \   '^\%[static ]\%[async \*]\w\+(.*) {',
       \   '^\%[[gs]et ]\w\+(.*) {',
-      \   '^\(if\|while\|switch\) (.*) {$',
+      \   '^\(if\|while\|switch\|for\) (.*) {$',
       \   '^do {$',
       \   '^} else if (.*) {$',
       \   '^} else {$',
@@ -19,7 +19,7 @@ let s:no_semi_lines = {
       \ ],
       \ 'c': [
       \   '^\w*\s*\**\s*\w*(.*) {$',
-      \   '^\(if\|while\|switch\) (.*) {$',
+      \   '^\(if\|while\|switch\|for\) (.*) {$',
       \   '^do {$',
       \   '^} else if (.*) {$',
       \   '^} else {$',
