@@ -3,6 +3,8 @@ let s:closers = { ')': '(', ']': '[', '}': '{' }
 let s:no_semi_lines = {
       \ 'javascript': [
       \   '^function.*{',
+      \   '^\%[static ]\%[async \*]\w\+(.*) {',
+      \   '^\%[[gs]et ]\w\+(.*) {',
       \   '^\(if\|while\|switch\) (.*) {$',
       \   '^do {$',
       \   '^} else if (.*) {$',
