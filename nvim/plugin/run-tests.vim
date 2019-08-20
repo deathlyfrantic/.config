@@ -86,12 +86,13 @@ function! s:python(selection) abort
 endfunction
 
 function! s:javascript_mocha(selection) abort
+  let cmd = 'npx mocha -- spec '.expand('%:p')
   if a:selection == 'nearest'
     let test = s:find_nearest_test('^\s*\(it\|describe\)(["'']\(.*\)["''],', 2)
     let escaped = substitute(test, '\([{\[()\]}]\)', '\\\1', 'g')
-    return printf('npx mocha -- --recursive --grep=%s', shellescape(escaped))
+    return cmd.' --grep='.shellescape(escaped)
   elseif a:selection == 'file'
-    return printf('npx mocha -- spec %s', expand('%:p'))
+    return cmd
   endif
   return 'npm test'
 endfunction
