@@ -61,7 +61,7 @@ function! s:squeeze() abort
   let lines = getbufline(bufnr('%'), 1, s:find_last_line() - 1)
   silent! setlocal modifiable noreadonly
   call setline(1, s:squeeze_contents(lines))
-  silent! setlocal nomodifiable readonly
+  silent! setlocal nomodifiable readonly nomodified
 endfunction
 
 command! DBSqueeze :call <SID>squeeze()<CR>
