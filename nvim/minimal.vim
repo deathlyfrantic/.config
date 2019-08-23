@@ -43,7 +43,7 @@ set hidden
 set hlsearch
 set ignorecase
 if has('nvim')
-  set inccomand=split
+  set inccommand=split
 endif
 set incsearch
 set laststatus=2
@@ -120,7 +120,7 @@ hi! Visual ctermfg=16 ctermbg=231 cterm=NONE
 
 function! s:check_back_space() abort
   let l:col = col('.') - 1
-  return !l:col || getline('.')[l:col - 1] =~? '\s'
+  return !l:col || getline('.')[l:col - 1] !~? '\k'
 endfunction
 
 function! s:tab_completion(fwd) abort

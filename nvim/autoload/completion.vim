@@ -3,14 +3,10 @@ function! completion#findstart() abort
   return pos[0] == curpos[1] ? pos[1] : 0
 endfunction
 
-function! completion#check_back_space() abort
-  return z#char_before_cursor() =~ '^\s*$'
-endfunction
-
 function! completion#tab(fwd) abort
   if pumvisible()
     return a:fwd ? "\<C-N>" : "\<C-P>"
-  elseif !completion#check_back_space()
+  elseif z#char_before_cursor() =~ '\k'
     return "\<C-P>"
   endif
   return "\<Tab>"

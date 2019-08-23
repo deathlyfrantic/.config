@@ -208,7 +208,7 @@ nnoremap <leader><Space> i<Space><Esc>
 
 " arrows
 function! s:arrow(fat) abort
-  let before = completion#check_back_space() ? '' : ' '
+  let before = z#char_before_cursor() =~ '\s' ? '' : ' '
   let arrow = a:fat ? '=>' : '->'
   let [line, col] = [getline('.'), col('.') - 1]
   let after = (len(line) <= col || line[col] !~ '^\s*$') ? ' ' : "\<Right>"
