@@ -59,9 +59,9 @@ endfunction
 
 function! s:squeeze() abort
   let lines = getbufline(bufnr('%'), 1, s:find_last_line() - 1)
-  topleft +new
-  wincmd =
-  call append(0, s:squeeze_contents(lines))
+  silent! setlocal modifiable noreadonly
+  call setline(1, s:squeeze_contents(lines))
+  silent! setlocal nomodifiable readonly
 endfunction
 
 command! DBSqueeze :call <SID>squeeze()<CR>
