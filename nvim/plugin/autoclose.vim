@@ -2,27 +2,23 @@ let s:pairs = { '(': ')', '[': ']', '{': '}'}
 let s:closers = { ')': '(', ']': '[', '}': '{' }
 let s:no_semi_lines = {
       \ 'javascript': [
+      \   '^\(if\|while\|switch\|for\) (.*) {$',
+      \   '^} \(else\|else if (.*)\) {$',
       \   '^function.*{',
       \   '^\%[static ]\%[async \*]\w\+(.*) {',
       \   '^\%[[gs]et ]\w\+(.*) {',
-      \   '^\(if\|while\|switch\|for\) (.*) {$',
       \   '^do {$',
-      \   '^} else if (.*) {$',
-      \   '^} else {$',
       \ ],
       \ 'rust': [
       \   '^\%[pub\%[(\(crate\|super\|self\|in [0-9A-Za-z_:]*\))] ]\(fn\|enum\|mod\|struct\|trait\).*{$',
-      \   '^impl.*{',
-      \   '^\(match\|if\|while\).*{$',
-      \   '^} else if .* {$',
-      \   '^} else {$',
+      \   '^} \(else\|else if .*\) {$',
+      \   '^\(impl\|unsafe\|match\|if\|while\).*{$',
       \ ],
       \ 'c': [
-      \   '^\w*\s*\**\s*\w*(.*) {$',
       \   '^\(if\|while\|switch\|for\) (.*) {$',
+      \   '^} \(else\|else if (.*)\) {$',
+      \   '^\w*\s*\**\s*\w*(.*) {$',
       \   '^do {$',
-      \   '^} else if (.*) {$',
-      \   '^} else {$',
       \ ]
       \ }
 
