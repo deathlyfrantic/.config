@@ -126,3 +126,7 @@ endfunction
 function! z#char_after_cursor() abort
   return getline('.')[col('.') - 1]
 endfunction
+
+function! z#get_color(group, attr) abort
+  return synIDattr(synIDtrans(hlID(a:group)), a:attr)
+endfunction

@@ -11,10 +11,6 @@ augroup star
   autocmd ColorScheme * let s:star_cmd_str = ''
 augroup END
 
-function! s:color(group, attr) abort
-  return synIDattr(synIDtrans(hlID(a:group)), a:attr)
-endfunction
-
 function! s:find_cmd() abort
   for ignore in findfile('.gitignore', '.;', -1)
     if len(filter(readfile(ignore), {_, line -> line == '*'})) > 0
@@ -31,9 +27,9 @@ endfunction
 function! s:star_cmd() abort
   if s:star_cmd_str == ''
     let colors = {
-          \ 'color-selected-bg': s:color('StatusLine', 'bg'),
-          \ 'color-matched-selected-fg': s:color('Comment', 'fg'),
-          \ 'color-matched-fg': s:color('String', 'fg'),
+          \ 'color-selected-bg': z#get_color('StatusLine', 'bg'),
+          \ 'color-matched-selected-fg': z#get_color('Comment', 'fg'),
+          \ 'color-matched-fg': z#get_color('String', 'fg'),
           \ }
     let s:star_cmd_str = 'star '
           \ .join(map(items(colors), {_, c -> printf('--%s=%s', c[0], c[1])}))
