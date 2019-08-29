@@ -75,8 +75,7 @@ set -g window-status-current-format "#[fg=white,bg=colour240,noreverse] #I #T "
 # hide status bar if there's only a single window
 set-hook -g window-linked \
     "if -F '#{==:#{session_windows},1}' 'set status off' 'set status on'"
-set-hook -g window-unlinked \
-    "if -F '#{==:#{session_windows},1}' 'set status off' 'set status on'"
 
-# renumber windows when closing one (so there aren't gaps)
-set-hook -g window-unlinked "move-window -r"
+# also renumber windows when closing one (so there aren't gaps)
+set-hook -g window-unlinked \
+    "if -F '#{==:#{session_windows},1}' 'set status off' 'set status on'; move-window -r"
