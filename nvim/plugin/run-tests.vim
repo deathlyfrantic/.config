@@ -129,6 +129,9 @@ function! s:new_test_buffer() abort
   set nobuflisted
   autocmd BufDelete <buffer> let s:test_buffer = -1
   nnoremap <silent> <buffer> q :bd!<CR>
+  nnoremap <silent> <buffer> R :setlocal nomodified modifiable<CR>
+        \ :call termopen(get(b:, 'command'),
+        \  {'on_exit': function('<SID>on_term_exit', [get(b:, 'close')])})<CR>
 endfunction
 
 function! s:load_or_create_buffer() abort
@@ -181,6 +184,8 @@ function! s:run_tests(cmd, close) abort
   call s:ensure_test_window()
   let current_window = win_getid()
   call win_gotoid(win_findbuf(s:test_buffer)[0])
+  let b:command = a:cmd
+  let b:close = a:close
   set nomodified
   call termopen(a:cmd, {'on_exit': function('s:on_term_exit', [a:close])})
   call win_gotoid(current_window)
