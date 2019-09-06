@@ -24,10 +24,10 @@ let g:racer_cmd = trim(system('which racer'))
 let g:racer_experimental_completer = 1
 
 Package 'airblade/vim-gitgutter'
-omap ig <Plug>GitGutterTextObjectInnerPending
-omap ag <Plug>GitGutterTextObjectOuterPending
-xmap ig <Plug>GitGutterTextObjectInnerVisual
-xmap ag <Plug>GitGutterTextObjectOuterVisual
+omap ig <Plug>(GitGutterTextObjectInnerPending)
+omap ag <Plug>(GitGutterTextObjectOuterPending)
+xmap ig <Plug>(GitGutterTextObjectInnerVisual)
+xmap ag <Plug>(GitGutterTextObjectOuterVisual)
 augroup z-rc-gitgutter
   autocmd!
   autocmd BufEnter,TextChanged,InsertLeave,BufWritePost * GitGutter
