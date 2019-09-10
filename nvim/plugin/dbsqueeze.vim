@@ -18,6 +18,7 @@ function! s:find_columns(lines) abort
       let start = i + 1
     endif
   endfor
+  let cols += [{ 'start': start, 'end': i }]
   return cols
 endfunction
 
