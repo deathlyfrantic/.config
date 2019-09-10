@@ -66,3 +66,8 @@ function! s:squeeze() abort
 endfunction
 
 command! DBSqueeze call <SID>squeeze()
+
+augroup dbsqueeze
+  autocmd!
+  autocmd BufReadPost *.dbout DBSqueeze
+augroup END
