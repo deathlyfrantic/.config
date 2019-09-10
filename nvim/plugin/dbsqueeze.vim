@@ -65,4 +65,4 @@ function! s:squeeze() abort
   silent! setlocal nomodifiable readonly nomodified
 endfunction
 
-command! DBSqueeze :call <SID>squeeze()<CR>
+command! DBSqueeze call <SID>squeeze()
