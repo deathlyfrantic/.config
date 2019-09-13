@@ -20,6 +20,7 @@ function! s:grep(search) abort
     echo 'No matches found.'
   else
     execute 'copen' min([num_results, 10])
+    let w:quickfix_title = 'grep "'.a:search.'"'
   endif
 endfunction
 
@@ -32,6 +33,7 @@ endif
 command! -nargs=+ Grep call <SID>grep(<q-args>)
 
 execute 'nnoremap g/ :Grep '
+nnoremap g/% :Grep <C-R>=expand('%:p:t:r')<CR><CR>
 nnoremap <silent> <Plug>(Grep) :set opfunc=<SID>operator<CR>g@
 xnoremap <silent> <Plug>(Grep) <Cmd>call <SID>operator(mode())<CR>
 nmap gs <Plug>(Grep)
