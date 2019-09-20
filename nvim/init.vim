@@ -236,6 +236,19 @@ augroup z-rc-quickfix
         \ nnoremap <silent> <buffer> q :cclose<CR>
 augroup END
 
+" swap files
+function! s:swap(file, swap)
+  let older = getftime(a:file) < getftime(a:swap)
+  let msg = printf('Swap file for %s %s.', a:file,
+        \ (older ? 'exists; opening read-only' : 'older than file; deleted'))
+  execute 'autocmd BufEnter * ++once call z#echowarn("'.msg.'")'
+  let v:swapchoice = older ? 'o' : 'd'
+endfunction
+augroup swap-command
+  autocmd!
+  autocmd SwapExists * call s:swap(expand('<afile>'), v:swapname)
+augroup END
+
 " close all open man pages
 function! s:close_man_pages() abort
   let bufs = filter(getbufinfo(), {_, b -> b.listed && b.name =~? '^man://'})
