@@ -285,6 +285,7 @@ endfunction
 
 set statusline=%{GitStatus()}
 set statusline+=%<%F
+set statusline+=%(\ %y%)
 set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
 set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
 set statusline+=\ %h%m%r%=
