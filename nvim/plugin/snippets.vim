@@ -154,8 +154,11 @@ if empty(&completefunc)
   set completefunc=snippets#complete
 endif
 
-autocmd VimEnter * call <SID>load_global_snippets()
-autocmd FileType * call <SID>load_filetype_snippets()
+augroup snippets
+  autocmd!
+  autocmd VimEnter * call <SID>load_global_snippets()
+  autocmd FileType * call <SID>load_filetype_snippets()
+augroup END
 
 inoremap <C-]> <Esc>:call <SID>trigger()<Enter>
 inoremap <C-f> <C-o>:call <SID>jump(1)<Enter>
