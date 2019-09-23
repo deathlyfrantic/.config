@@ -244,7 +244,7 @@ function! s:swap(file, swap)
   execute 'autocmd BufEnter * ++once call z#echowarn("'.msg.'")'
   let v:swapchoice = older ? 'o' : 'd'
 endfunction
-augroup swap-command
+augroup z-rc-swap-command
   autocmd!
   autocmd SwapExists * call s:swap(expand('<afile>'), v:swapname)
 augroup END
@@ -260,7 +260,7 @@ function! s:source_local_vimrc(force)
     execute 'silent! source' vimrc
   endfor
 endfunction
-augroup local-vimrc
+augroup z-rc-local-vimrc
   autocmd!
   autocmd BufNewFile,BufReadPre * ++nested call <SID>source_local_vimrc(0)
   autocmd VimEnter * ++nested call <SID>source_local_vimrc(1)
