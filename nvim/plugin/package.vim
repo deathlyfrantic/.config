@@ -59,7 +59,7 @@ endfunction
 function! s:pkg_cmd(cmd, name, bang, args) abort
   execute 'silent! delcommand' a:cmd
   execute 'packadd' a:name
-  execute printf('%s%s %s', a:cmd, a:bang, a:args)
+  execute a:cmd.a:bang a:args
 endfunction
 
 function! s:pkg_map(map, name, visual) abort
