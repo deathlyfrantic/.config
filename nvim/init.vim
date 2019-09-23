@@ -249,6 +249,23 @@ augroup swap-command
   autocmd SwapExists * call s:swap(expand('<afile>'), v:swapname)
 augroup END
 
+" local settings
+function! s:source_local_vimrc(force)
+  if !a:force && (expand('<afile>') =~? 'fugitive://' ||
+        \ z#contains(['help', 'nofile'], getbufvar(expand('<abuf>'), '&bt')))
+    return
+  endif
+  " apply settings from lowest dir to highest, so most specific are applied last
+  for vimrc in reverse(findfile('.vimrc', expand('<afile>:p:h').';', -1))
+    execute 'silent! source' vimrc
+  endfor
+endfunction
+augroup local-vimrc
+  autocmd!
+  autocmd BufNewFile,BufReadPre * ++nested call <SID>source_local_vimrc(0)
+  autocmd VimEnter * ++nested call <SID>source_local_vimrc(1)
+augroup END
+
 " close all open man pages
 function! s:close_man_pages() abort
   let bufs = filter(getbufinfo(), {_, b -> b.listed && b.name =~? '^man://'})
