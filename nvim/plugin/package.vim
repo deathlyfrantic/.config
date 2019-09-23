@@ -40,22 +40,6 @@ function! s:add_package(bang, path, ...) abort
   let s:packages += [[a:path, opts]]
 endfunction
 
-function! s:pkg_ft(ft, pkgs, clear) abort
-  let group = 'z-packages-'.a:ft
-  if a:clear
-    execute 'autocmd!' group
-    execute 'augroup!' group
-    doautocmd FileType
-    return
-  endif
-  execute 'augroup' group
-    for pkg in a:pkgs
-      execute 'autocmd FileType' a:ft 'packadd' pkg
-    endfor
-    execute 'autocmd FileType' a:ft 'call <SID>pkg_ft("'.a:ft.'", [], 1)'
-  augroup END
-endfunction
-
 function! s:pkg_cmd(cmd, name, bang, args) abort
   execute 'silent! delcommand' a:cmd
   execute 'packadd' a:name
@@ -91,9 +75,15 @@ command! PackUpdate call <SID>packager_init() | call packager#update()
 
 source $VIMHOME/packages.vim
 
-for [ft, pkgs] in items(s:lazy.ft)
-  call s:pkg_ft(ft, pkgs, 0)
-endfor
+augroup package-filetypes
+  autocmd!
+  for [ft, pkgs] in items(s:lazy.ft)
+    for pkg in pkgs
+      execute 'autocmd FileType' ft '++once packadd' pkg
+    endfor
+    execute 'autocmd FileType' ft '++once ++nested doautocmd FileType'
+  endfor
+augroup END
 
 for [cmd, pkg] in items(s:lazy.on_cmd)
   execute 'command! -bang -bar -nargs=*' cmd
