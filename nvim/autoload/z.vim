@@ -130,3 +130,7 @@ endfunction
 function! z#get_color(group, attr) abort
   return synIDattr(synIDtrans(hlID(a:group)), a:attr)
 endfunction
+
+function! z#contains(l, i) abort
+  return z#any(a:l, {v -> v == a:i})
+endfunction
