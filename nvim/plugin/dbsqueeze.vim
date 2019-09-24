@@ -58,16 +58,27 @@ function! s:squeeze_contents(lines) abort
   return [headers] + [separators] + rows
 endfunction
 
-function! s:squeeze() abort
-  let lines = getbufline(bufnr('%'), 1, s:find_last_line() - 1)
+function! s:squeeze(...) abort
+  let last_line = a:0 && type(a:1) == v:t_number ? a:1 : s:find_last_line()
+  let lines = getbufline(bufnr('%'), 1, last_line - 1)
   silent! setlocal modifiable noreadonly
   call setline(1, s:squeeze_contents(lines))
   silent! setlocal nomodifiable readonly nomodified
+endfunction
+
+function! s:on_load() abort
+  try
+    let last_line = s:find_last_line()
+    if last_line <= 100
+      call s:squeeze(last_line)
+    endif
+  catch 'Cannot find last line.'
+  endtry
 endfunction
 
 command! DBSqueeze call <SID>squeeze()
 
 augroup dbsqueeze
   autocmd!
-  autocmd BufReadPost *.dbout DBSqueeze
+  autocmd BufReadPost *.dbout call <SID>on_load()
 augroup END
