@@ -22,6 +22,7 @@ iabbrev <buffer> == ===
 iabbrev <buffer> fn function
 
 " don't use clangformat for js
+packadd neoformat
 let b:neoformat_enabled_javascript = get(b:, 'neoformat_enabled_javascript',
       \ filter(neoformat#formatters#javascript#enabled(),
       \ {i, v -> v != 'clangformat'}))
