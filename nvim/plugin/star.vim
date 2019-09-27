@@ -90,7 +90,7 @@ function! s:open_star_buffer(mode) abort
 endfunction
 
 function! s:star(...) abort
-  let mode = a:0 ? get(s:cmd_map, a:1, 'files') : 'files'
+  let mode = a:0 && has_key(s:cmd_map, a:1) ? a:1 : 'files'
   call s:open_star_buffer(mode)
 endfunction
 
