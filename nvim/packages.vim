@@ -108,10 +108,6 @@ Package 'nelstrom/vim-visual-star-search'
 Package 'tommcdo/vim-exchange'
 Package 'tommcdo/vim-lion'
 let g:lion_squeeze_spaces = 1
-
-Package 'google/vim-searchindex'
-nmap * *N
-nmap # #N
 " }}}
 
 " tpope's special section {{{
