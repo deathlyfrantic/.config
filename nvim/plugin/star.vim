@@ -2,7 +2,8 @@ let s:buffer = -1
 let s:file = get(s:, 'file', tempname())
 let s:cmd_map = {
       \ 'files': 'open_file',
-      \ 'buffers': 'open_buffer'
+      \ 'buffers': 'open_buffer',
+      \ 'all': 'open_file',
       \ }
 let s:star_cmd_str = ''
 
@@ -11,13 +12,14 @@ augroup star
   autocmd ColorScheme * let s:star_cmd_str = ''
 augroup END
 
-function! s:find_cmd() abort
+function! s:find_cmd(mode) abort
   for ignore in findfile('.gitignore', '.;', -1)
     if len(filter(readfile(ignore), {_, line -> line == '*'})) > 0
       return 'git ls-files'
     endif
   endfor
-  let open_files = map(filter(getbufinfo({'buflisted': 1, 'bufloaded': 1}),
+  let open_files = a:mode == 'all' ? [] :
+        \  map(filter(getbufinfo({'buflisted': 1, 'bufloaded': 1}),
         \ {_, b -> b.name != '' && getbufvar(b.bufnr, '&bt') != 'nofile'}),
         \ {_, b -> fnamemodify(b.name, ':p:~:.')})
   return printf('rg --files %s', join(map(
@@ -40,8 +42,8 @@ endfunction
 function! s:cmd(mode) abort
   let cmd = printf('(cd %s && %%s | %s > %s)',
         \ shellescape(z#find_project_dir()), s:star_cmd(), s:file)
-  if a:mode == 'files'
-    return printf(cmd, s:find_cmd())
+  if a:mode == 'files' || a:mode == 'all'
+    return printf(cmd, s:find_cmd(a:mode))
   elseif a:mode == 'buffers'
     let bufs = map(filter(getbufinfo(), {_, b -> b.listed && b.name != ''}),
           \ {_, b -> fnamemodify(b.name, ':p:~:.')})
@@ -80,7 +82,8 @@ function! s:open_star_buffer(mode) abort
   let height = min([10, &lines / 3])
   execute 'botright' height 'split'
   enew
-  let &l:statusline='[Star('.z#find_project_dir()[:-2].')] '.s:find_cmd()
+  let &l:statusline = printf('[Star(%s)] %s', z#find_project_dir()[:-2],
+        \ a:mode == 'buffers' ? 'open buffers' : s:find_cmd(a:mode))
   let cmd = s:cmd(a:mode)
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
@@ -102,4 +105,5 @@ command! -nargs=? -complete=customlist,<SID>cmd_completion
       \ Star call s:star(<f-args>)
 
 nnoremap <C-p> :Star<CR>
-nnoremap g<C-p> :Star buffers<CR>
+nnoremap g<C-p> :Star all<CR>
+nnoremap g<C-b> :Star buffers<CR>
