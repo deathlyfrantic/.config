@@ -159,7 +159,9 @@ cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
 cnoremap wbd Wbd
 command! -bang Wbd w<bang> | Bd<bang>
 
-" hide search highlighting
+" search bindings
+nnoremap * *N
+nnoremap # #N
 nnoremap <silent> <Space> :nohlsearch<CR>
 
 " resize windows
