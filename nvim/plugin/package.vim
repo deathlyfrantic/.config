@@ -1,12 +1,9 @@
 let s:packages = []
 let s:lazy = {'ft': {}, 'on_cmd': {}, 'on_map': {}}
-let s:packager_installed = get(s:, 'packager_installed',
-      \ isdirectory(expand('$VIMHOME/pack/packager')))
 
-if !s:packager_installed
+if !isdirectory(expand('$VIMHOME/pack/packager'))
   execute '!git clone https://github.com/kristijanhusak/vim-packager'
         \ expand('$VIMHOME/pack/packager/opt/vim-packager')
-  let s:packager_installed = 1
   augroup package-install
     autocmd!
     autocmd VimEnter * PackInstall |
