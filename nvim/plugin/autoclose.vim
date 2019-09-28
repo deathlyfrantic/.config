@@ -3,11 +3,11 @@ let s:closers = { ')': '(', ']': '[', '}': '{' }
 let s:no_semi_lines = {
       \ 'javascript': [
       \   '^\(if\|while\|switch\|for\) (.*) {$',
-      \   '^} \(else\|else if (.*)\) {$',
+      \   '^} \(else\|else if (.*)\|catch (.*)\) {$',
       \   '^function.*{',
       \   '^\%[static ]\%[async \*]\w\+(.*) {',
       \   '^\%[[gs]et ]\w\+(.*) {',
-      \   '^do {$',
+      \   '^\(do\|try\) {$',
       \ ],
       \ 'rust': [
       \   '^\%[pub\%[(\(crate\|super\|self\|in [0-9A-Za-z_:]*\))] ]\(fn\|enum\|mod\|struct\|trait\).*{$',
