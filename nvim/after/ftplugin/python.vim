@@ -1,7 +1,8 @@
 setlocal omnifunc=python3complete#Complete
 
 function! s:pydoc_man(...) abort
-  call z#preview(systemlist(printf('pydoc3 %s', a:1)))
+  let pydoc = executable('pydoc3') ? 'pydoc3' : 'pydoc'
+  call z#preview(systemlist(pydoc.' '.a:1))
 endfunction
 
 command! -nargs=1 PydocPreview call <SID>pydoc_man(<f-args>)
