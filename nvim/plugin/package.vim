@@ -4,12 +4,7 @@ let s:lazy = {'ft': {}, 'on_cmd': {}, 'on_map': {}}
 if !isdirectory(expand('$VIMHOME/pack/packager'))
   execute '!git clone https://github.com/kristijanhusak/vim-packager'
         \ expand('$VIMHOME/pack/packager/opt/vim-packager')
-  augroup package-install
-    autocmd!
-    autocmd VimEnter * PackInstall |
-          \ autocmd! package-install |
-          \ augroup! package-install
-  augroup END
+  autocmd VimEnter * ++once PackInstall
 endif
 
 function! s:add_package(bang, path, ...) abort
