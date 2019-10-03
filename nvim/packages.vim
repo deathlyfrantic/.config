@@ -60,22 +60,6 @@ augroup END
 " }}}
 
 " panels {{{
-Package 'ctrlpvim/ctrlp.vim', {'on': '<Plug>(ctrlp)'}
-nmap <C-p> <Plug>(ctrlp)
-let g:ctrlp_open_multiple_files = '1jr'
-let g:ctrlp_prompt_mappings = {
-      \ 'PrtSelectMove("j")': ['<C-n>', '<C-j>'],
-      \ 'PrtSelectMove("k")': ['<C-p>', '<C-k>'],
-      \ 'PrtHistory(-1)': ['<Down>'],
-      \ 'PrtHistory(1)':  ['<Up>'],
-      \ }
-if executable('rg')
-  let igs = join(map(split(&wildignore, ','), {i, v -> printf("-g '!%s'", v)}))
-  let g:ctrlp_user_command = printf('rg %s %%s --files -g ""', igs)
-  let g:ctrlp_use_caching = 0
-  unlet! igs
-endif
-
 Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
