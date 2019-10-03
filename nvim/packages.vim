@@ -6,7 +6,6 @@ Package 'cespare/vim-toml', {'for': 'toml'}
 Package 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Package 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Package 'pangloss/vim-javascript', {'for': 'javascript'}
-Package 'leafgarland/typescript-vim', {'for': 'typescript'}
 " }}}
 
 " text objects {{{
