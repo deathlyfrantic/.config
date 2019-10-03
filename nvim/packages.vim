@@ -57,6 +57,10 @@ augroup z-rc-ale
   autocmd FileType ale-preview Wrap
   autocmd FileType java let b:ale_enabled = 0
 augroup END
+
+Package 'rhysd/git-messenger.vim', {'on': 'GitMessenger'}
+nnoremap <silent> <leader>gm :GitMessenger<CR>
+highlight! link gitmessengerHash gitmessengerHeader
 " }}}
 
 " panels {{{
