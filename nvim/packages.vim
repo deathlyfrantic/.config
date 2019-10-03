@@ -1,4 +1,9 @@
 Package 'kristijanhusak/vim-packager', {'type': 'opt'}
+augroup z-rc-packager
+  autocmd!
+  autocmd FileType packager nmap <buffer> <M-j> <Plug>(PackagerGotoNextPlugin)
+  autocmd FileType packager nmap <buffer> <M-k> <Plug>(PackagerGotoPrevPlugin)
+augroup END
 
 " filetypes {{{
 Package 'rust-lang/rust.vim', {'for': 'rust'}
