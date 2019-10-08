@@ -96,7 +96,7 @@ augroup z-rc-commands
         \ endif
 
   " no line numbers in term
-  autocmd! TermOpen * setlocal nonumber
+  autocmd! TermOpen * setlocal nonumber statusline=%{b:term_title}
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC ++nested source $MYVIMRC | SetIndent 2
