@@ -82,12 +82,12 @@ function! s:open_star_buffer(mode) abort
   let height = min([10, &lines / 3])
   execute 'botright' height 'split'
   enew
-  let &l:statusline = printf('[Star(%s)] %s', z#find_project_dir()[:-2],
-        \ a:mode == 'buffers' ? 'open buffers' : s:find_cmd(a:mode))
   let cmd = s:cmd(a:mode)
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
   call termopen(cmd, {'on_exit': function('s:on_exit', [a:mode])})
+  let &l:statusline = printf('[Star(%s)] %s', z#find_project_dir()[:-2],
+        \ a:mode == 'buffers' ? 'open buffers' : s:find_cmd(a:mode))
   silent! execute 'resize' line('$')
   startinsert
 endfunction
