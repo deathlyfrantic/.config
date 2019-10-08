@@ -118,25 +118,7 @@ command! -bang WQ wq<bang>
 command! -bang BD Bd<bang>
 
 " don't change window layout when deleting buffer
-function! s:buf_delete(bufnum, bang) abort
-  if getbufvar(a:bufnum, '&modified') && a:bang == ''
-    let m = 'E89: No write since last change for buffer %d (add ! to override)'
-    call z#echoerr(m, a:bufnum)
-    return
-  endif
-  if bufexists(0) && buflisted(0)
-    buffer #
-  else
-    for buf in reverse(getbufinfo({'buflisted': 1}))
-      if buf.bufnr != a:bufnum
-        execute 'buffer' buf.bufnr
-        break
-      endif
-    endfor
-  endif
-  execute 'bd'.a:bang a:bufnum
-endfunction
-command! -bang -bar Bdelete call s:buf_delete(winbufnr(0), <q-bang>)
+command! -bang -bar Bdelete call command#buf_delete(winbufnr(0), <q-bang>)
 
 " fit current window to contents
 command! Fit silent! execute 'resize' line('$')
@@ -162,6 +144,10 @@ command! -bang Wbd w<bang> | Bd<bang>
 nnoremap * *N
 nnoremap # #N
 nnoremap <silent> <Space> :nohlsearch<CR>
+
+" close all floating windows
+command! CloseFloatingWindows call command#close_floating_windows()
+nnoremap <silent> <Esc> <Cmd>CloseFloatingWindows<CR>
 
 " resize windows
 nnoremap <silent> <C-Left>  <C-W><
@@ -251,28 +237,15 @@ augroup z-rc-swap-command
 augroup END
 
 " local settings
-function! s:source_local_vimrc(force)
-  if !a:force && (expand('<afile>') =~? 'fugitive://'
-        \ || z#contains(['help', 'nofile'], getbufvar(expand('<abuf>'), '&bt')))
-    return
-  endif
-  " apply settings from lowest dir to highest, so most specific are applied last
-  for vimrc in reverse(findfile('.vimrc', expand('<afile>:p:h').';', -1))
-    execute 'silent! source' vimrc
-  endfor
-endfunction
+command! -bang SourceLocalVimrc call command#source_local_vimrc(<q-bang>)
 augroup z-rc-local-vimrc
   autocmd!
-  autocmd BufNewFile,BufReadPre * ++nested call <SID>source_local_vimrc(0)
-  autocmd VimEnter * ++nested call <SID>source_local_vimrc(1)
+  autocmd BufNewFile,BufReadPre * ++nested SourceLocalVimrc
+  autocmd VimEnter * ++nested SourceLocalVimrc!
 augroup END
 
 " close all open man pages
-function! s:close_man_pages() abort
-  let bufs = filter(getbufinfo(), {_, b -> b.listed && b.name =~? '^man://'})
-  execute 'bd!' join(map(bufs, {_, b -> b.bufnr}), ' ')
-endfunction
-command! ManClose call <SID>close_man_pages()
+command! ManClose call command#close_man_pages()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
