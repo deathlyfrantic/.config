@@ -271,18 +271,21 @@ function! GitStatus() abort
   for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
     let status .= num ? sym.num : ''
   endfor
-  return status.'] '
+  return status.']'
 endfunction
 
-set statusline=%{GitStatus()}
-set statusline+=%<%F
+set statusline=[%n]\ %<%F
+set statusline+=%(\ %{GitStatus()}%)
 set statusline+=%(\ %y%)
-set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
-set statusline+=%{strlen(&fenc)&&&fenc!='utf-8'?'\ \ ['.&fenc.']':''}
-set statusline+=\ %h%m%r%=
+set statusline+=%(\ %{&ff!='unix'?'\ ['.&ff.']':''}%)
+set statusline+=%(\ %{len(&fenc)&&&fenc!='utf-8'?'\ ['.&fenc.']':''}%)
+set statusline+=%(\ %h%)
+set statusline+=%(\ %m%)
+set statusline+=%(\ %r%)
+set statusline+=%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%{&paste?'\[paste]\ ':''}
-set statusline+=%{ObsessionStatus()}
-set statusline+=\ \ \ %c%V,%l/%L
+set statusline+=%(%{ObsessionStatus()}\ %)
+set statusline+=%c%V\ :\ %l/%L
 " }}}
 " --- end colors and appearance --- }}}
