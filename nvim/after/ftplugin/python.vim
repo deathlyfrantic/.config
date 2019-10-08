@@ -3,6 +3,8 @@ setlocal omnifunc=python3complete#Complete
 function! s:pydoc_man(...) abort
   let pydoc = executable('pydoc3') ? 'pydoc3' : 'pydoc'
   call z#preview(systemlist(pydoc.' '.a:1))
+  autocmd CursorMoved * ++once call nvim_win_close(s:pydoc_window, 1)
+        \| let s:pydoc_window = -1
 endfunction
 
 command! -nargs=1 PydocPreview call <SID>pydoc_man(<f-args>)

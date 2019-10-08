@@ -72,28 +72,28 @@ augroup z-rc-commands
 
   " quit even if dirvish or quickfix is open
   autocmd BufEnter *
-        \ if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish') |
-        \   if len(getbufinfo({'buflisted': 1})) == 1 |
-        \     quit |
-        \   else |
-        \     bd! |
-        \   endif |
-        \ endif
+        \  if winnr('$') == 1 && (&bt == 'quickfix' || &ft == 'dirvish')
+        \|   if len(getbufinfo({'buflisted': 1})) == 1
+        \|     quit
+        \|   else
+        \|     bd!
+        \|   endif
+        \| endif
 
   " see :help last-position-jump
   autocmd BufReadPost *
-        \ if expand('%') !~ 'COMMIT_EDITMSG'
-        \     && line("'\"") > 1 && line("'\"") <= line("$") |
-        \   execute "normal! g`\"zvzz" |
-        \ endif
+        \  if expand('%') !~ 'COMMIT_EDITMSG'
+        \      && line("'\"") > 1 && line("'\"") <= line('$')
+        \|   execute 'normal! g`"zvzz'
+        \| endif
 
   " don't move my position when switching buffers
   autocmd! BufWinLeave * let b:winview = winsaveview()
   autocmd! BufWinEnter *
-        \ if exists('b:winview') |
-        \   call winrestview(b:winview) |
-        \   unlet! b:winview |
-        \ endif
+        \  if exists('b:winview')
+        \|   call winrestview(b:winview)
+        \|   unlet! b:winview
+        \| endif
 
   " no line numbers in term
   autocmd! TermOpen * setlocal nonumber statusline=%{b:term_title}
@@ -233,8 +233,8 @@ endfunction
 nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
 augroup z-rc-quickfix
   autocmd!
-  autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR> |
-        \ nnoremap <silent> <buffer> q :cclose<CR>
+  autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
+        \| nnoremap <silent> <buffer> q :cclose<CR>
 augroup END
 
 " swap files
@@ -252,8 +252,8 @@ augroup END
 
 " local settings
 function! s:source_local_vimrc(force)
-  if !a:force && (expand('<afile>') =~? 'fugitive://' ||
-        \ z#contains(['help', 'nofile'], getbufvar(expand('<abuf>'), '&bt')))
+  if !a:force && (expand('<afile>') =~? 'fugitive://'
+        \ || z#contains(['help', 'nofile'], getbufvar(expand('<abuf>'), '&bt')))
     return
   endif
   " apply settings from lowest dir to highest, so most specific are applied last
