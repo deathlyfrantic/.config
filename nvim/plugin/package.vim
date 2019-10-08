@@ -60,10 +60,10 @@ function! s:packager_init() abort
 endfunction
 
 command! -bang -nargs=+ Package call <SID>add_package(<q-bang>, <args>)
-command! PackClean call <SID>packager_init() | call packager#clean()
+command! PackClean   call <SID>packager_init() | call packager#clean()
 command! PackInstall call <SID>packager_init() | call packager#install()
-command! PackStatus call <SID>packager_init() | call packager#status()
-command! PackUpdate call <SID>packager_init() | call packager#update()
+command! PackStatus  call <SID>packager_init() | call packager#status()
+command! PackUpdate  call <SID>packager_init() | call packager#update()
 
 source $VIMHOME/packages.vim
 

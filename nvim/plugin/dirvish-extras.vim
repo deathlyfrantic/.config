@@ -21,8 +21,8 @@ endfunction
 function! s:dirvish_autocmds() abort
   setlocal nonumber norelativenumber statusline=%F
   nnoremap <silent> <buffer> <C-r> <Cmd>Dirvish %<CR>
-  nnoremap <silent> <buffer> <CR> <Cmd>call <SID>dirvish_open()<CR>
-  nnoremap <silent> <buffer> q <Cmd>call <SID>dirvish_toggle()<CR>
+  nnoremap <silent> <buffer> <CR>  <Cmd>call <SID>dirvish_open()<CR>
+  nnoremap <silent> <buffer> q     <Cmd>call <SID>dirvish_toggle()<CR>
   silent! keeppatterns g@\v/\.[^\/]+/?$@d
   for pat in split(&wildignore, ',')
     execute 'silent! keeppatterns g@\v/'.pat.'/?$@d'

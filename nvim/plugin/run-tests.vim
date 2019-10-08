@@ -131,7 +131,7 @@ function! s:new_test_buffer() abort
   nnoremap <silent> <buffer> q :bd!<CR>
   nnoremap <silent> <buffer> R :setlocal nomodified modifiable<CR>
         \ :call termopen(get(b:, 'command'),
-        \  {'on_exit': function('<SID>on_term_exit', [get(b:, 'close')])})<CR>
+        \ {'on_exit': function('<SID>on_term_exit', [get(b:, 'close')])})<CR>
 endfunction
 
 function! s:load_or_create_buffer() abort
