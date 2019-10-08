@@ -27,7 +27,7 @@ endfunction
 
 " Browse alias is for Fugitive's Gbrowse
 command! -nargs=1 Browse Web <args>
-command! -nargs=1 Web call <SID>browser(<f-args>)
+command! -nargs=1 Web    call <SID>browser(<f-args>)
 command! -nargs=1 Search call <SID>search(<f-args>)
 
 nnoremap <silent> <Plug>(websearch) :set opfunc=<SID>operator<CR>g@

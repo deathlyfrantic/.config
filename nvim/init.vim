@@ -162,9 +162,9 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
 " open terminal split
-nnoremap <C-W><C-t> :botright vsp +term<CR>:startinsert<CR>
-nnoremap <C-W>T :botright sp +term<CR>:startinsert<CR>
-nnoremap <C-W>t :belowright 20sp +term<CR>:startinsert<CR>
+nnoremap <C-W><C-t> :botright    vsp +term<CR>:startinsert<CR>
+nnoremap <C-W>T     :botright     sp +term<CR>:startinsert<CR>
+nnoremap <C-W>t     :belowright 20sp +term<CR>:startinsert<CR>
 
 " un-dos files with ^M line endings
 command! Undos e ++ff=unix | %s/\r//g
@@ -220,7 +220,7 @@ nnoremap <silent> <expr> <leader>q <SID>quickfix_toggle()
 augroup z-rc-quickfix
   autocmd!
   autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
-        \| nnoremap <silent> <buffer> q :cclose<CR>
+                   \| nnoremap <silent> <buffer> q     :cclose<CR>
 augroup END
 
 " swap files
