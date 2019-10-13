@@ -17,6 +17,10 @@ function! snippets#available_snippets() abort
   return snippets
 endfunction
 
+function! s:indentstr() abort
+  return shiftwidth() == 8 && !&expandtab ? '\t' : repeat(' ', shiftwidth())
+endfunction
+
 function! s:snippet(...) abort
   if a:0
     let [rhs, lhs, expr] = [a:000[-1], a:000[-2], count(a:000, '<expr>') > 0]
@@ -41,7 +45,7 @@ function! s:list_snippets() abort
 endfunction
 
 function! s:jump(ins) abort
-  let keys = a:ins ? repeat("\<Delete>", len(s:marker)) : len(s:marker).'s'
+  let keys = a:ins ? repeat("\<Delete>", len(s:marker)) : '"_'.len(s:marker).'s'
   if search(s:marker, 'W')
     call feedkeys(keys)
   endif
@@ -110,20 +114,18 @@ function! s:trigger() abort
   " backspace as many times as necessary to delete the trigger word
   execute 'normal! a' repeat("\<BS>", len(word) + 1) "\<Esc>"
   if snippet.expr
-    execute printf("normal! \"=%s\<Enter>gP", snippet.rhs)
+    execute printf("normal! \"=%s\<Enter>gP\"_x", snippet.rhs)
   else
     let save_s = @s
     let @s = snippet.rhs
-    normal! "sgP
+    normal! "sgP"_x
     let @s = save_s
   endif
   let num_lines = line('.') - start_pos[1]
   if num_lines > 0
-    " if this snippet is multi-line, format it to fix indentation. =k moves the
-    " cursor, so save its position and restore it after the formatting
-    let new_pos = getpos('.')
-    execute printf('normal! %s=k', num_lines)
-    call setpos('.', new_pos)
+    " replace all leading tabs with appropriate indentation
+    execute printf('.-%s,.s/^\t\+/\=repeat("%s", len(submatch(0)))/e',
+          \ num_lines, s:indentstr())
   endif
   if snippet.rhs =~ s:marker
     " if there's a cursor marker, put the cursor where the trigger word started
@@ -131,7 +133,7 @@ function! s:trigger() abort
     call setpos('.', start_pos)
     call s:jump(0)
   else
-    startinsert
+    call feedkeys('a')
   endif
 endfunction
 
