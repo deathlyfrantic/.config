@@ -13,11 +13,9 @@ augroup star
 augroup END
 
 function! s:find_cmd(mode) abort
-  for ignore in findfile('.gitignore', '.;', -1)
-    if len(filter(readfile(ignore), {_, line -> line == '*'})) > 0
-      return 'git ls-files'
-    endif
-  endfor
+  if exists('b:star_find_cmd')
+    return b:star_find_cmd
+  endif
   let open_files = a:mode == 'all' ? [] :
         \  map(filter(getbufinfo({'buflisted': 1, 'bufloaded': 1}),
         \ {_, b -> b.name != '' && getbufvar(b.bufnr, '&bt') != 'nofile'}),
@@ -80,14 +78,15 @@ endfunction
 function! s:open_star_buffer(mode) abort
   let current_buffer = bufnr('%')
   let height = min([10, &lines / 3])
+  let cmd = s:cmd(a:mode)
+  let find_cmd = s:find_cmd(a:mode)
   execute 'botright' height 'split'
   enew
-  let cmd = s:cmd(a:mode)
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
   call termopen(cmd, {'on_exit': function('s:on_exit', [a:mode])})
   let &l:statusline = printf('[Star(%s)] %s', z#find_project_dir()[:-2],
-        \ a:mode == 'buffers' ? 'open buffers' : s:find_cmd(a:mode))
+        \ a:mode == 'buffers' ? 'open buffers' : find_cmd)
   silent! execute 'resize' line('$')
   startinsert
 endfunction
