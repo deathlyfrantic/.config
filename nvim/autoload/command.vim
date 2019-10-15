@@ -14,7 +14,7 @@ function! command#buf_delete(bufnum, bang) abort
       endif
     endfor
   endif
-  execute 'bd'.a:bang a:bufnum
+  execute 'silent! bd'.a:bang a:bufnum
 endfunction
 
 function! command#close_floating_windows() abort
