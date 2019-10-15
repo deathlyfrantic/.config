@@ -19,7 +19,7 @@ endfunction
 function! z#popup(text) abort
   let buf = nvim_create_buf(v:false, v:true)
   let array_text = type(a:text) == v:t_string ? split(a:text, '\n') : a:text
-  let text = [''] + map(array_text, {_, t -> ' '.t.' '}) + ['']
+  let text = [''] + map(copy(array_text), {_, t -> ' '.t.' '}) + ['']
   call nvim_buf_set_lines(buf, 0, -1, v:true, text)
   let opts = {'relative': 'cursor', 'height': len(text), 'style': 'minimal',
         \ 'focusable': v:false}
