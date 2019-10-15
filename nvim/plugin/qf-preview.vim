@@ -72,18 +72,6 @@ function! s:preview() abort
   autocmd CursorMoved,BufLeave,BufWinLeave <buffer> ++once call <SID>close_popup()
 endfunction
 
-function! s:autocmds() abort
-  if &buftype != 'quickfix' || !get(g:, 'qf_preview', 1) || get(b:, 'qf_preview_loaded')
-    return
-  endif
-  augroup quickfix-preview-commands
-    autocmd!
-    autocmd BufLeave <buffer> call <SID>close_popup()
-    autocmd BufWinLeave <buffer> call <SID>close_popup()
-  augroup END
-  let b:qf_preview_loaded = 1
-endfunction
-
 augroup quickfix-preview
   autocmd!
   autocmd FileType qf nnoremap <buffer> Q <Cmd>call <SID>preview()<CR>
