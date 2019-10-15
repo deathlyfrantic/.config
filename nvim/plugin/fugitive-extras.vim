@@ -25,16 +25,17 @@ let g:fugitive_browse_handlers = extend(get(g:, 'fugitive_browse_handlers', []),
 " this is a modified version of vim-fugitive-blame-ext by Tom McDonald
 " see: https://github.com/tommcdo/vim-fugitive-blame-ext
 let s:subj_cmd = 'git --git-dir=%s show -s --pretty=format:%%s %s'
-let s:body_cmd = 'git --git-dir=%s show -s --pretty=format:%%b %s'
+let s:full_cmd = 'git --git-dir=%s show -s --format=medium --color=never %s'
+let s:popup_window = -1
 
 function! s:log_message(commit)
   if a:commit =~ '^0\+$'
-    return {'subj': '(Not Committed Yet)', 'body': ''}
+    return {'subj': '(Not Committed Yet)', 'full': ''}
   endif
   if !has_key(b:blame_messages, a:commit)
     let subj = system(printf(s:subj_cmd, b:git_dir, a:commit))
-    let body = systemlist(printf(s:body_cmd, b:git_dir, a:commit))
-    let b:blame_messages[a:commit] = {'subj': subj, 'body': body}
+    let full = systemlist(printf(s:full_cmd, b:git_dir, a:commit))
+    let b:blame_messages[a:commit] = {'subj': subj, 'full': full}
   endif
   return b:blame_messages[a:commit]
 endfunction
@@ -60,14 +61,23 @@ endfunction
 
 function! s:show_log_message()
   let line = substitute(getline('.'), '\v^\^?([a-z0-9]+).*$', '\1', '')
-  redraw
   let blame = s:log_message(line)
   echo s:truncate_message(blame.subj)
-  if len(blame.body)
-    call z#preview(extend([blame.subj, ''], blame.body))
-  else
-    pclose!
+endfunction
+
+function! s:close_popup() abort
+  if s:popup_window != -1
+    silent! call nvim_win_close(s:popup_window, v:true)
+    let s:popup_window = -1
   endif
+endfunction
+
+function! s:popup()
+  call s:close_popup()
+  let line = substitute(getline('.'), '\v^\^?([a-z0-9]+).*$', '\1', '')
+  let blame = s:log_message(line)
+  let s:popup_window = z#popup(blame.full)
+  autocmd CursorMoved,BufLeave,BufWinLeave <buffer> ++once call <SID>close_popup()
 endfunction
 
 augroup fugitive-extras-blame
@@ -75,5 +85,5 @@ augroup fugitive-extras-blame
   autocmd BufReadPost,BufNewFile *.fugitiveblame
         \ let b:blame_messages = get(b:, 'blame_messages', {})
   autocmd BufEnter,CursorMoved *.fugitiveblame call <SID>show_log_message()
-  autocmd BufUnload *.fugitiveblame pclose!
+  autocmd FileType fugitiveblame nnoremap <buffer> Q <Cmd>call <SID>popup()<CR>
 augroup END
