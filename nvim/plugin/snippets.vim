@@ -109,6 +109,7 @@ function! s:trigger() abort
     call z#echowarn('No snippet for "%s" found', word)
     return
   endif
+  let indent = matchstr(getline('.'), '^\s*')
   let start_pos = getpos('.')
   " can't do ciw here because there may be chars in front of the cursor, so
   " backspace as many times as necessary to delete the trigger word
@@ -117,14 +118,15 @@ function! s:trigger() abort
     execute printf("normal! \"=%s\<Enter>gP\"_x", snippet.rhs)
   else
     let save_s = @s
-    let @s = snippet.rhs
+    let lines = split(snippet.rhs, '\n')
+    let @s = join(lines[:0] + map(lines[1:], {_, line -> indent.line}), "\n")
     normal! "sgP"_x
     let @s = save_s
   endif
   let num_lines = line('.') - start_pos[1]
   if num_lines > 0
     " replace all leading tabs with appropriate indentation
-    execute printf('.-%s,.s/^\t\+/\=repeat("%s", len(submatch(0)))/e',
+    execute printf('.-%s,.s/^s*/\=substitute(submatch(0), "\t", "%s", "")/e',
           \ num_lines, s:indentstr())
   endif
   if snippet.rhs =~ s:marker
