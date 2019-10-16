@@ -277,8 +277,8 @@ endfunction
 set statusline=[%n]\ %<%F
 set statusline+=%(\ %{GitStatus()}%)
 set statusline+=%(\ %y%)
-set statusline+=%(\ %{&ff!='unix'?'\ ['.&ff.']':''}%)
-set statusline+=%(\ %{len(&fenc)&&&fenc!='utf-8'?'\ ['.&fenc.']':''}%)
+set statusline+=%(\ %{&ff!='unix'?'['.&ff.']':''}%)
+set statusline+=%(\ %{len(&fenc)&&&fenc!='utf-8'?'['.&fenc.']':''}%)
 set statusline+=%(\ %h%)
 set statusline+=%(\ %m%)
 set statusline+=%(\ %r%)
