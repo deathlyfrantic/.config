@@ -126,7 +126,7 @@ function! s:trigger() abort
   let num_lines = line('.') - start_pos[1]
   if num_lines > 0
     " replace all leading tabs with appropriate indentation
-    execute printf('.-%s,.s/^s*/\=substitute(submatch(0), "\t", "%s", "")/e',
+    execute printf('.-%s,.s/^\s*/\=substitute(submatch(0), "\t", "%s", "")/e',
           \ num_lines, s:indentstr())
   endif
   if snippet.rhs =~ s:marker
