@@ -270,7 +270,7 @@ function! GitStatus() abort
   return status.']'
 endfunction
 
-set statusline=[%n]\ %<%F
+set statusline=[%n]\ %F%<
 set statusline+=%(\ %{GitStatus()}%)
 set statusline+=%(\ %y%)
 set statusline+=%(\ %{&ff!='unix'?'['.&ff.']':''}%)
