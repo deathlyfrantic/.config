@@ -251,14 +251,10 @@ command! ManClose call command#close_man_pages()
 " --- colors and appearance --- {{{
 " colors {{{
 set background=dark
-if len($COLORTERM) " heuristic to determine whether we're using terminal.app
-  if strftime('%H') > 19 || strftime('%H') < 10
-    colorscheme copper
-  else
-    colorscheme gaia
-  endif
+if strftime('%H') > 19 || strftime('%H') < 10
+  colorscheme copper
 else
-  colorscheme album-256
+  colorscheme gaia
 endif
 " }}}
 
