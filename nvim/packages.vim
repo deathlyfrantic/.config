@@ -60,6 +60,26 @@ augroup END
 " }}}
 
 " panels {{{
+Package 'junegunn/goyo.vim', {'on': 'Goyo'}
+let g:goyo_height = '96%'
+function! s:goyo_enter() abort
+  set noshowmode noshowcmd showtabline=0
+  augroup z-rc-goyo-cursorhold
+    autocmd CursorHold * echo ''
+  augroup END
+endfunction
+function! s:goyo_leave() abort
+  set showmode showcmd
+  call buftabline#update(0)
+  autocmd! z-rc-goyo-cursorhold
+  augroup! z-rc-goyo-cursorhold
+endfunction
+augroup z-rc-goyo
+  autocmd!
+  autocmd User GoyoEnter ++nested call <SID>goyo_enter()
+  autocmd User GoyoLeave ++nested call <SID>goyo_leave()
+augroup END
+
 Package 'justinmk/vim-dirvish'
 let g:dirvish_mode = ':sort ,^.*[\/],'
 nmap - <Plug>(dirvish-toggle)
