@@ -111,7 +111,6 @@ inoremap <C-x><C-t> <Cmd>call completion#wrap('tmuxcomplete#complete')<CR>
 " }}}
 
 " text manipulation {{{
-Package 'junegunn/vim-peekaboo'
 Package 'nelstrom/vim-visual-star-search'
 Package 'tommcdo/vim-exchange'
 Package 'tommcdo/vim-lion'
