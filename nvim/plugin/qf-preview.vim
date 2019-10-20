@@ -41,10 +41,10 @@ endfunction
 
 function! s:preview_contents(info) abort
   let [lines, line] = s:get_lines_and_pos(a:info)
-  let s:popup_window = z#popup(lines) " function('s:highlight', [line]))
+  let s:popup_window = z#popup(lines)
   let width = max(map(copy(lines), {_, v -> len(v)}))
   call nvim_buf_add_highlight(nvim_win_get_buf(s:popup_window), -1,
-        \ 'CursorLine', line, 1, width - 1)
+        \ 'PmenuSel', line, 1, width + 1)
 endfunction
 
 function! s:close_popup() abort
