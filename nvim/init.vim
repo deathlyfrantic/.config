@@ -267,7 +267,7 @@ function! GitStatus() abort
   for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
     let status .= num ? sym.num : ''
   endfor
-  return printf('[%s/%s]', branch, status)
+  return '['.branch.(len(status) ? ':'.status : '').']'
 endfunction
 
 set statusline=[%n]\ %F%<
