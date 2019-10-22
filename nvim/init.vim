@@ -260,14 +260,14 @@ endif
 
 " statusline {{{
 function! GitStatus() abort
-  let status = FugitiveStatusline()[:-2]
-  if status == ''
+  let [branch, status] = [FugitiveHead(7), '']
+  if branch == ''
     return ''
   endif
   for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
     let status .= num ? sym.num : ''
   endfor
-  return status.']'
+  return printf('[%s/%s]', branch, status)
 endfunction
 
 set statusline=[%n]\ %F%<
