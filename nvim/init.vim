@@ -250,7 +250,6 @@ command! ManClose call command#close_man_pages()
 
 " --- colors and appearance --- {{{
 " colors {{{
-set background=dark
 if strftime('%H') > 19 || strftime('%H') < 10
   colorscheme copper
 else
