@@ -139,7 +139,7 @@ augroup z-rc-commentary
   autocmd FileType django,htmldjango,jinja,htmljinja setlocal cms={#%s#}
   autocmd FileType cmake setlocal commentstring=#%s
   autocmd FileType sql setlocal commentstring=--%s
-  autocmd FileType c,php setlocal commentstring=//%s
+  autocmd FileType c,php,typescript setlocal commentstring=//%s
 augroup END
 
 Package 'tpope/vim-fugitive'
