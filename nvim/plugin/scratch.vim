@@ -19,7 +19,6 @@ function! s:write() abort
 endfunction
 
 function! s:new_buffer() abort
-  let height = min([10, &lines / 3])
   execute 'topleft' s:height() 'new' s:bufname
   setlocal filetype=scratch bufhidden=hide nobuflisted buftype=nofile noswapfile
   setlocal textwidth=0 winfixheight winfixwidth statusline=%F%=%c%V\ :\ %l/%L
@@ -28,7 +27,10 @@ function! s:new_buffer() abort
   nnoremap <buffer> q :close<CR>
   nnoremap <buffer> R :call <SID>read()<CR>
   nnoremap <buffer> <leader>s :wincmd p<CR>
-  call s:autocmds()
+  augroup scratch
+    autocmd!
+    autocmd WinLeave <buffer> call s:close_window()
+  augroup END
 endfunction
 
 function! s:close_window() abort
@@ -42,13 +44,6 @@ function! s:close_window() abort
       execute bufwinnr(s:bufname) 'close'
     endif
   endif
-endfunction
-
-function! s:autocmds() abort
-  augroup scratch
-    autocmd!
-    autocmd WinLeave <buffer> call s:close_window()
-  augroup END
 endfunction
 
 function! s:open_buffer() abort
