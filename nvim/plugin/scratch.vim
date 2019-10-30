@@ -27,6 +27,7 @@ function! s:new_buffer() abort
   Wrap
   nnoremap <buffer> q :close<CR>
   nnoremap <buffer> R :call <SID>read()<CR>
+  nnoremap <buffer> <leader>s :wincmd p<CR>
   call s:autocmds()
 endfunction
 
