@@ -148,7 +148,7 @@ Package 'tpope/vim-rhubarb'
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
-noremap <silent> <leader>gb :Gbrowse!<CR>
+noremap  <silent> <leader>gb :Gbrowse!<CR>
 
 Package 'tpope/vim-dadbod', {'on': 'DB'}
 function! s:db_command(...) abort
