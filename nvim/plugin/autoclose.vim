@@ -59,8 +59,10 @@ function! s:should_close(end) abort
 endfunction
 
 function! s:enter() abort
-  if !has_key(s:pairs, trim(getline('.'))[-1:])
-    " don't do anything if the (trimmed) line doesn't end with a left pair item
+  if col('.') < len(trim(getline('.')))
+        \ || !has_key(s:pairs, trim(getline('.'))[-1:])
+    " don't do anything if cursor is not at the end of a line,
+    " or if the (trimmed) line doesn't end with a left pair item
     return "\<Enter>"
   endif
   let stack = []
