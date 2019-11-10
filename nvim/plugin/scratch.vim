@@ -20,9 +20,12 @@ endfunction
 
 function! s:new_buffer() abort
   execute 'topleft' s:height() 'new' s:bufname
-  setlocal filetype=scratch bufhidden=hide nobuflisted buftype=nofile noswapfile
-  setlocal textwidth=0 winfixheight winfixwidth statusline=%F%=%c%V\ :\ %l/%L
+  setlocal filetype=scratch bufhidden=hide nobuflisted buftype=nofile
   setlocal formatoptions-=o formatoptions-=r
+  setlocal noswapfile textwidth=0 winfixheight winfixwidth
+  setlocal statusline=[scratch]%=
+  setlocal statusline+=%#StatusLineSeparator#\ │\ %*%l:%c%V
+  setlocal statusline+=%#StatusLineSeparator#\ │\ %*%P
   Wrap
   nnoremap <buffer> q :close<CR>
   nnoremap <buffer> R :call <SID>read()<CR>
