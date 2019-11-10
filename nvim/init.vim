@@ -53,6 +53,12 @@ set wildignore+=.git,.gitmodules                            " git
 set wildignore+=*.swp                                       " vim
 set wildignore+=.DS_Store                                   " macos
 set wildignorecase
+
+if strftime('%H') > 19 || strftime('%H') < 10
+  colorscheme copper
+else
+  colorscheme gaia
+endif
 " --- end general settings --- }}}
 
 " --- autocommands --- {{{
@@ -96,7 +102,7 @@ augroup z-rc-commands
         \| endif
 
   " no line numbers in term
-  autocmd! TermOpen * setlocal nonumber statusline=%{b:term_title}
+  autocmd! TermOpen * setlocal nonumber statusline=[terminal]\ %{b:term_title}
 
   " i edit my vimrc enough i need autocmds dedicated to it #cooldude #sunglasses
   autocmd BufWritePost $MYVIMRC ++nested source $MYVIMRC | setlocal filetype=vim
@@ -247,40 +253,3 @@ augroup END
 " close all open man pages
 command! ManClose call command#close_man_pages()
 " --- end keymaps --- }}}
-
-" --- colors and appearance --- {{{
-" colors {{{
-if strftime('%H') > 19 || strftime('%H') < 10
-  colorscheme copper
-else
-  colorscheme gaia
-endif
-" }}}
-
-" statusline {{{
-function! GitStatus() abort
-  let [branch, status] = [FugitiveHead(7), '']
-  if branch == ''
-    return ''
-  endif
-  for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
-    let status .= num ? sym.num : ''
-  endfor
-  return '['.branch.(len(status) ? ':'.status : '').']'
-endfunction
-
-set statusline=[%n]\ %F%<
-set statusline+=%(\ %{GitStatus()}%)
-set statusline+=%(\ %y%)
-set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
-set statusline+=%{len(&fenc)&&&fenc!='utf-8'?'\ ['.&fenc.']':''}
-set statusline+=%(\ %h%)
-set statusline+=%(\ %m%)
-set statusline+=%(\ %r%)
-set statusline+=%=
-set statusline+=%{&wrap?'\[wrap]\ ':''}
-set statusline+=%{&paste?'\[paste]\ ':''}
-set statusline+=%(%{ObsessionStatus()}\ %)
-set statusline+=%c%V\ :\ %l/%L
-" }}}
-" --- end colors and appearance --- }}}
