@@ -212,7 +212,7 @@ imap <expr> <C-j> <SID>arrow(0)
 imap <expr> <C-l> <SID>arrow(1)
 augroup z-rc-arrows
   autocmd!
-  autocmd FileType c,php imap <buffer> <C-j> ->
+  autocmd FileType c imap <buffer> <C-j> ->
   autocmd FileType vim imap <buffer> <expr> <C-j>
         \ z#char_before_cursor() == '{' ? '-> ' : <SID>arrow(0)
 augroup END
