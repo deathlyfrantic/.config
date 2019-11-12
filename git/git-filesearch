@@ -1,0 +1,13 @@
+listing=$(for rev in $(git rev-list --all); do
+    git ls-tree -r $rev | grep "$@"
+done | awk '
+    { if (!($4 in files)) files[$4] = $3 }
+    END {
+        for (file in files) {
+            cmd = "git describe --always " files[file] " | cut -f1 -d':'"
+            cmd | getline commit
+            close(cmd)
+            print file "^^^" files[file] "^^^" commit}
+        }
+' | sort)
+echo "file^^^blob^^^commit\n----^^^----^^^------\n$listing" | column -s '^^^' -t
