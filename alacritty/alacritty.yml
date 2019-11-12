@@ -564,8 +564,9 @@ key_bindings:
   - { key: Backslash, mods: Alt,       chars: "\x1b\\" } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"  } # Alt + |
 
-  # make ctrl-q work (https://github.com/jwilm/alacritty/issues/1359)
+  # make ctrl-$key work (https://github.com/jwilm/alacritty/issues/1359)
   - { key: Q,         mods: Control,   chars: "\x11"   } # Ctrl + Q
+  - { key: Key6,      mods: Control,   chars: "\x1e"   } # Ctrl-6
 
   # tmux (https://arslan.io/2018/02/05/gpu-accelerated-terminal-alacritty/)
   # prefix
