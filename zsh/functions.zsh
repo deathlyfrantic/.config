@@ -23,7 +23,10 @@ function preexec {
 function zshaddhistory {
     # don't save boring history
     local boring=(
-        '^ls'
+        '^ls '
+        '^ls$'
+        '^ll '
+        '^ll$'
     )
     for i in $boring; do
         if [[ $1 =~ $i ]]; then

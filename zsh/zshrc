@@ -87,3 +87,10 @@ bindkey '^W' vi-backward-kill-word
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
+
+function star-history-search {
+    eval 'LBUFFER=$(echo -n $(hs)) '
+    zle reset-prompt
+}
+zle -N star-history-search
+bindkey '^X^S' star-history-search
