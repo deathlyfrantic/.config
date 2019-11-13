@@ -62,6 +62,7 @@ augroup END
 " panels {{{
 Package 'junegunn/goyo.vim', {'on': 'Goyo'}
 let g:goyo_height = '96%'
+let g:goyo_width = 82
 function! s:goyo_enter() abort
   set noshowmode noshowcmd showtabline=0
   augroup z-rc-goyo-cursorhold
