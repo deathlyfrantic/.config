@@ -1,4 +1,4 @@
-setlocal foldcolumn=0
+setlocal suffixesadd=.ts,.js
 
 setlocal cinoptions-=(0
 setlocal cinoptions-=:0
