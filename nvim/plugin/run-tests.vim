@@ -191,21 +191,25 @@ function! s:run_tests(cmd, close) abort
   call win_gotoid(current_window)
 endfunction
 
-function! s:get_normalized_filetype() abort
-  " account for 'javascript.jsx', also for this script typescript == javascript
-  return &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
-endfunction
+let s:runners = {
+      \ 'javascript': function('s:javascript'),
+      \ 'python': function('s:python'),
+      \ 'rust': function('s:rust'),
+      \ 'sh': function('s:sh'),
+      \ 'typescript': function('s:javascript'),
+      \ }
 
 function! s:orchestrate_tests(selection, bang) abort
   let test_cmds = []
   let errs = []
   try
-    let Runner = has_key(b:, 'test_command')
-          \ ? {-> b:test_command}
-          \ : function(printf('s:%s', s:get_normalized_filetype()))
-    let test_cmds = [Runner(a:selection)]
-  catch /^Vim\%((\a\+)\)\=:E700/ " runner doesn't exist
-    let errs += [printf("No tests available for filetype '%s'", &ft)]
+    if has_key(b:, 'test_command')
+      let test_cmds += [b:test_command]
+    elseif has_key(s:runners, &filetype)
+      let test_cmds += [s:runners[&filetype](a:selection)]
+    else
+      let errs += [printf("No tests available for filetype '%s'", &ft)]
+    endif
   catch " runner didn't return a valid command
     let errs += [printf('Test runner failed: %s', v:exception)]
   endtry
