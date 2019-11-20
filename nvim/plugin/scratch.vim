@@ -28,9 +28,8 @@ function! s:new_buffer(num) abort
   setlocal filetype=scratch bufhidden=hide nobuflisted buftype=nofile
   setlocal formatoptions-=o formatoptions-=r
   setlocal noswapfile textwidth=0 winfixheight winfixwidth
-  let &l:statusline = '%n [scratch] '.s:save_file(a:num).'%='
-  setlocal statusline+=%#StatusLineSeparator#\ │\ %*%l:%c%V
-  setlocal statusline+=%#StatusLineSeparator#\ │\ %*%P
+  setlocal textwidth=0 winfixheight winfixwidth
+  let &l:statusline = '[Scratch('.a:num.')]%=%l,%c%V%6P'
   Wrap
   nnoremap <silent> <buffer> q <C-w>q
   nnoremap <silent> <buffer> R :call <SID>read()<CR>
