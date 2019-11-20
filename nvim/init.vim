@@ -53,12 +53,6 @@ set wildignore+=.git,.gitmodules                            " git
 set wildignore+=*.swp                                       " vim
 set wildignore+=.DS_Store                                   " macos
 set wildignorecase
-
-if strftime('%H') > 19 || strftime('%H') < 10
-  colorscheme copper
-else
-  colorscheme gaia
-endif
 " --- end general settings --- }}}
 
 " --- autocommands --- {{{
@@ -252,3 +246,37 @@ augroup END
 " close all open man pages
 command! ManClose call command#close_man_pages()
 " --- end keymaps --- }}}
+
+" --- colors and appearance --- {{{
+" colors {{{
+if strftime('%H') > 19 || strftime('%H') < 10
+  colorscheme copper
+else
+  colorscheme gaia
+endif
+" }}}
+
+" statusline {{{
+function! GitStatus() abort
+  let [branch, status] = [FugitiveHead(7), '']
+  if branch == ''
+    return ''
+  endif
+  for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
+    let status .= num ? sym.num : ''
+  endfor
+  return '['.branch.(len(status) ? '/'.status : '').']'
+endfunction
+
+set statusline=[%n]\ %f%<
+set statusline+=%(\ %{GitStatus()}%)
+set statusline+=%(\ %h%)%(\ %m%)%(\ %r%)
+set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
+set statusline+=%{len(&fenc)&&&fenc!='utf-8'?'\ ['.&fenc.']':''}
+set statusline+=%=
+set statusline+=%{&wrap?'\[wrap]\ ':''}
+set statusline+=%{&paste?'\[paste]\ ':''}
+set statusline+=%(%{ObsessionStatus()}\ %)
+set statusline+=\ \ %l,%c%V%6P
+" }}}
+" --- end colors and appearance --- }}}
