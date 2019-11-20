@@ -188,7 +188,7 @@ augroup z-rc-completion
 augroup END
 
 " copy entire buffer to system clipboard
-nnoremap <leader>a :%yank +<CR>
+nnoremap <silent> <leader>a :%yank +<CR>
 
 " insert a single space
 nnoremap <leader><Space> i<Space><Esc>
