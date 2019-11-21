@@ -30,7 +30,7 @@ function! s:new_buffer(num) abort
   setlocal noswapfile textwidth=0 winfixheight winfixwidth
   setlocal textwidth=0 winfixheight winfixwidth
   let &l:statusline = '[Scratch('.a:num.')]%=%l,%c%V%6P'
-  Wrap
+  setlocal wrap linebreak
   nnoremap <silent> <buffer> q <C-w>q
   nnoremap <silent> <buffer> R :call <SID>read()<CR>
   nnoremap <silent> <buffer> <leader>s <C-w>p

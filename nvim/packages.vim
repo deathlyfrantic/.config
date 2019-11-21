@@ -54,7 +54,7 @@ nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
 nnoremap Q <Cmd>ALEDetail<CR>
 augroup z-rc-ale
   autocmd!
-  autocmd FileType ale-preview Wrap
+  autocmd FileType ale-preview setlocal wrap linebreak
   autocmd FileType java let b:ale_enabled = 0
 augroup END
 " }}}
