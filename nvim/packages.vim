@@ -152,16 +152,9 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 noremap  <silent> <leader>gb :Gbrowse!<CR>
 
 Package 'tpope/vim-dadbod', {'on': 'DB'}
-function! s:db_command(...) abort
-  let cmd = ':DB '
-  if exists('b:db_url')
-    let cmd .= 'b:db_url '.(a:0 ? a:1.' ' : '')
-  endif
-  return cmd
-endfunction
-nnoremap <expr> <leader>db <SID>db_command()
-nnoremap <expr> <leader>ds <SID>db_command('SELECT * FROM')
-nnoremap <expr> <leader>di <SID>db_command('INSERT INTO')
-nnoremap <expr> <leader>du <SID>db_command('UPDATE')
-nnoremap <expr> <leader>dd <SID>db_command('DELETE FROM')
+command! DBSqueeze lua require("dbsqueeze").squeeze()
+augroup z-rc-dbsqueeze
+  autocmd!
+  autocmd BufReadPost *.dbout lua require("dbsqueeze").on_load(500)
+augroup END
 " }}}
