@@ -31,8 +31,8 @@ bind-key Right resize-pane -R
 bind-key Up resize-pane -U
 bind-key Down resize-pane -D
 
-bind-key } next-window
-bind-key { previous-window
+bind-key '}' next-window
+bind-key '{' previous-window
 
 # start windows from index 1
 set -g base-index 1
