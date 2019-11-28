@@ -55,7 +55,6 @@ function! s:should_close(end) abort
   let end = join(reverse(copy(a:end)), '')
   let m = searchpair(start, '', end, 'Wn')
   return !(m > 0 && s:indent(m) == s:indent(line('.')))
-  m <= 0 || s:indent(m) != s:indent(line('.'))
 endfunction
 
 function! s:enter() abort
