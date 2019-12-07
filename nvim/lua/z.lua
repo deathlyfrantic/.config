@@ -53,6 +53,34 @@ local function zip(a, b)
   return ret
 end
 
+local function tbl_reverse(t)
+  local ret = {}
+  local i = 1
+  for j = #t, 1, -1 do
+    ret[i] = t[j]
+    i = i + 1
+  end
+  return ret
+end
+
+-- like require() but reloads file every time so i don't have to restart nvim
+-- to test changes
+local function include(name)
+  local path = package.searchpath(name, package.path)
+  if path == nil then
+    v.nvim_err_writeln(("Can't find %s.lua in package.path"):format(name))
+    return
+  end
+  return loadfile(path)()
+end
+
+local function to_array(item)
+  if type(item) ~= "table" then
+    return {item}
+  end
+  return item
+end
+
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
   return v.nvim_call_function("trim", {self})
@@ -98,11 +126,25 @@ function string.rpad(self, length, padding)
   return string_pad(self, length, padding, "right")
 end
 
+local function string_chars(s, i)
+  if #s > i then
+    i = i + 1
+    return i, s:sub(i, i)
+  end
+end
+
+function string.chars(self)
+  return string_chars, self, 0
+end
+
 return {
   filter = filter,
   map = map,
   any = any,
   all = all,
   find = find,
-  zip = zip
+  zip = zip,
+  tbl_reverse = tbl_reverse,
+  include = include,
+  to_array = to_array
 }
