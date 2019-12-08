@@ -45,10 +45,14 @@ local function add_package(bang, path, opts)
   table.insert(packages, {path, opts})
 end
 
-local function _pkg_cmd(cmd, name, bang, args)
+local function _pkg_cmd(cmd, name, bang, line1, line2, range, args)
   v.nvim_command("silent! delcommand " .. cmd)
   v.nvim_command("packadd " .. name)
-  v.nvim_command(cmd .. bang .. " " .. args)
+  if range > 0 then
+    v.nvim_command(line1 .. "," .. line2 .. cmd .. bang .. " " .. args)
+  else
+    v.nvim_command(cmd .. bang .. " " .. args)
+  end
 end
 
 local function _pkg_map(map, name, visual)
@@ -127,7 +131,7 @@ local function init()
   for cmd, pkg in pairs(lazy.on_cmd) do
     v.nvim_command(
       string.format(
-        [[command! -bang -bar -nargs=* %s lua require("packages")._pkg_cmd("%s", "%s", <q-bang>, <q-args>)]],
+        [[command! -range -bang -bar -nargs=* %s lua require("packages")._pkg_cmd("%s", "%s", <q-bang>, <line1>, <line2>, <range>, <q-args>)]],
         cmd,
         cmd,
         pkg
