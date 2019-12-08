@@ -91,11 +91,11 @@ end
 local function enter()
   local state = {
     ft = v.nvim_buf_get_option(0, "filetype"),
-    cursor = v.nvim_win_get_cursor(0)
+    cursor = v.nvim_win_get_cursor(0),
+    line = v.nvim_get_current_line()
   }
   state.linenr = state.cursor[1]
   state.col = state.cursor[2]
-  state.line = getline(state.linenr)
   state.trimmed = state.line:trim()
   if state.col < #state.trimmed or pairs[state.trimmed:sub(-1, -1)] == nil then
     -- don't do anything if cursor is not at the end of a line,
