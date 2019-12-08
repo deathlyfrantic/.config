@@ -66,7 +66,7 @@ let g:goyo_width = 82
 function! s:goyo_enter() abort
   set noshowmode noshowcmd showtabline=0
   augroup z-rc-goyo-cursorhold
-    autocmd CursorHold * echo ''
+    autocmd CursorHold,CursorHoldI * echo ''
   augroup END
 endfunction
 function! s:goyo_leave() abort
