@@ -14,7 +14,7 @@ local function expand(path)
 end
 
 local function isdirectory(path)
-  return v.nvim_call_function("isdirectory", {path})
+  return v.nvim_call_function("isdirectory", {path}) == 1
 end
 
 local function add_package(bang, path, opts)
