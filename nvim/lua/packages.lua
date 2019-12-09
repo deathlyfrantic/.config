@@ -121,7 +121,7 @@ local function init()
   v.nvim_command("autocmd!")
   for ft, pkgs in pairs(lazy.ft) do
     for _, pkg in pairs(pkgs) do
-      v.nvim_command("autocmd FileType " .. ft .. " ++once packadd" .. pkg)
+      v.nvim_command("autocmd FileType " .. ft .. " ++once packadd " .. pkg)
     end
     v.nvim_command(
       "autocmd FileType " .. ft .. " ++once ++nested doautocmd FileType"
