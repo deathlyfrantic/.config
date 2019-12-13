@@ -62,6 +62,16 @@ local function squeeze()
 end
 
 local function on_load(max)
+  -- ensure second line is a separator row (implying first is header)
+  local second_line = v.nvim_buf_get_lines(0, 1, 2, false)[1]
+  if second_line == nil or second_line:sub(1, 1) ~= "-" then
+    return
+  end
+  -- ensure second-to-last line is blank (implying last is "x rows affected")
+  local second_to_last_line = v.nvim_buf_get_lines(0, -3, -2, false)[1]
+  if second_to_last_line == nil or second_to_last_line ~= "" then
+    return
+  end
   if v.nvim_call_function("line", {"$"}) <= max then
     squeeze()
   end
