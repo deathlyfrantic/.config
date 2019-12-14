@@ -117,9 +117,6 @@ command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 command! -bang BD Bd<bang>
 
-" don't change window layout when deleting buffer
-command! -bang -bar Bdelete call command#buf_delete(winbufnr(0), <q-bang>)
-
 " fit current window to contents
 command! Fit silent! execute 'resize' line('$')
 
@@ -243,9 +240,6 @@ augroup z-rc-local-vimrc
   autocmd BufNewFile,BufReadPre * ++nested SourceLocalVimrc
   autocmd VimEnter * ++nested SourceLocalVimrc!
 augroup END
-
-" close all open man pages
-command! ManClose call command#close_man_pages()
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
