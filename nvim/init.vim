@@ -237,7 +237,7 @@ augroup END
 command! -bang SourceLocalVimrc call command#source_local_vimrc(<q-bang>)
 augroup z-rc-local-vimrc
   autocmd!
-  autocmd BufNewFile,BufReadPre * ++nested SourceLocalVimrc
+  autocmd BufNewFile,BufReadPost * ++nested SourceLocalVimrc
   autocmd VimEnter * ++nested SourceLocalVimrc!
 augroup END
 " --- end keymaps --- }}}
