@@ -140,7 +140,6 @@ function! s:load_or_create_buffer() abort
   else
     enew
     call s:new_test_buffer()
-    normal G
   endif
 endfunction
 
@@ -188,6 +187,7 @@ function! s:run_tests(cmd, close) abort
   let b:close = a:close
   set nomodified
   call termopen(a:cmd, {'on_exit': function('s:on_term_exit', [a:close])})
+  normal G
   call win_gotoid(current_window)
 endfunction
 
