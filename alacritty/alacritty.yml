@@ -246,7 +246,7 @@ mouse:
   # The `double_click` and `triple_click` settings control the time
   # alacritty should wait for accepting multiple clicks as one double
   # or triple click.
-  hide_when_typing: false
+  hide_when_typing: true
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
 
