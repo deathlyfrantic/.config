@@ -42,7 +42,7 @@ function timer {
     else
         local secs=$1
     fi
-    local pf=" %$(($COLUMNS / 2))s\r"
+    local pf=" %$(($COLUMNS / 2))s\e[0K\r"
     printf "\n"
     for i in $(seq $secs 1); do
         printf $pf $i
