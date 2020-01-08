@@ -1,0 +1,2 @@
+#!/bin/sh
+~/.config/git/hooks/run-local-hook pre-commit $@
