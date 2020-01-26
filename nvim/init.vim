@@ -257,7 +257,7 @@ function! GitStatus() abort
   if branch == ''
     return ''
   endif
-  for [sym, num] in z#zip(['+', '~', '-'], gitgutter#hunk#summary(bufnr('%')))
+  for [sym, num] in z#zip(['+', '~', '-'], GitGutterGetHunkSummary())
     let status .= num ? sym.num : ''
   endfor
   return '['.branch.(len(status) ? '/'.status : '').']'
