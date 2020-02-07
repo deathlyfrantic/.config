@@ -85,8 +85,9 @@ function! s:python(selection) abort
   return 'python3 -m unittest'
 endfunction
 
-function! s:javascript_mocha(selection) abort
-  let cmd = 'npx mocha -- spec '.expand('%:p')
+function! s:javascript_mocha(selection, pretest) abort
+  let cmd = (a:pretest ? a:pretest.' && ' : '')
+        \ . 'npx mocha -- spec '.expand('%:p')
   if a:selection == 'nearest'
     let test = s:find_nearest_test('^\s*\(it\|describe\)(["'']\(.*\)["''],', 2)
     let escaped = substitute(test, '\([{\[()\]}]\)', '\\\1', 'g')
@@ -106,7 +107,7 @@ function! s:javascript(selection) abort
   let scripts = get(package, 'scripts', {})
   let test_cmd = get(scripts, 'test')
   if test_cmd =~ 'mocha'
-    return s:javascript_mocha(a:selection)
+    return s:javascript_mocha(a:selection, get(scripts, 'pretest'))
   endif
   if !empty(test_cmd)
     return 'npm test'
