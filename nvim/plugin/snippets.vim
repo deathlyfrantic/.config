@@ -45,7 +45,8 @@ function! s:list_snippets() abort
 endfunction
 
 function! s:jump(ins) abort
-  let keys = a:ins ? repeat("\<Delete>", len(s:marker)) : '"_'.len(s:marker).'s'
+  let num = len(s:marker)
+  let keys = a:ins ? repeat("\<Delete>", num) : '"_' .. num .. 's'
   if search(s:marker, 'W')
     call feedkeys(keys)
   endif
@@ -101,7 +102,7 @@ function! s:load_filetype_snippets() abort
 endfunction
 
 function! s:trigger() abort
-  let word = matchstr(getline('.'), '\w*\%'.(col('.') + 1).'c')
+  let word = matchstr(getline('.'), '\w*\%' .. (col('.') + 1) .. 'c')
   let all = s:available_snippets()
   if has_key(all, word)
     let snippet = all[word]

@@ -15,7 +15,7 @@ function! s:delete_current(bang) abort
       endif
     endfor
   endif
-  execute 'silent! bd'.a:bang buf
+  execute 'silent! bd' .. a:bang buf
 endfunction
 
 function! s:delete_by_name(bang, name, term) abort
@@ -29,7 +29,7 @@ function! s:delete_by_name(bang, name, term) abort
     endif
   endfor
   if len(bufs)
-    execute 'silent! bd'.a:bang join(bufs, ' ')
+    execute 'silent! bd' .. a:bang join(bufs, ' ')
   endif
 endfunction
 

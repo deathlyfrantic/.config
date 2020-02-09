@@ -29,7 +29,8 @@ function! completion#undouble()
   " stolen from Damian Conway
   " (https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/.vimrc#L1285-L1298)
   let [col, line] = [col('.'), getline('.')]
-  call setline('.', substitute(line, '\(\.\?\k\+\)\%'.col.'c\zs\1', '', ''))
+  let new_line = substitute(line, '\(\.\?\k\+\)\%' .. col .. 'c\zs\1', '', '')
+  call setline(new_line)
 endfunction
 
 function! completion#wrap(f) abort

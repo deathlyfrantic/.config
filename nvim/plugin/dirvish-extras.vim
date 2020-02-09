@@ -25,7 +25,7 @@ function! s:dirvish_autocmds() abort
   nnoremap <silent> <buffer> q     <Cmd>call <SID>dirvish_toggle()<CR>
   silent! keeppatterns g@\v/\.[^\/]+/?$@d
   for pat in split(&wildignore, ',')
-    execute 'silent! keeppatterns g@\v/'.pat.'/?$@d'
+    execute 'silent! keeppatterns g@\v/' .. pat .. '/?$@d'
   endfor
 endfunction
 
