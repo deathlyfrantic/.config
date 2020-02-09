@@ -4,7 +4,7 @@ function! s:dot_to_png(...) abort
     return
   endif
   let filename = a:0 ? a:1 : expand('%:p')
-  let outfile = fnamemodify(filename, ':r').'.png'
+  let outfile = fnamemodify(filename, ':r') .. '.png'
   execute '!dot' filename '-Tpng >' outfile
 endfunction
 

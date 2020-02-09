@@ -18,7 +18,7 @@ function! s:highlight(line) abort
     call matchdelete(w:highlight)
   endif
   let w:highlight = matchaddpos('Visual', [a:line])
-  execute 'normal!' a:line.'G'
+  execute 'normal!' a:line .. 'G'
 endfunction
 
 function! s:get_lines_and_pos(info) abort

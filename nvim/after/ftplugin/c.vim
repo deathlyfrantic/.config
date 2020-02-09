@@ -34,7 +34,7 @@ let b:ale_c_clang_options =
 if expand('%:e') == 'h' && line('$') && getline(1) == ''
   let guard = printf('%s_%s', toupper(fnamemodify(getcwd(), ':t')),
         \ substitute(toupper(expand('%:t')), '[^A-Z0-9]', '_', 'g'))
-  call setline(1, ['#ifndef '.guard, '#define '.guard, '', '', '',
-        \ '#endif /* end of include guard: '.guard.' */'])
+  call setline(1, ['#ifndef ' .. guard, '#define ' .. guard, '', '', '',
+        \ '#endif /* end of include guard: ' .. guard .. ' */'])
   call cursor(4, 1)
 endif

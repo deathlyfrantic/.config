@@ -29,14 +29,14 @@ function! s:new_buffer(num) abort
   setlocal formatoptions-=o formatoptions-=r
   setlocal noswapfile textwidth=0 winfixheight winfixwidth
   setlocal textwidth=0 winfixheight winfixwidth
-  let &l:statusline = '[Scratch/'.a:num.']%=%l,%c%V%6P'
+  let &l:statusline = '[Scratch/' .. a:num .. ']%=%l,%c%V%6P'
   setlocal wrap linebreak
   nnoremap <silent> <buffer> q <C-w>q
   nnoremap <silent> <buffer> R :call <SID>read()<CR>
   nnoremap <silent> <buffer> <leader>s <C-w>p
-  execute 'augroup scratch-'.a:num
+  execute 'augroup scratch-' .. a:num
     autocmd!
-    execute 'autocmd WinLeave <buffer> call s:close_window('.a:num.')'
+    execute 'autocmd WinLeave <buffer> call s:close_window(' .. a:num .. ')'
   augroup END
 endfunction
 
@@ -65,7 +65,7 @@ function! s:open_buffer(num) abort
   else
     let wnum = bufwinnr(bnum)
     if wnum == -1
-      execute 'topleft' s:height() 'split +buffer'.bnum
+      execute 'topleft' s:height() 'split +buffer' .. bnum
     else
       execute bnum 'wincmd w'
     endif

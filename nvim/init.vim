@@ -131,7 +131,7 @@ tnoremap jk <C-\><C-n>
 nmap Y y$
 
 " current directory in command-line
-cnoremap <expr> %% fnameescape(expand('%:p:h')).'/'
+cnoremap <expr> %% fnameescape(expand('%:p:h')) .. '/'
 
 " write then delete buffer; akin to wq
 cnoremap wbd Wbd
@@ -197,7 +197,7 @@ function! s:arrow(fat) abort
   let arrow = a:fat ? '=>' : '->'
   let [line, col] = [getline('.'), col('.') - 1]
   let after = (len(line) <= col || line[col] !~ '^\s*$') ? ' ' : "\<Right>"
-  return before.arrow.after
+  return before .. arrow .. after
 endfunction
 imap <expr> <C-j> <SID>arrow(0)
 imap <expr> <C-l> <SID>arrow(1)
@@ -225,7 +225,7 @@ function! s:swap(file, swap)
   let older = getftime(a:file) < getftime(a:swap)
   let msg = printf('Swap file for %s %s.', a:file,
         \ (older ? 'exists; opening read-only' : 'older than file; deleted'))
-  execute 'autocmd BufEnter * ++once call z#echowarn("'.msg.'")'
+  execute 'autocmd BufEnter * ++once call z#echowarn("' .. msg .. '")'
   let v:swapchoice = older ? 'o' : 'd'
 endfunction
 augroup z-rc-swap-command
@@ -258,16 +258,16 @@ function! GitStatus() abort
     return ''
   endif
   for [sym, num] in z#zip(['+', '~', '-'], GitGutterGetHunkSummary())
-    let status .= num ? sym.num : ''
+    let status ..= num ? sym .. num : ''
   endfor
-  return '['.branch.(len(status) ? '/'.status : '').']'
+  return '[' .. branch .. (len(status) ? '/' .. status : '') .. ']'
 endfunction
 
 set statusline=[%n]\ %f%<
 set statusline+=%(\ %{GitStatus()}%)
 set statusline+=%(\ %h%)%(\ %m%)%(\ %r%)
-set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
-set statusline+=%{len(&fenc)&&&fenc!='utf-8'?'\ ['.&fenc.']':''}
+set statusline+=%{&ff!='unix'?'\ ['..&ff..']':''}
+set statusline+=%{len(&fenc)&&&fenc!='utf-8'?'\ ['..&fenc..']':''}
 set statusline+=%=
 set statusline+=%{&wrap?'\[wrap]\ ':''}
 set statusline+=%{&paste?'\[paste]\ ':''}

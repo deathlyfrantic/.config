@@ -7,7 +7,7 @@ function! s:compile_sass(...) abort
   if fnamemodify(filename, ':t')[0] == '_'
     return
   endif
-  let outfile = fnamemodify(filename, ':r').'.css'
+  let outfile = fnamemodify(filename, ':r') .. '.css'
   execute '!sass -t compressed' filename outfile
 endfunction
 

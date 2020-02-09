@@ -101,7 +101,7 @@ function! s:open_pg_buffer(ground) abort
   execute 'edit' printf('%s/_pg%s.%s', expand('%:h'), s:pgnum(),
         \ a:ground.extension)
   let command = printf(a:ground.command, @%)
-  execute 'autocmd BufWritePost <buffer> call s:run_pg("'.command.'")'
+  execute 'autocmd BufWritePost <buffer> call s:run_pg("' .. command .. '")'
   autocmd BufDelete <buffer> call s:delete_output_buffer()
   autocmd BufDelete <buffer> execute 'buffer' s:pg_spawning_buffer
   autocmd BufDelete <buffer> let s:pg_spawning_buffer = -1

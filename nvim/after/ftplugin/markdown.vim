@@ -4,7 +4,7 @@ function! s:preview_markdown(...) abort
     return
   endif
   let filename = a:0 ? a:1 : expand('%:p')
-  let outfile = tempname().'.html'
+  let outfile = tempname() .. '.html'
   execute '!cmark' filename '>' outfile '; open -g' outfile
 endfunction
 

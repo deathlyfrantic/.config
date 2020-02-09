@@ -8,7 +8,7 @@ function! s:uglify_js(...) abort
     return
   endif
   let [root, ext] = [fnamemodify(filename, ':r'), fnamemodify(filename, ':e')]
-  execute '!uglifyjs' filename '-mo' root.'.min.'.ext
+  execute '!uglifyjs' filename '-mo' root .. '.min.' .. ext
 endfunction
 
 command! -buffer -nargs=? UglifyJS call <SID>uglify_js(<args>)

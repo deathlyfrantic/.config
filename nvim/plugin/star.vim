@@ -21,7 +21,7 @@ function! s:find_cmd(mode) abort
         \ {_, b -> b.name != '' && getbufvar(b.bufnr, '&bt') != 'nofile'}),
         \ {_, b -> fnamemodify(b.name, ':p:~:.')})
   return printf('rg --files %s', join(map(
-        \ open_files, {_, f -> '-g !'.shellescape(escape(f, ' ['))})))
+        \ open_files, {_, f -> '-g !' .. shellescape(escape(f, ' ['))})))
 endfunction
 
 function! s:star_cmd() abort
@@ -55,7 +55,7 @@ function! s:open_buffer(b) abort
 endfunction
 
 function! s:open_file(f) abort
-  let file = escape(z#find_project_dir().a:f, ' [')
+  let file = escape(z#find_project_dir() .. a:f, ' [')
   if filereadable(file)
     execute 'edit' file
   endif
