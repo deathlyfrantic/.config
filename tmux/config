@@ -22,8 +22,8 @@ bind-key k select-pane -U
 bind-key l select-pane -R
 
 # move windows
-bind-key S-Left swap-window -t -1
-bind-key S-Right swap-window -t +1
+bind-key S-Left swap-window -t -1 \; previous-window
+bind-key S-Right swap-window -t +1 \; next-window
 
 # resize panes
 bind-key Left resize-pane -L
