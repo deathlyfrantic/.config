@@ -86,7 +86,7 @@ function! s:python(selection) abort
 endfunction
 
 function! s:javascript_mocha(selection, pretest) abort
-  let cmd = (a:pretest ? a:pretest .. ' && ' : '')
+  let cmd = (!empty(a:pretest) ? a:pretest .. ' && ' : '')
         \ .. 'npx mocha -- spec ' .. expand('%:p')
   if a:selection == 'nearest'
     let test = s:find_nearest_test('^\s*\(it\|describe\)(["'']\(.*\)["''],', 2)
