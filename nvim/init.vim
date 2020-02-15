@@ -168,6 +168,16 @@ command! Undos e ++ff=unix | %s/\r//g
 " set indentation
 command! -bar -nargs=1 SetIndent setlocal softtabstop=<args> shiftwidth=<args>
 
+" move by visual lines
+nnoremap j gj
+nnoremap gj j
+nnoremap k gk
+nnoremap gk k
+nnoremap 0 g0
+nnoremap g0 0
+nnoremap $ g$
+nnoremap g$ $
+
 " maintain visual mode for indenting
 vnoremap < <gv
 vnoremap > >gv
