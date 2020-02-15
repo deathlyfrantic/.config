@@ -13,7 +13,6 @@ endif
 " --- end startup --- }}}
 
 " --- general settings --- {{{
-set cinoptions+=:0,(0
 set colorcolumn=+1
 set completeopt-=preview
 set cursorline
