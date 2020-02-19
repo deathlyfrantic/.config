@@ -147,10 +147,10 @@ augroup END
 Package 'tpope/vim-fugitive'
 Package 'tommcdo/vim-fubitive'
 Package 'tpope/vim-rhubarb'
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gs :Git<CR>
+nnoremap <silent> <leader>gc :Git commit<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
-noremap  <silent> <leader>gb :Gbrowse!<CR>
+noremap  <silent> <leader>gb :GBrowse!<CR>
 
 Package 'tpope/vim-dadbod', {'on': 'DB'}
 command! DBSqueeze lua require("dbsqueeze").squeeze()
