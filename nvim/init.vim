@@ -173,10 +173,10 @@ nnoremap j gj
 nnoremap gj j
 nnoremap k gk
 nnoremap gk k
-nnoremap 0 g0
-nnoremap g0 0
-nnoremap $ g$
-nnoremap g$ $
+nnoremap <expr> 0 &wrap ? 'g0' : '0'
+nnoremap <expr> g0 &wrap ? '0' : 'g0'
+nnoremap <expr> $ &wrap ? 'g$' : '$'
+nnoremap <expr> g$ &wrap ? '$' : 'g$'
 
 " maintain visual mode for indenting
 vnoremap < <gv
