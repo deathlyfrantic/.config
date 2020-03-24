@@ -139,7 +139,7 @@ command! -bang Wbd w<bang> | Bd<bang>
 " search bindings
 nnoremap * *N
 nnoremap # #N
-nnoremap <silent> <expr> <Space> v:hlsearch ? ':nohlsearch<CR>' : '*N'
+nnoremap <silent> <Space> :nohlsearch<CR>
 
 " close all floating windows
 command! CloseFloatingWindows call command#close_floating_windows()
