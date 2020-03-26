@@ -272,7 +272,13 @@ function! GitStatus() abort
   return '[' .. branch .. (len(status) ? '/' .. status : '') .. ']'
 endfunction
 
-set statusline=[%n]\ %f%<
+function! StatusLineFilename() abort
+  return len(expand('%')) > 0
+        \ ? expand('%:~')
+        \ : '[cwd: ' .. fnamemodify(getcwd(), ':~') .. ']'
+endfunction
+
+set statusline=[%n]\ %{StatusLineFilename()}%<
 set statusline+=%(\ %{GitStatus()}%)
 set statusline+=%(\ %h%)%(\ %m%)%(\ %r%)
 set statusline+=%{&ff!='unix'?'\ ['..&ff..']':''}
