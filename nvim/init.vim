@@ -157,6 +157,9 @@ nnoremap <C-l> <C-W>l
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 
+" redraw screen
+nnoremap <silent> g<C-L> <Cmd>mode<CR>
+
 " open terminal split
 nnoremap <C-W><C-t> :botright    vsp +term<CR>:startinsert<CR>
 nnoremap <C-W>T     :botright     sp +term<CR>:startinsert<CR>
