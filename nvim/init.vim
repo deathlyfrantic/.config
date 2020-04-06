@@ -251,6 +251,21 @@ augroup z-rc-local-vimrc
   autocmd BufNewFile,BufReadPost * ++nested SourceLocalVimrc
   autocmd VimEnter * ++nested SourceLocalVimrc!
 augroup END
+
+" make directories if they don't exist before writing file
+function! s:mkdir_on_write() abort
+  let dir = expand('%:p:h')
+  if !isdirectory(dir)
+    if confirm('Directory does not exist. Create?', "&Yes\n&No", 2) == 1
+      call mkdir(dir, 'p')
+    endif
+  endif
+endfunction
+
+augroup z-rc-mkdir-on-write
+  autocmd!
+  autocmd BufWritePre * call s:mkdir_on_write()
+augroup END
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
