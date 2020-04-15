@@ -47,7 +47,7 @@ augroup z-rc-neoformat
   autocmd BufWritePre * if !get(b:, 'no_neoformat') | silent Neoformat | endif
 augroup END
 
-Package 'w0rp/ale'
+Package 'dense-analysis/ale'
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
 nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
