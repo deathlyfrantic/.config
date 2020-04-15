@@ -103,6 +103,6 @@ endfunction
 command! -nargs=? -complete=customlist,<SID>cmd_completion
       \ Star call s:star(<f-args>)
 
-nnoremap <C-p>  :Star<CR>
-nnoremap g<C-p> :Star all<CR>
+nnoremap g<C-p> :Star<CR>
+nnoremap <C-p>  :Star all<CR>
 nnoremap g<C-b> :Star buffers<CR>
