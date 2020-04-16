@@ -92,8 +92,7 @@ endfunction
 
 function! s:load_filetype_snippets() abort
   let b:snippets = get(b:, 'snippets', {})
-  let l:ft = &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
-  let filename = expand(printf('$VIMHOME/snippets/%s.snippets', l:ft))
+  let filename = expand(printf('$VIMHOME/snippets/%s.snippets', &ft))
   if filereadable(filename)
     for snippet in s:parse_snippet_file(filename)
       call s:add_snippet('b', snippet)
@@ -141,9 +140,7 @@ function! s:trigger() abort
 endfunction
 
 function! s:edit(...) abort
-  let l:ft = &ft =~? 'javascript\|typescript' ? 'javascript' : &ft
-  let name = a:0 ? a:1 : l:ft
-  execute 'e' expand(printf('$VIMHOME/snippets/%s.snippets', name))
+  execute 'e' expand(printf('$VIMHOME/snippets/%s.snippets', a:0 ? a:1 : &ft))
 endfunction
 
 function! snippets#complete(findstart, base) abort
