@@ -41,6 +41,7 @@ set smartcase
 set spellfile=$VIMHOME/spell/custom.utf-8.add,$VIMHOME/spell/local.utf-8.add
 set softtabstop=4
 set tags^=./.git/tags;
+set textwidth=80
 set title
 set titlestring=nvim\ %t
 set undofile
