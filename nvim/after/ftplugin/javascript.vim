@@ -19,7 +19,7 @@ setlocal cinoptions+=l1
 
 iabbrev <buffer> != !==
 iabbrev <buffer> == ===
-iabbrev <buffer> fn function
+iabbrev <buffer> fn! function
 
 " don't use clangformat for js
 packadd neoformat
