@@ -1,1 +1,1 @@
-iabbrev <buffer> fn function
+iabbrev <buffer> fn! function
