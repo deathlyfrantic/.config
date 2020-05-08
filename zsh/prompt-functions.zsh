@@ -5,7 +5,7 @@ function set-up-prompt {
     local cwd='${${(%):-%~}//\//%{$fg_bright[black]%\}/%{$reset_color%\}}'
     local jobs='%(1j.$(prompt-widget jobs %j before).)'
     local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
-    local base="$cwd$jobs$char%{$reset_color%} "
+    local base="$cwd$jobs$char%{$reset_color%}%{%G%} "
 
     if [[ $SSH_CONNECTION != '' ]]; then
         PROMPT=$user$at$host$(prompt-separator)$base
@@ -14,6 +14,8 @@ function set-up-prompt {
     else
         PROMPT=$base
     fi
+
+    PROMPT=$(prompt-divider)$PROMPT
 
     RPROMPT='${$(prompt-venv)}${$(prompt-git-status)}$(prompt-timestamp)'
 }
@@ -28,6 +30,11 @@ function prompt-timestamp {
 
 function prompt-separator {
     prompt-color-echo " :: " black bright
+}
+
+function prompt-divider {
+    prompt-color-echo $(repeat $COLUMNS printf -- '-%.0s') black bright
+    echo
 }
 
 function prompt-venv {
