@@ -20,6 +20,8 @@
     fsckobjects = true
 [fetch]
     fsckobjects = true
+    prune = true
+    pruneTags = true
 [receive]
     fsckObjects = true
 [diff]
