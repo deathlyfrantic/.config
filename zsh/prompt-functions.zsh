@@ -15,7 +15,7 @@ function set-up-prompt {
         PROMPT=$base
     fi
 
-    PROMPT=$(prompt-divider)$PROMPT
+    PROMPT='${$(prompt-divider)}'$PROMPT
 
     RPROMPT='${$(prompt-venv)}${$(prompt-git-status)}$(prompt-timestamp)'
 }
