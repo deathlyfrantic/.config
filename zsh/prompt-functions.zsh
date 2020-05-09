@@ -5,7 +5,7 @@ function set-up-prompt {
     local cwd='${${(%):-%~}//\//%{$fg_bright[black]%\}/%{$reset_color%\}}'
     local jobs='%(1j.$(prompt-widget jobs %j before).)'
     local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
-    local base="$cwd$jobs$char%{$reset_color%}%{%G%} "
+    local base="$cwd$jobs$char%{$reset_color%} "
 
     if [[ $SSH_CONNECTION != '' ]]; then
         PROMPT=$user$at$host$(prompt-separator)$base
