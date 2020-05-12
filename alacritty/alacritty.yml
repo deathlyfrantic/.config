@@ -590,3 +590,5 @@ key_bindings:
   # search
   - { key: F,        mods: Command,       chars: "\x1b[24~f"      }
   - { key: F,        mods: Shift|Command, chars: "\x1b[24~F"      }
+  # thumbs
+  - { key: Space,    mods: Shift|Command, chars: "\x1b[24~ "      }
