@@ -587,3 +587,6 @@ key_bindings:
   - { key: D,        mods: Shift|Command, chars: "\x1b[24~s"      }
   # copy mode
   - { key: LBracket, mods: Command,       chars: "\x1b[24~["      }
+  # search
+  - { key: F,        mods: Command,       chars: "\x1b[24~f"      }
+  - { key: F,        mods: Shift|Command, chars: "\x1b[24~F"      }

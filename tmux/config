@@ -52,6 +52,10 @@ bind-key -Tcopy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel pbcopy
 bind-key -Tcopy-mode-vi Enter send-keys -X copy-pipe-and-cancel pbcopy
 bind-key -Tcopy-mode-vi C-j send-keys -X copy-pipe-and-cancel pbcopy
 
+# search
+bind-key f copy-mode \; send-keys /
+bind-key F copy-mode \; send-keys ?
+
 # be able to scroll with mouse
 set -g mouse on
 
