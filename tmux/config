@@ -84,3 +84,9 @@ set-hook -g window-linked \
 # also renumber windows when closing one (so there aren't gaps)
 set-hook -g window-unlinked \
     "if -F '#{==:#{session_windows},1}' 'set status off' 'set status on'; move-window -r"
+
+# use thumbs plugin
+set -g @thumbs-command 'echo -n {} | pbcopy'
+set -g @thumbs-upcase-command 'open -g "{}"'
+set -g @thumbs-contrast 1
+run-shell "$XDG_CONFIG_HOME"/tmux/plugins/tmux-thumbs/tmux-thumbs.tmux
