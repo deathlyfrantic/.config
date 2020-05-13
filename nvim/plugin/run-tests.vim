@@ -90,7 +90,7 @@ function! s:javascript_mocha(selection, pretest) abort
         \ .. 'npx mocha -- spec ' .. expand('%:p')
   if a:selection == 'nearest'
     let test = s:find_nearest_test('^\s*\(it\|describe\)(["'']\(.*\)["''],', 2)
-    let escaped = substitute(test, '\([{\[()\]}]\)', '\\\1', 'g')
+    let escaped = substitute(test, '\([{\[(+)\]}]\)', '\\\1', 'g')
     return cmd .. ' --grep=' .. shellescape(escaped)
   elseif a:selection == 'file'
     return cmd
