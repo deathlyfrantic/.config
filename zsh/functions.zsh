@@ -14,6 +14,7 @@ function set_title {
 function precmd {
     local dir=${PWD/$HOME/\~}
     set_title "zsh $dir"
+    echo $fg_bright[black]$(repeat $COLUMNS printf -- '-%.0s')$reset_color
 }
 
 function preexec {

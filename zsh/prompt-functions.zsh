@@ -15,8 +15,6 @@ function set-up-prompt {
         PROMPT=$base
     fi
 
-    PROMPT='${$(prompt-divider)}'$PROMPT
-
     RPROMPT='${$(prompt-venv)}${$(prompt-git-status)}$(prompt-timestamp)'
 }
 
@@ -30,11 +28,6 @@ function prompt-timestamp {
 
 function prompt-separator {
     prompt-color-echo " :: " black bright
-}
-
-function prompt-divider {
-    prompt-color-echo $(repeat $COLUMNS printf -- '-%.0s') black bright
-    echo
 }
 
 function prompt-venv {
