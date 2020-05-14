@@ -88,5 +88,4 @@ set-hook -g window-unlinked \
 # use thumbs plugin
 set -g @thumbs-command 'echo -n {} | pbcopy'
 set -g @thumbs-upcase-command 'open -g "{}"'
-set -g @thumbs-contrast 1
 run-shell "$XDG_CONFIG_HOME"/tmux/plugins/tmux-thumbs/tmux-thumbs.tmux
