@@ -35,3 +35,5 @@
     ctags = "!~/.config/git/hooks/make-ctags"
 [commit]
     verbose = 1
+[pull]
+    rebase = false
