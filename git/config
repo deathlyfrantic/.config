@@ -37,3 +37,5 @@
     verbose = 1
 [pull]
     rebase = false
+[init]
+    templateDir = ~/.config/git/template/
