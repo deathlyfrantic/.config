@@ -85,8 +85,10 @@ function! s:open_star_buffer(mode) abort
   setlocal nomodifiable nobuflisted buftype=nofile
   let s:buffer = bufnr('%')
   call termopen(cmd, {'on_exit': function('s:on_exit', [a:mode])})
-  let &l:statusline = printf('[Star(%s)] %s', z#find_project_dir()[:-2],
+  let name = printf('Star(%s)', z#find_project_dir()[:-2])
+  let &l:statusline = printf('[%s] %s', name,
         \ a:mode == 'buffers' ? 'open buffers' : find_cmd)
+  let b:term_title = name
   silent! execute 'resize' line('$')
   startinsert
 endfunction
