@@ -26,6 +26,8 @@ Package 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Package 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = trim(system('which racer'))
 let g:racer_experimental_completer = 1
+nmap <buffer> K <Plug>(rust-doc)
+nmap <buffer> gd <Plug>(rust-def)
 
 Package 'airblade/vim-gitgutter'
 omap ig <Plug>(GitGutterTextObjectInnerPending)
