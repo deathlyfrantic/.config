@@ -11,7 +11,8 @@ local semi_lines = {
   javascript = {
     "%s+=%s+",
     "^return%s+",
-    "^%w+[%(%[{]+$"
+    "^[%w%.]+%($", -- foo.bar(
+    "^await%s+[%w%.]+%($", -- await foo.bar(
   },
   rust = {
     "%s+=%s+",
