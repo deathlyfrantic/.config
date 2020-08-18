@@ -30,9 +30,10 @@ function! s:star_cmd() abort
           \ 'color-selected-bg': z#get_color('StatusLine', 'bg'),
           \ 'color-matched-selected-fg': z#get_color('Comment', 'fg'),
           \ 'color-matched-fg': z#get_color('String', 'fg'),
+          \ 'color-tag-fg': z#get_color('WarningMsg', 'bg'),
           \ }
-    let s:star_cmd_str = 'star '
-          \ .join(map(items(colors), {_, c -> printf('--%s=%s', c[0], c[1])}))
+    let s:star_cmd_str = 'star -m ' ..
+          \ join(map(items(colors), {_, c -> printf('--%s=%s', c[0], c[1])}))
   endif
   return s:star_cmd_str
 endfunction
@@ -51,14 +52,16 @@ function! s:cmd(mode) abort
 endfunction
 
 function! s:open_buffer(b) abort
-  execute 'buffer' a:b
+  execute 'buffer' type(a:b) == v:t_list ? a:b[0] : a:b
 endfunction
 
-function! s:open_file(f) abort
-  let file = escape(z#find_project_dir() .. a:f, ' [')
-  if filereadable(file)
-    execute 'edit' file
-  endif
+function! s:open_file(files) abort
+  let files = map(a:files, {i, v -> escape(z#find_project_dir() .. v, ' [')})
+  for [i, f] in z#enumerate(files)
+    if filereadable(f)
+      execute (i == 0 ? 'edit' : 'badd') f
+    endif
+  endfor
 endfunction
 
 function! s:on_exit(mode, job_id, exit_code, event) abort
@@ -69,8 +72,8 @@ function! s:on_exit(mode, job_id, exit_code, event) abort
   endif
   if a:exit_code == 0
     if filereadable(s:file)
-      let f = readfile(s:file)[0]
-      call call(printf('s:%s', get(s:cmd_map, a:mode, 'open_file')), [f])
+      call call(printf('s:%s', get(s:cmd_map, a:mode, 'open_file')),
+            \ [readfile(s:file)])
     endif
   endif
 endfunction
