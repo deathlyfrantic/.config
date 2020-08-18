@@ -89,7 +89,6 @@ function! s:open_star_buffer(mode) abort
   let &l:statusline = printf('[%s] %s', name,
         \ a:mode == 'buffers' ? 'open buffers' : find_cmd)
   let b:term_title = name
-  silent! execute 'resize' line('$')
   startinsert
 endfunction
 
