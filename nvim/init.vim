@@ -271,13 +271,7 @@ augroup END
 " --- end keymaps --- }}}
 
 " --- colors and appearance --- {{{
-" colors {{{
-if strftime('%H') > 19 || strftime('%H') < 10
-  colorscheme copper
-else
-  colorscheme gaia
-endif
-" }}}
+colorscheme copper
 
 " statusline {{{
 function! GitStatus() abort
