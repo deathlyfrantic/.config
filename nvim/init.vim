@@ -117,10 +117,6 @@ command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 command! -bang BD Bd<bang>
 
-" 99% of the time i open this it is accidental
-nnoremap q: :
-nnoremap Q: q:
-
 " fit current window to contents
 command! Fit silent! execute 'resize' line('$')
 
