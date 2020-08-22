@@ -17,10 +17,6 @@ setlocal cinoptions-=(0
 setlocal cinoptions-=:0
 setlocal cinoptions+=l1
 
-iabbrev <buffer> != !==
-iabbrev <buffer> == ===
-iabbrev <buffer> fn! function
-
 " don't use clangformat for js
 packadd neoformat
 let b:neoformat_enabled_javascript = get(b:, 'neoformat_enabled_javascript',
