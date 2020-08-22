@@ -107,6 +107,16 @@ augroup END
 " --- end autocommands --- }}}
 
 " --- keymaps and commands --- {{{
+" abbreviations
+iabbrev shrug! ¯\_(ツ)_/¯
+
+augroup z-rc-abbrev
+  autocmd!
+  autocmd FileType javascript,typescript iabbrev <buffer> != !==
+  autocmd FileType javascript,typescript iabbrev <buffer> == ===
+  autocmd FileType javascript,typescript,lua,vim,zsh iabbrev <buffer> fn! function
+augroup END
+
 " typos
 command! -bang -nargs=1 -complete=file E e<bang> <args>
 command! -bang -nargs=1 -complete=help H h<bang> <args>
