@@ -8,8 +8,6 @@ augroup END
 " filetypes {{{
 Package 'rust-lang/rust.vim', {'for': 'rust'}
 Package 'cespare/vim-toml', {'for': 'toml'}
-Package 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
-Package 'mitsuhiko/vim-jinja', {'for': ['htmljinja', 'jinja']}
 Package 'pangloss/vim-javascript', {'for': 'javascript'}
 " }}}
 
@@ -22,7 +20,6 @@ Package '~/src/vim/textobj-blanklines'
 " }}}
 
 " dev tools {{{
-Package 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Package 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = trim(system('which racer'))
 let g:racer_experimental_completer = 1
@@ -114,7 +111,6 @@ inoremap <C-x><C-t> <Cmd>call completion#wrap('tmuxcomplete#complete')<CR>
 " }}}
 
 " text manipulation {{{
-Package 'junegunn/vim-peekaboo'
 Package 'nelstrom/vim-visual-star-search'
 Package 'tommcdo/vim-exchange'
 Package 'tommcdo/vim-lion'
@@ -140,7 +136,6 @@ cnoremap w!! SudoWrite
 Package 'tpope/vim-commentary'
 augroup z-rc-commentary
   autocmd!
-  autocmd FileType django,htmldjango,jinja,htmljinja setlocal cms={#%s#}
   autocmd FileType cmake setlocal commentstring=#%s
   autocmd FileType sql setlocal commentstring=--%s
   autocmd FileType c,typescript setlocal commentstring=//%s
