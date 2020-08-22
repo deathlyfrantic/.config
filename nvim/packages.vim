@@ -55,6 +55,9 @@ augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview setlocal wrap linebreak
   autocmd FileType java let b:ale_enabled = 0
+  autocmd FileType typescript setlocal omnifunc=ale#completion#OmniFunc
+        \| nmap <buffer> gd <Plug>(ale_go_to_definition)
+        \| nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
 augroup END
 " }}}
 
