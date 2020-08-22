@@ -1,18 +1,3 @@
-function! s:uglify_js(...) abort
-  if !executable('uglifyjs')
-    echoerr 'UglifyJS is not available.'
-    return
-  endif
-  let filename = a:0 ? a:1 : expand('%:p')
-  if filename =~? '\.min\.js$'
-    return
-  endif
-  let [root, ext] = [fnamemodify(filename, ':r'), fnamemodify(filename, ':e')]
-  execute '!uglifyjs' filename '-mo' root .. '.min.' .. ext
-endfunction
-
-command! -buffer -nargs=? UglifyJS call <SID>uglify_js(<args>)
-
 setlocal cinoptions-=(0
 setlocal cinoptions-=:0
 setlocal cinoptions+=l1
