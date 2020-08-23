@@ -37,15 +37,6 @@ augroup z-rc-gitgutter
   autocmd BufDelete */.git/COMMIT_EDITMSG GitGutterAll
 augroup END
 
-Package 'sbdchd/neoformat', {'on': 'Neoformat'}
-let g:neoformat_basic_format_trim = 1
-augroup z-rc-neoformat
-  autocmd!
-  autocmd FileType mail let b:neoformat_basic_format_trim = 0
-  autocmd FileType yaml let b:neoformat_enabled_yaml = []
-  autocmd BufWritePre * if !get(b:, 'no_neoformat') | silent Neoformat | endif
-augroup END
-
 Package 'dense-analysis/ale'
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
@@ -59,6 +50,22 @@ augroup z-rc-ale
         \| nmap <buffer> gd <Plug>(ale_go_to_definition)
         \| nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
 augroup END
+let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'rust': ['rustfmt'],
+      \ 'javascript': ['prettier'],
+      \ 'typescript': ['prettier'],
+      \ 'json': ['jq'],
+      \ }
+let g:ale_fix_on_save = 1
+let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
+" PR to add luafmt to ale here: https://github.com/dense-analysis/ale/pull/3289
+" can remove the following when(/if?) it is merged
+function! LuaFmtAleFixer(buffer) abort
+  return {'command': 'luafmt --stdin --line-width 80 --indent-count 2'}
+endfunction
+call ale#fix#registry#Add(
+      \ 'luafmt', 'LuaFmtAleFixer', ['lua'], 'Fix lua files with luafmt.')
 " }}}
 
 " panels {{{
