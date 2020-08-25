@@ -45,11 +45,14 @@ nnoremap Q <Cmd>ALEDetail<CR>
 augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview setlocal wrap linebreak
-  autocmd FileType java let b:ale_enabled = 0
   autocmd FileType typescript setlocal omnifunc=ale#completion#OmniFunc
         \| nmap <buffer> gd <Plug>(ale_go_to_definition)
         \| nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
 augroup END
+let g:ale_linters = {
+      \ 'cs': ['csc'],
+      \ 'java': [],
+      \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'rust': ['rustfmt'],
