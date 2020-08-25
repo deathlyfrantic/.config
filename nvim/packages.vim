@@ -38,7 +38,6 @@ augroup z-rc-gitgutter
 augroup END
 
 Package 'dense-analysis/ale'
-let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
 nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
 nnoremap Q <Cmd>ALEDetail<CR>
@@ -62,6 +61,9 @@ let g:ale_fixers = {
       \ }
 let g:ale_fix_on_save = 1
 let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
+let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+let g:ale_c_clang_options =
+      \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
 " PR to add luafmt to ale here: https://github.com/dense-analysis/ale/pull/3289
 " can remove the following when(/if?) it is merged
 function! LuaFmtAleFixer(buffer) abort
