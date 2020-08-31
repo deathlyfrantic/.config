@@ -1,8 +1,8 @@
-local v = vim.api
+local nvim = require("nvim")
 local z = require("z")
 
-local key_cr = v.nvim_replace_termcodes("<Enter>", true, false, true)
-local key_ctrl_o = v.nvim_replace_termcodes("<C-o>", true, false, true)
+local key_cr = nvim.replace_termcodes("<Enter>", true, false, true)
+local key_ctrl_o = nvim.replace_termcodes("<C-o>", true, false, true)
 local pairs = {["("] = ")", ["["] = "]", ["{"] = "}"}
 local closers = {[")"] = "(", ["]"] = "[", ["}"] = "{"}
 -- we only look at these patterns if the line ends in an opening pair so we
@@ -12,7 +12,7 @@ local semi_lines = {
     "%s+=%s+",
     "^return%s+",
     "^[%w%.]+%($", -- foo.bar(
-    "^await%s+[%w%.]+%($", -- await foo.bar(
+    "^await%s+[%w%.]+%($" -- await foo.bar(
   },
   rust = {
     "%s+=%s+",
@@ -28,7 +28,7 @@ local semi_lines = {
 semi_lines.typescript = semi_lines.javascript
 
 local function getline(num)
-  return v.nvim_buf_get_lines(0, num - 1, num, false)[1] or ""
+  return nvim.buf_get_lines(0, num - 1, num, false)[1] or ""
 end
 
 local function semi(state)
@@ -54,12 +54,11 @@ end
 
 local function in_string(line, col)
   return z.any(
-    v.nvim_call_function("synstack", {line, col}),
+    nvim.fn.synstack(line, col),
     function(id)
-      return v.nvim_call_function(
-        "synIDattr",
-        {v.nvim_call_function("synIDtrans", {id}), "name"}
-      ):match("[Ss][Tt][Rr][Ii][Nn][Gg]")
+      return nvim.fn.synIDattr(nvim.fn.synIDtrans(id), "name"):match(
+        "[Ss][Tt][Rr][Ii][Nn][Gg]"
+      )
     end
   )
 end
@@ -85,15 +84,15 @@ local function should_close(state, ends)
     ""
   )
   local ending = table.concat(ends, ""):reverse()
-  local match = v.nvim_call_function("searchpair", {start, "", ending, "Wn"})
+  local match = nvim.fn.searchpair(start, "", ending, "Wn")
   return not (match > 0 and indent(getline(match)) == indent(state.line))
 end
 
 local function enter()
   local state = {
-    ft = v.nvim_buf_get_option(0, "filetype"),
-    cursor = v.nvim_win_get_cursor(0),
-    line = v.nvim_get_current_line()
+    ft = nvim.bo.filetype,
+    cursor = nvim.fn.nvim_win_get_cursor(0),
+    line = nvim.fn.nvim_get_current_line()
   }
   state.linenr = state.cursor[1]
   state.col = state.cursor[2]
@@ -127,10 +126,12 @@ local function enter()
 end
 
 local function init()
-  v.nvim_command(
-    [[inoremap <expr> <Plug>autocloseCR luaeval("require('autoclose').enter()")]]
+  nvim.ex.inoremap(
+    "<expr>",
+    "<Plug>autocloseCR",
+    [[luaeval("require('autoclose').enter()")]]
   )
-  v.nvim_command([[imap <Enter> <Plug>autocloseCR]])
+  nvim.ex.imap("<Enter>", "<Plug>autocloseCR")
 end
 
 return {

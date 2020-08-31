@@ -1,6 +1,6 @@
 -- super specific functionality to squeeze empty space out of vim-dadbod output
 -- may only apply to sql server ¯\_(ツ)_/¯
-local v = vim.api
+local nvim = require("nvim")
 local z = require("z")
 
 local function find_columns(line)
@@ -52,27 +52,27 @@ local function squeeze_contents(lines)
 end
 
 local function squeeze()
-  local lines = v.nvim_buf_get_lines(0, 0, -3, false)
-  v.nvim_buf_set_option(0, "modifiable", true)
-  v.nvim_buf_set_option(0, "readonly", false)
-  v.nvim_buf_set_lines(0, 0, #lines, false, squeeze_contents(lines))
-  v.nvim_buf_set_option(0, "modifiable", false)
-  v.nvim_buf_set_option(0, "readonly", true)
-  v.nvim_buf_set_option(0, "modified", false)
+  local lines = nvim.buf_get_lines(0, 0, -3, false)
+  nvim.bo.modifiable = true
+  nvim.bo.readonly = false
+  nvim.buf_set_lines(0, 0, #lines, false, squeeze_contents(lines))
+  nvim.bo.modifiable = false
+  nvim.bo.readonly = true
+  nvim.bo.modified = false
 end
 
 local function on_load(max)
   -- ensure second line is a separator row (implying first is header)
-  local second_line = v.nvim_buf_get_lines(0, 1, 2, false)[1]
+  local second_line = nvim.buf_get_lines(0, 1, 2, false)[1]
   if second_line == nil or second_line:sub(1, 1) ~= "-" then
     return
   end
   -- ensure second-to-last line is blank (implying last is "x rows affected")
-  local second_to_last_line = v.nvim_buf_get_lines(0, -3, -2, false)[1]
+  local second_to_last_line = nvim.buf_get_lines(0, -3, -2, false)[1]
   if second_to_last_line == nil or second_to_last_line ~= "" then
     return
   end
-  if v.nvim_call_function("line", {"$"}) <= max then
+  if nvim.fn.line("$") <= max then
     squeeze()
   end
 end

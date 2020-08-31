@@ -1,4 +1,4 @@
-local v = vim.api
+local nvim = require("nvim")
 local z = require("z")
 
 local packager_initialized = false
@@ -10,11 +10,11 @@ local lazy = {
 }
 
 local function expand(path)
-  return v.nvim_call_function("expand", {path})
+  return nvim.fn.expand(path)
 end
 
 local function isdirectory(path)
-  return v.nvim_call_function("isdirectory", {path}) == 1
+  return nvim.fn.isdirectory(path) == 1
 end
 
 local function add_package(bang, path, opts)
@@ -22,7 +22,7 @@ local function add_package(bang, path, opts)
   if bang == "!" then
     packager_initialized = false
   end
-  local name = v.nvim_call_function("fnamemodify", {path, ":t"})
+  local name = nvim.fn.fnamemodify(path, ":t")
   if opts["for"] ~= nil then
     opts.type = "opt"
     for _, ft in pairs(z.to_array(opts["for"])) do
@@ -46,23 +46,23 @@ local function add_package(bang, path, opts)
 end
 
 local function _pkg_cmd(cmd, name, bang, line1, line2, range, args)
-  v.nvim_command("silent! delcommand " .. cmd)
-  v.nvim_command("packadd " .. name)
+  nvim.command("silent! delcommand " .. cmd)
+  nvim.ex.packadd(name)
   if range > 0 then
-    v.nvim_command(line1 .. "," .. line2 .. cmd .. bang .. " " .. args)
+    nvim.command(line1 .. "," .. line2 .. cmd .. bang .. " " .. args)
   else
-    v.nvim_command(cmd .. bang .. " " .. args)
+    nvim.command(cmd .. bang .. " " .. args)
   end
 end
 
 local function _pkg_map(map, name, visual)
-  v.nvim_del_keymap("n", map)
-  v.nvim_del_keymap("x", map)
-  v.nvim_command("packadd " .. name)
+  nvim.del_keymap("n", map)
+  nvim.del_keymap("x", map)
+  nvim.command("packadd " .. name)
   if visual then
-    v.nvim_feedkeys("gv", "n")
+    nvim.feedkeys("gv", "n")
   end
-  v.nvim_feedkeys(v.nvim_replace_termcodes(map, true, false, true))
+  nvim.feedkeys(nvim.replace_termcodes(map, true, false, true))
 end
 
 local function packager_init()
@@ -70,8 +70,8 @@ local function packager_init()
     return
   end
   packager_initialized = true
-  v.nvim_command("packadd vim-packager")
-  v.nvim_call_function("packager#init", {})
+  nvim.ex.packadd("vim-packager")
+  nvim.call_function("packager#init", {})
   for _, p in pairs(packages) do
     local name, opts = p[1], p[2]
     if next(opts) == nil then
@@ -81,7 +81,7 @@ local function packager_init()
     if isdirectory(expand(name)) then
       fn = "local"
     end
-    v.nvim_call_function("packager#" .. fn, {name, opts})
+    nvim.call_function("packager#" .. fn, {name, opts})
   end
 end
 
@@ -89,7 +89,7 @@ local function _from_viml_add_pkg(args)
   local bang, name, opts = args[1], args[2], {}
   if #args > 2 then
     if type(args[3]) ~= "table" then
-      return v.nvim_err_writeln("Second argument must be a table.")
+      return nvim.err_writeln("Second argument must be a table.")
     else
       opts = args[3]
     end
@@ -99,47 +99,59 @@ end
 
 local function _packager_cmd(fn)
   packager_init()
-  v.nvim_call_function("packager#" .. fn, {})
+  nvim.call_function("packager#" .. fn, {})
 end
 
 local function init()
-  v.nvim_command(
-    [[command! -bang -nargs=+ Package call luaeval('require("packages")._from_viml_add_pkg(_A)', [<q-bang>, <args>])]]
+  nvim.ex.command_(
+    "-bang",
+    "-nargs=+",
+    "Package",
+    "call",
+    [[luaeval('require("packages")._from_viml_add_pkg(_A)', [<q-bang>, <args>])]]
   )
   for _, name in pairs({"clean", "install", "status", "update"}) do
     local cmd = "Pack" .. name:sub(1, 1):upper() .. name:sub(2)
-    v.nvim_command(
-      string.format(
-        [[command! %s lua require("packages")._packager_cmd("%s")]],
-        cmd,
-        name
-      )
+    nvim.ex.command_(
+      cmd,
+      "lua",
+      ([[require("packages")._packager_cmd("%s")]]):format(name)
     )
   end
-  v.nvim_command("source $VIMHOME/packages.vim")
-  v.nvim_command("augroup packager-filetypes")
-  v.nvim_command("autocmd!")
+  nvim.ex.source("$VIMHOME/packages.vim")
+  nvim.ex.augroup("packager-filetypes")
+  nvim.ex.autocmd_()
   for ft, pkgs in pairs(lazy.ft) do
     for _, pkg in pairs(pkgs) do
-      v.nvim_command("autocmd FileType " .. ft .. " ++once packadd " .. pkg)
+      nvim.ex.autocmd("FileType", ft, "++once", "packadd", pkg)
     end
-    v.nvim_command(
-      "autocmd FileType " .. ft .. " ++once ++nested doautocmd FileType"
+    nvim.ex.autocmd(
+      "FileType",
+      ft,
+      "++once",
+      "++nested",
+      "doautocmd",
+      "FileType"
     )
   end
-  v.nvim_command("augroup END")
+  nvim.ex.augroup("END")
   for cmd, pkg in pairs(lazy.on_cmd) do
-    v.nvim_command(
+    nvim.ex.command_(
+      "-range",
+      "-bang",
+      "-bar",
+      "-nargs=*",
+      cmd,
+      "lua",
       string.format(
-        [[command! -range -bang -bar -nargs=* %s lua require("packages")._pkg_cmd("%s", "%s", <q-bang>, <line1>, <line2>, <range>, <q-args>)]],
-        cmd,
+        [[require("packages")._pkg_cmd("%s", "%s", <q-bang>, <line1>, <line2>, <range>, <q-args>)]],
         cmd,
         pkg
       )
     )
   end
   for map, pkg in pairs(lazy.on_map) do
-    v.nvim_set_keymap(
+    nvim.set_keymap(
       "n",
       map,
       string.format(
@@ -149,7 +161,7 @@ local function init()
       ),
       {silent = true}
     )
-    v.nvim_set_keymap(
+    nvim.set_keymap(
       "x",
       map,
       string.format(

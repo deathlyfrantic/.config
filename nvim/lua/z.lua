@@ -1,4 +1,4 @@
-local v = vim.api
+local nvim = require("nvim")
 
 local function filter(t, f)
   local ret = {}
@@ -68,7 +68,7 @@ end
 local function include(name)
   local path = package.searchpath(name, package.path)
   if path == nil then
-    v.nvim_err_writeln(("Can't find %s.lua in package.path"):format(name))
+    nvim.err_writeln(("Can't find %s.lua in package.path"):format(name))
     return
   end
   return loadfile(path)()
@@ -83,7 +83,7 @@ end
 
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
-  return v.nvim_call_function("trim", {self})
+  return nvim.fn.trim(self)
 end
 
 function string.split(self, sep)
