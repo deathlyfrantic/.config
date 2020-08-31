@@ -97,7 +97,7 @@ end
 
 local function string_pad(s, length, padding, direction)
   padding = padding or " "
-  local addl = length - v.nvim_call_function("strdisplaywidth", {s})
+  local addl = length - nvim.fn.strdisplaywidth(s)
   if addl < 1 then
     return s
   end
