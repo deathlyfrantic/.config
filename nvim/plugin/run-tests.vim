@@ -200,12 +200,24 @@ let s:runners = {
       \ 'typescript': function('s:javascript'),
       \ }
 
+function! s:test_cmd_from_buffer(cmd) abort
+  if type(a:cmd) == v:t_string
+    return a:cmd
+  elseif type(a:cmd) == v:t_func
+    return a:cmd()
+  endif
+endfunction
+
 function! s:orchestrate_tests(selection, bang) abort
   let test_cmds = []
   let errs = []
   try
     if has_key(b:, 'test_command')
-      let test_cmds += [b:test_command]
+      if type(b:test_command) == v:t_dict && has_key(b:test_command, a:selection)
+        let test_cmds += [s:test_cmd_from_buffer(b:test_command[a:selection])]
+      else
+        let test_cmds += [s:test_cmd_from_buffer(b:test_command)]
+      endif
     elseif has_key(s:runners, &filetype)
       let test_cmds += [s:runners[&filetype](a:selection)]
     else
