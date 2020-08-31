@@ -48,10 +48,6 @@ augroup z-rc-ale
         \| nmap <buffer> gd <Plug>(ale_go_to_definition)
         \| nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
 augroup END
-let g:ale_linters = {
-      \ 'cs': ['csc'],
-      \ 'java': [],
-      \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'rust': ['rustfmt'],
