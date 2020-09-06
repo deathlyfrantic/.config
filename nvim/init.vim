@@ -153,7 +153,7 @@ nnoremap # #N
 nnoremap <silent> <Space> :nohlsearch<CR>
 
 " close all floating windows
-command! CloseFloatingWindows call command#close_floating_windows()
+command! CloseFloatingWindows silent! lua require("util").close_floating_windows()
 nnoremap <silent> <Esc> <Cmd>CloseFloatingWindows<CR>
 
 " resize windows
