@@ -257,7 +257,7 @@ augroup z-rc-swap-command
 augroup END
 
 " local settings
-command! -bang SourceLocalVimrc call command#source_local_vimrc(<q-bang>)
+command! -bang SourceLocalVimrc lua require("util").source_local_vimrc(<q-bang>)
 augroup z-rc-local-vimrc
   autocmd!
   autocmd BufNewFile,BufReadPost * ++nested SourceLocalVimrc
