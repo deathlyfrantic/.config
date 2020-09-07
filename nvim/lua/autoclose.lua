@@ -126,12 +126,13 @@ local function enter()
 end
 
 local function init()
-  nvim.ex.inoremap(
-    "<expr>",
+  nvim.set_keymap(
+    "i",
     "<Plug>autocloseCR",
-    [[luaeval("require('autoclose').enter()")]]
+    [[luaeval("require('autoclose').enter()")]],
+    {noremap = true, expr = true}
   )
-  nvim.ex.imap("<Enter>", "<Plug>autocloseCR")
+  nvim.set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
 end
 
 return {
