@@ -63,6 +63,61 @@ local function tbl_reverse(t)
   return ret
 end
 
+local function tbl_slice(t, first, last)
+  local ret = {}
+  for i = first or 1, math.min(last or #t, #t), 1 do
+    table.insert(ret, t[i])
+  end
+  return ret
+end
+
+local function popup(text)
+  local buf = nvim.create_buf(false, true)
+  local array
+  if type(text) == "table" then
+    array = text
+  elseif type(text) == "string" then
+    array = text:split("\n")
+  else
+    array = {tostring(text)}
+  end
+  local contents =
+    map(
+    array,
+    function(line)
+      return " " .. line .. " "
+    end
+  )
+  table.insert(contents, 1, "")
+  table.insert(contents, "")
+  nvim.buf_set_lines(buf, 0, -1, true, contents)
+  local opts = {
+    relative = "cursor",
+    height = #contents,
+    style = "minimal",
+    focusable = false,
+    width = math.max(unpack(map(contents, string.len))),
+    anchor = ""
+  }
+  if nvim.fn.screenrow() > (nvim.o.lines / 2) then
+    opts.anchor = opts.anchor .. "S"
+    opts.row = 0
+  else
+    opts.anchor = opts.anchor .. "N"
+    opts.row = 1
+  end
+  if nvim.fn.screencol() > (nvim.o.columns / 2) then
+    opts.anchor = opts.anchor .. "E"
+    opts.col = 0
+  else
+    opts.anchor = opts.anchor .. "W"
+    opts.col = 1
+  end
+  local win = nvim.open_win(buf, false, opts)
+  nvim.wo[win].colorcolumn = "0"
+  return win
+end
+
 -- like require() but reloads file every time so i don't have to restart nvim
 -- to test changes
 local function include(name)
@@ -79,6 +134,19 @@ local function to_array(item)
     return {item}
   end
   return item
+end
+
+local function collect(iter, stop)
+  local i = 0
+  local ret = {}
+  for v in iter do
+    table.insert(ret, v)
+    i = i + 1
+    if stop ~= nil and i >= stop then
+      break
+    end
+  end
+  return ret
 end
 
 function string.trim(self)
@@ -145,6 +213,9 @@ return {
   find = find,
   zip = zip,
   tbl_reverse = tbl_reverse,
+  tbl_slice = tbl_slice,
+  popup = popup,
   include = include,
-  to_array = to_array
+  to_array = to_array,
+  collect = collect
 }
