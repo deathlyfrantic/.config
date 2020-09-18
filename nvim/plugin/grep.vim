@@ -20,6 +20,7 @@ function! s:grep(search) abort
     echo 'No matches found.'
   else
     execute 'copen' min([num_results, 10])
+    setlocal nowrap
     let w:quickfix_title = 'grep "' .. a:search .. '"'
   endif
 endfunction
