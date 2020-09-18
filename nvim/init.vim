@@ -241,6 +241,7 @@ augroup z-rc-quickfix
   autocmd!
   autocmd FileType qf nnoremap <silent> <buffer> <C-c> :cclose<CR>
                    \| nnoremap <silent> <buffer> q     :cclose<CR>
+                   \| setlocal nowrap
 augroup END
 
 " swap files
