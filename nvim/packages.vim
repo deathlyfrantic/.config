@@ -26,8 +26,10 @@ Package '~/src/vim/textobj-blanklines'
 Package 'racer-rust/vim-racer', {'for': 'rust'}
 let g:racer_cmd = trim(system('which racer'))
 let g:racer_experimental_completer = 1
-nmap <buffer> K <Plug>(rust-doc)
-nmap <buffer> gd <Plug>(rust-def)
+augroup z-rc-racer
+  autocmd FileType rust nmap <buffer> K <Plug>(rust-doc)
+  autocmd FileType rust nmap <buffer> gd <Plug>(rust-def)
+augroup END
 
 Package 'airblade/vim-gitgutter'
 omap ig <Plug>(GitGutterTextObjectInnerPending)
