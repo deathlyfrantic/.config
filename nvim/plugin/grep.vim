@@ -19,14 +19,8 @@ function! s:grep(search) abort
     redraw!
     echo 'No matches found.'
   else
-    try
-      " work around https://github.com/ap/vim-buftabline/issues/75
-      set eventignore+=BufAdd
-      execute 'copen' min([num_results, 10])
-      let w:quickfix_title = 'grep "' .. a:search .. '"'
-    finally
-      set eventignore-=BufAdd
-    endtry
+    execute 'copen' min([num_results, 10])
+    let w:quickfix_title = 'grep "' .. a:search .. '"'
   endif
 endfunction
 
