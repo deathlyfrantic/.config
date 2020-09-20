@@ -1,3 +1,9 @@
-lua require("packages").init()
-lua require("autoclose").init()
-lua require("qf-preview").init()
+let s:plugins = [
+      \ 'autoclose',
+      \ 'dirvish-extras',
+      \ 'packages',
+      \ 'qf-preview'
+      \ ]
+for plugin in s:plugins
+  exec 'lua require("' .. plugin .. '").init()'
+endfor
