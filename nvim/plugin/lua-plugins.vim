@@ -1,5 +1,6 @@
 let s:plugins = [
       \ 'autoclose',
+      \ 'commandline',
       \ 'dirvish-extras',
       \ 'packages',
       \ 'qf-preview'
