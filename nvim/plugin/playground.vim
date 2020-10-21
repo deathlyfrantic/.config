@@ -124,4 +124,9 @@ function! s:open_pg(...) abort
   call s:open_pg_buffer(s:grounds[l:ft])
 endfunction
 
-command! -nargs=? Playground call s:open_pg(<f-args>)
+function! s:cmd_completion(...) abort
+  return keys(s:grounds)
+endfunction
+
+command! -nargs=? -complete=customlist,<SID>cmd_completion
+      \ Playground call s:open_pg(<f-args>)
