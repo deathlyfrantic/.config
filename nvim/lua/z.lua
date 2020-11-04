@@ -4,7 +4,7 @@ local function filter(t, f)
   local ret = {}
   for i, v in ipairs(t) do
     if f(v, i) then
-      table.insert(ret, i)
+      table.insert(ret, v)
     end
   end
   return ret
