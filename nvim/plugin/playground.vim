@@ -91,15 +91,9 @@ function! s:run_pg(cmd) abort
   call win_gotoid(current_window)
 endfunction
 
-function! s:pgnum() abort
-  let s:next_pg_num += 1
-  return s:next_pg_num
-endfunction
-
 function! s:open_pg_buffer(ground) abort
   let s:pg_spawning_buffer = bufnr('%')
-  execute 'edit' printf('%s/_pg%s.%s', expand('%:h'), s:pgnum(),
-        \ a:ground.extension)
+  execute 'edit' printf("%s.%s", tempname(), a:ground.extension)
   let command = printf(a:ground.command, @%)
   execute 'autocmd BufWritePost <buffer> call s:run_pg("' .. command .. '")'
   autocmd BufDelete <buffer> call s:delete_output_buffer()
