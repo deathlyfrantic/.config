@@ -66,13 +66,7 @@ let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 let g:ale_c_clang_options =
       \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
-" PR to add luafmt to ale here: https://github.com/dense-analysis/ale/pull/3289
-" can remove the following when(/if?) it is merged
-function! LuaFmtAleFixer(buffer) abort
-  return {'command': 'luafmt --stdin --line-width 80 --indent-count 2'}
-endfunction
-call ale#fix#registry#Add(
-      \ 'luafmt', 'LuaFmtAleFixer', ['lua'], 'Fix lua files with luafmt.')
+let g:ale_lua_luafmt_options = '--line-width 80 --indent-count 2'
 " }}}
 
 " panels {{{
