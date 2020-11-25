@@ -97,7 +97,10 @@ local function enter()
   state.linenr = state.cursor[1]
   state.col = state.cursor[2]
   state.trimmed = state.line:trim()
-  if state.col < #state.trimmed or pairs[state.trimmed:sub(-1, -1)] == nil then
+  if
+    state.col < #state.line:gsub("%s*$", "") or
+      pairs[state.trimmed:sub(-1, -1)] == nil
+   then
     -- don't do anything if cursor is not at the end of a line,
     -- or if the (trimmed) line doesn't end with a left pair item
     return key_cr
