@@ -49,7 +49,6 @@ set incsearch
 set laststatus=2
 set nojoinspaces
 set nowrap
-set number
 set ruler
 set scrolloff=5
 set shiftround
