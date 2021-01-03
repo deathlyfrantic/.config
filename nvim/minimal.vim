@@ -22,7 +22,7 @@ if has('vim_starting')
     \ ]
   for url in s:required_plugins
     let fname = fnamemodify(url, ':t')
-    let locpath = $VIMHOME.'/plugin/'.fname
+    let locpath = shellescape($VIMHOME.'/plugin/'.fname)
     if !filereadable(locpath)
       execute printf(
         \ '!curl -fLo %s --create-dirs https://raw.githubusercontent.com/%s',
