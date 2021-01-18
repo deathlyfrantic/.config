@@ -21,19 +21,8 @@ defaults write ~/Library/Preferences/edu.ufrj.vitormm.Porting-Kit.plist "Disable
 # install brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-# base brew packages i need
-brew install git
-brew install mutt urlview w3m
-brew install neovim
-brew install ripgrep
-brew install tmux
-brew install zsh zsh-completions
-brew install --HEAD universal-ctags/universal-ctags/universal-ctags
-brew install tree
-brew cask install alacritty
-brew cask install firefox
-brew cask install iterm2
-brew cask install signal
+# install brew packages
+brew bundle
 
 # install rust
 curl https://sh.rustup.rs -sSf | sh
