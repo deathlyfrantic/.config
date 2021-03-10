@@ -57,7 +57,9 @@ let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'rust': ['rustfmt'],
       \ 'javascript': ['prettier'],
+      \ 'javascriptreact': ['prettier'],
       \ 'typescript': ['prettier'],
+      \ 'typescriptreact': ['prettier'],
       \ 'json': ['jq'],
       \ 'lua': ['luafmt'],
       \ }
