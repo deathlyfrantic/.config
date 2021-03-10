@@ -240,6 +240,11 @@ function! s:orchestrate_tests(selection, bang) abort
   call win_gotoid(current_window)
 endfunction
 
+" expose this function for use in local config files etc
+function! FindNearestTest(...) abort
+  return call('s:find_nearest_test', a:000)
+endfunction
+
 command! -bang RunTestNearest call <SID>orchestrate_tests('nearest', <q-bang>)
 command! -bang RunTestFile call <SID>orchestrate_tests('file', <q-bang>)
 command! -bang RunTestSuite call <SID>orchestrate_tests('all', <q-bang>)
