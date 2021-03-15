@@ -63,8 +63,6 @@ let g:ale_fixers = {
       \ 'json': ['jq'],
       \ 'lua': ['luafmt'],
       \ }
-let g:ale_echo_cursor = 0
-let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
