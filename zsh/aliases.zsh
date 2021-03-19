@@ -6,11 +6,9 @@ alias vim='nvim'
 alias less='less -FiXR'
 alias xmllint='xmllint --format'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqliterc'
-alias svn='svn --config-dir "$XDG_CONFIG_HOME"/subversion'
 alias b='brew'
 alias rg='rg -S'
 function rgl() { rg -p $* | less } # this is alias-like
-alias va='source venv/bin/activate'
 function hog {
     if [ -z "$*" ]; then
         du -d1 -h | sort -h
@@ -21,9 +19,7 @@ function hog {
 function mkcd { mkdir -p $1 && cd $1 } # this is alias-like
 alias diffstat='diffstat -C'
 alias diff='diff --color=auto'
-alias pstree='pstree -g3'
 alias mpv='open -na /Applications/mpv.app'
-alias emacs='emacs -nw'
 alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | star -s'
 alias redo='eval `hs`'
 alias pgrep='pgrep -i'
