@@ -45,12 +45,12 @@ set textwidth=80
 set title
 set titlestring=nvim\ %{has_key(b:,'term_title')?b:term_title:len(expand('%'))>0?expand('%:t'):'[No\ name]'}
 set undofile
-set wildignore+=node_modules/,package-lock.json,*.min.js    " javascript
-set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/ " python
-set wildignore+=Cargo.lock,*/target/*                       " rust
-set wildignore+=.git,.gitmodules                            " git
-set wildignore+=*.swp                                       " vim
-set wildignore+=.DS_Store                                   " macos
+set wildignore+=node_modules/,package-lock.json,*.min.js,yarn.lock " javascript
+set wildignore+=__pycache__/,*.pyc,Pipfile.lock,*.egg-info/        " python
+set wildignore+=Cargo.lock,*/target/*                              " rust
+set wildignore+=.git,.gitmodules                                   " git
+set wildignore+=*.swp                                              " vim
+set wildignore+=.DS_Store                                          " macos
 set wildignorecase
 " --- end general settings --- }}}
 
