@@ -28,6 +28,17 @@ if executable('rg')
   let &grepprg = printf("rg -F -S -H --no-heading --vimgrep %s '$*'",
         \ join(map(split(&wildignore, ','), {_, v -> printf("-g '!%s'", v)})))
   set grepformat=%f:%l:%c:%m
+
+  " :Rg command variant allows passing arbitrary flags to ripgrep and doesn't
+  " default to -F (fixed-strings) option to allow regex searching
+  function! s:rg(search) abort
+    let saved_grepprg = &grepprg
+    let &grepprg = 'rg -H --no-heading --vimgrep $*'
+    call <SID>grep(a:search)
+    let &grepprg = saved_grepprg
+  endfunction
+
+  command! -nargs=+ Rg call <SID>rg(<q-args>)
 endif
 
 command! -nargs=+ Grep call <SID>grep(<q-args>)
