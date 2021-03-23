@@ -95,5 +95,5 @@ return {
   bwd_by_word = bwd_by_word,
   fwd_by_word = fwd_by_word,
   delete_word = delete_word,
-  init = init
+  init = init,
 }

@@ -4,12 +4,11 @@ local z = require("z")
 local popup_window = -1
 
 local function file_info()
-  local filename, line, col =
-    nvim.get_current_line():match("^(.+)|(%d+) col (%d+)|")
+  local filename, line, col = nvim.get_current_line():match("^(.+)|(%d+) col (%d+)|")
   if filename == nil then
     return nil
   end
-  local ret = {filename = filename, line = tonumber(line)}
+  local ret = { filename = filename, line = tonumber(line) }
   if col ~= nil then
     ret.col = tonumber(col)
   end
@@ -19,8 +18,7 @@ end
 local function get_lines_and_pos(info)
   local previewheight = nvim.o.previewheight or 12
   local context = previewheight / 2
-  local lines =
-    z.collect(
+  local lines = z.collect(
     io.open(info.filename):lines(),
     math.max(info.line + context, previewheight)
   )
@@ -89,5 +87,5 @@ end
 return {
   init = init,
   _close_popup = close_popup,
-  _preview = _preview
+  _preview = _preview,
 }

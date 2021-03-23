@@ -48,7 +48,7 @@ end
 local function zip(a, b)
   local ret = {}
   for i = 1, math.max(#a, #b) do
-    ret[i] = {a[i], b[i]}
+    ret[i] = { a[i], b[i] }
   end
   return ret
 end
@@ -79,15 +79,11 @@ local function popup(text)
   elseif type(text) == "string" then
     array = text:split("\n")
   else
-    array = {tostring(text)}
+    array = { tostring(text) }
   end
-  local contents =
-    map(
-    array,
-    function(line)
-      return " " .. line .. " "
-    end
-  )
+  local contents = map(array, function(line)
+    return " " .. line .. " "
+  end)
   table.insert(contents, 1, "")
   table.insert(contents, "")
   nvim.buf_set_lines(buf, 0, -1, true, contents)
@@ -97,7 +93,7 @@ local function popup(text)
     style = "minimal",
     focusable = false,
     width = math.max(unpack(map(contents, string.len))),
-    anchor = ""
+    anchor = "",
   }
   if nvim.fn.screenrow() > (nvim.o.lines / 2) then
     opts.anchor = opts.anchor .. "S"
@@ -131,7 +127,7 @@ end
 
 local function to_array(item)
   if type(item) ~= "table" then
-    return {item}
+    return { item }
   end
   return item
 end
@@ -217,5 +213,5 @@ return {
   popup = popup,
   include = include,
   to_array = to_array,
-  collect = collect
+  collect = collect,
 }

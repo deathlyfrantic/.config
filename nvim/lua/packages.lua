@@ -6,7 +6,7 @@ local packages = {}
 local lazy = {
   ft = {},
   on_cmd = {},
-  on_map = {}
+  on_map = {},
 }
 
 local function expand(path)
@@ -42,7 +42,7 @@ local function add_package(bang, path, opts)
       end
     end
   end
-  table.insert(packages, {path, opts})
+  table.insert(packages, { path, opts })
 end
 
 local function _pkg_cmd(cmd, name, bang, line1, line2, range, args)
@@ -75,13 +75,13 @@ local function packager_init()
   for _, p in pairs(packages) do
     local name, opts = p[1], p[2]
     if next(opts) == nil then
-      opts = {type = "start"}
+      opts = { type = "start" }
     end
     local fn = "add"
     if isdirectory(expand(name)) then
       fn = "local"
     end
-    nvim.call_function("packager#" .. fn, {name, opts})
+    nvim.call_function("packager#" .. fn, { name, opts })
   end
 end
 
@@ -110,7 +110,7 @@ local function init()
     "call",
     [[luaeval('require("packages")._from_viml_add_pkg(_A)', [<q-bang>, <args>])]]
   )
-  for _, name in pairs({"clean", "install", "status", "update"}) do
+  for _, name in pairs({ "clean", "install", "status", "update" }) do
     local cmd = "Pack" .. name:sub(1, 1):upper() .. name:sub(2)
     nvim.ex.command_(
       cmd,
@@ -159,7 +159,7 @@ local function init()
         map,
         pkg
       ),
-      {silent = true}
+      { silent = true }
     )
     nvim.set_keymap(
       "x",
@@ -169,7 +169,7 @@ local function init()
         map,
         pkg
       ),
-      {silent = true}
+      { silent = true }
     )
   end
 end
@@ -180,5 +180,5 @@ return {
   init = init,
   _pkg_cmd = _pkg_cmd,
   _pkg_map = _pkg_map,
-  _packager_cmd = _packager_cmd
+  _packager_cmd = _packager_cmd,
 }
