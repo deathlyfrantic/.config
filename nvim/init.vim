@@ -57,8 +57,6 @@ set wildignorecase
 " --- autocommands --- {{{
 augroup filetypedetect
   autocmd BufNewFile,BufReadPost *.c,*.h setlocal filetype=c
-  autocmd BufRead /tmp/mutt-*,/private$TMPDIR/mutt-* setlocal filetype=mail
-  autocmd BufNewFile,BufReadPost *.muttrc setlocal filetype=muttrc
   autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
   autocmd BufNewFile,BufReadPost *.snippets setlocal filetype=snippets
   autocmd BufNewFile,BufReadPost *.toml setlocal filetype=toml
