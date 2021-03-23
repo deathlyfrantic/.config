@@ -1,7 +1,7 @@
 " --- startup processes --- {{{
 if has('vim_starting')
   " stuff that should only have to happen once
-  let $VIMHOME = split(&runtimepath, ',')[0]
+  let $VIMHOME = stdpath('config')
 
   " kill default vim plugins i don't want
   let g:loaded_vimballPlugin = 'v35'

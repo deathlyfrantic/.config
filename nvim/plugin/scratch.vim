@@ -1,5 +1,5 @@
 function! s:save_file(num) abort
-  return expand(printf('$XDG_DATA_HOME/nvim/scratch-%s.txt', a:num))
+  return expand(printf('%s/scratch-%s.txt', stdpath('data'), a:num))
 endfunction
 
 function! s:bufname(num) abort
