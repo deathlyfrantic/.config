@@ -61,14 +61,21 @@ let g:ale_fixers = {
       \ 'typescript': ['prettier'],
       \ 'typescriptreact': ['prettier'],
       \ 'json': ['jq'],
-      \ 'lua': ['luafmt'],
+      \ 'lua': ['stylua'],
       \ }
 let g:ale_fix_on_save = 1
 let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 let g:ale_c_clang_options =
       \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
-let g:ale_lua_luafmt_options = '--line-width 80 --indent-count 2'
+function! StyluaAleFixer(...) abort
+  let styluatoml = join([stdpath('config'), 'lua', 'stylua.toml'], '/')
+  return {
+        \ 'command': 'stylua --config-path ' .. styluatoml .. ' %t',
+        \ 'read_temporary_file': 1 }
+endfunction
+call ale#fix#registry#Add(
+      \ 'stylua', 'StyluaAleFixer', ['lua'], 'Fix lua files with stylua.')
 " }}}
 
 " panels {{{

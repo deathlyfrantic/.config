@@ -60,5 +60,5 @@ end
 return {
   add = add,
   del = del,
-  _callback = _callback
+  _callback = _callback,
 }

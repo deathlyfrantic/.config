@@ -7,11 +7,11 @@ local function find_columns(line)
   local cols, start = {}, 1
   for i = start, #line do
     if line:sub(i, i) ~= "-" then
-      table.insert(cols, {start = start, stop = i})
+      table.insert(cols, { start = start, stop = i })
       start = i
     end
   end
-  table.insert(cols, {start = start, stop = #line})
+  table.insert(cols, { start = start, stop = #line })
   return cols
 end
 
@@ -79,5 +79,5 @@ end
 
 return {
   squeeze = squeeze,
-  on_load = on_load
+  on_load = on_load,
 }

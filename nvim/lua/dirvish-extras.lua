@@ -3,13 +3,9 @@ local z = require("z")
 local autocmd = require("autocmd")
 
 local function toggle()
-  local bufs =
-    z.filter(
-    nvim.list_bufs(),
-    function(buf)
-      return nvim.buf_is_loaded(buf)
-    end
-  )
+  local bufs = z.filter(nvim.list_bufs(), function(buf)
+    return nvim.buf_is_loaded(buf)
+  end)
   local dirvish_bufs = {}
   for _, id in ipairs(bufs) do
     if nvim.bo[id].filetype == "dirvish" then
@@ -26,7 +22,7 @@ end
 local function open()
   local line = nvim.get_current_line()
   if line:match("/$") ~= nil then
-    nvim.fn.call("dirvish#open", {"edit", 0})
+    nvim.fn.call("dirvish#open", { "edit", 0 })
   else
     toggle()
     nvim.ex.edit(line)
@@ -42,21 +38,21 @@ local function autocmds()
     "n",
     "<C-r>",
     "<Cmd>Dirvish %<CR>",
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
   )
   nvim.buf_set_keymap(
     0,
     "n",
     "<CR>",
     [[<Cmd>lua require("dirvish-extras").open()<CR>]],
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
   )
   nvim.buf_set_keymap(
     0,
     "n",
     "q",
     [[<Cmd>lua require("dirvish-extras").toggle()<CR>]],
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
   )
   nvim.ex.silent_("keeppatterns", [[g@\v/\.[^\/]+/?$@d]])
   for _, pat in ipairs(nvim.o.wildignore:split(",")) do
@@ -70,12 +66,12 @@ local function init()
     "n",
     "<Plug>(dirvish-toggle)",
     [[<Cmd>lua require("dirvish-extras").toggle()<CR>]],
-    {silent = true}
+    { silent = true }
   )
 end
 
 return {
   toggle = toggle,
   open = open,
-  init = init
+  init = init,
 }
