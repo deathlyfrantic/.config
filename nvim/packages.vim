@@ -108,7 +108,7 @@ let g:undotree_WindowLayout = 2
 let g:undotree_SetFocusWhenToggle = 1
 nnoremap <silent> <C-q> :UndotreeToggle<CR>
 
-Package 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Package 'preservim/tagbar', {'on': 'TagbarToggle'}
 let g:tagbar_autofocus = 1
 let g:tagbar_iconchars = ['+', '-']
 nnoremap <silent> <C-t> <Cmd>TagbarToggle<CR>
