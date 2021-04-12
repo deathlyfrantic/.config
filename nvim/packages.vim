@@ -23,14 +23,6 @@ Package '~/src/vim/textobj-blanklines'
 " }}}
 
 " dev tools {{{
-Package 'racer-rust/vim-racer', {'for': 'rust'}
-let g:racer_cmd = trim(system('which racer'))
-let g:racer_experimental_completer = 1
-augroup z-rc-racer
-  autocmd FileType rust nmap <buffer> K <Plug>(rust-doc)
-  autocmd FileType rust nmap <buffer> gd <Plug>(rust-def)
-augroup END
-
 Package 'airblade/vim-gitgutter'
 omap ig <Plug>(GitGutterTextObjectInnerPending)
 omap ag <Plug>(GitGutterTextObjectOuterPending)
@@ -49,10 +41,14 @@ nnoremap Q <Cmd>ALEDetail<CR>
 augroup z-rc-ale
   autocmd!
   autocmd FileType ale-preview setlocal wrap linebreak
-  autocmd FileType typescript setlocal omnifunc=ale#completion#OmniFunc
+  autocmd FileType ale-preview.message setlocal colorcolumn=0
+  autocmd FileType rust,typescript setlocal omnifunc=ale#completion#OmniFunc
         \| nmap <buffer> gd <Plug>(ale_go_to_definition)
+        \| nmap <buffer> K <Plug>(ale_hover)
         \| nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
 augroup END
+let g:ale_hover_to_floating_preview = 1
+let g:ale_floating_window_border = repeat([' '], 6)
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'rust': ['rustfmt'],
@@ -66,6 +62,9 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+if executable('rust-analyzer')
+  let g:ale_linters = {'rust': ['analyzer', 'cargo']}
+endif
 let g:ale_c_clang_options =
       \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
 function! StyluaAleFixer(...) abort
