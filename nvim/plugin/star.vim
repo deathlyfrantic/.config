@@ -58,7 +58,7 @@ endfunction
 function! s:open_file(files) abort
   let files = map(a:files, {i, v -> escape(z#find_project_dir() .. v, ' [')})
   for [i, f] in z#enumerate(files)
-    if filereadable(f)
+    if filereadable(glob(f))
       execute (i == 0 ? 'edit' : 'badd') f
     endif
   endfor
