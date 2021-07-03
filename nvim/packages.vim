@@ -67,14 +67,8 @@ if executable('rust-analyzer')
 endif
 let g:ale_c_clang_options =
       \ '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
-function! StyluaAleFixer(...) abort
-  let styluatoml = join([stdpath('config'), 'lua', 'stylua.toml'], '/')
-  return {
-        \ 'command': 'stylua --config-path ' .. styluatoml .. ' %t',
-        \ 'read_temporary_file': 1 }
-endfunction
-call ale#fix#registry#Add(
-      \ 'stylua', 'StyluaAleFixer', ['lua'], 'Fix lua files with stylua.')
+let g:ale_lua_stylua_options = '--config-path '
+      \ .. join([stdpath('config'), 'lua', 'stylua.toml'], '/')
 " }}}
 
 " panels {{{
