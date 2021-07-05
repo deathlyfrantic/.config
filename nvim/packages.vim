@@ -5,9 +5,6 @@ augroup z-rc-packager
   autocmd FileType packager nmap <buffer> <M-k> <Plug>(PackagerGotoPrevPlugin)
 augroup END
 
-" can remove this when nvim 0.5.0 is released (i think?)
-Package 'norcalli/nvim.lua'
-
 " filetypes {{{
 Package 'rust-lang/rust.vim', {'for': 'rust'}
 Package 'cespare/vim-toml', {'for': 'toml'}

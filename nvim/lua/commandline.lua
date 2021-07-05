@@ -1,8 +1,8 @@
-local nvim = require("nvim")
 local z = require("z")
+local set_keymap = vim.api.nvim_set_keymap
 
 local function poscmd()
-  return nvim.fn.getcmdpos(), nvim.fn.getcmdline()
+  return vim.fn.getcmdpos(), vim.fn.getcmdline()
 end
 
 local function kill_line()
@@ -43,7 +43,7 @@ local function bwd_by_word()
         i = i + 1
         break
       end
-      nvim.fn.setcmdpos(i + 1)
+      vim.fn.setcmdpos(i + 1)
     end
   end
   return cmd
@@ -61,7 +61,7 @@ local function fwd_by_word()
       if cmd:sub(i + 1, i + 1):match("%w") == nil and saw_letter then
         break
       end
-      nvim.fn.setcmdpos(i + 2)
+      vim.fn.setcmdpos(i + 2)
     end
   end
   return cmd
@@ -72,7 +72,7 @@ local function call(fn)
 end
 
 local function remap(left, right)
-  nvim.set_keymap("c", left, right, {})
+  set_keymap("c", left, right, {})
 end
 
 local function init()
@@ -86,8 +86,8 @@ local function init()
   remap("<C-p>", "<Up>")
   remap("<C-k>", call("kill_line"))
   remap("<M-d>", call("delete_word"))
-  nvim.set_keymap("c", "<M-b>", call("bwd_by_word"), {})
-  nvim.set_keymap("c", "<M-f>", call("fwd_by_word"), {})
+  set_keymap("c", "<M-b>", call("bwd_by_word"), {})
+  set_keymap("c", "<M-f>", call("fwd_by_word"), {})
 end
 
 return {

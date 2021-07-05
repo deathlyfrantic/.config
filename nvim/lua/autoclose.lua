@@ -1,8 +1,8 @@
-local nvim = require("nvim")
+local api = vim.api
 local z = require("z")
 
-local key_cr = nvim.replace_termcodes("<Enter>", true, false, true)
-local key_ctrl_o = nvim.replace_termcodes("<C-o>", true, false, true)
+local key_cr = api.nvim_replace_termcodes("<Enter>", true, false, true)
+local key_ctrl_o = api.nvim_replace_termcodes("<C-o>", true, false, true)
 local pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
 local closers = { [")"] = "(", ["]"] = "[", ["}"] = "{" }
 -- we only look at these patterns if the line ends in an opening pair so we
@@ -28,7 +28,7 @@ local semi_lines = {
 semi_lines.typescript = semi_lines.javascript
 
 local function getline(num)
-  return nvim.buf_get_lines(0, num - 1, num, false)[1] or ""
+  return api.nvim_buf_get_lines(0, num - 1, num, false)[1] or ""
 end
 
 local function semi(state)
@@ -50,8 +50,8 @@ local function indent(line)
 end
 
 local function in_string(line, col)
-  return z.any(nvim.fn.synstack(line, col), function(id)
-    return nvim.fn.synIDattr(nvim.fn.synIDtrans(id), "name"):match("[Ss][Tt][Rr][Ii][Nn][Gg]")
+  return z.any(vim.fn.synstack(line, col), function(id)
+    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):match("[Ss][Tt][Rr][Ii][Nn][Gg]")
   end)
 end
 
@@ -69,15 +69,15 @@ local function should_close(state, ends)
     return closers[c]
   end), "")
   local ending = table.concat(ends, ""):reverse()
-  local match = nvim.fn.searchpair(start, "", ending, "Wn")
+  local match = vim.fn.searchpair(start, "", ending, "Wn")
   return not (match > 0 and indent(getline(match)) == indent(state.line))
 end
 
 local function enter()
   local state = {
-    ft = nvim.bo.filetype,
-    cursor = nvim.fn.nvim_win_get_cursor(0),
-    line = nvim.fn.nvim_get_current_line(),
+    ft = vim.bo.filetype,
+    cursor = api.nvim_win_get_cursor(0),
+    line = api.nvim_get_current_line(),
   }
   state.linenr = state.cursor[1]
   state.col = state.cursor[2]
@@ -117,13 +117,13 @@ local function enter()
 end
 
 local function init()
-  nvim.set_keymap(
+  api.nvim_set_keymap(
     "i",
     "<Plug>autocloseCR",
     [[luaeval("require('autoclose').enter()")]],
     { noremap = true, expr = true }
   )
-  nvim.set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
+  api.nvim_set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
 end
 
 return {
