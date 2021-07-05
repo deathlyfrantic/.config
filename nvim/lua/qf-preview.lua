@@ -1,10 +1,10 @@
-local nvim = require("nvim")
+local api = vim.api
 local z = require("z")
 
 local popup_window = -1
 
 local function file_info()
-  local filename, line, col = nvim.get_current_line():match("^(.+)|(%d+) col (%d+)|")
+  local filename, line, col = api.nvim_current_line():match("^(.+)|(%d+) col (%d+)|")
   if filename == nil then
     return nil
   end
@@ -16,7 +16,7 @@ local function file_info()
 end
 
 local function get_lines_and_pos(info)
-  local previewheight = nvim.o.previewheight or 12
+  local previewheight = vim.o.previewheight or 12
   local context = previewheight / 2
   local lines = z.collect(
     io.open(info.filename):lines(),
@@ -40,8 +40,8 @@ local function preview_contents(info)
   local lines, line = get_lines_and_pos(info)
   popup_window = z.popup(lines)
   local width = math.max(unpack(z.map(lines, string.len)))
-  nvim.buf_add_highlight(
-    nvim.win_get_buf(popup_window),
+  api.nvim_add_highlight(
+    api.nvim_win_get_buf(popup_window),
     -1,
     "PmenuSel",
     line,
@@ -51,8 +51,8 @@ local function preview_contents(info)
 end
 
 local function close_popup()
-  if vim.tbl_contains(nvim.list_wins(), popup_window) then
-    nvim.win_close(popup_window, true)
+  if vim.tbl_contains(api.nvim_list_wins(), popup_window) then
+    api.nvim_win_close(popup_window, true)
   end
   popup_window = -1
 end
@@ -62,26 +62,16 @@ local function _preview()
   local info = file_info()
   if info ~= nil then
     preview_contents(info)
-    nvim.ex.autocmd(
-      "CursorMoved,BufLeave,BufWinLeave",
-      "<buffer>",
-      "++once",
-      [[lua require("qf-preview")._close_popup()]]
-    )
+    vim.cmd([[autocmd CursorMoved,BufLeave,BufWinLeave <buffer> ++once lua require("qf-preview")._close_popup()]])
   end
 end
 
 local function init()
-  nvim.ex.augroup("quickfix-preview")
-  nvim.ex.autocmd(
-    "FileType",
-    "qf",
-    "nnoremap",
-    "<buffer>",
-    "Q",
-    [[<Cmd>lua require("qf-preview")._preview()<CR>]]
-  )
-  nvim.ex.augroup("END")
+  vim.cmd([[
+    augroup quickfix-preview
+      autocmd FileType qf nnoremap <buffer> Q <Cmd>lua require("qf-preview")._preview()<CR>
+    augroup END
+  ]])
 end
 
 return {

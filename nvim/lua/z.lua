@@ -1,4 +1,4 @@
-local nvim = require("nvim")
+local api = vim.api
 
 local function filter(t, f)
   local ret = {}
@@ -72,7 +72,7 @@ local function tbl_slice(t, first, last)
 end
 
 local function popup(text)
-  local buf = nvim.create_buf(false, true)
+  local buf = api.nvim_create_buf(false, true)
   local array
   if type(text) == "table" then
     array = text
@@ -86,7 +86,7 @@ local function popup(text)
   end)
   table.insert(contents, 1, "")
   table.insert(contents, "")
-  nvim.buf_set_lines(buf, 0, -1, true, contents)
+  api.nvim_buf_set_lines(buf, 0, -1, true, contents)
   local opts = {
     relative = "cursor",
     height = #contents,
@@ -95,22 +95,22 @@ local function popup(text)
     width = math.max(unpack(map(contents, string.len))),
     anchor = "",
   }
-  if nvim.fn.screenrow() > (nvim.o.lines / 2) then
+  if vim.fn.screenrow() > (vim.o.lines / 2) then
     opts.anchor = opts.anchor .. "S"
     opts.row = 0
   else
     opts.anchor = opts.anchor .. "N"
     opts.row = 1
   end
-  if nvim.fn.screencol() > (nvim.o.columns / 2) then
+  if vim.fn.screencol() > (vim.o.columns / 2) then
     opts.anchor = opts.anchor .. "E"
     opts.col = 0
   else
     opts.anchor = opts.anchor .. "W"
     opts.col = 1
   end
-  local win = nvim.open_win(buf, false, opts)
-  nvim.wo[win].colorcolumn = "0"
+  local win = api.nvim_open_win(buf, false, opts)
+  vim.wo[win].colorcolumn = "0"
   return win
 end
 
@@ -119,7 +119,7 @@ end
 local function include(name)
   local path = package.searchpath(name, package.path)
   if path == nil then
-    nvim.err_writeln(("Can't find %s.lua in package.path"):format(name))
+    api.nvim_err_writeln(("Can't find %s.lua in package.path"):format(name))
     return
   end
   return loadfile(path)()
@@ -147,7 +147,7 @@ end
 
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
-  return nvim.fn.trim(self)
+  return vim.fn.trim(self)
 end
 
 function string.split(self, sep)
@@ -161,7 +161,7 @@ end
 
 local function string_pad(s, length, padding, direction)
   padding = padding or " "
-  local addl = length - nvim.fn.strdisplaywidth(s)
+  local addl = length - vim.fn.strdisplaywidth(s)
   if addl < 1 then
     return s
   end

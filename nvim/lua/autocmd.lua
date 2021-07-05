@@ -1,5 +1,3 @@
-local nvim = require("nvim")
-
 local handlers = {}
 local _id = 0
 
@@ -17,17 +15,19 @@ local function _callback(id)
   if type(callback) == "function" then
     callback()
   else
-    return nvim.err_writeln("can't find callback with id " .. id)
+    return vim.api.nvim_err_writeln("can't find callback with id " .. id)
   end
 end
 
 local function del(id)
   if handlers[id] ~= nil then
     handlers[id] = nil
-    nvim.ex.augroup(aug(id))
-    nvim.ex.autocmd_()
-    nvim.ex.augroup("END")
-    nvim.ex.augroup_(aug(id))
+    vim.cmd(([[
+      augroup %s
+        autocmd!
+      augroup END
+      augroup! %s
+      ]]):format(aug(id)))
   end
 end
 
@@ -45,15 +45,9 @@ local function add(event, pattern, callback, options)
     once = nil
     handlers[id] = callback
   end
-  nvim.ex.augroup(aug(id))
-  nvim.ex.autocmd(
-    event,
-    pattern,
-    once or "",
-    "lua",
-    ([[require("autocmd")._callback(%s)]]):format(id)
-  )
-  nvim.ex.augroup("END")
+  vim.cmd("augroup " .. aug(id))
+  vim.cmd(([[autocmd %s %s %s lua require("autocmd")._callback(%s)]]):format(event, pattern, once or "", id))
+  vim.cmd("augroup END")
   return id
 end
 
