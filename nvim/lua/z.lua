@@ -145,6 +145,65 @@ local function collect(iter, stop)
   return ret
 end
 
+local function get_hex_color(hl, attr)
+  local colors = api.nvim_get_hl_by_name(hl, true)
+  local dec = colors.background
+  if attr == "fg" or attr == "foreground" then
+    dec = colors.foreground
+  end
+  return ("#%06x"):format(dec)
+end
+
+local function find_project_dir(...)
+  local markers = {
+    "Cargo.toml",
+    "Cargo.lock",
+    "node_modules",
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    ".git",
+  }
+  local function isdirectory(d)
+    return vim.fn.isdirectory(d) == 1
+  end
+  local function filereadable(f)
+    return vim.fn.filereadable(f) == 1
+  end
+  local fnamemodify = vim.fn.fnamemodify
+  local expand = function(path)
+    return vim.fn.expand(path, true)
+  end
+  local start = vim.fn.getcwd()
+  if select("#", ...) > 0 then
+    start = ...
+  end
+  local dir = start
+  while dir ~= expand("~") and dir ~= "/" do
+    local path = dir .. "/"
+    if
+      any(markers, function(d)
+        return isdirectory(expand(path .. d))
+          or filereadable(expand(path .. d))
+      end)
+    then
+      return fnamemodify(dir, ":p")
+    end
+    dir = fnamemodify(dir, ":h")
+    if dir == "." then
+      return fnamemodify(dir, ":p")
+    end
+  end
+  return fnamemodify(dir, ":p")
+end
+
+local function buf_is_real(b)
+  return api.nvim_buf_is_valid(b)
+    and api.nvim_buf_is_loaded(b)
+    and vim.bo[b].buflisted
+    and vim.bo[b].buftype ~= "nofile"
+end
+
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
   return vim.fn.trim(self)
@@ -214,4 +273,7 @@ return {
   include = include,
   to_array = to_array,
   collect = collect,
+  get_hex_color = get_hex_color,
+  find_project_dir = find_project_dir,
+  buf_is_real = buf_is_real,
 }
