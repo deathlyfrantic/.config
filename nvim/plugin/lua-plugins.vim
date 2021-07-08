@@ -3,7 +3,8 @@ let s:plugins = [
       \ 'commandline',
       \ 'dirvish-extras',
       \ 'packages',
-      \ 'qf-preview'
+      \ 'qf-preview',
+      \ 'star',
       \ ]
 for plugin in s:plugins
   exec 'lua require("' .. plugin .. '").init()'
