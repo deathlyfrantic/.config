@@ -4,7 +4,7 @@ local z = require("z")
 local popup_window = -1
 
 local function file_info()
-  local filename, line, col = api.nvim_current_line():match("^(.+)|(%d+) col (%d+)|")
+  local filename, line, col = api.nvim_get_current_line():match("^(.+)|(%d+) col (%d+)|")
   if filename == nil then
     return nil
   end
@@ -40,7 +40,7 @@ local function preview_contents(info)
   local lines, line = get_lines_and_pos(info)
   popup_window = z.popup(lines)
   local width = math.max(unpack(z.map(lines, string.len)))
-  api.nvim_add_highlight(
+  api.nvim_buf_add_highlight(
     api.nvim_win_get_buf(popup_window),
     -1,
     "PmenuSel",
