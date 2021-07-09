@@ -65,9 +65,12 @@ local function remove_last(stack, char)
 end
 
 local function should_close(state, ends)
-  local start = table.concat(z.map(ends, function(c)
-    return closers[c]
-  end), "")
+  local start = table.concat(
+    vim.tbl_map(function(c)
+      return closers[c]
+    end, ends),
+    ""
+  )
   local ending = table.concat(ends, ""):reverse()
   local match = vim.fn.searchpair(start, "", ending, "Wn")
   return not (match > 0 and indent(getline(match)) == indent(state.line))

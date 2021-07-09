@@ -1,13 +1,5 @@
 local api = vim.api
 
-local function map(t, f)
-  local ret = {}
-  for i, v in ipairs(t) do
-    table.insert(ret, f(v, i))
-  end
-  return ret
-end
-
 local function any(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
@@ -71,9 +63,9 @@ local function popup(text)
   else
     array = { tostring(text) }
   end
-  local contents = map(array, function(line)
+  local contents = vim.tbl_map(function(line)
     return " " .. line .. " "
-  end)
+  end, array)
   table.insert(contents, 1, "")
   table.insert(contents, "")
   api.nvim_buf_set_lines(buf, 0, -1, true, contents)
@@ -82,7 +74,7 @@ local function popup(text)
     height = #contents,
     style = "minimal",
     focusable = false,
-    width = math.max(unpack(map(contents, string.len))),
+    width = math.max(unpack(vim.tbl_map(string.len, contents))),
     anchor = "",
   }
   if vim.fn.screenrow() > (vim.o.lines / 2) then
@@ -251,7 +243,6 @@ function string.chars(self)
 end
 
 return {
-  map = map,
   any = any,
   all = all,
   find = find,

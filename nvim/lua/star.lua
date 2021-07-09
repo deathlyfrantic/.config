@@ -18,14 +18,20 @@ local function find_cmd(mode)
       end,
       api.nvim_list_bufs()
     )
-    open_files = z.map(bufs, function(b)
-      return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
-    end)
+    open_files = vim.tbl_map(
+      function(b)
+        return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+      end,
+      bufs
+    )
   end
   return ("rg --files %s"):format(table.concat(
-    z.map(open_files, function(f)
-      return "-g !" .. vim.fn.shellescape(vim.fn.escape(f, " ["))
-    end),
+    vim.tbl_map(
+      function(f)
+        return "-g !" .. vim.fn.shellescape(vim.fn.escape(f, " ["))
+      end,
+      open_files
+    ),
     " "
   ))
 end
@@ -56,16 +62,16 @@ local function cmd(mode)
   if mode == "files" or mode == "all" then
     return cmd:format(find_cmd(mode))
   elseif mode == "buffers" then
-    local bufs = z.map(
+    local bufs = vim.tbl_map(
+      function(b)
+        return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+      end,
       vim.tbl_filter(
         function(b)
           return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
         end,
         api.nvim_list_bufs()
-      ),
-      function(b)
-        return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
-      end
+      )
     )
     return cmd:format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
   end
@@ -83,9 +89,12 @@ local function open_buffer(b)
 end
 
 local function open_file(files)
-  local paths = z.map(files, function(f)
-    return vim.fn.escape(z.find_project_dir() .. f, " [")
-  end)
+  local paths = vim.tbl_map(
+    function(f)
+      return vim.fn.escape(z.find_project_dir() .. f, " [")
+    end,
+    files
+  )
   for i, f in ipairs(paths) do
     if vim.loop.fs_access(f, "r") then
       if i == 1 then
