@@ -1,15 +1,5 @@
 local api = vim.api
 
-local function filter(t, f)
-  local ret = {}
-  for i, v in ipairs(t) do
-    if f(v, i) then
-      table.insert(ret, v)
-    end
-  end
-  return ret
-end
-
 local function map(t, f)
   local ret = {}
   for i, v in ipairs(t) do
@@ -261,7 +251,6 @@ function string.chars(self)
 end
 
 return {
-  filter = filter,
   map = map,
   any = any,
   all = all,
