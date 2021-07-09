@@ -12,9 +12,12 @@ local function find_cmd(mode)
   if mode == "all" then
     open_files = {}
   else
-    local bufs = z.filter(api.nvim_list_bufs(), function(b)
-      return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-    end)
+    local bufs = vim.tbl_filter(
+      function(b)
+        return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
+      end,
+      api.nvim_list_bufs()
+    )
     open_files = z.map(bufs, function(b)
       return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
     end)
@@ -54,9 +57,12 @@ local function cmd(mode)
     return cmd:format(find_cmd(mode))
   elseif mode == "buffers" then
     local bufs = z.map(
-      z.filter(api.nvim_list_bufs(), function(b)
-        return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-      end),
+      vim.tbl_filter(
+        function(b)
+          return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
+        end,
+        api.nvim_list_bufs()
+      ),
       function(b)
         return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
       end

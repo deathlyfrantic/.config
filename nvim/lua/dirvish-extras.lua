@@ -3,9 +3,12 @@ local z = require("z")
 local autocmd = require("autocmd")
 
 local function toggle()
-  local bufs = z.filter(api.nvim_list_bufs(), function(buf)
-    return api.nvim_buf_is_loaded(buf)
-  end)
+  local bufs = vim.tbl_filter(
+    function(buf)
+      return api.nvim_buf_is_loaded(buf)
+    end,
+    api.nvim_list_bufs()
+  )
   local dirvish_bufs = {}
   for _, id in ipairs(bufs) do
     if vim.bo[id].filetype == "dirvish" then
