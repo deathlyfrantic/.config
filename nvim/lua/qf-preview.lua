@@ -39,7 +39,7 @@ end
 local function preview_contents(info)
   local lines, line = get_lines_and_pos(info)
   popup_window = z.popup(lines)
-  local width = math.max(unpack(z.map(lines, string.len)))
+  local width = math.max(unpack(vim.tbl_map(string.len, lines)))
   api.nvim_buf_add_highlight(
     api.nvim_win_get_buf(popup_window),
     -1,
