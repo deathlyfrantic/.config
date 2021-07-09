@@ -68,6 +68,7 @@ local function popup(text)
     focusable = false,
     width = math.max(unpack(vim.tbl_map(string.len, contents))),
     anchor = "",
+    border = "solid",
   }
   if vim.fn.screenrow() > (vim.o.lines / 2) then
     opts.anchor = opts.anchor .. "S"
