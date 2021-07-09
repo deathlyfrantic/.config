@@ -45,14 +45,6 @@ local function tbl_reverse(t)
   return ret
 end
 
-local function tbl_slice(t, first, last)
-  local ret = {}
-  for i = first or 1, math.min(last or #t, #t), 1 do
-    table.insert(ret, t[i])
-  end
-  return ret
-end
-
 local function popup(text)
   local buf = api.nvim_create_buf(false, true)
   local array
@@ -248,7 +240,6 @@ return {
   find = find,
   zip = zip,
   tbl_reverse = tbl_reverse,
-  tbl_slice = tbl_slice,
   popup = popup,
   include = include,
   to_array = to_array,

@@ -28,10 +28,10 @@ local function get_lines_and_pos(info)
   elseif #lines < (info.line + context) then
     local lines_after = #lines - info.line
     line = previewheight - lines_after + 2
-    lines = z.tbl_slice(lines, #lines - previewheight - 1)
+    lines = vim.list_slice(lines, #lines - previewheight - 1)
   else
     line = context + 2
-    lines = z.tbl_slice(lines, #lines - previewheight - 1)
+    lines = vim.list_slice(lines, #lines - previewheight - 1)
   end
   return lines, line
 end
