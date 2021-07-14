@@ -119,7 +119,7 @@ local function on_exit(mode, job_id, exit_code, event)
   end
   if exit_code == 0 then
     if vim.loop.fs_access(file, "r") then
-      local paths = vim.fn.readfile(file)
+      local paths = z.collect(io.open(file):lines())
       if mode == "files" or mode == "all" then
         open_file(paths)
       else
