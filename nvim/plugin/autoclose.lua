@@ -119,17 +119,12 @@ local function enter()
   return key_cr
 end
 
-local function init()
-  api.nvim_set_keymap(
-    "i",
-    "<Plug>autocloseCR",
-    [[luaeval("require('autoclose').enter()")]],
-    { noremap = true, expr = true }
-  )
-  api.nvim_set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
-end
+api.nvim_set_keymap(
+  "i",
+  "<Plug>autocloseCR",
+  [[luaeval("autoclose.enter()")]],
+  { noremap = true, expr = true }
+)
+api.nvim_set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
 
-return {
-  init = init,
-  enter = enter,
-}
+_G.autoclose = { enter = enter }

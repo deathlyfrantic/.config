@@ -1,7 +1,9 @@
 local api = vim.api
 local z = require("z")
+local autocmd = require("autocmd")
 
 local popup_window = -1
+local autocmd_handle
 
 local function file_info()
   local filename, line, col = api.nvim_get_current_line():match("^(.+)|(%d+) col (%d+)|")
@@ -57,25 +59,33 @@ local function close_popup()
   popup_window = -1
 end
 
-local function _preview()
+local function preview()
   close_popup()
   local info = file_info()
   if info ~= nil then
     preview_contents(info)
-    vim.cmd([[autocmd CursorMoved,BufLeave,BufWinLeave <buffer> ++once lua require("qf-preview")._close_popup()]])
+    autocmd.add(
+      "CursorMoved,BufLeave,BufWinLeave",
+      "<buffer>",
+      close_popup,
+      { once = true }
+    )
   end
 end
 
-local function init()
-  vim.cmd([[
-    augroup quickfix-preview
-      autocmd FileType qf nnoremap <buffer> Q <Cmd>lua require("qf-preview")._preview()<CR>
-    augroup END
-  ]])
+if autocmd_handle == nil then
+  autocmd.add("FileType", "qf", function()
+    api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "Q",
+      "<Cmd>lua qf_preview.preview()<CR>",
+      { noremap = true, silent = true }
+    )
+  end)
 end
 
-return {
-  init = init,
-  _close_popup = close_popup,
-  _preview = _preview,
+_G.qf_preview = {
+  close_popup = close_popup,
+  preview = preview,
 }

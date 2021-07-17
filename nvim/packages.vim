@@ -160,9 +160,9 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 noremap  <silent> <leader>gb :GBrowse!<CR>
 
 Package 'tpope/vim-dadbod', {'on': 'DB'}
-command! DBSqueeze lua require("dbsqueeze").squeeze()
+command! DBSqueeze lua dbsqueeze.squeeze()
 augroup z-rc-dbsqueeze
   autocmd!
-  autocmd BufReadPost *.dbout lua require("dbsqueeze").on_load(500)
+  autocmd BufReadPost *.dbout lua dbsqueeze.on_load(500)
 augroup END
 " }}}

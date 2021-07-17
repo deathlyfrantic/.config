@@ -68,32 +68,29 @@ local function fwd_by_word()
 end
 
 local function call(fn)
-  return ([[<C-\>e luaeval('require("commandline").%s()')<CR>]]):format(fn)
+  return ([[<C-\>e luaeval("commandline.%s()")<CR>]]):format(fn)
 end
 
 local function remap(left, right)
   set_keymap("c", left, right, {})
 end
 
-local function init()
-  remap("<C-a>", "<Home>")
-  remap("<C-b>", "<Left>")
-  remap("<C-d>", "<Delete>")
-  remap("<C-e>", "<End>")
-  remap("<C-f>", "<Right>")
-  remap("<C-g>", "<C-c>")
-  remap("<C-n>", "<Down>")
-  remap("<C-p>", "<Up>")
-  remap("<C-k>", call("kill_line"))
-  remap("<M-d>", call("delete_word"))
-  set_keymap("c", "<M-b>", call("bwd_by_word"), {})
-  set_keymap("c", "<M-f>", call("fwd_by_word"), {})
-end
+remap("<C-a>", "<Home>")
+remap("<C-b>", "<Left>")
+remap("<C-d>", "<Delete>")
+remap("<C-e>", "<End>")
+remap("<C-f>", "<Right>")
+remap("<C-g>", "<C-c>")
+remap("<C-n>", "<Down>")
+remap("<C-p>", "<Up>")
+remap("<C-k>", call("kill_line"))
+remap("<M-d>", call("delete_word"))
+set_keymap("c", "<M-b>", call("bwd_by_word"), {})
+set_keymap("c", "<M-f>", call("fwd_by_word"), {})
 
-return {
+_G.commandline = {
   kill_line = kill_line,
   bwd_by_word = bwd_by_word,
   fwd_by_word = fwd_by_word,
   delete_word = delete_word,
-  init = init,
 }
