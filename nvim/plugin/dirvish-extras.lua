@@ -2,6 +2,8 @@ local api = vim.api
 local z = require("z")
 local autocmd = require("autocmd")
 
+local autocmd_handle
+
 local function toggle()
   local bufs = vim.tbl_filter(
     function(buf)
@@ -47,14 +49,14 @@ local function autocmds()
     0,
     "n",
     "<CR>",
-    [[<Cmd>lua require("dirvish-extras").open()<CR>]],
+    [[<Cmd>lua dirvish_extras.open()<CR>]],
     { silent = true, noremap = true }
   )
   api.nvim_buf_set_keymap(
     0,
     "n",
     "q",
-    [[<Cmd>lua require("dirvish-extras").toggle()<CR>]],
+    [[<Cmd>lua dirvish_extras.toggle()<CR>]],
     { silent = true, noremap = true }
   )
   vim.cmd("silent! keeppatterns " .. [[g@\v/\.[^\/]+/?$@d]])
@@ -63,18 +65,17 @@ local function autocmds()
   end
 end
 
-local function init()
+if autocmd_handle == nil then
   autocmd.add("FileType", "dirvish", autocmds)
-  vim.api.nvim_set_keymap(
-    "n",
-    "<Plug>(dirvish-toggle)",
-    [[<Cmd>lua require("dirvish-extras").toggle()<CR>]],
-    { silent = true }
-  )
 end
+vim.api.nvim_set_keymap(
+  "n",
+  "<Plug>(dirvish-toggle)",
+  [[<Cmd>lua dirvish_extras.toggle()<CR>]],
+  { silent = true }
+)
 
-return {
+_G.dirvish_extras = {
   toggle = toggle,
   open = open,
-  init = init,
 }

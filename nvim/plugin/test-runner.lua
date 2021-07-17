@@ -183,7 +183,7 @@ local function load_or_create_buffer()
       test_buffer,
       "n",
       "R",
-      [[:lua require("test-runner")._rerun()<CR>]],
+      [[:lua test_runner.rerun()<CR>]],
       { silent = true, noremap = true }
     )
   end
@@ -214,7 +214,7 @@ local function run_tests(cmd, close)
   })
 end
 
-local function _rerun()
+local function rerun()
   vim.bo[test_buffer].modified = false
   vim.bo[test_buffer].modifiable = true
   local close = vim.b.close
@@ -224,7 +224,7 @@ local function _rerun()
   run_tests(vim.b.command, close)
 end
 
-local function _test(selection, bang)
+local function test(selection, bang)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
@@ -255,38 +255,35 @@ local function _test(selection, bang)
   api.nvim_set_current_win(current_window)
 end
 
-local function init()
-  local setup = {
-    { cmd = "RunNearestTest", key = "t", param = "nearest" },
-    { cmd = "RunTestFile", key = "T", param = "file" },
-    { cmd = "RunTestSuite", key = "<C-t>", param = "all" },
-  }
-  for _, x in ipairs(setup) do
-    local key, cmd, param = x.key, x.cmd, x.param
-    vim.cmd(string.format(
-      [[command! -bang %s lua require("test-runner")._test("%s", <q-bang>)]],
-      cmd,
-      param
-    ))
-    api.nvim_set_keymap(
-      "n",
-      "<leader>" .. key,
-      ":" .. cmd .. "<CR>",
-      { silent = true, noremap = true }
-    )
-    api.nvim_set_keymap(
-      "n",
-      "g<leader>" .. key,
-      ":" .. cmd .. "!<CR>",
-      { silent = true, noremap = true }
-    )
-  end
+local setup = {
+  { cmd = "RunNearestTest", key = "t", param = "nearest" },
+  { cmd = "RunTestFile", key = "T", param = "file" },
+  { cmd = "RunTestSuite", key = "<C-t>", param = "all" },
+}
+for _, x in ipairs(setup) do
+  local key, cmd, param = x.key, x.cmd, x.param
+  vim.cmd(string.format(
+    [[command! -bang %s lua test_runner.test("%s", <q-bang>)]],
+    cmd,
+    param
+  ))
+  api.nvim_set_keymap(
+    "n",
+    "<leader>" .. key,
+    ":" .. cmd .. "<CR>",
+    { silent = true, noremap = true }
+  )
+  api.nvim_set_keymap(
+    "n",
+    "g<leader>" .. key,
+    ":" .. cmd .. "!<CR>",
+    { silent = true, noremap = true }
+  )
 end
 
-return {
-  init = init,
-  _test = _test,
-  _rerun = _rerun,
+_G.test_runner = {
+  test = test,
+  rerun = rerun,
   -- expose this for use in local config files etc
   find_nearest_test = find_nearest_test,
 }

@@ -45,7 +45,7 @@ local function add_package(bang, path, opts)
   table.insert(packages, { path, opts })
 end
 
-local function _pkg_cmd(cmd, name, bang, line1, line2, range, args)
+local function pkg_cmd(cmd, name, bang, line1, line2, range, args)
   vim.cmd("silent! delcommand " .. cmd)
   vim.cmd("packadd " .. name)
   if range > 0 then
@@ -55,7 +55,7 @@ local function _pkg_cmd(cmd, name, bang, line1, line2, range, args)
   end
 end
 
-local function _pkg_map(map, name, visual)
+local function pkg_map(map, name, visual)
   api.nvimdel_keymap("n", map)
   api.nvim_del_keymap("x", map)
   vim.cmd("packadd " .. name)
@@ -85,7 +85,7 @@ local function packager_init()
   end
 end
 
-local function _from_viml_add_pkg(args)
+local function from_viml_add_pkg(args)
   local bang, name, opts = args[1], args[2], {}
   if #args > 2 then
     if type(args[3]) ~= "table" then
@@ -97,61 +97,63 @@ local function _from_viml_add_pkg(args)
   return add_package(bang, name, opts)
 end
 
-local function _packager_cmd(fn)
+local function packager_cmd(fn)
   packager_init()
   vim.fn["packager#" .. fn]()
 end
 
-local function init()
-  vim.cmd([[command! -bang -nargs=+ Package call luaeval('require("packages")._from_viml_add_pkg(_A)', [<q-bang>, <args>])]])
-  for _, name in pairs({ "clean", "install", "status", "update" }) do
-    local cmd = "Pack" .. name:sub(1, 1):upper() .. name:sub(2)
-    vim.cmd(([[command! %s lua require("packages")._packager_cmd("%s")]]):format(cmd, name))
-  end
-  vim.cmd("source $VIMHOME/packages.vim")
-  vim.cmd("augroup packager-filetypes")
-  vim.cmd("autocmd!")
-  for ft, pkgs in pairs(lazy.ft) do
-    for _, pkg in pairs(pkgs) do
-      vim.cmd("autocmd FileType " .. ft .. " ++once packadd " .. pkg)
-    end
-    vim.cmd(
-      "autocmd FileType " .. ft .. " ++once ++nested doautocmd FileType"
-    )
-  end
-  vim.cmd("augroup END")
-  for cmd, pkg in pairs(lazy.on_cmd) do
-    vim.cmd(([[command! -range -bang -bar -nargs=* %s lua require("packages")_.pkg_cmd("%s", "%s", <q-bang>, <line1>, <line2>, <range>, <q-args>)]]):format(cmd, cmd, pkg))
-  end
-  for map, pkg in pairs(lazy.on_map) do
-    api.nvim_set_keymap(
-      "n",
-      map,
-      string.format(
-        [[:call luaeval('require("packages")._pkg_map("%s", "%s", false)')<CR>]],
-        map,
-        pkg
-      ),
-      { silent = true }
-    )
-    api.nvim_set_keymap(
-      "x",
-      map,
-      string.format(
-        [[:call luaeval('require("packages")._pkg_map("%s", "%s", true)')<CR>]],
-        map,
-        pkg
-      ),
-      { silent = true }
-    )
-  end
-end
-
-return {
-  _from_viml_add_pkg = _from_viml_add_pkg,
+_G.packages = {
+  from_viml_add_pkg = from_viml_add_pkg,
   add_package = add_package,
-  init = init,
-  _pkg_cmd = _pkg_cmd,
-  _pkg_map = _pkg_map,
-  _packager_cmd = _packager_cmd,
+  pkg_cmd = pkg_cmd,
+  pkg_map = pkg_map,
+  packager_cmd = packager_cmd,
 }
+
+vim.cmd([[command! -bang -nargs=+ Package call luaeval('packages.from_viml_add_pkg(_A)', [<q-bang>, <args>])]])
+for _, name in pairs({ "clean", "install", "status", "update" }) do
+  local cmd = "Pack" .. name:sub(1, 1):upper() .. name:sub(2)
+  vim.cmd(([[command! %s lua packages.packager_cmd("%s")]]):format(cmd, name))
+end
+vim.cmd("source $VIMHOME/packages.vim")
+vim.cmd("augroup packager-filetypes")
+vim.cmd("autocmd!")
+for ft, pkgs in pairs(lazy.ft) do
+  for _, pkg in pairs(pkgs) do
+    vim.cmd("autocmd FileType " .. ft .. " ++once packadd " .. pkg)
+  end
+  vim.cmd(
+    "autocmd FileType " .. ft .. " ++once ++nested doautocmd FileType"
+  )
+end
+vim.cmd("augroup END")
+for cmd, pkg in pairs(lazy.on_cmd) do
+  vim.cmd(string.format(
+    [[command! -range -bang -bar -nargs=* %s lua packages.pkg_cmd("%s", "%s", <q-bang>, <line1>, <line2>, <range>, <q-args>)]],
+    cmd,
+    cmd,
+    pkg
+  ))
+end
+for map, pkg in pairs(lazy.on_map) do
+  api.nvim_set_keymap(
+    "n",
+    map,
+    string.format(
+      [[:lua packages.pkg_map("%s", "%s", false)<CR>]],
+      map,
+      pkg
+    ),
+    { silent = true }
+  )
+  api.nvim_set_keymap(
+    "x",
+    map,
+    string.format(
+      [[:lua packages.pkg_map("%s", "%s", true)<CR>]],
+      map,
+      pkg
+    ),
+    { silent = true }
+  )
+end

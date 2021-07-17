@@ -154,7 +154,7 @@ local function open_star_buffer(mode)
   vim.cmd("startinsert")
 end
 
-local function _star(...)
+local function star(...)
   local mode = "files"
   if select("#", ...) > 0 then
     mode = ...
@@ -162,25 +162,20 @@ local function _star(...)
   open_star_buffer(mode)
 end
 
-local function init()
-  if file == nil then
-    file = vim.fn.tempname()
-  end
-  if buffer ~= nil then
-    delete_buffer()
-  end
-  if autocmd_handle == nil then
-    autocmd_handle = autocmd.add("ColorScheme", "*", function()
-      star_cmd_str = nil
-    end)
-  end
-  vim.cmd([[command! -nargs=? Star lua require("star")._star(<f-args>)]])
-  api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
-  api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
-  api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
+if file == nil then
+  file = vim.fn.tempname()
 end
+if buffer ~= nil then
+  delete_buffer()
+end
+if autocmd_handle == nil then
+  autocmd_handle = autocmd.add("ColorScheme", "*", function()
+    star_cmd_str = nil
+  end)
+end
+vim.cmd([[command! -nargs=? Star lua star.star(<f-args>)]])
+api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
+api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
+api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
 
-return {
-  init = init,
-  _star = _star,
-}
+_G.star = { star = star }

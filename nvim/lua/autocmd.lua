@@ -21,13 +21,14 @@ end
 
 local function del(id)
   if handlers[id] ~= nil then
+    aug_id = aug(id)
     handlers[id] = nil
     vim.cmd(([[
       augroup %s
         autocmd!
       augroup END
       augroup! %s
-      ]]):format(aug(id)))
+      ]]):format(aug_id, aug_id))
   end
 end
 
@@ -39,7 +40,7 @@ local function add(event, pattern, callback, options)
     once = "++once"
     handlers[id] = function()
       callback()
-      handlers[id] = nil
+      del(id)
     end
   else
     once = nil

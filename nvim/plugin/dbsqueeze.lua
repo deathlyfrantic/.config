@@ -53,6 +53,9 @@ end
 
 local function squeeze()
   local lines = api.nvim_buf_get_lines(0, 0, -3, false)
+  if #lines == 0 then
+    return
+  end
   vim.bo.modifiable = true
   vim.bo.readonly = false
   api.nvim_buf_set_lines(0, 0, #lines, false, squeeze_contents(lines))
@@ -77,7 +80,7 @@ local function on_load(max)
   end
 end
 
-return {
+_G.dbsqueeze = {
   squeeze = squeeze,
   on_load = on_load,
 }
