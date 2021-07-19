@@ -191,10 +191,8 @@ use({
   ]=],
 })
 
-use("tpope/vim-fugitive")
-use("tommcdo/vim-fubitive")
 use({
-  "tpope/vim-rhubarb",
+  "tpope/vim-fugitive",
   config = [=[vim.cmd([[
     nnoremap <silent> <leader>gs :Git<CR>
     nnoremap <silent> <leader>gc :Git commit<CR>
@@ -203,6 +201,8 @@ use({
     ]])
   ]=],
 })
+use("tommcdo/vim-fubitive")
+use("tpope/vim-rhubarb")
 
 use({
   "tpope/vim-dadbod",
