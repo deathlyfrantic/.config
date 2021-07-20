@@ -1,4 +1,6 @@
 setlocal cinoptions+=l1
+setlocal commentstring=//%s
+
 let s:headers = [
       \ 'assert',
       \ 'ctype',
