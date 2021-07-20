@@ -1,3 +1,6 @@
+local api = vim.api
+local z = require("z")
+
 local packer_path = vim.fn.stdpath("config")
   .. "/pack/packer/start/packer.nvim"
 
@@ -12,7 +15,10 @@ end
 local packer = require("packer")
 local use = packer.use
 
-packer.init({ package_root = vim.fn.stdpath("config") .. "/pack" })
+packer.init({
+  package_root = vim.fn.stdpath("config") .. "/pack",
+  display = { working_sym = "…" },
+})
 
 use("wbthomason/packer.nvim")
 
@@ -28,135 +34,188 @@ use("~/src/vim/textobj-blanklines")
 
 use({
   "airblade/vim-gitgutter",
-  config = [=[vim.cmd([[
-    omap ig <Plug>(GitGutterTextObjectInnerPending)
-    omap ag <Plug>(GitGutterTextObjectOuterPending)
-    xmap ig <Plug>(GitGutterTextObjectInnerVisual)
-    xmap ag <Plug>(GitGutterTextObjectOuterVisual)
-    augroup z-rc-gitgutter
-      autocmd!
-      autocmd BufEnter,TextChanged,InsertLeave,BufWritePost * GitGutter
-      autocmd BufDelete */.git/COMMIT_EDITMSG GitGutterAll
-    augroup END
-    ]])
-  ]=],
+  config = function()
+    vim.api.nvim_set_keymap("o", "ig", "<Plug>(GitGutterTextObjectInnerPending)", {})
+    vim.api.nvim_set_keymap("o", "ag", "<Plug>(GitGutterTextObjectOuterPending)", {})
+    vim.api.nvim_set_keymap("x", "ig", "<Plug>(GitGutterTextObjectInnerVisual)", {})
+    vim.api.nvim_set_keymap("x", "ag", "<Plug>(GitGutterTextObjectOuterVisual)", {})
+    require("autocmd").augroup("packer-gitgutter-config", function(add)
+      add("BufEnter,TextChanged,InsertLeave,BufWritePost", "*", function()
+        vim.cmd("GitGutter")
+      end)
+      add("BufDelete", "*/.git/COMMIT_EDITMSG", function()
+        vim.cmd("GitGutterAll")
+      end)
+    end)
+  end,
 })
 
 use({
   "dense-analysis/ale",
-  config = [=[vim.cmd([[
-    nnoremap <silent> [a <Cmd>ALEPreviousWrap<CR>
-    nnoremap <silent> ]a <Cmd>ALENextWrap<CR>
-    nnoremap Q <Cmd>ALEDetail<CR>
-    augroup z-rc-ale
-      autocmd!
-      autocmd FileType ale-preview setlocal wrap linebreak
-      autocmd FileType ale-preview.message setlocal colorcolumn=0
-      autocmd FileType rust,typescript setlocal omnifunc=ale#completion#OmniFunc | nmap <buffer> gd <Plug>(ale_go_to_definition) | nmap <buffer> K <Plug>(ale_hover) | nmap <buffer> <C-w>i <Plug>(ale_go_to_definition_in_split)
-    augroup END
-    let g:ale_hover_to_floating_preview = 1
-    let g:ale_floating_window_border = repeat([' '], 6)
-    let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'], 'rust': ['rustfmt'], 'javascript': ['prettier'], 'javascriptreact': ['prettier'], 'typescript': ['prettier'], 'typescriptreact': ['prettier'], 'json': ['jq'], 'lua': ['stylua'], }
-    let g:ale_fix_on_save = 1
-    let g:ale_fix_on_save_ignore = {'mail': ['trim_whitespace']}
-    let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
-    if executable('rust-analyzer')
-      let g:ale_linters = {'rust': ['analyzer', 'cargo']}
-    endif
-    let g:ale_c_clang_options = '-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror'
-    let g:ale_lua_stylua_options = '--config-path ' .. join([stdpath('config'), 'lua', 'stylua.toml'], '/')
-    ]])
-  ]=],
+  config = function()
+    vim.api.nvim_set_keymap(
+      "n",
+      "[a",
+      "<Cmd>ALEPreviousWrap<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.api.nvim_set_keymap(
+      "n",
+      "]a",
+      "<Cmd>ALENextWrap<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.api.nvim_set_keymap("n", "Q", "<Cmd>ALEDetail<CR>", { noremap = true })
+    require("autocmd").augroup("packer-ale-config", function(add)
+      add("FileType", "ale-preview", function()
+        vim.wo.wrap = true
+        vim.wo.linebreak = true
+        vim.wo.colorcolumn = 0
+      end)
+      add("FileType", "ale-preview.message", function()
+        vim.wo.colorcolumn = 0
+      end)
+      add("FileType", "rust,typescript", function()
+        vim.bo.omnifunc = "ale#completion#OmniFunc"
+        vim.api.nvim_buf_set_keymap(0, "n", "gd", "<Plug>(ale_go_to_definition)", {})
+        vim.api.nvim_buf_set_keymap(0, "n", "K", "<Plug>(ale_hover)", {})
+        vim.api.nvim_buf_set_keymap(
+          0,
+          "n",
+          "<C-w>i",
+          "<Plug>(ale_go_to_definition_in_split)",
+          {}
+        )
+      end)
+    end)
+    vim.g.ale_hover_to_floating_preview = 1
+    vim.g.ale_floating_window_border = { " ", " ", " ", " ", " ", " " }
+    vim.g.ale_fixers = {
+      ["*"] = { "remove_trailing_lines", "trim_whitespace" },
+      rust = { "rustfmt" },
+      javascript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescript = { "prettier" },
+      typescriptreact = { "prettier" },
+      json = { "jq" },
+      lua = { "stylua" },
+    }
+    vim.g.ale_fix_on_save = 1
+    vim.g.ale_fix_on_save_ignore = { mail = { "trim_whitespace" } }
+    vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
+    if vim.fn.executable("rust-analyzer") then
+      vim.g.ale_linters = { rust = { "analyzer", "cargo" } }
+    end
+    vim.g.ale_c_clang_options = "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
+    vim.g.ale_lua_stylua_options = "--config-path "
+      .. vim.fn.stdpath("config")
+      .. "/lua/stylua.toml"
+  end,
 })
 
 use({
   "junegunn/goyo.vim",
   cmd = "Goyo",
-  config = [=[vim.cmd([[
-    let g:goyo_height = '96%'
-    let g:goyo_width = 82
-    function! Goyo_enter() abort
-      set noshowmode noshowcmd showtabline=0
-      augroup z-rc-goyo-cursorhold
-        autocmd CursorHold,CursorHoldI * echo ''
-      augroup END
-    endfunction
-    function! Goyo_leave() abort
-      set showmode showcmd
-      call buftabline#update(0)
-      autocmd! z-rc-goyo-cursorhold
-      augroup! z-rc-goyo-cursorhold
-    endfunction
-    augroup z-rc-goyo
-      autocmd!
-      autocmd User GoyoEnter ++nested call Goyo_enter()
-      autocmd User GoyoLeave ++nested call Goyo_leave()
-    augroup END
-    ]])
-  ]=],
+  config = function()
+    vim.g.goyo_height = "96%"
+    vim.g.goyo_width = 82
+    local autocmd_handle
+    require("autocmd").augroup("packer-goyo-config", function(add, del)
+      add("User", "GoyoEnter", function()
+        vim.o.showmode = false
+        vim.o.showcmd = false
+        vim.o.showtabline = 0
+        autocmd_handle = require("autocmd").add("CursorHold,CursorHoldI", "*", function()
+            vim.api.nvim_echo({}, false, {})
+          end, { augroup = "goyo-cursorhold-clear" })
+      end, { nested = true })
+      add("User", "GoyoLeave", function()
+        vim.o.showmode = true
+        vim.o.showcmd = true
+        vim.fn["buftabline#update"](0)
+        require("autocmd").del(autocmd_handle)
+      end, { nested = true })
+    end)
+  end,
 })
 
 use({
   "justinmk/vim-dirvish",
-  config = [=[vim.cmd([[
-    let g:dirvish_mode = ':sort ,^.*[\/],'
-    nmap - <Plug>(dirvish-toggle)
-    ]])
-  ]=],
+  config = function()
+    vim.g.dirvish_mode = ":sort ,^.*[/],"
+    vim.api.nvim_set_keymap("n", "-", "<Plug>(dirvish-toggle)", {})
+  end,
 })
 
 use({
   "mbbill/undotree",
   cmd = "UndotreeToggle",
-  config = [=[vim.cmd([[
-    let g:undotree_WindowLayout = 2
-    let g:undotree_SetFocusWhenToggle = 1
-    nnoremap <silent> <C-q> :UndotreeToggle<CR>
-    ]])
-  ]=],
+  config = function()
+    vim.g.undotree_WindowLayout = 2
+    vim.g.undotree_SetFocusWhenToggle = 1
+    api.nvim_set_keymap(
+      "n",
+      "<C-q>",
+      "<Cmd>UndotreeToggle<CR>",
+      { noremap = true, silent = true }
+    )
+  end,
 })
 
 use({
   "preservim/tagbar",
   cmd = "TagbarToggle",
-  config = [=[vim.cmd([[
-    let g:tagbar_autofocus = 1
-    let g:tagbar_iconchars = ['+', '-']
-    nnoremap <silent> <C-t> <Cmd>TagbarToggle<CR>
-    ]])
-  ]=],
+  config = function()
+    vim.g.tagbar_autofocus = 1
+    vim.g.tagbar_iconchars = { "+", "-" }
+    api.nvim_set_keymap(
+      "n",
+      "<C-t>",
+      "<Cmd>TagbarToggle<CR>",
+      { noremap = true, silent = true }
+    )
+  end,
 })
 
 use({
   "ap/vim-buftabline",
-  config = [=[vim.cmd([[
-    let g:buftabline_show = 1
-    let g:buftabline_indicators = 1
-    let g:buftabline_numbers = 2
-    let keys = '1234567890qwertyuiop'
-    let g:buftabline_plug_max = len(keys)
-    for [i, k] in z#enumerate(keys, 1)
-      execute printf('nmap <silent> <M-%s> <Plug>BufTabLine.Go(%d)', k, i)
-    endfor
-    unlet! keys i k
-    ]])
-  ]=],
+  config = function()
+    vim.g.buftabline_show = 1
+    vim.g.buftabline_indicators = 1
+    vim.g.buftabline_numbers = 2
+    local keys = "1234567890qwertyuiop"
+    vim.g.buftabline_plug_max = #keys
+    for i, k in keys:chars() do
+      vim.api.nvim_set_keymap(
+        "n",
+        "<M-" .. k .. ">",
+        "<Plug>BufTabLine.Go(" .. i .. ")",
+        { silent = true }
+      )
+    end
+  end,
 })
 
 use({
   "wellle/tmux-complete.vim",
-  config = [=[vim.cmd([[
-    let g:tmuxcomplete#trigger = ''
-    inoremap <C-x><C-t> <Cmd>call completion#wrap('tmuxcomplete#complete')<CR>
-    ]])
-  ]=],
+  config = function()
+    vim.g["tmuxcomplete#trigger"] = ""
+    vim.api.nvim_set_keymap(
+      "i",
+      "<C-x><C-t>",
+      "<Cmd>call completion#wrap('tmuxcomplete#complete')<CR>",
+      { noremap = true }
+    )
+  end,
 })
 
 use("nelstrom/vim-visual-star-search")
 use("tommcdo/vim-exchange")
 use({
   "tommcdo/vim-lion",
-  config = "vim.cmd([[let g:lion_squeeze_spaces = 1]])",
+  config = function()
+    vim.g.lion_squeeze_spaces = 1
+  end,
 })
 
 use("tpope/vim-abolish")
@@ -170,36 +229,48 @@ use("tpope/vim-speeddating")
 use("tpope/vim-surround")
 use({
   "tpope/vim-unimpaired",
-  config = [[vim.cmd("let g:nremap = {'[a': '', ']a': ''}")]],
+  config = function()
+    vim.g.nremap = { ["[a"] = "", ["]a"] = "" }
+  end,
 })
 
 use({
   "tpope/vim-eunuch",
-  config = "vim.cmd([[cnoremap w!! SudoWrite]])",
+  config = function()
+    vim.api.nvim_set_keymap("c", "w!!", "SudoWrite", { noremap = true })
+  end,
 })
 
-use({
-  "tpope/vim-commentary",
-  config = [=[vim.cmd([[
-    augroup z-rc-commentary
-      autocmd!
-      autocmd FileType cmake setlocal commentstring=#%s
-      autocmd FileType sql setlocal commentstring=--%s
-      autocmd FileType c,typescript setlocal commentstring=//%s
-    augroup END
-    ]])
-  ]=],
-})
+use("tpope/vim-commentary")
 
 use({
   "tpope/vim-fugitive",
-  config = [=[vim.cmd([[
-    nnoremap <silent> <leader>gs :Git<CR>
-    nnoremap <silent> <leader>gc :Git commit<CR>
-    nnoremap <silent> <leader>gw :Gwrite<CR>
-    noremap  <silent> <leader>gb :GBrowse!<CR>
-    ]])
-  ]=],
+  config = function()
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>gs",
+      "<Cmd>Git<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>gc",
+      "<Cmd>Git commit<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>gw",
+      "<Cmd>Gwrite<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.api.nvim_set_keymap(
+      "",
+      "<leader>gb",
+      "<Cmd>GBrowse!<CR>",
+      { noremap = true, silent = true }
+    )
+  end,
 })
 use("tommcdo/vim-fubitive")
 use("tpope/vim-rhubarb")
@@ -207,16 +278,21 @@ use("tpope/vim-rhubarb")
 use({
   "tpope/vim-dadbod",
   cmd = "DB",
-  config = [=[vim.cmd([[
-    command! DBSqueeze lua dbsqueeze.squeeze()
-    augroup z-rc-dbsqueeze
-      autocmd!
-      autocmd BufReadPost *.dbout lua dbsqueeze.on_load(500)
-    augroup END
-    ]])
-  ]=],
+  config = function()
+    vim.cmd("command! DBSqueeze lua dbsqueeze.squeeze()")
+    require("autocmd").add("BufReadPost", "*.dbout", function()
+      require("dbsqueeze")
+      dbsqueeze.on_load(500)
+    end, { augroup = "packer-dbsqueeze-config" })
+  end,
 })
 
 if need_to_compile then
   packer.compile()
 end
+
+local script_name = debug.getinfo(1, "S").short_src
+require("autocmd").add("BufWritePost", script_name, function()
+  vim.cmd("luafile " .. script_name)
+  packer.compile()
+end, { augroup = "packer-config-reload" })
