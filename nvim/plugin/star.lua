@@ -154,12 +154,16 @@ local function open_star_buffer(mode)
   vim.cmd("startinsert")
 end
 
-local function star(...)
+local function star(args)
   local mode = "files"
-  if select("#", ...) > 0 then
-    mode = ...
+  if #args > 0 then
+    mode = args[1]
   end
   open_star_buffer(mode)
+end
+
+local function completion()
+  return { "all", "buffers", "files" }
 end
 
 if file == nil then
@@ -173,9 +177,9 @@ if autocmd_handle == nil then
     star_cmd_str = nil
   end)
 end
-vim.cmd([[command! -nargs=? Star lua star.star(<f-args>)]])
+vim.cmd([[command! -nargs=? -complete=customlist,v:lua.star.completion Star call luaeval("star.star(_A)", [<f-args>])]])
 api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
 api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
 
-_G.star = { star = star }
+_G.star = { star = star, completion = completion }
