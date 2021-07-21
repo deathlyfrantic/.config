@@ -275,17 +275,7 @@ use({
 use("tommcdo/vim-fubitive")
 use("tpope/vim-rhubarb")
 
-use({
-  "tpope/vim-dadbod",
-  cmd = "DB",
-  config = function()
-    vim.cmd("command! DBSqueeze lua dbsqueeze.squeeze()")
-    require("autocmd").add("BufReadPost", "*.dbout", function()
-      require("dbsqueeze")
-      dbsqueeze.on_load(500)
-    end, { augroup = "packer-dbsqueeze-config" })
-  end,
-})
+use({ "tpope/vim-dadbod", cmd = "DB" })
 
 if need_to_compile then
   packer.compile()

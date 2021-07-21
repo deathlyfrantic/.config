@@ -1,6 +1,7 @@
 -- super specific functionality to squeeze empty space out of vim-dadbod output
 -- may only apply to sql server ¯\_(ツ)_/¯
 local api = vim.api
+local autocmd = require("autocmd")
 local z = require("z")
 
 local function find_columns(line)
@@ -79,6 +80,11 @@ local function on_load(max)
     squeeze()
   end
 end
+
+vim.cmd("command! DBSqueeze lua dbsqueeze.squeeze()")
+autocmd.add("BufReadPost", "*.dbout", function()
+  on_load(500)
+end, { augroup = "dbsqueeze-auto-squeeze" })
 
 _G.dbsqueeze = {
   squeeze = squeeze,
