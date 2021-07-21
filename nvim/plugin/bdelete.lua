@@ -9,7 +9,7 @@ local function delete_current(force)
     api.nvim_err_writeln(e89:format(buf))
     return
   end
-  if vim.fn.bufexists(0) and vim.fn.buflisted(0) then
+  if vim.fn.bufexists(0) == 1 and vim.fn.buflisted(0) == 1 then
     vim.cmd("buffer #")
   else
     local bufs = vim.tbl_filter(
@@ -48,13 +48,13 @@ local function delete_by_name(force, name, term)
   end
 end
 
-local function bdelete(args)
-  local force = args[1] == "!"
-  if #args == 1 then
+local function bdelete(bang, ...)
+  local force = bang == "!"
+  if select("#", ...) == 0 then
     delete_current(force)
     return
   end
-  local name = args[2]
+  local name = ...
   local arg = string.lower(name)
   if arg == "man" then
     delete_by_name(true, "^man://", false)
@@ -84,7 +84,7 @@ end
 
 vim.cmd(
   [[command! -complete=customlist,v:lua.bdelete.completion -nargs=* -bang -bar ]]
-    .. [[Bdelete call luaeval("bdelete.bdelete(_A)", [<q-bang>, <f-args>])]]
+    .. [[Bdelete call v:lua.bdelete.bdelete(<q-bang>, <f-args>)]]
 )
 
 _G.bdelete = { completion = completion, bdelete = bdelete }

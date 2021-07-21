@@ -154,10 +154,10 @@ local function open_star_buffer(mode)
   vim.cmd("startinsert")
 end
 
-local function star(args)
+local function star(...)
   local mode = "files"
-  if #args > 0 then
-    mode = args[1]
+  if select("#", ...) > 0 then
+    mode = ...
   end
   open_star_buffer(mode)
 end
@@ -175,9 +175,9 @@ end
 if autocmd_handle == nil then
   autocmd_handle = autocmd.add("ColorScheme", "*", function()
     star_cmd_str = nil
-  end)
+  end, { augroup = "star-colorscheme-reset" })
 end
-vim.cmd([[command! -nargs=? -complete=customlist,v:lua.star.completion Star call luaeval("star.star(_A)", [<f-args>])]])
+vim.cmd([[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]])
 api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
 api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})

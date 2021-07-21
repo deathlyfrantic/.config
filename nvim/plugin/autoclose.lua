@@ -122,7 +122,7 @@ end
 api.nvim_set_keymap(
   "i",
   "<Plug>autocloseCR",
-  [[luaeval("autoclose.enter()")]],
+  [[v:lua.autoclose.enter()]],
   { noremap = true, expr = true }
 )
 api.nvim_set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
