@@ -176,7 +176,6 @@ local function buf_is_real(b)
   return api.nvim_buf_is_valid(b)
     and api.nvim_buf_is_loaded(b)
     and vim.bo[b].buflisted
-    and vim.bo[b].buftype ~= "nofile"
 end
 
 function string.trim(self)
