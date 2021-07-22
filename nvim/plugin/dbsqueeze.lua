@@ -2,7 +2,6 @@
 -- may only apply to sql server ¯\_(ツ)_/¯
 local api = vim.api
 local autocmd = require("autocmd")
-local z = require("z")
 
 local function find_columns(line)
   local cols, start = {}, 1

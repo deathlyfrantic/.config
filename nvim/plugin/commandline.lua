@@ -1,4 +1,3 @@
-local z = require("z")
 local set_keymap = vim.api.nvim_set_keymap
 
 local function poscmd()
@@ -40,7 +39,6 @@ local function bwd_by_word()
       i = i - 1
       saw_letter = saw_letter or cmd:sub(i + 1, i + 1):match("%w") ~= nil
       if cmd:sub(i + 1, i + 1):match("%w") == nil and saw_letter then
-        i = i + 1
         break
       end
       vim.fn.setcmdpos(i + 1)

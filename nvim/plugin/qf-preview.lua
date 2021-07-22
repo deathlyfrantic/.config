@@ -74,7 +74,7 @@ local function preview()
 end
 
 if autocmd_handle == nil then
-  autocmd.add("FileType", "qf", function()
+  autocmd_handle = autocmd.add("FileType", "qf", function()
     api.nvim_buf_set_keymap(
       0,
       "n",

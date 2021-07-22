@@ -1,5 +1,4 @@
 local api = vim.api
-local z = require("z")
 local autocmd = require("autocmd")
 
 local autocmd_handle
@@ -66,7 +65,7 @@ local function autocmds()
 end
 
 if autocmd_handle == nil then
-  autocmd.add("FileType", "dirvish", autocmds)
+  autocmd_handle = autocmd.add("FileType", "dirvish", autocmds)
 end
 vim.api.nvim_set_keymap(
   "n",

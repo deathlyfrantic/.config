@@ -1,6 +1,5 @@
 local api = vim.api
 local autocmd = require("autocmd")
-local z = require("z")
 
 local test_buffer
 
@@ -114,7 +113,7 @@ local function javascript(selection)
   elseif test_cmd:match("jest") then
     return javascript_jest(selection)
   end
-  if #cmd > 0 then
+  if #test_cmd > 0 then
     return npm_or_yarn() .. " test"
   end
 end
@@ -136,7 +135,7 @@ local function scroll_to_end()
 end
 
 local function on_exit(...)
-  local close, job_id, exit_code, event = select(1, ...)
+  local close, _, exit_code = select(1, ...)
   if exit_code == 0 then
     if close then
       vim.defer_fn(

@@ -19,11 +19,11 @@ end
 
 local function del(id)
   if handlers[id] ~= nil then
-    augroup = handlers[id].augroup
+    local augroup = handlers[id].augroup
     handlers[id] = nil
     vim.cmd(string.format(
-      [[augroup %s 
-        autocmd! 
+      [[augroup %s
+        autocmd!
       augroup END]],
       augroup
     ))

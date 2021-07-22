@@ -178,16 +178,16 @@ local function buf_is_real(b)
     and vim.bo[b].buflisted
 end
 
-function string.trim(self)
+function string.trim(self) -- luacheck: ignore 142
   -- for some reason the viml trim() function is _much_ faster than the lua one
   return vim.fn.trim(self)
 end
 
-function string.split(self, sep)
+function string.split(self, sep) -- luacheck: ignore 142
   return vim.split(self, sep, true)
 end
 
-function string.is_empty(self)
+function string.is_empty(self) -- luacheck: ignore 142
   local start, _ = self:match("^%s*$")
   return start ~= nil
 end
@@ -205,7 +205,7 @@ local function string_pad(s, length, padding, direction)
       return string.format("%-" .. addl .. "s", " ") .. s
     end
   end
-  for i = 1, addl do
+  for _ = 1, addl do
     if direction == "right" then
       s = s .. padding
     else
@@ -215,11 +215,11 @@ local function string_pad(s, length, padding, direction)
   return s
 end
 
-function string.lpad(self, length, padding)
+function string.lpad(self, length, padding) -- luacheck: ignore 142
   return string_pad(self, length, padding, "left")
 end
 
-function string.rpad(self, length, padding)
+function string.rpad(self, length, padding) -- luacheck: ignore 142
   return string_pad(self, length, padding, "right")
 end
 
@@ -230,7 +230,7 @@ local function string_chars(s, i)
   end
 end
 
-function string.chars(self)
+function string.chars(self) -- luacheck: ignore 142
   return string_chars, self, 0
 end
 
