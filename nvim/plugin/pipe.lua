@@ -4,11 +4,11 @@ local function operator(kind)
   if kind ~= "v" and kind ~= "V" and kind ~= "" then
     vim.cmd("silent execute 'normal! `[v`]'")
   end
-  local equalprg = vim.o.equalprg
-  vim.o.equalprg = vim.fn.input("$ ", "", "shellcmd")
+  local equalprg = vim.opt_local.equalprg:get()
+  vim.opt_local.equalprg = vim.fn.input("$ ", "", "shellcmd")
   vim.cmd("silent normal! =")
   vim.o.selection = selsave
-  vim.o.equalprg = equalprg
+  vim.opt_local.equalprg = equalprg
 end
 
 _G.pipe = { operator = operator }

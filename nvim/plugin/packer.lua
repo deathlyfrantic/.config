@@ -68,12 +68,12 @@ use({
     vim.api.nvim_set_keymap("n", "Q", "<Cmd>ALEDetail<CR>", { noremap = true })
     require("autocmd").augroup("packer-ale-config", function(add)
       add("FileType", "ale-preview", function()
-        vim.wo.wrap = true
-        vim.wo.linebreak = true
-        vim.wo.colorcolumn = 0
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.colorcolumn = "0"
       end)
       add("FileType", "ale-preview.message", function()
-        vim.wo.colorcolumn = 0
+        vim.opt_local.colorcolumn = "0"
       end)
       add("FileType", "rust,typescript", function()
         vim.bo.omnifunc = "ale#completion#OmniFunc"

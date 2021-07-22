@@ -59,10 +59,10 @@ if vim.fn.executable("rg") then
   -- :Rg command variant allows passing arbitrary flags to ripgrep and doesn't
   -- default to -F (fixed-strings) option to allow regex searching
   _G.grep.rg = function(search)
-    local saved_grepprg = vim.o.grepprg
-    vim.o.grepprg = "rg -H --no-heading --vimgrep $*"
+    local saved_grepprg = vim.opt_local.grepprg:get()
+    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $*"
     grep(search)
-    vim.o.grepprg = saved_grepprg
+    vim.opt_local.grepprg = saved_grepprg
   end
   vim.cmd("command! -nargs=+ Rg call v:lua.grep.rg(<q-args>)")
 end
