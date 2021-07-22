@@ -108,7 +108,7 @@ use({
     vim.g.ale_c_clang_options = "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
     vim.g.ale_lua_stylua_options = "--config-path "
       .. vim.fn.stdpath("config")
-      .. "/lua/stylua.toml"
+      .. "/stylua.toml"
   end,
 })
 
