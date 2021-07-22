@@ -57,11 +57,11 @@ vim.api.nvim_set_keymap(
   "n",
   "gw",
   ":set opfunc=v:lua.web.operator<CR>g@",
-  { silent = true }
+  { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
   "x",
   "gw",
   "<Cmd>call v:lua.web.operator(mode())<CR>",
-  { silent = true }
+  { noremap = true, silent = true }
 )

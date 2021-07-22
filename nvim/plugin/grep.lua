@@ -80,11 +80,11 @@ vim.api.nvim_set_keymap(
   "n",
   "gs",
   ":set opfunc=v:lua.grep.operator<CR>g@",
-  { silent = true }
+  { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
   "x",
   "gs",
   "<Cmd>call v:lua.grep.operator(mode())<CR>",
-  { silent = true }
+  { noremap = true, silent = true }
 )
