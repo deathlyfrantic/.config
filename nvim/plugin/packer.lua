@@ -126,7 +126,7 @@ use({
         vim.o.showtabline = 0
         autocmd_handle = require("autocmd").add("CursorHold,CursorHoldI", "*", function()
             vim.api.nvim_echo({}, false, {})
-          end, { augroup = "goyo-cursorhold-clear" })
+          end, { augroup = "goyo-cursorhold-clear", unique = true })
       end, { nested = true })
       add("User", "GoyoLeave", function()
         vim.o.showmode = true

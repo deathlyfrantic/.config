@@ -2,7 +2,8 @@ local api = vim.api
 local autocmd = require("autocmd")
 local z = require("z")
 
-local autocmd_handle, buffer, file, star_cmd_str
+local file = vim.fn.tempname()
+local buffer, star_cmd_str
 
 local function find_cmd(mode)
   if vim.b.star_find_cmd ~= nil then
@@ -164,17 +165,10 @@ local function completion()
   return { "all", "buffers", "files" }
 end
 
-if file == nil then
-  file = vim.fn.tempname()
-end
-if buffer ~= nil then
-  delete_buffer()
-end
-if autocmd_handle == nil then
-  autocmd_handle = autocmd.add("ColorScheme", "*", function()
-    star_cmd_str = nil
-  end, { augroup = "star-colorscheme-reset" })
-end
+autocmd.add("ColorScheme", "*", function()
+  star_cmd_str = nil
+end, { augroup = "star-colorscheme-reset", unique = true })
+
 vim.cmd([[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]])
 api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
