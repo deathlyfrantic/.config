@@ -60,6 +60,7 @@ augroup filetypedetect
   autocmd BufNewFile,BufReadPost .clang-format setlocal filetype=yaml
   autocmd BufNewFile,BufReadPost *.snippets setlocal filetype=snippets
   autocmd BufNewFile,BufReadPost *.toml setlocal filetype=toml
+  autocmd BufNewFile,BufReadPost .luacheckrc setlocal filetype=lua
 augroup END
 
 augroup z-rc-commands
