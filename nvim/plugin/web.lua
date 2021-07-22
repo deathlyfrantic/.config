@@ -18,7 +18,7 @@ end
 local function operator(kind)
   local error = function(msg)
     vim.api.nvim_err_writeln(
-      msg or "multiline selections do not work with this operator"
+      msg or "Multiline selections do not work with this operator"
     )
   end
   if kind:match("[V]") then
@@ -34,14 +34,13 @@ local function operator(kind)
     vim.cmd([[silent execute "normal! `[v`]y"]])
   end
   local url = vim.fn.getreg("@"):trim()
+  vim.o.selection = selsave
+  vim.fn.setreg("@", regsave)
   if url:match("\n") then
     error()
     return
-  end
-  vim.o.selection = selsave
-  vim.fn.setreg("@", regsave)
-  if url == "" then
-    error("no selection")
+  elseif url == "" then
+    error("No selection")
     return
   end
   search(url)
