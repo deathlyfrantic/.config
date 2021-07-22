@@ -3,7 +3,6 @@ local z = require("z")
 local autocmd = require("autocmd")
 
 local popup_window = -1
-local autocmd_handle
 
 local function file_info()
   local filename, line, col = api.nvim_get_current_line():match("^(.+)|(%d+) col (%d+)|")
@@ -73,17 +72,15 @@ local function preview()
   end
 end
 
-if autocmd_handle == nil then
-  autocmd_handle = autocmd.add("FileType", "qf", function()
-    api.nvim_buf_set_keymap(
-      0,
-      "n",
-      "Q",
-      "<Cmd>lua qf_preview.preview()<CR>",
-      { noremap = true, silent = true }
-    )
-  end)
-end
+autocmd.add("FileType", "qf", function()
+  api.nvim_buf_set_keymap(
+    0,
+    "n",
+    "Q",
+    "<Cmd>lua qf_preview.preview()<CR>",
+    { noremap = true, silent = true }
+  )
+end, { augroup = "qf-preview", unique = true })
 
 _G.qf_preview = {
   close_popup = close_popup,
