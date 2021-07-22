@@ -1,5 +1,4 @@
 local api = vim.api
-local z = require("z")
 
 local packer_path = vim.fn.stdpath("config")
   .. "/pack/packer/start/packer.nvim"
@@ -120,7 +119,7 @@ use({
     vim.g.goyo_height = "96%"
     vim.g.goyo_width = 82
     local autocmd_handle
-    require("autocmd").augroup("packer-goyo-config", function(add, del)
+    require("autocmd").augroup("packer-goyo-config", function(add)
       add("User", "GoyoEnter", function()
         vim.o.showmode = false
         vim.o.showcmd = false

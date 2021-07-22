@@ -53,14 +53,14 @@ local function star_cmd()
 end
 
 local function cmd(mode)
-  local cmd = string.format(
+  local ret = string.format(
     "(cd %s && %%s | %s > %s)",
     z.find_project_dir(),
     star_cmd(),
     file
   )
   if mode == "files" or mode == "all" then
-    return cmd:format(find_cmd(mode))
+    return ret:format(find_cmd(mode))
   elseif mode == "buffers" then
     local bufs = vim.tbl_map(
       function(b)
@@ -73,7 +73,7 @@ local function cmd(mode)
         api.nvim_list_bufs()
       )
     )
-    return cmd:format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
+    return ret:format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
   end
 end
 
@@ -111,7 +111,7 @@ local function delete_buffer()
   buffer = nil
 end
 
-local function on_exit(mode, job_id, exit_code, event)
+local function on_exit(mode, _, exit_code)
   local previous_window = vim.fn.win_getid(vim.fn.winnr("#"))
   api.nvim_set_current_win(previous_window)
   if buffer ~= nil then
@@ -130,22 +130,20 @@ local function on_exit(mode, job_id, exit_code, event)
 end
 
 local function open_star_buffer(mode)
-  local current_buffer = api.nvim_get_current_buf()
   local height = math.min(10, math.floor(vim.o.lines / 3))
-  local cmd, find_cmd = cmd(mode), find_cmd(mode)
   vim.cmd("botright " .. height .. "split")
   buffer = api.nvim_create_buf(false, false)
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   api.nvim_set_current_buf(buffer)
   vim.fn.termopen(
-    cmd,
+    cmd(mode),
     { on_exit = function(...)
       on_exit(mode, ...)
     end }
   )
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
-  local mode_text = find_cmd
+  local mode_text = find_cmd(mode)
   if mode == "buffers" then
     mode_text = "open buffers"
   end
