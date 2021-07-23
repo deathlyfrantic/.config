@@ -30,18 +30,8 @@ local function adjust_foa_for_headers()
 end
 
 autocmd.augroup("mail-ftplugin", function(add)
-  add(
-    "InsertLeave",
-    "<buffer>",
-    update_header_end,
-    { unique = true }
-  )
-  add(
-    "CursorMoved",
-    "<buffer>",
-    adjust_foa_for_headers,
-    { unique = true }
-  )
+  add("InsertLeave", "<buffer>", update_header_end, { unique = true })
+  add("CursorMoved", "<buffer>", adjust_foa_for_headers, { unique = true })
 end)
 
 update_header_end()

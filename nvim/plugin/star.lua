@@ -13,26 +13,17 @@ local function find_cmd(mode)
   if mode == "all" then
     open_files = {}
   else
-    local bufs = vim.tbl_filter(
-      function(b)
-        return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-      end,
-      api.nvim_list_bufs()
-    )
-    open_files = vim.tbl_map(
-      function(b)
-        return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
-      end,
-      bufs
-    )
+    local bufs = vim.tbl_filter(function(b)
+      return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
+    end, api.nvim_list_bufs())
+    open_files = vim.tbl_map(function(b)
+      return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+    end, bufs)
   end
   return ("rg --files %s"):format(table.concat(
-    vim.tbl_map(
-      function(f)
-        return "-g !" .. vim.fn.shellescape(vim.fn.escape(f, " ["))
-      end,
-      open_files
-    ),
+    vim.tbl_map(function(f)
+      return "-g !" .. vim.fn.shellescape(vim.fn.escape(f, " ["))
+    end, open_files),
     " "
   ))
 end
@@ -67,12 +58,9 @@ local function cmd(mode)
       function(b)
         return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
       end,
-      vim.tbl_filter(
-        function(b)
-          return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-        end,
-        api.nvim_list_bufs()
-      )
+      vim.tbl_filter(function(b)
+        return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
+      end, api.nvim_list_bufs())
     )
     return ret:format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
   end
@@ -90,12 +78,9 @@ local function open_buffer(b)
 end
 
 local function open_file(files)
-  local paths = vim.tbl_map(
-    function(f)
-      return vim.fn.escape(z.find_project_dir() .. f, " [")
-    end,
-    files
-  )
+  local paths = vim.tbl_map(function(f)
+    return vim.fn.escape(z.find_project_dir() .. f, " [")
+  end, files)
   for i, f in ipairs(paths) do
     if vim.loop.fs_access(f, "r") then
       if i == 1 then
@@ -137,12 +122,11 @@ local function open_star_buffer(mode)
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   api.nvim_set_current_buf(buffer)
-  vim.fn.termopen(
-    cmd(mode),
-    { on_exit = function(...)
+  vim.fn.termopen(cmd(mode), {
+    on_exit = function(...)
       on_exit(mode, ...)
-    end }
-  )
+    end,
+  })
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
   local mode_text = find_cmd(mode)
   if mode == "buffers" then
@@ -167,9 +151,14 @@ end
 
 autocmd.add("ColorScheme", "*", function()
   star_cmd_str = nil
-end, { augroup = "star-colorscheme-reset", unique = true })
+end, {
+  augroup = "star-colorscheme-reset",
+  unique = true,
+})
 
-vim.cmd([[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]])
+vim.cmd(
+  [[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]]
+)
 api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
 api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})

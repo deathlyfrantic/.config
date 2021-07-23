@@ -50,13 +50,15 @@ local function wrap(f)
   local start = f(true, 0)
   local line = api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1]
   local base = line:sub(start, cursor[2] + 1)
-  print(string.format(
-    "start %s cursor[1] %s cursor[2] %s base '%s'",
-    start,
-    cursor[1],
-    cursor[2],
-    base
-  ))
+  print(
+    string.format(
+      "start %s cursor[1] %s cursor[2] %s base '%s'",
+      start,
+      cursor[1],
+      cursor[2],
+      base
+    )
+  )
   vim.fn.complete(start + 1, f(false, base))
 end
 

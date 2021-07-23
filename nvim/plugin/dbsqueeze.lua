@@ -83,7 +83,9 @@ end
 vim.cmd("command! DBSqueeze lua dbsqueeze.squeeze()")
 autocmd.add("BufReadPost", "*.dbout", function()
   on_load(500)
-end, { augroup = "dbsqueeze-auto-squeeze" })
+end, {
+  augroup = "dbsqueeze-auto-squeeze",
+})
 
 _G.dbsqueeze = {
   squeeze = squeeze,

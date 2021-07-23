@@ -158,8 +158,7 @@ local function find_project_dir(...)
     local path = dir .. "/"
     if
       any(markers, function(d)
-        return isdirectory(expand(path .. d))
-          or filereadable(expand(path .. d))
+        return isdirectory(expand(path .. d)) or filereadable(expand(path .. d))
       end)
     then
       return fnamemodify(dir, ":p")

@@ -4,10 +4,7 @@ local autocmd = require("autocmd")
 local test_buffer
 
 local function get_match_lines(start, num)
-  return table.concat(
-    api.nvim_buf_get_lines(0, start, start + num, true),
-    "\n"
-  )
+  return table.concat(api.nvim_buf_get_lines(0, start, start + num, true), "\n")
 end
 
 local function find_nearest_test(pattern, atom)
@@ -48,7 +45,10 @@ local function rust(selection)
   end
   -- change to source dir in case file is in a subproject, but strip off the
   -- trailing "src" component e.g. /code/project/src/main.rs -> /code/project
-  local cmd = string.format("(cd %s && cargo test)", vim.fn.expand("%:p:h:h", true))
+  local cmd = string.format(
+    "(cd %s && cargo test)",
+    vim.fn.expand("%:p:h:h", true)
+  )
   if selection == "nearest" then
     local mod_tests_line = vim.fn.search("^mod tests {$", "n")
     if mod_tests_line == 0 then
@@ -138,23 +138,16 @@ local function on_exit(...)
   local close, _, exit_code = select(1, ...)
   if exit_code == 0 then
     if close then
-      vim.defer_fn(
-        function()
-          api.nvim_buf_delete(test_buffer, { force = true })
-        end,
-        1000
-      )
+      vim.defer_fn(function()
+        api.nvim_buf_delete(test_buffer, { force = true })
+      end, 1000)
     end
-    api.nvim_echo(
+    api.nvim_echo({
       {
-        {
-          "Tests pass. (Test runner exit code was 0.)",
-          "GitGutterAdd",
-        },
+        "Tests pass. (Test runner exit code was 0.)",
+        "GitGutterAdd",
       },
-      false,
-      {}
-    )
+    }, false, {})
   else
     scroll_to_end()
   end
@@ -261,11 +254,13 @@ local setup = {
 }
 for _, x in ipairs(setup) do
   local key, cmd, param = x.key, x.cmd, x.param
-  vim.cmd(string.format(
-    [[command! -bang %s lua test_runner.test("%s", <q-bang>)]],
-    cmd,
-    param
-  ))
+  vim.cmd(
+    string.format(
+      [[command! -bang %s lua test_runner.test("%s", <q-bang>)]],
+      cmd,
+      param
+    )
+  )
   api.nvim_set_keymap(
     "n",
     "<leader>" .. key,

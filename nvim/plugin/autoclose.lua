@@ -51,7 +51,9 @@ end
 
 local function in_string(line, col)
   return z.any(vim.fn.synstack(line, col), function(id)
-    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):match("[Ss][Tt][Rr][Ii][Nn][Gg]")
+    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):match(
+      "[Ss][Tt][Rr][Ii][Nn][Gg]"
+    )
   end)
 end
 
