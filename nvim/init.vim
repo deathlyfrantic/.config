@@ -11,6 +11,7 @@ if has('vim_starting')
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
   lua require("string_extras")
+  lua require("completion")
 endif
 " --- end startup --- }}}
 
@@ -202,11 +203,11 @@ vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
 
 " completion
-inoremap <expr> <silent> <Tab> completion#tab(1)
-inoremap <expr> <silent> <S-Tab> completion#tab(0)
+inoremap <expr> <silent> <Tab> v:lua.completion.tab(v:true)
+inoremap <expr> <silent> <S-Tab> v:lua.completion.tab(v:false)
 augroup z-rc-completion
   autocmd!
-  autocmd CompleteDone * call completion#undouble()
+  autocmd CompleteDone * call v:lua.completion.undouble()
 augroup END
 
 " copy entire buffer to system clipboard
