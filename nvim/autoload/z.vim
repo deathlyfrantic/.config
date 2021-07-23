@@ -1,21 +1,3 @@
-function! z#preview(text) abort
-  if &previewwindow
-    return
-  endif
-  let l:win = win_getid()
-  let l:winview = winsaveview()
-  pclose!
-  execute 'topleft' &previewheight 'new'
-  set previewwindow noswapfile nobuflisted buftype=nofile
-  nnoremap <silent> <buffer> q :pclose!<CR>
-  nnoremap <silent> <buffer> <C-c> :pclose!<CR>
-  let l:text = type(a:text) == v:t_list ? a:text : split(a:text, '\n')
-  call append(0, l:text)
-  call cursor(1, 1)
-  call win_gotoid(l:win)
-  call winrestview(l:winview)
-endfunction
-
 function! z#popup(text) abort
   let buf = nvim_create_buf(v:false, v:true)
   let array_text = type(a:text) == v:t_string ? split(a:text, '\n') : a:text
@@ -33,23 +15,9 @@ function! z#popup(text) abort
   return win
 endfunction
 
-function! z#enumerate(l, ...) abort
-  let start = a:0 ? a:1 : 0
-  let collection = type(a:l) == v:t_string ? split(a:l, '\zs') : a:l
-  return map(collection, {i, v -> [(i + start), v]})
-endfunction
-
 function! z#zip(a, b) abort
   let collection = len(a:a) > len(a:b) ? a:a[:len(a:b)-1] : a:a
   return map(collection, {i, v -> [v, a:b[i]]})
-endfunction
-
-function! z#flatten(list) abort
-  let rv = []
-  for item in a:list
-    let rv += type(item) == v:t_list ? z#flatten(item) : [item]
-  endfor
-  return rv
 endfunction
 
 function! z#echohl(hl, ...) abort
@@ -101,37 +69,6 @@ function! z#any(items, f) abort
   return 0
 endfunction
 
-function! z#all(items, f) abort
-  for item in a:items
-    if !a:f(item)
-      return 0
-    endif
-  endfor
-  return 1
-endfunction
-
-function! z#find_project_dir(...) abort
-  let markers = [
-        \ 'Cargo.toml', 'Cargo.lock',
-        \ 'node_modules', 'package.json', 'package-lock.json',
-        \ 'requirements.txt',
-        \ '.git',
-        \ ]
-  let start = a:0 ? a:1 : getcwd()
-  let dir = start
-  while dir != expand('~') && dir != '/'
-    let path = dir .. '/'
-    if z#any(markers, {d -> isdirectory(path .. d) || filereadable(path .. d)})
-      return fnamemodify(dir, ':p')
-    endif
-    let dir = fnamemodify(dir, ':h')
-    if dir == '.'
-      return fnamemodify(dir, ':p')
-    endif
-  endwhile
-  return fnamemodify(start, ':p')
-endfunction
-
 function! z#to_list(x) abort
   return type(a:x) == v:t_list ? a:x : [a:x]
 endfunction
@@ -139,16 +76,4 @@ endfunction
 function! z#char_before_cursor() abort
   let col = col('.') - 2
   return col < 0 ? '' : getline('.')[col]
-endfunction
-
-function! z#char_after_cursor() abort
-  return getline('.')[col('.') - 1]
-endfunction
-
-function! z#get_color(group, attr) abort
-  return synIDattr(synIDtrans(hlID(a:group)), a:attr)
-endfunction
-
-function! z#contains(l, i) abort
-  return z#any(a:l, {v -> v == a:i})
 endfunction
