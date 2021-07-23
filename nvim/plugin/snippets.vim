@@ -145,7 +145,7 @@ endfunction
 
 function! snippets#complete(findstart, base) abort
   if a:findstart
-    return completion#findstart()
+    return v:lua.completion.findstart()
   endif
   let snippets = snippets#available_snippets()
   let keys = filter(sort(keys(snippets)), {_, key -> key =~? a:base})

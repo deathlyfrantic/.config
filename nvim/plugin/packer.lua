@@ -202,7 +202,7 @@ use({
     vim.api.nvim_set_keymap(
       "i",
       "<C-x><C-t>",
-      "<Cmd>call completion#wrap('tmuxcomplete#complete')<CR>",
+      "<Cmd>call v:lua.completion.wrap('tmuxcomplete#complete')<CR>",
       { noremap = true }
     )
   end,

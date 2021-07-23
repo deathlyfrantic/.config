@@ -178,6 +178,16 @@ local function buf_is_real(b)
     and vim.bo[b].buflisted
 end
 
+local function char_before_cursor()
+  local cursor = api.nvim_win_get_cursor(0)
+  local column = cursor[2]
+  if column < 1 then
+    return ""
+  end
+  local line = api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1]
+  return line:sub(column, column)
+end
+
 return {
   any = any,
   all = all,
@@ -191,4 +201,5 @@ return {
   get_hex_color = get_hex_color,
   find_project_dir = find_project_dir,
   buf_is_real = buf_is_real,
+  char_before_cursor = char_before_cursor,
 }
