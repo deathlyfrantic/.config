@@ -45,15 +45,18 @@ _G.grep = { operator = operator, grep = grep }
 
 if vim.fn.executable("rg") then
   local ignores = table.concat(
-    vim.tbl_map(
-      function(v)
-        return string.format("-g '!%s'", v)
-      end,
-      vim.split(vim.o.wildignore, ",")
-    ),
+    vim.tbl_map(function(v)
+      return string.format("-g '!%s'", v)
+    end, vim.split(
+      vim.o.wildignore,
+      ","
+    )),
     " "
   )
-  vim.o.grepprg = string.format("rg -F -S -H --no-heading --vimgrep %s '$*'", ignores)
+  vim.o.grepprg = string.format(
+    "rg -F -S -H --no-heading --vimgrep %s '$*'",
+    ignores
+  )
   vim.o.grepformat = "%f:%l:%c:%m"
 
   -- :Rg command variant allows passing arbitrary flags to ripgrep and doesn't

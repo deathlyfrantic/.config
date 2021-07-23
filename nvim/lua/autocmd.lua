@@ -78,14 +78,16 @@ local function add(id, event, pattern, callback, options)
   if options.nested then
     nested = "++nested"
   end
-  vim.cmd(string.format(
-    [[autocmd %s %s %s %s lua require("autocmd")._callback(%s)]],
-    event,
-    pattern,
-    once or "",
-    nested or "",
-    id
-  ))
+  vim.cmd(
+    string.format(
+      [[autocmd %s %s %s %s lua require("autocmd")._callback(%s)]],
+      event,
+      pattern,
+      once or "",
+      nested or "",
+      id
+    )
+  )
   return id
 end
 

@@ -5,7 +5,9 @@ local autocmd = require("autocmd")
 local popup_window = -1
 
 local function file_info()
-  local filename, line, col = api.nvim_get_current_line():match("^(.+)|(%d+) col (%d+)|")
+  local filename, line, col = api.nvim_get_current_line():match(
+    "^(.+)|(%d+) col (%d+)|"
+  )
   if filename == nil then
     return nil
   end
@@ -80,7 +82,10 @@ autocmd.add("FileType", "qf", function()
     "<Cmd>lua qf_preview.preview()<CR>",
     { noremap = true, silent = true }
   )
-end, { augroup = "qf-preview", unique = true })
+end, {
+  augroup = "qf-preview",
+  unique = true,
+})
 
 _G.qf_preview = {
   close_popup = close_popup,

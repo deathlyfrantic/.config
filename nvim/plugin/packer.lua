@@ -1,7 +1,6 @@
 local api = vim.api
 
-local packer_path = vim.fn.stdpath("config")
-  .. "/pack/packer/start/packer.nvim"
+local packer_path = vim.fn.stdpath("config") .. "/pack/packer/start/packer.nvim"
 
 local need_to_compile = false
 
@@ -34,10 +33,30 @@ use("~/src/vim/textobj-blanklines")
 use({
   "airblade/vim-gitgutter",
   config = function()
-    vim.api.nvim_set_keymap("o", "ig", "<Plug>(GitGutterTextObjectInnerPending)", {})
-    vim.api.nvim_set_keymap("o", "ag", "<Plug>(GitGutterTextObjectOuterPending)", {})
-    vim.api.nvim_set_keymap("x", "ig", "<Plug>(GitGutterTextObjectInnerVisual)", {})
-    vim.api.nvim_set_keymap("x", "ag", "<Plug>(GitGutterTextObjectOuterVisual)", {})
+    vim.api.nvim_set_keymap(
+      "o",
+      "ig",
+      "<Plug>(GitGutterTextObjectInnerPending)",
+      {}
+    )
+    vim.api.nvim_set_keymap(
+      "o",
+      "ag",
+      "<Plug>(GitGutterTextObjectOuterPending)",
+      {}
+    )
+    vim.api.nvim_set_keymap(
+      "x",
+      "ig",
+      "<Plug>(GitGutterTextObjectInnerVisual)",
+      {}
+    )
+    vim.api.nvim_set_keymap(
+      "x",
+      "ag",
+      "<Plug>(GitGutterTextObjectOuterVisual)",
+      {}
+    )
     require("autocmd").augroup("packer-gitgutter-config", function(add)
       add("BufEnter,TextChanged,InsertLeave,BufWritePost", "*", function()
         vim.cmd("GitGutter")
@@ -76,7 +95,13 @@ use({
       end)
       add("FileType", "rust,typescript", function()
         vim.bo.omnifunc = "ale#completion#OmniFunc"
-        vim.api.nvim_buf_set_keymap(0, "n", "gd", "<Plug>(ale_go_to_definition)", {})
+        vim.api.nvim_buf_set_keymap(
+          0,
+          "n",
+          "gd",
+          "<Plug>(ale_go_to_definition)",
+          {}
+        )
         vim.api.nvim_buf_set_keymap(0, "n", "K", "<Plug>(ale_hover)", {})
         vim.api.nvim_buf_set_keymap(
           0,
@@ -105,7 +130,8 @@ use({
     if vim.fn.executable("rust-analyzer") then
       vim.g.ale_linters = { rust = { "analyzer", "cargo" } }
     end
-    vim.g.ale_c_clang_options = "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
+    vim.g.ale_c_clang_options =
+      "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
     vim.g.ale_lua_stylua_options = "--config-path "
       .. vim.fn.stdpath("config")
       .. "/stylua.toml"
@@ -124,16 +150,25 @@ use({
         vim.o.showmode = false
         vim.o.showcmd = false
         vim.o.showtabline = 0
-        autocmd_handle = require("autocmd").add("CursorHold,CursorHoldI", "*", function()
+        autocmd_handle = require("autocmd").add(
+          "CursorHold,CursorHoldI",
+          "*",
+          function()
             vim.api.nvim_echo({}, false, {})
-          end, { augroup = "goyo-cursorhold-clear", unique = true })
-      end, { nested = true })
+          end,
+          { augroup = "goyo-cursorhold-clear", unique = true }
+        )
+      end, {
+        nested = true,
+      })
       add("User", "GoyoLeave", function()
         vim.o.showmode = true
         vim.o.showcmd = true
         vim.fn["buftabline#update"](0)
         require("autocmd").del(autocmd_handle)
-      end, { nested = true })
+      end, {
+        nested = true,
+      })
     end)
   end,
 })
@@ -284,4 +319,6 @@ local script_name = debug.getinfo(1, "S").short_src
 require("autocmd").add("BufWritePost", script_name, function()
   vim.cmd("luafile " .. script_name)
   packer.compile()
-end, { augroup = "packer-config-reload" })
+end, {
+  augroup = "packer-config-reload",
+})

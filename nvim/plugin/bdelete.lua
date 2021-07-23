@@ -12,12 +12,9 @@ local function delete_current(force)
   if vim.fn.bufexists(0) == 1 and vim.fn.buflisted(0) == 1 then
     vim.cmd("buffer #")
   else
-    local bufs = vim.tbl_filter(
-      function(b)
-        return z.buf_is_real(b)
-      end,
-      api.nvim_list_bufs()
-    )
+    local bufs = vim.tbl_filter(function(b)
+      return z.buf_is_real(b)
+    end, api.nvim_list_bufs())
     for _, b in ipairs(z.tbl_reverse(bufs)) do
       if b ~= buf then
         api.nvim_set_current_buf(b)
@@ -29,14 +26,11 @@ local function delete_current(force)
 end
 
 local function delete_by_name(force, name, term)
-  local bufs = vim.tbl_filter(
-    function(b)
-      return z.buf_is_real(b)
-        and api.nvim_buf_get_name(b):match(name)
-        and (vim.bo.buftype ~= "terminal" or term)
-    end,
-    api.nvim_list_bufs()
-  )
+  local bufs = vim.tbl_filter(function(b)
+    return z.buf_is_real(b)
+      and api.nvim_buf_get_name(b):match(name)
+      and (vim.bo.buftype ~= "terminal" or term)
+  end, api.nvim_list_bufs())
   for _, b in ipairs(bufs) do
     if vim.bo[b].modified and not force then
       api.nvim_err_writeln(e89:format(b))
@@ -70,12 +64,9 @@ local function completion()
     function(b)
       return api.nvim_buf_get_name(b)
     end,
-    vim.tbl_filter(
-      function(b)
-        return z.buf_is_real(b)
-      end,
-      api.nvim_list_bufs()
-    )
+    vim.tbl_filter(function(b)
+      return z.buf_is_real(b)
+    end, api.nvim_list_bufs())
   )
   table.insert(bufs, "man")
   table.insert(bufs, "terminal")

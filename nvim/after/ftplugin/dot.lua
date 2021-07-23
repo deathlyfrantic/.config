@@ -13,4 +13,6 @@ end
 
 _G.graphviz_dot = { dot_to_png = dot_to_png }
 
-vim.cmd("command! -buffer -nargs=? DotToPng call v:lua.graphviz_dot.dot_to_png(<args>)")
+vim.cmd(
+  "command! -buffer -nargs=? DotToPng call v:lua.graphviz_dot.dot_to_png(<args>)"
+)
