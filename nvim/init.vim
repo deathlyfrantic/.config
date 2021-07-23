@@ -9,6 +9,8 @@ if has('vim_starting')
   let g:loaded_netrw = 'v153'
   let g:loaded_tutor_mode_plugin = 1
   let g:loaded_2html_plugin = 'vim7.4_v1'
+
+  lua require("string_extras")
 endif
 " --- end startup --- }}}
 
