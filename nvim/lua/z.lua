@@ -47,19 +47,14 @@ end
 
 local function popup(text)
   local buf = api.nvim_create_buf(false, true)
-  local array
+  local contents
   if type(text) == "table" then
-    array = text
+    contents = text
   elseif type(text) == "string" then
-    array = text:split("\n")
+    contents = text:split("\n")
   else
-    array = { tostring(text) }
+    contents = { tostring(text) }
   end
-  local contents = vim.tbl_map(function(line)
-    return " " .. line .. " "
-  end, array)
-  table.insert(contents, 1, "")
-  table.insert(contents, "")
   api.nvim_buf_set_lines(buf, 0, -1, true, contents)
   local opts = {
     relative = "cursor",

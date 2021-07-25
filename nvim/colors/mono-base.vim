@@ -75,6 +75,7 @@ highlight! link healthSuccess             GitGutterAdd
 highlight! link healthWarning             GitGutterChange
 highlight! link rustCharacter             String
 highlight! link NvimInternalError         Error
+highlight! link FloatBorder               StatusLine
 
 if &termguicolors
   " tango scheme for terminal colors
