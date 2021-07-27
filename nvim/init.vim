@@ -11,7 +11,6 @@ if has('vim_starting')
   let g:loaded_2html_plugin = 'vim7.4_v1'
 
   lua require("string_extras")
-  lua require("completion")
 endif
 " --- end startup --- }}}
 
