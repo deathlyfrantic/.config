@@ -49,7 +49,7 @@ end
 _G.web = { operator = operator, browser = browser, search = search }
 
 -- Browse alias is for Fugitive's Gbrowse
-vim.cmd("command! -nargs=1 Browser Web <args>")
+vim.cmd("command! -nargs=1 Browse Web <args>")
 vim.cmd("command! -nargs=1 Web call v:lua.web.browser(<f-args>)")
 vim.cmd("command! -nargs=1 Search call v:lua.web.search(<f-args>)")
 

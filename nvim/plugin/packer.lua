@@ -312,7 +312,7 @@ use({
     vim.api.nvim_set_keymap(
       "",
       "<leader>gb",
-      "<Cmd>GBrowse!<CR>",
+      ":GBrowse!<CR>",
       { noremap = true, silent = true }
     )
   end,
