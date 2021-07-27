@@ -287,17 +287,6 @@ augroup END
 colorscheme copper
 
 " statusline {{{
-function! GitStatus() abort
-  let [branch, status] = [FugitiveHead(7), '']
-  if branch == ''
-    return ''
-  endif
-  for [sym, num] in z#zip(['+', '~', '-'], GitGutterGetHunkSummary())
-    let status ..= num ? sym .. num : ''
-  endfor
-  return '[' .. branch .. (len(status) ? '/' .. status : '') .. ']'
-endfunction
-
 function! StatusLineFilename() abort
   return len(expand('%')) > 0
         \ ? expand('%:~')
@@ -305,7 +294,7 @@ function! StatusLineFilename() abort
 endfunction
 
 set statusline=[%n]\ %{StatusLineFilename()}%<
-set statusline+=%(\ %{GitStatus()}%)
+set statusline+=%(\ %{get(b:,'gitsigns_status','')}%)
 set statusline+=%(\ %h%)%(\ %m%)%(\ %r%)
 set statusline+=%{&ff!='unix'?'\ ['..&ff..']':''}
 set statusline+=%{len(&fenc)&&&fenc!='utf-8'?'\ ['..&fenc..']':''}

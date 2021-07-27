@@ -31,40 +31,51 @@ use("glts/vim-textobj-comment")
 use("~/src/vim/textobj-blanklines")
 
 use({
-  "airblade/vim-gitgutter",
+  "lewis6991/gitsigns.nvim",
+  requires = { "nvim-lua/plenary.nvim" },
   config = function()
-    vim.api.nvim_set_keymap(
-      "o",
-      "ig",
-      "<Plug>(GitGutterTextObjectInnerPending)",
-      {}
-    )
-    vim.api.nvim_set_keymap(
-      "o",
-      "ag",
-      "<Plug>(GitGutterTextObjectOuterPending)",
-      {}
-    )
-    vim.api.nvim_set_keymap(
-      "x",
-      "ig",
-      "<Plug>(GitGutterTextObjectInnerVisual)",
-      {}
-    )
-    vim.api.nvim_set_keymap(
-      "x",
-      "ag",
-      "<Plug>(GitGutterTextObjectOuterVisual)",
-      {}
-    )
-    require("autocmd").augroup("packer-gitgutter-config", function(add)
-      add("BufEnter,TextChanged,InsertLeave,BufWritePost", "*", function()
-        vim.cmd("GitGutter")
-      end)
-      add("BufDelete", "*/.git/COMMIT_EDITMSG", function()
-        vim.cmd("GitGutterAll")
-      end)
-    end)
+    require("gitsigns").setup({
+      signs = { add = { text = "+" }, change = { text = "~" } },
+      keymaps = {
+        ["n ]c"] = {
+          expr = true,
+          [[&diff ? "]c" : '<Cmd>lua require("gitsigns.actions").next_hunk()<CR>']],
+        },
+        ["n [c"] = {
+          expr = true,
+          [[&diff ? "[c" : '<Cmd>lua require("gitsigns.actions").prev_hunk()<CR>']],
+        },
+        ["n <leader>hs"] = '<Cmd>lua require("gitsigns").stage_hunk()<CR>',
+        ["v <leader>hs"] = '<Cmd>lua require("gitsigns").stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+        ["n <leader>hu"] = '<Cmd>lua require("gitsigns").undo_stage_hunk()<CR>',
+        ["n <leader>hr"] = '<Cmd>lua require("gitsigns").reset_hunk()<CR>',
+        ["n <leader>hb"] = '<Cmd>lua require("gitsigns").blame_line(true)<CR>',
+        ["n <leader>hp"] = '<Cmd>lua require("gitsigns").preview_hunk()<CR>',
+        ["o ig"] = ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>',
+        ["x ig"] = ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>',
+      },
+      preview_config = { border = "solid" },
+      status_formatter = function(status)
+        local ret = status.head
+        if not ret or ret == "" then
+          return ""
+        end
+        local text = {}
+        for k, v in pairs({
+          ["+"] = status.added,
+          ["~"] = status.changed,
+          ["-"] = status.removed,
+        }) do
+          if (v or 0) > 0 then
+            table.insert(text, k .. v)
+          end
+        end
+        if #text > 0 then
+          ret = ret .. "/" .. table.concat(text)
+        end
+        return "[" .. ret .. "]"
+      end,
+    })
   end,
 })
 
