@@ -254,6 +254,33 @@ use({
   end,
 })
 
+use({
+  "norcalli/snippets.nvim",
+  config = function()
+    local snippets = require("snippets")
+    snippets.set_ux(require("snippets.inserters.text_markers"))
+    vim.api.nvim_set_keymap(
+      "i",
+      "<C-]>",
+      [[<Cmd>lua require("snippets").expand_at_cursor()<CR>]],
+      { noremap = true }
+    )
+    vim.api.nvim_set_keymap(
+      "i",
+      "<C-f>",
+      [[<Cmd>lua require("snippets").advance_snippet(1)<CR>]],
+      { noremap = true }
+    )
+    vim.api.nvim_set_keymap(
+      "i",
+      "<C-b>",
+      [[<Cmd>lua require("snippets").advance_snippet(-1)<CR>]],
+      { noremap = true }
+    )
+    snippets.snippets = require("my_snippets")
+  end,
+})
+
 use("nelstrom/vim-visual-star-search")
 use("tommcdo/vim-exchange")
 use({
