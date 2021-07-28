@@ -12,7 +12,7 @@ let s:grounds = {
       \     '#include <string.h>',
       \     '',
       \     'int main(void) {',
-      \     '  %#;',
+      \     '  $$$',
       \     '  return EXIT_SUCCESS;',
       \     '}'
       \   ],
@@ -22,7 +22,7 @@ let s:grounds = {
       \   'command': 'rustc %s -o $TMPDIR/a.out && $TMPDIR/a.out',
       \   'template': [
       \      'fn main() {',
-      \      '    %#;',
+      \      '    $$$',
       \      '}',
       \   ]
       \ },
@@ -101,7 +101,12 @@ function! s:open_pg_buffer(ground) abort
   autocmd BufDelete <buffer> let s:pg_spawning_buffer = -1
   autocmd BufDelete <buffer> execute 'silent !rm' expand('<afile>')
   call setline(1, get(a:ground, 'template', []))
-  call feedkeys("ggI\<C-f>")
+  normal! gg
+  if search('\$\$\$', 'W')
+    call feedkeys('"_3s')
+  else
+    startinsert
+  end
 endfunction
 
 function! s:get_normalized_filetype() abort
