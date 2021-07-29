@@ -15,11 +15,6 @@ function! z#popup(text) abort
   return win
 endfunction
 
-function! z#zip(a, b) abort
-  let collection = len(a:a) > len(a:b) ? a:a[:len(a:b)-1] : a:a
-  return map(collection, {i, v -> [v, a:b[i]]})
-endfunction
-
 function! z#echohl(hl, ...) abort
   if !a:0
     throw 'A message is required for this function.'
@@ -38,28 +33,6 @@ function! z#echowarn(...) abort
   call call('z#echohl', ['WarningMsg'] + a:000)
 endfunction
 
-function! z#echoerr(...) abort
-  call call('z#echohl', ['ErrorMsg'] + a:000)
-endfunction
-
-function! z#multisub(expr, pat, sub, ...)
-  let flags = a:0 ? a:1 : ''
-  let pat = z#to_list(a:pat)
-  if type(a:sub) == v:t_list
-    let sub = a:sub
-  else
-    let sub = []
-    for _ in pat
-      let sub += [a:sub]
-    endfor
-  endif
-  let rv = a:expr
-  for [search, replace] in z#zip(pat, sub)
-    let rv = substitute(rv, search, replace, flags)
-  endfor
-  return rv
-endfunction
-
 function! z#any(items, f) abort
   for item in a:items
     if a:f(item)
@@ -67,10 +40,6 @@ function! z#any(items, f) abort
     endif
   endfor
   return 0
-endfunction
-
-function! z#to_list(x) abort
-  return type(a:x) == v:t_list ? a:x : [a:x]
 endfunction
 
 function! z#char_before_cursor() abort
