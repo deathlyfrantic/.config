@@ -1,5 +1,5 @@
 local function grep(search)
-  vim.cmd("silent grep! " .. search)
+  vim.cmd("silent grep! " .. vim.fn.fnameescape(search))
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
     vim.cmd("redraw!")
