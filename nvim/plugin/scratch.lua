@@ -137,15 +137,32 @@ local function scratch(args)
   open_buffer(num or 0)
 end
 
+local function completion()
+  local ret = {}
+  local handle = vim.loop.fs_scandir(vim.fn.stdpath("data"))
+  local name, kind = vim.loop.fs_scandir_next(handle)
+  while name do
+    if kind == "file" and name:match("scratch-.*%.txt") then
+      local candidate = name:gsub("scratch%-", ""):gsub("%.txt", "")
+      table.insert(ret, candidate)
+    end
+    name, kind = vim.loop.fs_scandir_next(handle)
+  end
+  return ret
+end
+
 _G.scratch = {
   read = read,
   close_window = close_window,
   open_buffer = open_buffer,
   selection = selection,
   scratch = scratch,
+  completion = completion,
 }
 
-vim.cmd("command! -nargs=? ScratchBuffer lua scratch.scratch(<f-args>")
+vim.cmd(
+  "command! -nargs=? -complete=customlist,v:lua.scratch.completion ScratchBuffer lua scratch.scratch(<f-args>)"
+)
 
 api.nvim_set_keymap(
   "n",
