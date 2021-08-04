@@ -15,7 +15,7 @@ local function tab(fwd)
   local key_ctrln = api.nvim_replace_termcodes("<C-n>", true, false, true)
   local key_ctrlp = api.nvim_replace_termcodes("<C-p>", true, false, true)
   local key_tab = api.nvim_replace_termcodes("<Tab>", true, false, true)
-  if vim.fn.pumvisible() == 1 then
+  if vim.fn.pumvisible() > 0 then
     if fwd then
       return key_ctrln
     end
@@ -30,14 +30,13 @@ local function undouble()
   -- stolen from Damian Conway
   -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/.vimrc#L1285-L1298
   local cursor = api.nvim_win_get_cursor(0)
-  local line = api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1]
+  local line = api.nvim_get_current_line()
   local new_line = vim.fn.substitute(
     line,
     [[\(\.\?\k\+\)\%]] .. cursor[2] + 1 .. [[c\zs\1]],
     "",
     ""
   )
-  print("new_line -> '" .. new_line .. "'")
   api.nvim_buf_set_lines(0, cursor[1] - 1, cursor[1], true, { new_line })
 end
 
@@ -48,17 +47,8 @@ local function wrap(f)
   end
   local cursor = api.nvim_win_get_cursor(0)
   local start = f(true, 0)
-  local line = api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1]
+  local line = api.nvim_get_current_line()
   local base = line:sub(start, cursor[2] + 1)
-  print(
-    string.format(
-      "start %s cursor[1] %s cursor[2] %s base '%s'",
-      start,
-      cursor[1],
-      cursor[2],
-      base
-    )
-  )
   vim.fn.complete(start + 1, f(false, base))
 end
 
