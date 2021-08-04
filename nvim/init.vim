@@ -201,14 +201,6 @@ vnoremap > >gv
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
 
-" completion
-inoremap <expr> <silent> <Tab> v:lua.completion.tab(v:true)
-inoremap <expr> <silent> <S-Tab> v:lua.completion.tab(v:false)
-augroup z-rc-completion
-  autocmd!
-  autocmd CompleteDone * call v:lua.completion.undouble()
-augroup END
-
 " copy entire buffer to system clipboard
 nnoremap <silent> <leader>a :%yank +<CR>
 

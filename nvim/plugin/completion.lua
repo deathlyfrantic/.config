@@ -1,4 +1,5 @@
 local api = vim.api
+local autocmd = require("autocmd")
 local z = require("z")
 
 local function findstart()
@@ -55,6 +56,20 @@ end
 _G.completion = {
   findstart = findstart,
   tab = tab,
-  undouble = undouble,
   wrap = wrap,
 }
+
+autocmd.add("CompleteDone", "*", undouble, { augroup = "completion-undouble" })
+
+api.nvim_set_keymap(
+  "i",
+  "<Tab>",
+  "v:lua.completion.tab(v:true)",
+  { silent = true, expr = true }
+)
+api.nvim_set_keymap(
+  "i",
+  "<S-Tab>",
+  "v:lua.completion.tab(v:false)",
+  { silent = true, expr = true }
+)
