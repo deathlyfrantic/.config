@@ -45,6 +45,7 @@ vim.opt.matchpairs:append("<:>")
 vim.opt.joinspaces = false
 vim.opt.modeline = false
 vim.opt.startofline = false
+vim.opt.swapfile = false
 vim.opt.wrap = false
 vim.opt.omnifunc = "syntaxcomplete#Complete"
 vim.opt.shiftround = true
@@ -360,28 +361,6 @@ autocmd.add("FileType", "qf", function()
   vim.opt_local.wrap = false
 end, {
   augroup = "init-autocmds-quickfix",
-})
-
--- swap files
-autocmd.add("SwapExists", "*", function()
-  local file = vim.fn.expand("<afile>")
-  local filestat = vim.loop.fs_stat(file)
-  local swapstat = vim.loop.fs_stat(vim.v.swapname)
-  local msg = "Swap file for " .. file .. " %s."
-  if filestat.mtime.sec < swapstat.mtime.sec then
-    vim.v.swapchoice = "o"
-    msg = msg:format("exists; opening read-only")
-  else
-    vim.v.swapchoice = "d"
-    msg = msg:format("older than file; deleted")
-  end
-  autocmd.add("BufEnter", "*", function()
-    api.nvim_echo({ { msg, "WarningMsg" } }, false, {})
-  end, {
-    once = true,
-  })
-end, {
-  augroup = "init-autocmds-swap",
 })
 
 -- local settings
