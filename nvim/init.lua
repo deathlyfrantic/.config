@@ -8,7 +8,6 @@ if vim.fn.has("vim_starting") == 1 then
   vim.env.MYVIMRC = vim.fn.fnamemodify(debug.getinfo(1, "S").short_src, ":p")
 
   -- turn off built-in plugins i don't want
-  vim.g.loaded_vimballPlugin = "v35"
   vim.g.loaded_netrwPlugin = "v153"
   vim.g.loaded_netrw = "v153"
   vim.g.loaded_tutor_mode_plugin = 1
