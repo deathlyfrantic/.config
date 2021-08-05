@@ -18,9 +18,9 @@ packer.init({
 
 use("wbthomason/packer.nvim")
 
-use({ "rust-lang/rust.vim", ft = "rust" })
-use({ "cespare/vim-toml", ft = "toml" })
-use({ "pangloss/vim-javascript", ft = "javascript" })
+use("rust-lang/rust.vim")
+use("cespare/vim-toml")
+use("pangloss/vim-javascript")
 
 use("Julian/vim-textobj-variable-segment")
 use("kana/vim-textobj-user")
