@@ -1,5 +1,3 @@
-local api = vim.api
-
 local packer_path = vim.fn.stdpath("config") .. "/pack/packer/start/packer.nvim"
 
 local need_to_compile = false
@@ -198,7 +196,9 @@ use({
   config = function()
     vim.g.undotree_WindowLayout = 2
     vim.g.undotree_SetFocusWhenToggle = 1
-    api.nvim_set_keymap(
+  end,
+  setup = function()
+    vim.api.nvim_set_keymap(
       "n",
       "<C-q>",
       "<Cmd>UndotreeToggle<CR>",
@@ -213,7 +213,9 @@ use({
   config = function()
     vim.g.tagbar_autofocus = 1
     vim.g.tagbar_iconchars = { "+", "-" }
-    api.nvim_set_keymap(
+  end,
+  setup = function()
+    vim.api.nvim_set_keymap(
       "n",
       "<C-t>",
       "<Cmd>TagbarToggle<CR>",
