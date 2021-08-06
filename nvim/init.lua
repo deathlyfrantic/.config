@@ -26,6 +26,7 @@ vim.opt.expandtab = true
 vim.opt.fillchars = "fold:-"
 vim.opt.fileformats = { "unix", "dos", "mac" }
 vim.opt.foldlevel = 99
+vim.opt.foldmethod = "indent"
 vim.opt.formatoptions:append("n"):append("r"):append("o"):append("l")
 vim.opt.gdefault = true
 vim.opt.hidden = true
