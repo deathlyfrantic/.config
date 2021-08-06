@@ -221,6 +221,22 @@ local function test(selection, bang)
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
     table.insert(test_cmds, vim.b.test_command)
+  elseif
+    type(vim.b.test_command) == "table"
+    and vim.b.test_command[selection] ~= nil
+  then
+    if type(vim.b.test_command[selection]) == "string" then
+      table.insert(test_cmds, vim.b.test_command[selection])
+    else
+      -- assuming this is a function here - doesn't make sense for it to be
+      -- anything else. this is _insanity_ - there's no way to run a function
+      -- stored in a buffer variable natively in lua, so we have to execute
+      -- vimscript and echo the result, which we then capture as a string :oof:
+      table.insert(
+        test_cmds,
+        api.nvim_exec("echo b:test_command." .. selection .. "()", true)
+      )
+    end
   elseif test_runners[filetype] ~= nil then
     local cmd = test_runners[filetype](selection)
     if cmd ~= nil then
