@@ -97,10 +97,10 @@ use({
       add("FileType", "ale-preview", function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
-        vim.opt_local.colorcolumn = "0"
+        vim.cmd("setlocal colorcolumn=0")
       end)
       add("FileType", "ale-preview.message", function()
-        vim.opt_local.colorcolumn = "0"
+        vim.cmd("setlocal colorcolumn=0")
       end)
       add("FileType", "rust,typescript", function()
         vim.bo.omnifunc = "ale#completion#OmniFunc"

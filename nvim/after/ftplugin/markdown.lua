@@ -1,4 +1,4 @@
-vim.opt_local.spell = true
+vim.cmd("setlocal spell")
 vim.opt_local.wrapmargin = 0
 
 local function preview_markdown(...)

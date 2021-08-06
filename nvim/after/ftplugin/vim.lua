@@ -1,4 +1,4 @@
-vim.opt_local.foldmethod = "marker"
+vim.cmd("setlocal foldmethod=marker")
 vim.api.nvim_buf_set_keymap(
   0,
   "i",
