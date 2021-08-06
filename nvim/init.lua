@@ -379,7 +379,7 @@ local function source_local_vimrc(force)
   -- apply settings from lowest dir to highest, so most specific are applied last
   for _, vimrc in ipairs(
     z.tbl_reverse(
-      vim.fn.findfile(".vimrc", vim.fn.expand("<afile>:p:h") .. ";", -1)
+      vim.fn.findfile(".vimrc.lua", vim.fn.expand("<afile>:p:h") .. ";", -1)
     )
   ) do
     vim.cmd("silent! source " .. vimrc)
