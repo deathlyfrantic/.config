@@ -116,22 +116,26 @@ local function on_exit(mode, _, exit_code)
 end
 
 local function open_star_buffer(mode)
+  -- need to look at vim.b.star_find_cmd in the current buffer before opening
+  -- the star buffer where it will not be populated
+  local term_cmd = cmd(mode)
+  local mode_text = find_cmd(mode)
+  if mode == "buffers" then
+    mode_text = "open buffers"
+  end
+  -- now open the star buffer
   local height = math.min(10, math.floor(vim.o.lines / 3))
   vim.cmd("botright " .. height .. "split")
   buffer = api.nvim_create_buf(false, false)
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   api.nvim_set_current_buf(buffer)
-  vim.fn.termopen(cmd(mode), {
+  vim.fn.termopen(term_cmd, {
     on_exit = function(...)
       on_exit(mode, ...)
     end,
   })
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
-  local mode_text = find_cmd(mode)
-  if mode == "buffers" then
-    mode_text = "open buffers"
-  end
   vim.wo.statusline = ("[%s] %s"):format(name, mode_text)
   vim.b.term_title = name
   vim.cmd("startinsert")
