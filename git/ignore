@@ -1,5 +1,6 @@
 .ignore
 .vimrc
+.vimrc.lua
 *.pyc
 venv
 __pycache__
