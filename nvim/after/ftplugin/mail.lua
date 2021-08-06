@@ -3,7 +3,7 @@ local autocmd = require("autocmd")
 vim.opt_local.formatoptions:remove({ "o", "r" })
 vim.opt_local.formatoptions:append({ "w" })
 vim.opt_local.textwidth = 72
-vim.opt_local.spell = true
+vim.cmd("setlocal spell")
 
 local header_end = -1
 

@@ -160,7 +160,7 @@ autocmd.augroup("init-autocmds", function(add)
 
   -- set foldmethod for this file
   add("BufReadPost", vim.env.MYVIMRC, function()
-    vim.opt_local.foldmethod = "marker"
+    vim.cmd("setlocal foldmethod=marker")
   end)
 end)
 -- }}}
