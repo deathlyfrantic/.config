@@ -5,6 +5,10 @@ local z = require("z")
 local file = vim.fn.tempname()
 local buffer, star_cmd_str
 
+local function height()
+  return math.max(10, math.floor(vim.o.lines / 3))
+end
+
 local function find_cmd(mode)
   if vim.b.star_find_cmd ~= nil then
     return vim.b.star_find_cmd
@@ -36,7 +40,7 @@ local function star_cmd()
       ["color-matched-fg"] = z.get_hex_color("String", "fg"),
       ["color-tag-fg"] = z.get_hex_color("WarningMsg", "bg"),
     }
-    star_cmd_str = "star -m "
+    star_cmd_str = "star -m --height " .. height() .. " "
     for k, v in pairs(colors) do
       star_cmd_str = star_cmd_str .. ("--%s=%s "):format(k, v)
     end
@@ -115,6 +119,22 @@ local function on_exit(mode, _, exit_code)
   end
 end
 
+local function popup_window(buf)
+  local width = math.max(80, math.floor(vim.o.columns / 3))
+  local opts = {
+    relative = "editor",
+    style = "minimal",
+    border = "single",
+    height = height(),
+    width = width,
+    row = math.floor(vim.o.lines / 2) - math.floor(height() / 2),
+    col = math.floor(vim.o.columns / 2) - math.floor(width / 2),
+    anchor = "NW",
+  }
+  api.nvim_open_win(buf, true, opts)
+  vim.wo.winhl = "Normal:Normal,FloatBorder:Normal"
+end
+
 local function open_star_buffer(mode)
   -- need to look at vim.b.star_find_cmd in the current buffer before opening
   -- the star buffer where it will not be populated
@@ -124,12 +144,10 @@ local function open_star_buffer(mode)
     mode_text = "open buffers"
   end
   -- now open the star buffer
-  local height = math.min(10, math.floor(vim.o.lines / 3))
-  vim.cmd("botright " .. height .. "split")
   buffer = api.nvim_create_buf(false, false)
+  popup_window(buffer)
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
-  api.nvim_set_current_buf(buffer)
   vim.fn.termopen(term_cmd, {
     on_exit = function(...)
       on_exit(mode, ...)
@@ -153,7 +171,7 @@ local function completion()
   return { "all", "buffers", "files" }
 end
 
-autocmd.add("ColorScheme", "*", function()
+autocmd.add("ColorScheme,VimResized", "*", function()
   star_cmd_str = nil
 end, {
   augroup = "star-colorscheme-reset",
