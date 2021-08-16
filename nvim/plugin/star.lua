@@ -185,13 +185,10 @@ local function open_star_buffer(mode)
 end
 
 local function star(...)
-  local mode = "files"
-  if select("#", ...) > 0 then
-    mode = ...
-    if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
-      api.nvim_err_writeln(string.format("'%s' is not a valid mode", mode))
-      return
-    end
+  local mode = ... or "files"
+  if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
+    api.nvim_err_writeln(string.format("'%s' is not a valid mode", mode))
+    return
   end
   open_star_buffer(mode)
 end
