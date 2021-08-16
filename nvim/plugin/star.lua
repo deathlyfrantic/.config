@@ -48,26 +48,29 @@ local function star_cmd()
   return star_cmd_str
 end
 
-local function cmd(mode)
-  local ret = string.format(
+local function base_cmd()
+  return string.format(
     "(cd %s && %%s | %s > %s)",
     z.find_project_dir(),
     star_cmd(),
     file
   )
-  if mode == "files" or mode == "all" then
-    return ret:format(find_cmd(mode))
-  elseif mode == "buffers" then
-    local bufs = vim.tbl_map(
-      function(b)
-        return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
-      end,
-      vim.tbl_filter(function(b)
-        return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-      end, api.nvim_list_bufs())
-    )
-    return ret:format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
-  end
+end
+
+local function files_cmd(mode)
+  return base_cmd():format(find_cmd(mode))
+end
+
+local function buffers_cmd()
+  local bufs = vim.tbl_map(
+    function(b)
+      return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+    end,
+    vim.tbl_filter(function(b)
+      return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
+    end, api.nvim_list_bufs())
+  )
+  return base_cmd():format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
 end
 
 local function open_buffer(b)
@@ -96,6 +99,35 @@ local function open_file(files)
   end
 end
 
+local modes = {
+  files = {
+    cmd = function()
+      return files_cmd("files")
+    end,
+    open = open_file,
+  },
+  buffers = { cmd = buffers_cmd, open = open_buffer },
+  all = {
+    cmd = function()
+      return files_cmd("all")
+    end,
+    open = open_file,
+  },
+  git_commits = {
+    cmd = function()
+      return base_cmd():format(
+        "git log --pretty=format:'%h%d :: %s [%cd - %an]' --date=format:'%d %b %Y'"
+      )
+    end,
+    open = function(paths)
+      for _, commit in ipairs(paths) do
+        vim.cmd("Git show " .. commit:match("^%x+"))
+      end
+    end,
+    width_divisor = 2,
+  },
+}
+
 local function delete_buffer()
   api.nvim_buf_delete(buffer, { force = true })
   buffer = nil
@@ -110,17 +142,14 @@ local function on_exit(mode, _, exit_code)
   if exit_code == 0 then
     if vim.loop.fs_access(file, "r") then
       local paths = z.collect(io.open(file):lines())
-      if mode == "files" or mode == "all" then
-        open_file(paths)
-      else
-        open_buffer(paths)
-      end
+      modes[mode].open(paths)
     end
   end
 end
 
-local function popup_window(buf)
-  local width = math.max(80, math.floor(vim.o.columns / 3))
+local function popup_window(buf, mode)
+  local divisor = modes[mode].width_divisor or 3
+  local width = math.max(80, math.floor(vim.o.columns / divisor))
   local opts = {
     relative = "editor",
     style = "minimal",
@@ -138,14 +167,14 @@ end
 local function open_star_buffer(mode)
   -- need to look at vim.b.star_find_cmd in the current buffer before opening
   -- the star buffer where it will not be populated
-  local term_cmd = cmd(mode)
+  local term_cmd = modes[mode].cmd()
   local mode_text = find_cmd(mode)
   if mode == "buffers" then
     mode_text = "open buffers"
   end
   -- now open the star buffer
   buffer = api.nvim_create_buf(false, false)
-  popup_window(buffer)
+  popup_window(buffer, mode)
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   vim.fn.termopen(term_cmd, {
@@ -163,12 +192,20 @@ local function star(...)
   local mode = "files"
   if select("#", ...) > 0 then
     mode = ...
+    if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
+      api.nvim_err_writeln(string.format("'%s' is not a valid mode", mode))
+      return
+    end
   end
   open_star_buffer(mode)
 end
 
-local function completion()
-  return { "all", "buffers", "files" }
+local function completion(arglead)
+  return vim.tbl_filter(function(m)
+    return vim.startswith(m, arglead)
+  end, vim.tbl_keys(
+    modes
+  ))
 end
 
 autocmd.add("ColorScheme,VimResized", "*", function()
@@ -181,8 +218,9 @@ end, {
 vim.cmd(
   [[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]]
 )
-api.nvim_set_keymap("n", "<C-p>", ":Star<CR>", {})
+api.nvim_set_keymap("n", "<C-p>", ":Star files<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
 api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
+api.nvim_set_keymap("n", "g<C-g>", ":Star git_commits<CR>", {})
 
 _G.star = { star = star, completion = completion }
