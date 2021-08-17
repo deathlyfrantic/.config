@@ -112,7 +112,7 @@ local modes = {
   git_commits = {
     cmd = function()
       return base_cmd():format(
-        "git log --pretty=format:'%h%d :: %s [%cd - %an]' --date=format:'%d %b %Y'"
+        "git log --pretty=format:'%h%d :: %s [%cd - %an]' --date=format:'%d %b %Y' --no-merges"
       )
     end,
     open = function(paths)
