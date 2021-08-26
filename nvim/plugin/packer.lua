@@ -73,6 +73,16 @@ use({
         end
         return "[" .. ret .. "]"
       end,
+      attach_to_untracked = false,
+    })
+    -- when ALE formats a buffer by replacing it with an entirely new copy that
+    -- is mostly the same, gitsigns gets confused and thinks the entire buffer
+    -- has been changed. this autocmd force-refreshes gitsigns immediately after
+    -- a buffer is fixed to correct that problem.
+    require("autocmd").add("User", "ALEFixPost", function()
+      require("gitsigns").refresh()
+    end, {
+      augroup = "packer-gitsigns-config",
     })
   end,
 })
