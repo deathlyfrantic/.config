@@ -87,7 +87,13 @@ end
 -- like require() but reloads file every time so i don't have to restart nvim
 -- to test changes
 local function include(name)
-  local path = package.searchpath(name, package.path)
+  local paths = package.path
+  if paths:match(vim.env.VIMHOME) == nil then
+    paths = paths .. ";" .. vim.env.VIMHOME .. "/?.lua"
+    paths = paths .. ";" .. vim.env.VIMHOME .. "/lua/?.lua"
+    paths = paths .. ";" .. vim.env.VIMHOME .. "/plugin/?.lua"
+  end
+  local path = package.searchpath(name, paths)
   if path == nil then
     api.nvim_err_writeln(("Can't find %s.lua in package.path"):format(name))
     return
