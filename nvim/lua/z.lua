@@ -132,20 +132,27 @@ end
 
 local function find_project_dir(...)
   local markers = {
-    "Cargo.toml",
-    "Cargo.lock",
-    "node_modules",
-    "package.json",
-    "package-lock.json",
-    "yarn.lock",
-    ".git",
+    rust = {
+      files = { "Cargo.toml", "Cargo.lock" },
+      dirs = { "target" },
+    },
+    javascript = {
+      files = { "package.json", "package-lock.json", "yarn.lock" },
+      dirs = { "node_modules" },
+    },
+    typescript = {
+      files = {
+        "package.json",
+        "package-lock.json",
+        "yarn.lock",
+        "tsconfig.json",
+      },
+      dirs = { "node_modules" },
+    },
+    all = {
+      dirs = { ".git" },
+    },
   }
-  local function isdirectory(d)
-    return vim.fn.isdirectory(d) == 1
-  end
-  local function filereadable(f)
-    return vim.fn.filereadable(f) == 1
-  end
   local fnamemodify = vim.fn.fnamemodify
   local expand = function(path)
     return vim.fn.expand(path, true)
@@ -154,12 +161,23 @@ local function find_project_dir(...)
   if select("#", ...) > 0 then
     start = ...
   end
+  local files, dirs = {}, {}
+  local ft_markers = markers[vim.bo.filetype]
+  if ft_markers then
+    vim.list_extend(files, ft_markers.files)
+    vim.list_extend(dirs, ft_markers.dirs)
+  end
+  vim.list_extend(files, markers.all.files or {})
+  vim.list_extend(dirs, markers.all.dirs or {})
   local dir = start
   while dir ~= expand("~") and dir ~= "/" do
     local path = dir .. "/"
     if
-      any(markers, function(d)
-        return isdirectory(expand(path .. d)) or filereadable(expand(path .. d))
+      any(files, function(f)
+        return vim.fn.filereadable(expand(path .. f)) == 1
+      end)
+      or any(dirs, function(d)
+        return vim.fn.isdirectory(expand(path .. d)) == 1
       end)
     then
       return fnamemodify(dir, ":p")
