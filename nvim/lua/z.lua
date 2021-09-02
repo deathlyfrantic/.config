@@ -178,8 +178,7 @@ local function char_before_cursor()
   if column < 1 then
     return ""
   end
-  local line = api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1]
-  return line:sub(column, column)
+  return api.nvim_get_current_line():sub(column, column)
 end
 
 return {
