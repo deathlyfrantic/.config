@@ -86,6 +86,6 @@ set-hook -g window-unlinked \
     "if -F '#{==:#{session_windows},1}' 'set status off' 'set status on'; move-window -r"
 
 # use thumbs plugin
-set -g @thumbs-command 'echo -n {} | pbcopy'
+set -g @thumbs-command 'tmux set-buffer -- {} && echo -n {} | pbcopy'
 set -g @thumbs-upcase-command 'open -g "{}"'
 run-shell "$XDG_CONFIG_HOME"/tmux/plugins/tmux-thumbs/tmux-thumbs.tmux
