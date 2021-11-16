@@ -146,6 +146,7 @@ use({
     vim.g.ale_fix_on_save = 1
     vim.g.ale_fix_on_save_ignore = { mail = { "trim_whitespace" } }
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
+    vim.g.ale_linters_ignore = { json = { "eslint" } }
     if vim.fn.executable("rust-analyzer") then
       vim.g.ale_linters = { rust = { "analyzer", "cargo" } }
     end
