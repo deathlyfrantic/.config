@@ -64,7 +64,10 @@ local function rust(selection)
 end
 
 local function find_nearest_javascript_test()
-  local test = find_nearest_test([[^\s*\(it\|describe\)(["'']\(.*\)["''],]], 3)
+  local test = find_nearest_test(
+    [[^\s*\(it\|describe\|test\)(["'']\(.*\)["''],]],
+    3
+  )
   return vim.fn.substitute(test, [[\([{\[(+)\]}]\)]], [[\\\1]], "g")
 end
 
