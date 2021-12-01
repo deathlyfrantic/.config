@@ -7,7 +7,7 @@ local function grep(search)
     vim.cmd("redraw!")
     vim.api.nvim_echo({ { "No matches found." } }, false, {})
   else
-    vim.cmd("copen " .. math.min(num_results, 10))
+    vim.cmd("botright copen " .. math.min(num_results, 10))
     vim.w.quickfix_title = string.format([[grep "%s"]], search)
   end
 end
@@ -49,10 +49,7 @@ if vim.fn.executable("rg") then
   local ignores = table.concat(
     vim.tbl_map(function(v)
       return string.format("-g '!%s'", v)
-    end, vim.split(
-      vim.o.wildignore,
-      ","
-    )),
+    end, vim.split(vim.o.wildignore, ",")),
     " "
   )
   vim.o.grepprg = string.format(
