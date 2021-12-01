@@ -5,7 +5,6 @@ local z = require("z")
 -- startup processes {{{
 if vim.fn.has("vim_starting") == 1 then
   vim.env.VIMHOME = vim.fn.stdpath("config")
-  vim.env.MYVIMRC = vim.fn.fnamemodify(debug.getinfo(1, "S").short_src, ":p")
 
   -- turn off built-in plugins i don't want
   vim.g.loaded_netrwPlugin = "v153"
@@ -29,7 +28,6 @@ vim.opt.foldlevel = 99
 vim.opt.foldmethod = "indent"
 vim.opt.formatoptions:append("n"):append("r"):append("o"):append("l")
 vim.opt.gdefault = true
-vim.opt.hidden = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = "split"
 vim.opt.lazyredraw = true
@@ -42,7 +40,6 @@ vim.opt.listchars = {
   extends = "⤶",
 }
 vim.opt.matchpairs:append("<:>")
-vim.opt.joinspaces = false
 vim.opt.modeline = false
 vim.opt.startofline = false
 vim.opt.swapfile = false
@@ -211,9 +208,6 @@ noremap("n", "gV", "`[v`]")
 -- i don't need an escape key
 noremap("i", "jk", "<Esc>")
 noremap("t", "jk", [[<C-\><C-n>]])
-
--- yank to end of line
-api.nvim_set_keymap("n", "Y", "y$", {})
 
 -- current directory in command-line
 noremap("c", "%%", [[fnameescape(expand("%:p:h")) .. "/"]], { expr = true })
