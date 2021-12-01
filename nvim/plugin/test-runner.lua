@@ -108,7 +108,7 @@ local function javascript(selection)
   if package_json == "" then
     return nil
   end
-  local package = vim.fn.json_decode(io.open(package_json):read("*all"))
+  local package = vim.json.decode(io.open(package_json):read("*all"))
   local scripts = package.scripts or {}
   local test_cmd = scripts.test or ""
   if test_cmd:match("mocha") then
