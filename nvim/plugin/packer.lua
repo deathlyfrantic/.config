@@ -18,6 +18,18 @@ packer.init({
 
 use("wbthomason/packer.nvim")
 
+use({
+  "nvim-treesitter/nvim-treesitter",
+  run = ":TSUpdate",
+  branch = "0.5-compat",
+  config = function()
+    require("nvim-treesitter.configs").setup({
+      ensure_installed = { "javascript", "rust" },
+      highlight = { enable = false },
+    })
+  end,
+})
+
 use({ "rust-lang/rust.vim", ft = "rust" })
 use({ "cespare/vim-toml", ft = "toml" })
 use({ "pangloss/vim-javascript", ft = "javascript" })
