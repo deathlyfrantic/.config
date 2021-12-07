@@ -31,7 +31,6 @@ use({
 })
 
 use({ "rust-lang/rust.vim", ft = "rust" })
-use({ "cespare/vim-toml", ft = "toml" })
 use({ "pangloss/vim-javascript", ft = "javascript" })
 
 use("Julian/vim-textobj-variable-segment")
