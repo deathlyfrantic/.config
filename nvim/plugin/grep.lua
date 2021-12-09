@@ -1,6 +1,10 @@
 local function grep(search)
   vim.cmd(
-    "silent grep! " .. search:gsub("#", [[\#]]):gsub(vim.pesc("%"), [[\%]])
+    "silent grep! "
+      .. search
+        :gsub("#", [[\#]])
+        :gsub(vim.pesc("%"), [[\%]])
+        :gsub("'", [['\'']])
   )
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
