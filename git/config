@@ -31,7 +31,7 @@
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h^^^%Cred%d %Creset%s^^^%Cgreen(%ar)^^^%C(bold blue)%an%Creset' | column -s '^^^' -t"
     ctags = "!~/.config/git/hooks/make-ctags"
-    delete-merged-branches = "!git branch --merged origin/main | grep -v '^\\* main$' | xargs git branch -d"
+    delete-merged-branches = "![ $(git rev-parse --abrev-ref HEAD) == 'main' ] && git branch --merged origin/main | grep -v '^\\* main$' | xargs git branch -d"
 [commit]
     verbose = 1
 [pull]
