@@ -15,9 +15,6 @@ sudo defaults write com.apple.backupd-auto Interval -int 43200
 # make signal title bar dark
 defaults write org.whispersystems.signal-desktop NSRequiresAquaSystemAppearance -bool false
 
-# disable google analytics on porting kit
-defaults write ~/Library/Preferences/edu.ufrj.vitormm.Porting-Kit.plist "Disable Google Analytics API" -bool true
-
 # install brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
