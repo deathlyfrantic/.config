@@ -37,7 +37,7 @@ use("Julian/vim-textobj-variable-segment")
 use("kana/vim-textobj-user")
 use("michaeljsmith/vim-indent-object")
 use("glts/vim-textobj-comment")
-use("~/src/vim/textobj-blanklines")
+use("deathlyfrantic/vim-textobj-blanklines")
 
 use({
   "lewis6991/gitsigns.nvim",
