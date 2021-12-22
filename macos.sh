@@ -26,6 +26,8 @@ curl https://sh.rustup.rs -sSf | sh
 
 # make zsh use .config dir
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
+ln -s ~/.config/zsh/.zshrc ~/.config/zsh/zshrc
+ln -s ~/.config/zsh/.zshenv ~/.config/zsh/zshenv
 
 # link custom firefox css
 ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Profiles/$profile/chrome/userChrome.css
