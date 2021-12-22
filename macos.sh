@@ -16,7 +16,7 @@ sudo defaults write com.apple.backupd-auto Interval -int 43200
 defaults write org.whispersystems.signal-desktop NSRequiresAquaSystemAppearance -bool false
 
 # install brew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # install brew packages
 brew bundle
