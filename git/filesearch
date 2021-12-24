@@ -1,3 +1,4 @@
+#!/bin/sh
 listing=$(for rev in $(git rev-list --all); do
     git ls-tree -r $rev | grep "$@"
 done | awk '
