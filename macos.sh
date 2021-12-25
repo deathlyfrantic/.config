@@ -5,10 +5,6 @@ defaults write -g KeyRepeat -int 2
 # no smart quotes please
 defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
 
-# time machine does not need to run every hour, that is ridiculous
-# does this work? idk
-sudo defaults write com.apple.backupd-auto Interval -int 43200
-
 # install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
