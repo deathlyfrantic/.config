@@ -1,6 +1,43 @@
-# key repeat rate
-defaults write -g InitialKeyRepeat -int 15
-defaults write -g KeyRepeat -int 2
+# settings -> keyboard -> modifier keys
+#   caps lock -> control
+#   option -> command
+#   command -> option
+#
+# settings -> keyboard -> keyboard
+#   key repeat to fastest
+#   delay until repeat to shortest
+#
+# settings -> keyboard -> shortcuts
+#   mission control -> ⌘M
+#   move left a space -> ^⌘[
+#   move right a space -> ^⌘]
+#   switch to desktop 1 -> ^⌘1
+#   switch to desktop 2 -> ^⌘2
+#   switch to desktop 3 -> ^⌘3 etc
+#   uncheck application windows
+#
+# settings -> accessibility -> display
+#   check reduce motion
+#
+# settings -> accessibility -> pointer control -> trackpad options
+#   check enable dragging, select three finger drag
+#
+# settings -> desktop & screen saver -> screen saver
+#   uncheck show screen saver after
+#
+# settings -> desktop & screen saver -> hot corners
+#   lower right -> put display to sleep
+#   lower left -> quick note
+#
+# settings -> dock & menu bar
+#   check automatically hide and show dock
+#   uncheck show recent applications in dock
+#
+# settings -> sound
+#   uncheck play user interface sound effects
+#
+# settings -> notifications and focus
+#   disable sound on all notifications
 
 # no smart quotes please
 defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
