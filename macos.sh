@@ -35,7 +35,5 @@ cp ~/.config/DefaultKeyBinding.dict ~/Library/KeyBindings/
 tic ~/.config/tmux/tmux-256color.terminfo
 
 # link files that don't work with XDG dirs
-cd ~
-ln -s ~/.config/urlview .urlview
-ln -s ~/.config/inputrc .inputrc
-cd -
+ln -s ~/.config/urlview ~/.urlview
+ln -s ~/.config/inputrc ~/.inputrc
