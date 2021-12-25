@@ -29,7 +29,8 @@ sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
 ln -s ~/.config/zsh/.zshrc ~/.config/zsh/zshrc
 ln -s ~/.config/zsh/.zshenv ~/.config/zsh/zshenv
 
-# link custom firefox css
+# link custom firefox css - also requires setting
+# `toolkit.legacyUserProfileCustomizations.stylesheets` to true in about:config
 ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Profiles/$profile/chrome/userChrome.css
 
 # set up readline-style key bindings
