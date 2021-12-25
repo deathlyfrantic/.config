@@ -55,18 +55,18 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__' '.DS_Store' 'node_modules' 'package-lock.json'
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
-# antigen
-ADOTDIR=$ZDOTDIR/antigen
-if [[ -a $ADOTDIR/antigen.zsh ]]; then
-    source $ADOTDIR/antigen.zsh
-    # redirects below so syntax highlighting doesn't whine about substring widgets being unhandled
-    antigen bundle zsh-users/zsh-syntax-highlighting 2> /dev/null
-    antigen bundle zsh-users/zsh-history-substring-search
-    antigen apply
-else
-    mkdir -p $ADOTDIR
-    git clone https://github.com/zsh-users/antigen $ADOTDIR
-fi
+# substring search must be sourced after syntax highlighting to work correctly
+plugins=(zsh-syntax-highlighting zsh-history-substring-search)
+
+for plugin in $plugins; do
+    if [ -f /opt/homebrew/share/$plugin/$plugin.zsh ]; then
+        source /opt/homebrew/share/$plugin/$plugin.zsh
+    elif [ -f /usr/local/share/$plugin/$plugin.zsh ]; then
+        source /usr/local/share/$plugin/$plugin.zsh
+    else
+        echo "$plugin plugin not found"
+    fi
+done
 
 # hopefully a much saner keyboard mapping section
 bindkey -e
