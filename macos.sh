@@ -9,9 +9,6 @@ defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
 # does this work? idk
 sudo defaults write com.apple.backupd-auto Interval -int 43200
 
-# make signal title bar dark
-defaults write org.whispersystems.signal-desktop NSRequiresAquaSystemAppearance -bool false
-
 # install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
