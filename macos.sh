@@ -51,7 +51,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # install brew packages
 brew tap homebrew/cask-fonts && brew install font-sf-mono
 brew tap homebrew/cask && brew install 1password alacritty firefox netnewswire signal
-brew install git neovim ripgrep rustfmt shellcheck stylua tmux tree universal-ctags zola zsh zsh-completions
+brew install git neovim ripgrep rustfmt shellcheck stylua tmux tree universal-ctags zola
+brew install zsh zsh-completions zsh-history-substring-search zsh-syntax-highlighting
 brew install luarocks && luarocks install luacheck
 brew tap damascenorafael/tap && brew install reminders-menubar
 
