@@ -15,11 +15,11 @@ sudo defaults write com.apple.backupd-auto Interval -int 43200
 # make signal title bar dark
 defaults write org.whispersystems.signal-desktop NSRequiresAquaSystemAppearance -bool false
 
-# install brew
+# install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# install rust
-curl https://sh.rustup.rs -sSf | sh
+# install rust - check rustup.rs for up-to-date instructions
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # install brew packages
 brew tap homebrew/cask-fonts && brew install font-sf-mono
