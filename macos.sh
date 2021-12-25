@@ -43,5 +43,4 @@ tic ~/.config/tmux/tmux-256color.terminfo
 cd ~
 ln -s ~/.config/urlview .urlview
 ln -s ~/.config/inputrc .inputrc
-ln -s ~/.config/bin .
 cd -

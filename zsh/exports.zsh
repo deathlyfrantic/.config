@@ -1,4 +1,4 @@
-export PATH=$HOME/bin:$HOME/.cargo/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/opt/sqlite/bin:$PATH
+export PATH=$HOME/.cargo/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/opt/sqlite/bin:$PATH
 export XDG_RUNTIME_DIR=$TMPDIR
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/Library/Caches
