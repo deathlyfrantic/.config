@@ -25,7 +25,7 @@ ln -s ~/.config/zsh/.zshenv ~/.config/zsh/zshenv
 
 # link custom firefox css - also requires setting
 # `toolkit.legacyUserProfileCustomizations.stylesheets` to true in about:config
-ln -s ~/.config/firefox-userChrome.css ~/Library/Application Support/Firefox/Profiles/$profile/chrome/userChrome.css
+ln -s ~/.config/firefox-userChrome.css ~/Library/Application\ Support/Firefox/Profiles/$profile/chrome/userChrome.css
 
 # set up readline-style key bindings
 [ -d ~/Library/KeyBindings ] || mkdir ~/Library/KeyBindings
