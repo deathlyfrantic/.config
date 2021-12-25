@@ -18,11 +18,15 @@ defaults write org.whispersystems.signal-desktop NSRequiresAquaSystemAppearance 
 # install brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# install brew packages
-brew bundle
-
 # install rust
 curl https://sh.rustup.rs -sSf | sh
+
+# install brew packages
+brew tap homebrew/cask-fonts && brew install font-sf-mono
+brew tap homebrew/cask && brew install 1password alacritty firefox netnewswire signal
+brew install git neovim ripgrep rustfmt shellcheck stylua tmux tree universal-ctags zola zsh zsh-completions
+brew install luarocks && luarocks install luacheck
+brew tap damascenorafael/tap && brew install reminders-menubar
 
 # make zsh use .config dir
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
