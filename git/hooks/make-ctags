@@ -4,6 +4,7 @@
 set -e
 PATH="/usr/local/bin:$PATH"
 dir="`git rev-parse --git-dir`"
+(cd "$dir" && pwd) | grep -iq homebrew && exit 0 # don't make tags for the homebrew repo
 trap 'rm -f "$dir/$$.tags"' EXIT
 git ls-files | ctags --tag-relative=yes -L - -f"$dir/$$.tags"
 mv "$dir/$$.tags" "$dir/tags"
