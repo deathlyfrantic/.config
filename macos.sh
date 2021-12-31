@@ -75,6 +75,10 @@ cp ~/.config/DefaultKeyBinding.dict ~/Library/KeyBindings/
 # populate terminfo database for tmux
 tic ~/.config/tmux/tmux-256color.terminfo
 
+# install submodules (probably just tmux-thumbs?)
+git submodule init
+git submodule update
+
 # link files that don't work with XDG dirs
 ln -s ~/.config/urlview ~/.urlview
 ln -s ~/.config/inputrc ~/.inputrc
