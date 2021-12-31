@@ -16,6 +16,12 @@
 #   switch to desktop 3 -> ^⌘3 etc
 #   uncheck application windows
 #
+# settings -> keyboard -> text
+#   uncheck correct spelling automatically
+#   uncheck capitalize words automatically
+#   uncheck add period with double-space
+#   uncheck use smart quotes and dashes
+#
 # settings -> accessibility -> display
 #   check reduce motion
 #
@@ -38,9 +44,6 @@
 #
 # settings -> notifications and focus
 #   disable sound on all notifications
-
-# no smart quotes please
-defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
