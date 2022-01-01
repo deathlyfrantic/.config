@@ -21,7 +21,6 @@ use("wbthomason/packer.nvim")
 use({
   "nvim-treesitter/nvim-treesitter",
   run = ":TSUpdate",
-  branch = "0.5-compat",
   config = function()
     require("nvim-treesitter.configs").setup({
       ensure_installed = { "javascript", "rust" },
