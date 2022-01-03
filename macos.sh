@@ -59,6 +59,9 @@ brew install zsh zsh-completions zsh-history-substring-search zsh-syntax-highlig
 brew install luarocks && luarocks install luacheck
 brew tap damascenorafael/tap && brew install reminders-menubar
 
+# install menubar-ticker
+# https://github.com/serban/menubar-ticker
+
 # make zsh use .config dir
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
 ln -s ~/.config/zsh/.zshrc ~/.config/zsh/zshrc
