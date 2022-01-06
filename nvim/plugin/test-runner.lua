@@ -211,7 +211,9 @@ local function on_exit(...)
   if exit_code == 0 then
     if close then
       vim.defer_fn(function()
-        api.nvim_buf_delete(test_buffer, { force = true })
+        if api.nvim_buf_is_valid(test_buffer) then
+          api.nvim_buf_delete(test_buffer, { force = true })
+        end
       end, 1000)
     end
     api.nvim_echo({
