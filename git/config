@@ -33,7 +33,7 @@
     ctags = "!~/.config/git/hooks/make-ctags"
     delete-merged-branches = "!if [ \"$(git rev-parse --abbrev-ref HEAD)\" != \"main\" ]; then echo \"not on main branch\" && exit 1; fi; git branch --merged origin/main | grep -v '^\\* main$' | xargs git branch -d"
     filesearch = "!f() { ~/.config/git/filesearch \"$@\"; }; f"
-    fixup = "!f() { if [ -z \"$(git log --format=format:%H | grep ^$1)\" ]; then echo \"commit $1 doesn't exist\" && exit 1; fi; git commit --fixup=$1 && git -c core.editor=true rebase -i --autosquash $1~1; }; f"
+    fixup = "!git commit --fixup=$(git log --oneline --no-merges -n 20 | star | cut -d' ' -f1)"
 [commit]
     verbose = 1
 [pull]
