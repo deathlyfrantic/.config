@@ -38,5 +38,6 @@
     verbose = 1
 [pull]
     rebase = false
+    autosquash = true
 [init]
     defaultBranch = main
