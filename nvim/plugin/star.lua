@@ -198,9 +198,7 @@ end
 local function completion(arglead)
   return vim.tbl_filter(function(m)
     return vim.startswith(m, arglead)
-  end, vim.tbl_keys(
-    modes
-  ))
+  end, vim.tbl_keys(modes))
 end
 
 autocmd.add("ColorScheme,VimResized", "*", function()

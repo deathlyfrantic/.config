@@ -19,7 +19,9 @@ local all = {
       tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
       vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
       no sea takimata sanctus est Lorem ipsum dolor sit amet.]]),
-  todo = force_comment([[TODO(${1=os.getenv("USER")} - ${=os.date("%F")}): $0]]),
+  todo = force_comment(
+    [[TODO(${1=os.getenv("USER")} - ${=os.date("%F")}): $0]]
+  ),
   modeline = force_comment(function()
     local pieces = { "vim:set" }
     if #vim.bo.filetype > 0 then
