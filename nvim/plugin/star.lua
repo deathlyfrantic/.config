@@ -77,7 +77,9 @@ local function open_buffer(b)
   if type(b) == "table" then
     b = b[1]
   end
-  api.nvim_set_current_buf(vim.uri_to_bufnr(vim.uri_from_fname(b)))
+  api.nvim_set_current_buf(
+    vim.uri_to_bufnr(vim.uri_from_fname(vim.fn.fnamemodify(b, ":p")))
+  )
 end
 
 local function open_file(files)
