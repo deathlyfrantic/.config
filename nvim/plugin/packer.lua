@@ -44,24 +44,56 @@ use({
   config = function()
     require("gitsigns").setup({
       signs = { add = { text = "+" }, change = { text = "~" } },
-      keymaps = {
-        ["n ]c"] = {
-          expr = true,
+      on_attach = function(bufnr)
+        local map = function(mode, left, right, opts)
+          opts = opts or {}
+          vim.api.nvim_buf_set_keymap(bufnr, mode, left, right, opts)
+        end
+        map(
+          "n",
+          "]c",
           [[&diff ? "]c" : '<Cmd>lua require("gitsigns.actions").next_hunk()<CR>']],
-        },
-        ["n [c"] = {
-          expr = true,
+          { expr = true }
+        )
+        map(
+          "n",
+          "[c",
           [[&diff ? "[c" : '<Cmd>lua require("gitsigns.actions").prev_hunk()<CR>']],
-        },
-        ["n <leader>hs"] = '<Cmd>lua require("gitsigns").stage_hunk()<CR>',
-        ["v <leader>hs"] = '<Cmd>lua require("gitsigns").stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-        ["n <leader>hu"] = '<Cmd>lua require("gitsigns").undo_stage_hunk()<CR>',
-        ["n <leader>hr"] = '<Cmd>lua require("gitsigns").reset_hunk()<CR>',
-        ["n <leader>hb"] = '<Cmd>lua require("gitsigns").blame_line(true)<CR>',
-        ["n <leader>hp"] = '<Cmd>lua require("gitsigns").preview_hunk()<CR>',
-        ["o ig"] = ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>',
-        ["x ig"] = ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>',
-      },
+          { expr = true }
+        )
+        map("n", "<leader>hs", '<Cmd>lua require("gitsigns").stage_hunk()<CR>')
+        map(
+          "v",
+          "<leader>hs",
+          '<Cmd>lua require("gitsigns").stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
+        )
+        map(
+          "n",
+          "<leader>hu",
+          '<Cmd>lua require("gitsigns").undo_stage_hunk()<CR>'
+        )
+        map("n", "<leader>hr", '<Cmd>lua require("gitsigns").reset_hunk()<CR>')
+        map(
+          "n",
+          "<leader>hb",
+          '<Cmd>lua require("gitsigns").blame_line(true)<CR>'
+        )
+        map(
+          "n",
+          "<leader>hp",
+          '<Cmd>lua require("gitsigns").preview_hunk()<CR>'
+        )
+        map(
+          "o",
+          "ig",
+          ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>'
+        )
+        map(
+          "x",
+          "ig",
+          ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>'
+        )
+      end,
       preview_config = { border = "solid" },
       status_formatter = function(status)
         local ret = status.head
