@@ -83,5 +83,4 @@ git submodule init
 git submodule update
 
 # link files that don't work with XDG dirs
-ln -s ~/.config/urlview ~/.urlview
 ln -s ~/.config/inputrc ~/.inputrc
