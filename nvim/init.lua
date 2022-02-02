@@ -50,8 +50,8 @@ vim.opt.shiftwidth = 4
 vim.opt.shortmess:remove("F")
 vim.opt.smartcase = true
 vim.opt.spellfile = {
-  "$VIMHOME/spell/custom.utf-8.add",
-  "$VIMHOME/spell/local.utf-8.add",
+  vim.fn.expand("$VIMHOME/spell/custom.utf-8.add"),
+  vim.fn.expand("$VIMHOME/spell/local.utf-8.add"),
 }
 vim.opt.softtabstop = 4
 vim.opt.tags:prepend("./.git/tags;")
