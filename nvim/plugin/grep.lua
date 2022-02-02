@@ -57,7 +57,7 @@ if vim.fn.executable("rg") then
     " "
   )
   vim.o.grepprg = string.format(
-    "rg -F -S -H --no-heading --vimgrep %s '$*'",
+    "rg -F -S -H --no-heading --vimgrep %s '$*' \\| sort",
     ignores
   )
   vim.o.grepformat = "%f:%l:%c:%m"
@@ -66,7 +66,7 @@ if vim.fn.executable("rg") then
   -- default to -F (fixed-strings) option to allow regex searching
   _G.grep.rg = function(search)
     local saved_grepprg = vim.opt_local.grepprg:get()
-    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $*"
+    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| sort"
     grep(search)
     vim.opt_local.grepprg = saved_grepprg
   end
