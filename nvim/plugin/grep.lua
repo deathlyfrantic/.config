@@ -54,6 +54,8 @@ end
 
 _G.grep = { operator = operator, grep = grep }
 
+local sort_cmd = "sort -t ':' -k1,1f -k2,2g -k3,3g"
+
 if vim.fn.executable("rg") then
   local ignores = table.concat(
     vim.tbl_map(function(v)
@@ -62,7 +64,7 @@ if vim.fn.executable("rg") then
     " "
   )
   vim.o.grepprg = string.format(
-    "rg -F -S -H --no-heading --vimgrep %s '$*' \\| sort",
+    "rg -F -S -H --no-heading --vimgrep %s '$*' \\| " .. sort_cmd,
     ignores
   )
   vim.o.grepformat = "%f:%l:%c:%m"
@@ -71,7 +73,7 @@ if vim.fn.executable("rg") then
   -- default to -F (fixed-strings) option to allow regex searching
   _G.grep.rg = function(search, bang)
     local saved_grepprg = vim.opt_local.grepprg:get()
-    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| sort"
+    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| " .. sort_cmd
     grep(search, bang)
     vim.opt_local.grepprg = saved_grepprg
   end
