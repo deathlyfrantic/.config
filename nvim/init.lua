@@ -320,7 +320,7 @@ autocmd.augroup("init-autocmds-arrows", function(add)
 end)
 
 -- quickfix
-_G.quickfix_toggle = function()
+_G.quickfix_toggle = function(vertical)
   local cr = api.nvim_replace_termcodes("<CR>", true, false, true)
   if
     #vim.tbl_filter(function(b)
@@ -329,12 +329,21 @@ _G.quickfix_toggle = function()
   then
     return ":cclose" .. cr
   end
-  return ":copen" .. cr
+  if vertical then
+    return ":topleft vertical copen " .. math.floor(vim.o.columns / 3) .. cr
+  end
+  return ":botright copen" .. cr
 end
 noremap(
   "n",
   "<leader>q",
   "v:lua.quickfix_toggle()",
+  { silent = true, expr = true }
+)
+noremap(
+  "n",
+  "<leader>Q",
+  "v:lua.quickfix_toggle(v:true)",
   { silent = true, expr = true }
 )
 autocmd.add("FileType", "qf", function()
