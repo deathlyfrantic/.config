@@ -1,4 +1,4 @@
-local function grep(search)
+local function grep(search, bang)
   vim.cmd(
     "silent grep! "
       .. search
@@ -11,7 +11,12 @@ local function grep(search)
     vim.cmd("redraw!")
     vim.api.nvim_echo({ { "No matches found." } }, false, {})
   else
-    vim.cmd("botright copen " .. math.min(num_results, 10))
+    local location
+    if bang == "!" then
+      vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
+    else
+      vim.cmd("botright copen " .. math.min(num_results, 10))
+    end
     vim.w.quickfix_title = string.format([[grep "%s"]], search)
   end
 end
@@ -64,16 +69,16 @@ if vim.fn.executable("rg") then
 
   -- :Rg command variant allows passing arbitrary flags to ripgrep and doesn't
   -- default to -F (fixed-strings) option to allow regex searching
-  _G.grep.rg = function(search)
+  _G.grep.rg = function(search, bang)
     local saved_grepprg = vim.opt_local.grepprg:get()
     vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| sort"
-    grep(search)
+    grep(search, bang)
     vim.opt_local.grepprg = saved_grepprg
   end
-  vim.cmd("command! -nargs=+ Rg call v:lua.grep.rg(<q-args>)")
+  vim.cmd("command! -bang -nargs=+ Rg call v:lua.grep.rg(<q-args>, <q-bang>)")
 end
 
-vim.cmd("command! -nargs=+ Grep call v:lua.grep.grep(<q-args>)")
+vim.cmd("command! -bang -nargs=+ Grep call v:lua.grep.grep(<q-args>, <q-bang>)")
 
 vim.api.nvim_set_keymap("n", "g/", ":Grep ", { noremap = true })
 vim.api.nvim_set_keymap(
