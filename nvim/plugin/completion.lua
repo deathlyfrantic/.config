@@ -53,8 +53,29 @@ local function wrap(f)
   vim.fn.complete(start + 1, f(false, base))
 end
 
+local function gitcommit()
+  wrap(function(fs, base)
+    if fs then
+      return findstart()
+    end
+    local cmd = "git log --oneline --no-merges"
+    if #base > 0 then
+      cmd = cmd .. " --grep='" .. base .. "'"
+    else
+      cmd = cmd .. " -n 5000"
+    end
+    local commits = io.popen(cmd):read("*all"):split("\n")
+    table.sort(commits, function(a, b)
+      -- chop off the commit hash when sorting
+      return a:gsub("^%w+%s+", "") < b:gsub("^%w+%s", "")
+    end)
+    return commits
+  end)
+end
+
 _G.completion = {
   findstart = findstart,
+  gitcommit = gitcommit,
   tab = tab,
   wrap = wrap,
 }
@@ -72,4 +93,10 @@ api.nvim_set_keymap(
   "<S-Tab>",
   "v:lua.completion.tab(v:false)",
   { silent = true, expr = true }
+)
+api.nvim_set_keymap(
+  "i",
+  "<C-x><C-g>",
+  "<Cmd>call v:lua.completion.gitcommit()<CR>",
+  { silent = true, noremap = true }
 )
