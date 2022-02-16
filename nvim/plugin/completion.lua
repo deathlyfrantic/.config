@@ -69,7 +69,9 @@ local function gitcommit()
       -- chop off the commit hash when sorting
       return a:gsub("^%w+%s+", "") < b:gsub("^%w+%s", "")
     end)
-    return commits
+    return vim.tbl_map(function(commit)
+      return { abbr = commit, word = commit:split(" ")[1] }
+    end, commits)
   end)
 end
 
