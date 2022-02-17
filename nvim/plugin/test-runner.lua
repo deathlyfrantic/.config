@@ -278,6 +278,7 @@ local function run_tests(cmd, close)
       on_exit(close, ...)
     end,
   })
+  scroll_to_end()
 end
 
 local function rerun()
