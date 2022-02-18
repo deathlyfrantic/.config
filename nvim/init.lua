@@ -60,7 +60,9 @@ vim.opt.title = true
 vim.opt.titlestring =
   [[nvim %{has_key(b:,'term_title')?b:term_title:len(expand('%'))>0?expand('%:t'):'[No name]'}]]
 vim.opt.undofile = true
-vim.opt.wildignore
+vim
+  .opt
+  .wildignore
   :append("node_modules/") -- javascript
   :append("package-lock.json")
   :append("*.min.js")
@@ -379,11 +381,13 @@ local function source_local_vimrc(force)
     return
   end
   -- apply settings from lowest dir to highest, so most specific are applied last
-  for _, vimrc in ipairs(
-    z.tbl_reverse(
-      vim.fn.findfile(".vimrc.lua", vim.fn.expand("<afile>:p:h") .. ";", -1)
+  for _, vimrc in
+    ipairs(
+      z.tbl_reverse(
+        vim.fn.findfile(".vimrc.lua", vim.fn.expand("<afile>:p:h") .. ";", -1)
+      )
     )
-  ) do
+  do
     vim.cmd("silent! source " .. vimrc)
   end
 end

@@ -94,9 +94,11 @@ end
 
 local function scroll_to_end()
   local current_window = api.nvim_get_current_win()
-  for _, w in ipairs(vim.tbl_filter(function(w)
-    return api.nvim_win_get_buf(w) == output_buffer
-  end, api.nvim_list_wins())) do
+  for _, w in
+    ipairs(vim.tbl_filter(function(w)
+      return api.nvim_win_get_buf(w) == output_buffer
+    end, api.nvim_list_wins()))
+  do
     api.nvim_set_current_win(w)
     vim.cmd("normal G")
   end
