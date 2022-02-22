@@ -12,7 +12,7 @@ local function toggle()
     end
   end
   if #dirvish_bufs == 0 then
-    vim.cmd("35vsp +Dirvish")
+    vim.cmd("topleft 35vsp +Dirvish")
   else
     vim.cmd("bdelete! " .. table.concat(dirvish_bufs, " "))
   end
