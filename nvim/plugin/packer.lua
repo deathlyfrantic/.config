@@ -184,7 +184,11 @@ use({
       javascriptreact = { "prettier" },
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
-      json = { "jq" },
+      -- order of json fixers is important: always fix with jq, but if the
+      -- repo has prettier installed, fix with it second; this way json files in
+      -- repos that have prettier get fixed by prettier, but other json files at
+      -- least get fixed by jq.
+      json = { "jq", "prettier" },
       lua = { "stylua" },
     }
     vim.g.ale_fix_on_save = 1
