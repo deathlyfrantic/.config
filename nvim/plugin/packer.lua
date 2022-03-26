@@ -18,6 +18,8 @@ packer.init({
 
 use("wbthomason/packer.nvim")
 
+use({ "nvim-lua/plenary.nvim" })
+
 use({
   "nvim-treesitter/nvim-treesitter",
   run = ":TSUpdate",
@@ -40,7 +42,6 @@ use("deathlyfrantic/vim-textobj-blanklines")
 
 use({
   "lewis6991/gitsigns.nvim",
-  requires = { "nvim-lua/plenary.nvim" },
   config = function()
     require("gitsigns").setup({
       signs = { add = { text = "+" }, change = { text = "~" } },
