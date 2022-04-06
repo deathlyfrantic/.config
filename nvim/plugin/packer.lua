@@ -102,13 +102,11 @@ use({
           return ""
         end
         local text = {}
-        for k, v in
-          pairs({
-            ["+"] = status.added,
-            ["~"] = status.changed,
-            ["-"] = status.removed,
-          })
-        do
+        for k, v in pairs({
+          ["+"] = status.added,
+          ["~"] = status.changed,
+          ["-"] = status.removed,
+        }) do
           if (v or 0) > 0 then
             table.insert(text, k .. v)
           end
