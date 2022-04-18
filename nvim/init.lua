@@ -14,6 +14,10 @@ if vim.fn.has("vim_starting") == 1 then
 
   -- make sure my string extras are loaded and always available
   require("string_extras")
+
+  -- use filetype.lua to detect filetypes
+  vim.g.do_filetype_lua = 1
+  vim.g.did_load_filetypes = 0
 end
 -- }}}
 
@@ -77,20 +81,19 @@ vim
 vim.opt.wildignorecase = true
 -- }}}
 
--- autocommands {{{
-autocmd.augroup("filetypedetect", function(add)
-  local filetypes = {
-    ["*.c,*.h"] = "c",
+-- filetypes {{{
+vim.filetype.add({
+  extension = {
+    h = "c",
+  },
+  filename = {
     [".clang-format"] = "yaml",
     [".luacheckrc"] = "lua",
-  }
-  for pattern, ft in pairs(filetypes) do
-    add("BufNewFile,BufReadPost", pattern, function()
-      vim.bo.filetype = ft
-    end)
-  end
-end)
+  },
+})
+-- }}}
 
+-- autocommands {{{
 autocmd.augroup("init-autocmds", function(add)
   -- always turn off paste when leaving insert mode (just in case)
   add("InsertLeave", "*", function()
