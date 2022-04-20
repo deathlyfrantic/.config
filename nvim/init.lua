@@ -221,6 +221,7 @@ vim.cmd("command! -bang Wbd w<bang> | Bd<bang>")
 -- search bindings
 noremap("n", "*", "*N")
 noremap("n", "#", "#N")
+noremap("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
 
 -- close all floating windows
 _G.close_floating_windows = function()
