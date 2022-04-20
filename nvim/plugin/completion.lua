@@ -29,7 +29,7 @@ end
 
 local function undouble()
   -- stolen from Damian Conway
-  -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/.vimrc#L1285-L1298
+  -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/003fb8e06e1b8d321a129869a62eaa702cea6dc9/.vimrc#L1372-L1381
   local cursor = api.nvim_win_get_cursor(0)
   local line = api.nvim_get_current_line()
   local new_line = vim.fn.substitute(
