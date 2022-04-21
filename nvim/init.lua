@@ -72,6 +72,7 @@ vim
   :append(".git") -- git
   :append(".gitmodules")
   :append("*.swp") -- vim
+  :append("packer_compiled.lua")
   :append(".DS_Store") -- macos
 vim.opt.wildignorecase = true
 -- }}}
