@@ -326,7 +326,7 @@ _G.quickfix_toggle = function(vertical)
   local cr = api.nvim_replace_termcodes("<CR>", true, false, true)
   if
     #vim.tbl_filter(function(b)
-      return vim.bo[b].filetype == "qf"
+      return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
     end, api.nvim_list_bufs()) > 0
   then
     return ":cclose" .. cr
