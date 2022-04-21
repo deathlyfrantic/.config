@@ -11,7 +11,6 @@ local function grep(search, bang)
     vim.cmd("redraw!")
     vim.api.nvim_echo({ { "No matches found." } }, false, {})
   else
-    local location
     if bang == "!" then
       vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
     else
