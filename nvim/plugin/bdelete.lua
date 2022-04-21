@@ -27,9 +27,10 @@ end
 
 local function delete_by_name(force, name, term)
   local bufs = vim.tbl_filter(function(b)
+    local bufname = api.nvim_buf_get_name(b)
     return z.buf_is_real(b)
-      and api.nvim_buf_get_name(b):match(name)
-      and (vim.bo.buftype ~= "terminal" or term)
+      and (bufname == name or bufname:match(name))
+      and (vim.bo[b].buftype ~= "terminal" or term)
   end, api.nvim_list_bufs())
   for _, b in ipairs(bufs) do
     if vim.bo[b].modified and not force then
