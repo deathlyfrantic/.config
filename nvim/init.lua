@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 
 -- startup processes {{{
@@ -94,14 +93,20 @@ vim.filetype.add({
 -- }}}
 
 -- autocommands {{{
-autocmd.augroup("init-autocmds", function(add)
-  -- always turn off paste when leaving insert mode (just in case)
-  add("InsertLeave", "*", function()
+local group = api.nvim_create_augroup("init-autocmds", {})
+-- always turn off paste when leaving insert mode (just in case)
+api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  callback = function()
     vim.o.paste = false
-  end)
+  end,
+  group = group,
+})
 
-  -- quit even if dirvish or quickfix is open
-  add("BufEnter", "*", function()
+-- quit even if dirvish or quickfix is open
+api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
     if
       #api.nvim_list_wins() == 1
       and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "dirvish")
@@ -118,10 +123,14 @@ autocmd.augroup("init-autocmds", function(add)
         api.nvim_buf_delete(0, { force = true })
       end
     end
-  end)
+  end,
+  group = group,
+})
 
-  -- see :help last-position-jump
-  add("BufReadPost", "*", function()
+-- see :help last-position-jump
+api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
     local mark = api.nvim_buf_get_mark(0, '"')
     if
       not vim.fn.expand("%"):match("COMMIT_EDITMSG")
@@ -130,43 +139,71 @@ autocmd.augroup("init-autocmds", function(add)
     then
       api.nvim_win_set_cursor(0, mark)
     end
-  end)
+  end,
+  group = group,
+})
 
-  -- don't move my position when switching buffers
-  add("BufWinLeave", "*", function()
+-- don't move my position when switching buffers
+api.nvim_create_autocmd("BufWinLeave", {
+  pattern = "*",
+  callback = function()
     vim.b.winview = vim.fn.winsaveview()
-  end)
-  add("BufWinEnter", "*", function()
+  end,
+  group = group,
+})
+api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "*",
+  callback = function()
     if vim.b.winview then
       vim.fn.winrestview(vim.b.winview)
       vim.b.winview = nil
     end
-  end)
+  end,
+  group = group,
+})
 
-  -- terminal settings
-  add("TermOpen", "*", function()
+-- terminal settings
+api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
     vim.opt_local.number = false
     vim.opt_local.statusline = "[terminal] %{b:term_title}"
-  end)
+  end,
+  group = group,
+})
 
-  -- reload config files on saving
-  add("BufWritePost", vim.env.MYVIMRC, function()
+-- reload config files on saving
+api.nvim_create_autocmd("BufWritePost", {
+  pattern = vim.env.MYVIMRC,
+  callback = function()
     vim.cmd("source $MYVIMRC")
-  end, {
-    nested = true,
-  })
-  add("BufWritePost", vim.env.VIMHOME .. "/{plugin,lua}/*.lua", function()
-    vim.cmd("source " .. vim.fn.expand("<afile>"))
-  end)
-  add("BufWritePost", vim.env.VIMHOME .. "/colors/*.vim", function()
-    vim.cmd("colorscheme " .. vim.fn.expand("<afile>:t:r"))
-  end)
+  end,
+  group = group,
+  nested = true,
+})
+api.nvim_create_autocmd("BufWritePost", {
+  pattern = vim.env.VIMHOME .. "/{plugin,lua}/*.lua",
+  callback = function(args)
+    vim.cmd("source " .. args.file)
+  end,
+  group = group,
+})
+api.nvim_create_autocmd("BufWritePost", {
+  pattern = vim.env.VIMHOME .. "/colors/*.vim",
+  callback = function(args)
+    vim.cmd("colorscheme " .. vim.fn.fnamemodify(args.file, ":t:r"))
+  end,
+  group = group,
+})
 
-  -- set foldmethod for this file
-  add("BufReadPost", vim.env.MYVIMRC, function()
+-- set foldmethod for this file
+api.nvim_create_autocmd("BufReadPost", {
+  pattern = vim.env.MYVIMRC,
+  callback = function()
     vim.cmd("setlocal foldmethod=marker")
-  end)
-end)
+  end,
+  group = group,
+})
 -- }}}
 
 -- keymaps and commands {{{
@@ -179,19 +216,22 @@ end
 -- abbreviations
 vim.cmd([[iabbrev shrug! ¯\_(ツ)_/¯]])
 
-autocmd.augroup("init-autocmds-abbreviations", function(add)
-  add("FileType", "javascript,typescript", function()
+group = api.nvim_create_augroup("init-autocmds-abbreviations", {})
+api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript" },
+  callback = function()
     vim.cmd("iabbrev <buffer> != !==")
     vim.cmd("iabbrev <buffer> == ===")
-  end, {
-    unique = true,
-  })
-  add("FileType", "javascript,typescript,lua,vim,zsh", function()
+  end,
+  group = group,
+})
+api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript", "lua", "vim", "zsh" },
+  callback = function()
     vim.cmd("iabbrev <buffer> fn! function")
-  end, {
-    unique = true,
-  })
-end)
+  end,
+  group = group,
+})
 
 -- typos
 api.nvim_create_user_command(
@@ -318,11 +358,17 @@ _G.arrow = function(fat)
 end
 api.nvim_set_keymap("i", "<C-j>", "v:lua.arrow(v:false)", { expr = true })
 api.nvim_set_keymap("i", "<C-l>", "v:lua.arrow(v:true)", { expr = true })
-autocmd.augroup("init-autocmds-arrows", function(add)
-  add("FileType", "c", function()
+group = api.nvim_create_augroup("init-autocmds-arrows", {})
+api.nvim_create_autocmd("FileType", {
+  pattern = "c",
+  callback = function()
     api.nvim_buf_set_keymap(0, "i", "<C-j>", "->", {})
-  end)
-  add("FileType", "vim", function()
+  end,
+  group = group,
+})
+api.nvim_create_autocmd("FileType", {
+  pattern = "vim",
+  callback = function()
     vim.b.arrow_fn = function()
       if z.char_before_cursor() == "{" then
         return "-> "
@@ -330,8 +376,9 @@ autocmd.augroup("init-autocmds-arrows", function(add)
       return _G.arrow(false)
     end
     api.nvim_buf_set_keymap(0, "i", "<C-j>", "b:arrow_fn()", { expr = true })
-  end)
-end)
+  end,
+  group = group,
+})
 
 -- quickfix
 _G.quickfix_toggle = function(vertical)
@@ -360,30 +407,32 @@ noremap(
   "v:lua.quickfix_toggle(v:true)",
   { silent = true, expr = true }
 )
-autocmd.add("FileType", "qf", function()
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "<C-c>",
-    ":cclose<CR>",
-    { noremap = true, silent = true }
-  )
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "q",
-    ":cclose<CR>",
-    { noremap = true, silent = true }
-  )
-  vim.opt_local.wrap = false
-end, {
-  augroup = "init-autocmds-quickfix",
+api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "<C-c>",
+      ":cclose<CR>",
+      { noremap = true, silent = true }
+    )
+    api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "q",
+      ":cclose<CR>",
+      { noremap = true, silent = true }
+    )
+    vim.opt_local.wrap = false
+  end,
+  group = api.nvim_create_augroup("init-autocmds-quickfix", {}),
 })
 
 -- local settings
-local function source_local_vimrc(force)
-  local is_fugitive = ("^fugitive://"):match(vim.fn.expand("<afile>"))
-  local abuf = tonumber(vim.fn.expand("<abuf>"))
+local function source_local_vimrc(file, buf, force)
+  local is_fugitive = ("^fugitive://"):match(file)
+  local abuf = tonumber(buf)
   if
     not force
     and (
@@ -397,38 +446,49 @@ local function source_local_vimrc(force)
   for _, vimrc in
     ipairs(
       z.tbl_reverse(
-        vim.fn.findfile(".vimrc.lua", vim.fn.expand("<afile>:p:h") .. ";", -1)
+        vim.fn.findfile(
+          ".vimrc.lua",
+          vim.fn.fnamemodify(file, ":p:h") .. ";",
+          -1
+        )
       )
     )
   do
     vim.cmd("silent! source " .. vimrc)
   end
 end
-autocmd.augroup("init-autocmds-local-vimrc", function(add)
-  add("BufNewFile,BufReadPost", "*", function()
-    source_local_vimrc(false)
-  end, {
-    nested = true,
-  })
-  add("VimEnter", "*", function()
-    source_local_vimrc(true)
-  end, {
-    nested = true,
-  })
-end)
+group = api.nvim_create_augroup("init-autocmds-local-vimrc", {})
+api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+  pattern = "*",
+  callback = function(args)
+    source_local_vimrc(args.file, args.buf, false)
+  end,
+  nested = true,
+  group = group,
+})
+api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  callback = function(args)
+    source_local_vimrc(args.file, args.buf, true)
+  end,
+  nested = true,
+  group = group,
+})
 
 -- make directories if they don't exist before writing file
-autocmd.add("BufWritePre", "*", function()
-  local dir = vim.fn.expand("%:p:h")
-  if not vim.loop.fs_stat(dir) then
-    if
-      vim.fn.confirm("Directory does not exist. Create?", "&Yes\n&No", 2) == 1
-    then
-      vim.fn.mkdir(dir, "p")
+api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local dir = vim.fn.expand("%:p:h")
+    if not vim.loop.fs_stat(dir) then
+      if
+        vim.fn.confirm("Directory does not exist. Create?", "&Yes\n&No", 2) == 1
+      then
+        vim.fn.mkdir(dir, "p")
+      end
     end
-  end
-end, {
-  augroup = "init-autocmds-mkdir-on-write",
+  end,
+  group = api.nvim_create_augroup("init-autocmds-mkdir-on-write", {}),
 })
 -- }}}
 

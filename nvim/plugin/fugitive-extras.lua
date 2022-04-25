@@ -1,7 +1,6 @@
 -- this is a modified version of vim-fugitive-blame-ext by Tom McDonald
 -- see: https://github.com/tommcdo/vim-fugitive-blame-ext
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 
 local subj_cmd = "git --git-dir=%s show -s --pretty=format:%%s %s"
@@ -71,23 +70,32 @@ local function popup()
   local commit = get_commit_from_line()
   local blame = log_message(commit)
   popup_window = z.popup(blame.full)
-  autocmd.add(
-    "CursorMoved,BufLeave,BufWinLeave",
-    "<buffer>",
-    close_popup,
-    { once = true, augroup = "fugitive-extras-popup" }
-  )
+  api.nvim_create_autocmd({ "CursorMoved", "BufLeave", "BufWinLeave" }, {
+    buffer = 0,
+    callback = close_popup,
+    once = true,
+    group = api.nvim_create_augroup("fugitive-extras-popup", {}),
+  })
 end
 
 _G.fugitive_extras = { popup = popup }
 
-autocmd.augroup("fugitive-extras-blame", function(add)
-  add("BufEnter", "*.fugitiveblame", function()
+local group = api.nvim_create_augroup("fugitive-extras-blame", {})
+api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.fugitiveblame",
+  callback = function()
     -- needs to be separate and deferred otherwise it doesn't work ¯\_(ツ)_/¯
     vim.defer_fn(show_log_message, 100)
-  end)
-  add("CursorMoved", "*.fugitiveblame", show_log_message)
-  add("FileType", "fugitiveblame", function()
+  end,
+  group = group,
+})
+api.nvim_create_autocmd(
+  "CursorMoved",
+  { pattern = "*.fugitiveblame", callback = show_log_message, group = group }
+)
+api.nvim_create_autocmd("FileType", {
+  pattern = "fugitiveblame",
+  callback = function()
     api.nvim_buf_set_keymap(
       0,
       "n",
@@ -95,5 +103,6 @@ autocmd.augroup("fugitive-extras-blame", function(add)
       "<Cmd>call v:lua.fugitive_extras.popup()<CR>",
       { noremap = true }
     )
-  end)
-end)
+  end,
+  group = group,
+})

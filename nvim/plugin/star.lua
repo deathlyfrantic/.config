@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 
 local file = vim.fn.tempname()
@@ -204,11 +203,12 @@ local function completion(arglead)
   end, vim.tbl_keys(modes))
 end
 
-autocmd.add("ColorScheme,VimResized", "*", function()
-  star_cmd_str = nil
-end, {
-  augroup = "star-colorscheme-reset",
-  unique = true,
+api.nvim_create_autocmd({ "ColorScheme", "VimResized" }, {
+  pattern = "*",
+  callback = function()
+    star_cmd_str = nil
+  end,
+  group = api.nvim_create_augroup("star-colorscheme-reset", {}),
 })
 
 api.nvim_create_user_command(

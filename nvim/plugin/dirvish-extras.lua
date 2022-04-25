@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 
 local function toggle()
   local bufs = vim.tbl_filter(function(buf)
@@ -59,12 +58,11 @@ local function autocmds()
   end
 end
 
-autocmd.add(
-  "FileType",
-  "dirvish",
-  autocmds,
-  { augroup = "dirvish-extras", unique = true }
-)
+api.nvim_create_autocmd("FileType", {
+  pattern = "dirvish",
+  callback = autocmds,
+  group = api.nvim_create_augroup("dirvish-extras", {}),
+})
 vim.api.nvim_set_keymap(
   "n",
   "<Plug>(dirvish-toggle)",

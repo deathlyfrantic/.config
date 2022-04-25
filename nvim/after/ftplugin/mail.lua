@@ -1,5 +1,3 @@
-local autocmd = require("autocmd")
-
 vim.opt_local.formatoptions:remove({ "o", "r" })
 vim.opt_local.formatoptions:append({ "w" })
 vim.opt_local.textwidth = 72
@@ -29,9 +27,14 @@ local function adjust_foa_for_headers()
   end
 end
 
-autocmd.augroup("mail-ftplugin", function(add)
-  add("InsertLeave", "<buffer>", update_header_end, { unique = true })
-  add("CursorMoved", "<buffer>", adjust_foa_for_headers, { unique = true })
-end)
+local group = api.nvim_create_augroup("mail-ftplugin", {})
+api.nvim_create_autocmd(
+  "InsertLeave",
+  { buffer = 0, callback = update_header_end, group = group }
+)
+api.nvim_create_autocmd(
+  "CursorMoved",
+  { buffer = 0, callback = adjust_foa_for_headers, group = group }
+)
 
 update_header_end()

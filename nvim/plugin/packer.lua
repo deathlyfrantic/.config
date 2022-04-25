@@ -122,10 +122,12 @@ use({
     -- is mostly the same, gitsigns gets confused and thinks the entire buffer
     -- has been changed. this autocmd force-refreshes gitsigns immediately after
     -- a buffer is fixed to correct that problem.
-    require("autocmd").add("User", "ALEFixPost", function()
-      require("gitsigns").refresh()
-    end, {
-      augroup = "packer-gitsigns-config",
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ALEFixPost",
+      callback = function()
+        require("gitsigns").refresh()
+      end,
+      group = vim.api.nvim_create_augroup("packer-gitsigns-config", {}),
     })
   end,
 })
@@ -146,16 +148,26 @@ use({
       { noremap = true, silent = true }
     )
     vim.api.nvim_set_keymap("n", "Q", "<Cmd>ALEDetail<CR>", { noremap = true })
-    require("autocmd").augroup("packer-ale-config", function(add)
-      add("FileType", "ale-preview", function()
+    local group = vim.api.nvim_create_augroup("packer-ale-config", {})
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "ale-preview",
+      callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
         vim.cmd("setlocal colorcolumn=0")
-      end)
-      add("FileType", "ale-preview.message", function()
+      end,
+      group = group,
+    })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "ale-preview.message",
+      callback = function()
         vim.cmd("setlocal colorcolumn=0")
-      end)
-      add("FileType", "rust,typescript", function()
+      end,
+      group = group,
+    })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "rust", "typescript" },
+      callback = function()
         vim.bo.omnifunc = "ale#completion#OmniFunc"
         vim.api.nvim_buf_set_keymap(
           0,
@@ -172,8 +184,9 @@ use({
           "<Plug>(ale_go_to_definition_in_split)",
           {}
         )
-      end)
-    end)
+      end,
+      group = group,
+    })
     vim.g.ale_hover_to_floating_preview = 1
     vim.g.ale_floating_window_border = { " ", " ", " ", " ", " ", " " }
     vim.g.ale_fixers = {
@@ -210,31 +223,38 @@ use({
     vim.g.goyo_height = "96%"
     vim.g.goyo_width = 82
     local autocmd_handle
-    require("autocmd").augroup("packer-goyo-config", function(add)
-      add("User", "GoyoEnter", function()
+    local group = vim.api.nvim_create_augroup("packer-goyo-config", {})
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "GoyoEnter",
+      callback = function()
         vim.o.showmode = false
         vim.o.showcmd = false
         vim.o.showtabline = 0
-        autocmd_handle = require("autocmd").add(
-          "CursorHold,CursorHoldI",
-          "*",
-          function()
-            vim.api.nvim_echo({}, false, {})
-          end,
-          { augroup = "goyo-cursorhold-clear", unique = true }
+        autocmd_handle = vim.api.nvim_create_autocmd(
+          { "CursorHold", "CursorHoldI" },
+          {
+            pattern = "*",
+            callback = function()
+              vim.api.nvim_echo({}, false, {})
+            end,
+            group = vim.api.nvim_create_augroup("goyo-cursorhold-clear", {}),
+          }
         )
-      end, {
-        nested = true,
-      })
-      add("User", "GoyoLeave", function()
+      end,
+      nested = true,
+      group = group,
+    })
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "GoyoLeave",
+      callback = function()
         vim.o.showmode = true
         vim.o.showcmd = true
         vim.fn["buftabline#update"](0)
-        require("autocmd").del(autocmd_handle)
-      end, {
-        nested = true,
-      })
-    end)
+        vim.api.nvim_del_autocmd(autocmd_handle)
+      end,
+      nested = true,
+      group = group,
+    })
   end,
 })
 
@@ -412,9 +432,11 @@ if need_to_compile then
 end
 
 local script_name = debug.getinfo(1, "S").short_src
-require("autocmd").add("BufWritePost", script_name, function()
-  vim.cmd("luafile " .. script_name)
-  packer.compile()
-end, {
-  augroup = "packer-config-reload",
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = script_name,
+  callback = function()
+    vim.cmd("luafile " .. script_name)
+    packer.compile()
+  end,
+  group = vim.api.nvim_create_augroup("packer-config-reload", {}),
 })

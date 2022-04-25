@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 
 local function save_file(name)
@@ -91,10 +90,12 @@ local function new_buffer(name)
     "<C-w>p",
     { noremap = true, silent = true }
   )
-  autocmd.add("WinLeave", "<buffer>", function()
-    close_window(name)
-  end, {
-    augroup = "augroup-scratch-" .. name,
+  api.nvim_create_autocmd("WinLeave", {
+    buffer = 0,
+    callback = function()
+      close_window(name)
+    end,
+    group = api.nvim_create_augroup("augroup-scratch-" .. name, {}),
   })
 end
 

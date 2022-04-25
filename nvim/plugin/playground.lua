@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 local dedent = require("plenary.strings").dedent
 
@@ -44,11 +43,13 @@ local grounds = {
 local function new_output_buffer()
   output_buffer = api.nvim_create_buf(false, false)
   api.nvim_set_current_buf(output_buffer)
-  autocmd.add("BufDelete", "<buffer>", function()
-    output_buffer = nil
-  end, {
+  api.nvim_create_autocmd("BufDelete", {
+    buffer = output_buffer,
+    callback = function()
+      output_buffer = nil
+    end,
     once = true,
-    augroup = "playground-buf-delete",
+    group = api.nvim_create_augroup("playground-buf-delete", {}),
   })
   api.nvim_buf_set_keymap(
     0,
@@ -132,20 +133,23 @@ local function open_buffer(ground)
   local filename = vim.fn.tempname() .. "." .. ground.extension
   vim.cmd("edit " .. filename)
   local cmd = string.format(ground.command, vim.fn.getreg("%"))
-  autocmd.augroup(
-    "playground-bufnr-" .. api.nvim_get_current_buf(),
-    function(add)
-      add("BufWritePost", "<buffer>", function()
-        run(cmd)
-      end, {
-        augroup = "playground",
-      })
-      add("BufDelete", "<buffer>", function()
-        delete_output_buffer()
-        vim.loop.fs_unlink(filename)
-      end)
-    end
-  )
+  local bufnr = api.nvim_get_current_buf()
+  local group = api.nvim_create_augroup("playground-bufnr-" .. bufnr({}))
+  api.nvim_create_autocmd("BufWritePost", {
+    buffer = bufnr,
+    callback = function()
+      run(cmd)
+    end,
+    group = group,
+  })
+  api.nvim_create_autocmd("BufDelete", {
+    buffer = bufnr,
+    callback = function()
+      delete_output_buffer()
+      vim.loop.fs_unlink(filename)
+    end,
+    group = group,
+  })
   local template = dedent(ground.template or ""):split("\n")
   if template[1] == "" then
     table.remove(template, 1)
