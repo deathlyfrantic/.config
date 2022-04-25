@@ -186,8 +186,11 @@ local function open_star_buffer(mode)
   vim.cmd("startinsert")
 end
 
-local function star(...)
-  local mode = ... or "files"
+local function star(args)
+  local mode = "files"
+  if #args.args > 0 then
+    mode = args.args
+  end
   if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
     api.nvim_err_writeln(string.format("'%s' is not a valid mode", mode))
     return
@@ -208,12 +211,12 @@ end, {
   unique = true,
 })
 
-vim.cmd(
-  [[command! -nargs=? -complete=customlist,v:lua.star.completion Star call v:lua.star.star(<f-args>)]]
+api.nvim_create_user_command(
+  "Star",
+  star,
+  { complete = completion, nargs = "?" }
 )
 api.nvim_set_keymap("n", "<C-p>", ":Star files<CR>", {})
 api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
 api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
 api.nvim_set_keymap("n", "g<C-g>", ":Star git_commits<CR>", {})
-
-_G.star = { star = star, completion = completion }

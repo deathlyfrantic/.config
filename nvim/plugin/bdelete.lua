@@ -43,13 +43,13 @@ local function delete_by_name(force, name, term)
   end
 end
 
-local function bdelete(bang, ...)
-  local force = bang == "!"
-  if select("#", ...) == 0 then
+local function bdelete(args)
+  local force = args.bang
+  if #args.args == 0 then
     delete_current(force)
     return
   end
-  local name = ...
+  local name = args.args
   local arg = string.lower(name)
   if arg == "man" then
     delete_by_name(true, "^man://", false)
@@ -74,9 +74,8 @@ local function completion()
   return bufs
 end
 
-vim.cmd(
-  [[command! -complete=customlist,v:lua.bdelete.completion -nargs=* -bang -bar ]]
-    .. [[Bdelete call v:lua.bdelete.bdelete(<q-bang>, <f-args>)]]
+api.nvim_create_user_command(
+  "Bdelete",
+  bdelete,
+  { bang = true, bar = true, complete = completion, nargs = "*" }
 )
-
-_G.bdelete = { completion = completion, bdelete = bdelete }

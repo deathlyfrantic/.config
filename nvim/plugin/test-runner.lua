@@ -291,7 +291,7 @@ local function rerun()
   run_tests(vim.b.command, close)
 end
 
-local function test(selection, bang)
+local function test(selection, force)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
@@ -331,7 +331,7 @@ local function test(selection, bang)
   end
   local current_window = api.nvim_get_current_win()
   if #test_cmds > 0 then
-    run_tests(test_cmds[1], bang ~= "!")
+    run_tests(test_cmds[1], force)
   else
     api.nvim_err_writeln(table.concat(errs, " and "))
   end
@@ -345,13 +345,9 @@ local setup = {
 }
 for _, x in ipairs(setup) do
   local key, cmd, param = x.key, x.cmd, x.param
-  vim.cmd(
-    string.format(
-      [[command! -bang %s lua test_runner.test("%s", <q-bang>)]],
-      cmd,
-      param
-    )
-  )
+  api.nvim_create_user_command(cmd, function(args)
+    test(param, args.bang)
+  end, { bang = true })
   api.nvim_set_keymap(
     "n",
     "<leader>" .. key,

@@ -1,7 +1,9 @@
-local function grep(search, bang)
+local api = vim.api
+
+local function grep(args)
   vim.cmd(
     "silent grep! "
-      .. search
+      .. args.args
         :gsub("#", [[\#]])
         :gsub(vim.pesc("%"), [[\%]])
         :gsub("'", [['\'']])
@@ -9,20 +11,20 @@ local function grep(search, bang)
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
     vim.cmd("redraw!")
-    vim.api.nvim_echo({ { "No matches found." } }, false, {})
+    api.nvim_echo({ { "No matches found." } }, false, {})
   else
-    if bang == "!" then
+    if args.bang then
       vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
     else
       vim.cmd("botright copen " .. math.min(num_results, 10))
     end
-    vim.w.quickfix_title = string.format([[grep "%s"]], search)
+    vim.w.quickfix_title = string.format([[grep "%s"]], args.args)
   end
 end
 
 local function operator(kind)
   local error = function(msg)
-    vim.api.nvim_err_writeln(
+    api.nvim_err_writeln(
       msg or "Multiline selections do not work with this operator"
     )
   end
@@ -48,7 +50,7 @@ local function operator(kind)
     error("No selection")
     return
   end
-  grep(search)
+  grep({ args = search, bang = false })
 end
 
 _G.grep = { operator = operator, grep = grep }
@@ -70,31 +72,31 @@ if vim.fn.executable("rg") then
 
   -- :Rg command variant allows passing arbitrary flags to ripgrep and doesn't
   -- default to -F (fixed-strings) option to allow regex searching
-  _G.grep.rg = function(search, bang)
+  local function rg(args)
     local saved_grepprg = vim.opt_local.grepprg:get()
     vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| " .. sort_cmd
-    grep(search, bang)
+    grep(args)
     vim.opt_local.grepprg = saved_grepprg
   end
-  vim.cmd("command! -bang -nargs=+ Rg call v:lua.grep.rg(<q-args>, <q-bang>)")
+  api.nvim_create_user_command("Rg", rg, { bang = true, nargs = "+" })
 end
 
-vim.cmd("command! -bang -nargs=+ Grep call v:lua.grep.grep(<q-args>, <q-bang>)")
+api.nvim_create_user_command("Grep", grep, { bang = true, nargs = "+" })
 
-vim.api.nvim_set_keymap("n", "g/", ":Grep ", { noremap = true })
-vim.api.nvim_set_keymap(
+api.nvim_set_keymap("n", "g/", ":Grep ", { noremap = true })
+api.nvim_set_keymap(
   "n",
   "g/%",
   ":Grep <C-r>=expand('%:p:t:r')<CR><CR>",
   { noremap = true }
 )
-vim.api.nvim_set_keymap(
+api.nvim_set_keymap(
   "n",
   "gs",
   ":set opfunc=v:lua.grep.operator<CR>g@",
   { noremap = true, silent = true }
 )
-vim.api.nvim_set_keymap(
+api.nvim_set_keymap(
   "x",
   "gs",
   "<Cmd>call v:lua.grep.operator(mode())<CR>",
