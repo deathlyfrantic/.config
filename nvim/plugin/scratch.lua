@@ -107,11 +107,11 @@ local function open_buffer(name)
       read(name)
     end
   else
-    local wnum = vim.fn.bufwinnr(bnum)
-    if wnum == -1 then
+    local winid = vim.fn.bufwinid(bnum)
+    if winid == -1 then
       vim.cmd(string.format("topleft %ssplit +buffer%s", height(), bnum))
     else
-      vim.cmd(wnum .. " wincmd w")
+      api.nvim_set_current_win(winid)
     end
     if stat and stat.mtime.sec > (vim.b.ftime or 0) then
       read(name)
