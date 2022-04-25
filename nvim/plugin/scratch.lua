@@ -130,7 +130,14 @@ local function selection(name)
 end
 
 local function scratch(args)
-  local name = args or 0
+  local name = "0"
+  if type(args) == "string" then
+    name = args
+  elseif #args.args > 0 then
+    name = args.args
+  elseif args.count > -1 then
+    name = tostring(args.count)
+  end
   open_buffer(name)
 end
 
@@ -150,15 +157,14 @@ end
 
 _G.scratch = {
   read = read,
-  close_window = close_window,
   open_buffer = open_buffer,
   selection = selection,
-  scratch = scratch,
-  completion = completion,
 }
 
-vim.cmd(
-  "command! -nargs=? -complete=customlist,v:lua.scratch.completion ScratchBuffer lua scratch.scratch(<f-args>)"
+api.nvim_create_user_command(
+  "ScratchBuffer",
+  scratch,
+  { complete = completion, nargs = "?" }
 )
 
 api.nvim_set_keymap(

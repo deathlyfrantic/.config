@@ -1,7 +1,7 @@
 vim.cmd("setlocal spell")
 vim.opt_local.wrapmargin = 0
 
-local function preview_markdown(...)
+local function preview_markdown(args)
   if vim.fn.executable("cmark") == 0 then
     vim.api.nvim_err_writeln(
       "Unable to convert Markdown (cmark is not available)."
@@ -9,8 +9,8 @@ local function preview_markdown(...)
     return
   end
   local filename = vim.fn.expand("%:p")
-  if select("#", ...) > 0 then
-    filename = ...
+  if #args.args > 0 then
+    filename = args
   end
   local outfile = vim.fn.tempname() .. ".html"
   os.execute(
@@ -18,8 +18,9 @@ local function preview_markdown(...)
   )
 end
 
-_G.markdown = { preview = preview_markdown }
-
-vim.cmd(
-  "command! -buffer -nargs=? PreviewMarkdown call v:lua.markdown.preview(<args>)"
+vim.api.nvim_buf_create_user_command(
+  0,
+  "PreviewMarkdown",
+  preview,
+  { nargs = "?" }
 )

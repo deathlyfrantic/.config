@@ -194,19 +194,25 @@ autocmd.augroup("init-autocmds-abbreviations", function(add)
 end)
 
 -- typos
-vim.cmd([[
-  command! -bang -nargs=1 -complete=file E e<bang> <args>
-  command! -bang -nargs=1 -complete=help H h<bang> <args>
-  command! -bang Q q<bang>
-  command! -bang Qa qa<bang>
-  command! -bang QA qa<bang>
-  command! -bang Wq wq<bang>
-  command! -bang WQ wq<bang>
-  command! -bang BD Bd<bang>
-]])
+api.nvim_create_user_command(
+  "E",
+  "e<bang> <args>",
+  { bang = true, complete = "file", nargs = 1 }
+)
+api.nvim_create_user_command(
+  "H",
+  "H<bang> <args>",
+  { bang = true, complete = "help", nargs = 1 }
+)
+api.nvim_create_user_command("Q", "q<bang>", { bang = true })
+api.nvim_create_user_command("Qa", "qa<bang>", { bang = true })
+api.nvim_create_user_command("QA", "qa<bang>", { bang = true })
+api.nvim_create_user_command("Wq", "wq<bang>", { bang = true })
+api.nvim_create_user_command("WQ", "wq<bang>", { bang = true })
+api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
 
 -- fit current window to contents
-vim.cmd("command! Fit silent! execute 'resize' line('$')")
+api.nvim_create_user_command("Fit", "silent! execute 'resize' line('$')", {})
 
 -- select last-pasted text
 noremap("n", "gV", "`[v`]")
@@ -220,7 +226,7 @@ noremap("c", "%%", [[fnameescape(expand("%:p:h")) .. "/"]], { expr = true })
 
 -- write then delete buffer; akin to wq
 noremap("c", "wbd", "Wbd")
-vim.cmd("command! -bang Wbd w<bang> | Bd<bang>")
+api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
 
 -- search bindings
 noremap("n", "*", "*N")
@@ -228,14 +234,14 @@ noremap("n", "#", "#N")
 noremap("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
 
 -- close all floating windows
-_G.close_floating_windows = function()
+local function close_floating_windows()
   for _, id in ipairs(api.nvim_list_wins()) do
     if api.nvim_win_get_config(id).relative ~= "" then
       api.nvim_win_close(id, true)
     end
   end
 end
-vim.cmd([[command! CloseFloatingWindows silent! lua close_floating_windows()]])
+api.nvim_create_user_command("CloseFloatingWindows", close_floating_windows, {})
 noremap("n", "<Esc>", "<Cmd>CloseFloatingWindows<CR>")
 
 -- resize windows
@@ -259,11 +265,13 @@ noremap("n", "<C-W>T", "<Cmd>botright sp +term<CR>:startinsert<CR>")
 noremap("n", "<C-W>t", "<Cmd>belowright 20sp +term<CR>:startinsert<CR>")
 
 -- un-dos files with ^M line endings
-vim.cmd([[command! Undos e ++ff=unix | %s/\r//g]])
+api.nvim_create_user_command("Undos", [[e ++ff=unix | %s/\r//g]], {})
 
 -- set indentation
-vim.cmd(
-  "command! -bar -nargs=1 SetIndent setlocal softtabstop=<args> shiftwidth=<args>"
+api.nvim_create_user_command(
+  "SetIndent",
+  "setlocal softtabstop=<args> shiftwidth=<args>",
+  { bar = true, nargs = 1 }
 )
 
 -- move by visual lines

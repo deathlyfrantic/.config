@@ -161,8 +161,8 @@ end
 
 local function playground(args)
   local filetype = vim.bo.filetype
-  if args then
-    filetype = args
+  if #args.args > 0 then
+    filetype = args.args
   end
   if not filetype or filetype == "" then
     api.nvim_err_writeln("No filetype specified")
@@ -185,9 +185,8 @@ local function completion()
   return vim.tbl_keys(grounds)
 end
 
-_G.playground = { playground = playground, completion = completion }
-
-vim.cmd(
-  "command! -nargs=? -complete=customlist,v:lua.playground.completion "
-    .. "Playground lua playground.playground(<f-args>)"
+api.nvim_create_user_command(
+  "Playground",
+  playground,
+  { complete = completion, nargs = "?" }
 )

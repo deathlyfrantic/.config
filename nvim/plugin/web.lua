@@ -1,3 +1,5 @@
+local api = vim.api
+
 local search_url = "https://duckduckgo.com/?q=%s"
 
 local function browser(url)
@@ -49,20 +51,24 @@ local function operator(kind)
   search(url)
 end
 
-_G.web = { operator = operator, browser = browser, search = search }
+_G.web = { operator = operator }
 
 -- Browse alias is for Fugitive's Gbrowse
-vim.cmd("command! -nargs=1 Browse Web <args>")
-vim.cmd("command! -nargs=1 Web call v:lua.web.browser(<f-args>)")
-vim.cmd("command! -nargs=1 Search call v:lua.web.search(<f-args>)")
+api.nvim_create_user_command("Browse", "Web <args>", { nargs = 1 })
+api.nvim_create_user_command("Web", function(args)
+  browser(args.args)
+end, { nargs = 1 })
+api.nvim_create_user_command("Search", function(args)
+  search(args.args)
+end, { nargs = 1 })
 
-vim.api.nvim_set_keymap(
+api.nvim_set_keymap(
   "n",
   "gw",
   ":set opfunc=v:lua.web.operator<CR>g@",
   { noremap = true, silent = true }
 )
-vim.api.nvim_set_keymap(
+api.nvim_set_keymap(
   "x",
   "gw",
   "<Cmd>call v:lua.web.operator(mode())<CR>",
