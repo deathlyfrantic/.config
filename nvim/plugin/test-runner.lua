@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local ts_utils = require("nvim-treesitter.ts_utils")
 
 local test_buffer
@@ -235,9 +234,12 @@ local function load_or_create_buffer()
     vim.bo[test_buffer].buftype = "nofile"
     vim.bo[test_buffer].modifiable = false
     api.nvim_set_current_buf(test_buffer)
-    autocmd.add("BufDelete", "<buffer>", function()
-      test_buffer = nil
-    end)
+    api.nvim_create_autocmd("BufDelete", {
+      buffer = test_buffer,
+      callback = function()
+        test_buffer = nil
+      end,
+    })
     api.nvim_buf_set_keymap(
       test_buffer,
       "n",

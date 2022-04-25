@@ -1,5 +1,4 @@
 local api = vim.api
-local autocmd = require("autocmd")
 local z = require("z")
 
 local function findstart()
@@ -82,7 +81,11 @@ _G.completion = {
   wrap = wrap,
 }
 
-autocmd.add("CompleteDone", "*", undouble, { augroup = "completion-undouble" })
+api.nvim_create_autocmd("CompleteDone", {
+  pattern = "*",
+  callback = undouble,
+  group = api.nvim_create_augroup("completion-undouble", {}),
+})
 
 api.nvim_set_keymap(
   "i",
