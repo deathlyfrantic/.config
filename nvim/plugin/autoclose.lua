@@ -121,12 +121,5 @@ local function enter()
   return key_cr
 end
 
-api.nvim_set_keymap(
-  "i",
-  "<Plug>autocloseCR",
-  [[v:lua.autoclose.enter()]],
-  { noremap = true, expr = true }
-)
-api.nvim_set_keymap("i", "<Enter>", "<Plug>autocloseCR", {})
-
-_G.autoclose = { enter = enter }
+vim.keymap.set("i", "<Plug>autocloseCR", enter, { expr = true })
+vim.keymap.set("i", "<Enter>", "<Plug>autocloseCR", { remap = true })

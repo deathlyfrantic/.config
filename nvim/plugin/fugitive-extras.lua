@@ -78,8 +78,6 @@ local function popup()
   })
 end
 
-_G.fugitive_extras = { popup = popup }
-
 local group = api.nvim_create_augroup("fugitive-extras-blame", {})
 api.nvim_create_autocmd("BufEnter", {
   pattern = "*.fugitiveblame",
@@ -96,13 +94,7 @@ api.nvim_create_autocmd(
 api.nvim_create_autocmd("FileType", {
   pattern = "fugitiveblame",
   callback = function()
-    api.nvim_buf_set_keymap(
-      0,
-      "n",
-      "Q",
-      "<Cmd>call v:lua.fugitive_extras.popup()<CR>",
-      { noremap = true }
-    )
+    vim.keymap.set("n", "Q", popup, { buffer = true })
   end,
   group = group,
 })

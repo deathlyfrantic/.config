@@ -216,7 +216,7 @@ api.nvim_create_user_command(
   star,
   { complete = completion, nargs = "?" }
 )
-api.nvim_set_keymap("n", "<C-p>", ":Star files<CR>", {})
-api.nvim_set_keymap("n", "g<C-p>", ":Star all<CR>", {})
-api.nvim_set_keymap("n", "g<C-b>", ":Star buffers<CR>", {})
-api.nvim_set_keymap("n", "g<C-g>", ":Star git_commits<CR>", {})
+vim.keymap.set("n", "<C-p>", ":Star files<CR>", { silent = true })
+vim.keymap.set("n", "g<C-p>", ":Star all<CR>", { silent = true })
+vim.keymap.set("n", "g<C-b>", ":Star buffers<CR>", { silent = true })
+vim.keymap.set("n", "g<C-g>", ":Star git_commits<CR>", { silent = true })

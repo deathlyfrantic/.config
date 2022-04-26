@@ -240,20 +240,13 @@ local function load_or_create_buffer()
         test_buffer = nil
       end,
     })
-    api.nvim_buf_set_keymap(
-      test_buffer,
+    vim.keymap.set(
       "n",
       "q",
       ":bd!<CR>",
-      { silent = true, noremap = true }
+      { buffer = test_buffer, silent = true }
     )
-    api.nvim_buf_set_keymap(
-      test_buffer,
-      "n",
-      "R",
-      [[:lua test_runner.rerun()<CR>]],
-      { silent = true, noremap = true }
-    )
+    vim.keymap.set("n", "R", rerun, { buffer = test_buffer, silent = true })
   end
 end
 
@@ -350,23 +343,21 @@ for _, x in ipairs(setup) do
   api.nvim_create_user_command(cmd, function(args)
     test(param, args.bang)
   end, { bang = true })
-  api.nvim_set_keymap(
+  vim.keymap.set(
     "n",
     "<leader>" .. key,
     ":" .. cmd .. "<CR>",
-    { silent = true, noremap = true }
+    { silent = true }
   )
-  api.nvim_set_keymap(
+  vim.keymap.set(
     "n",
     "g<leader>" .. key,
     ":" .. cmd .. "!<CR>",
-    { silent = true, noremap = true }
+    { silent = true }
   )
 end
 
 _G.test_runner = {
-  test = test,
-  rerun = rerun,
   -- expose this for use in local config files etc
   find_nearest_test = find_nearest_test,
 }
