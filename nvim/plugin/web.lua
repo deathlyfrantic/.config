@@ -62,15 +62,15 @@ api.nvim_create_user_command("Search", function(args)
   search(args.args)
 end, { nargs = 1 })
 
-api.nvim_set_keymap(
+vim.keymap.set(
   "n",
   "gw",
   ":set opfunc=v:lua.web.operator<CR>g@",
-  { noremap = true, silent = true }
+  { silent = true }
 )
-api.nvim_set_keymap(
+vim.keymap.set(
   "x",
   "gw",
   "<Cmd>call v:lua.web.operator(mode())<CR>",
-  { noremap = true, silent = true }
+  { silent = true }
 )

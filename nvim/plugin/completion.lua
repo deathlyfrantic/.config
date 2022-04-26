@@ -76,8 +76,6 @@ end
 
 _G.completion = {
   findstart = findstart,
-  gitcommit = gitcommit,
-  tab = tab,
   wrap = wrap,
 }
 
@@ -87,21 +85,10 @@ api.nvim_create_autocmd("CompleteDone", {
   group = api.nvim_create_augroup("completion-undouble", {}),
 })
 
-api.nvim_set_keymap(
-  "i",
-  "<Tab>",
-  "v:lua.completion.tab(v:true)",
-  { silent = true, expr = true }
-)
-api.nvim_set_keymap(
-  "i",
-  "<S-Tab>",
-  "v:lua.completion.tab(v:false)",
-  { silent = true, expr = true }
-)
-api.nvim_set_keymap(
-  "i",
-  "<C-x><C-g>",
-  "<Cmd>call v:lua.completion.gitcommit()<CR>",
-  { silent = true, noremap = true }
-)
+vim.keymap.set("i", "<Tab>", function()
+  return tab(true)
+end, { silent = true, expr = true })
+vim.keymap.set("i", "<S-Tab>", function()
+  return tab(false)
+end, { silent = true, expr = true })
+vim.keymap.set("i", "<C-x><C-g>", gitcommit, { silent = true })

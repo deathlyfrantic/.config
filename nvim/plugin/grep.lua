@@ -53,7 +53,7 @@ local function operator(kind)
   grep({ args = search, bang = false })
 end
 
-_G.grep = { operator = operator, grep = grep }
+_G.grep = { operator = operator }
 
 local sort_cmd = "sort -t ':' -k1,1f -k2,2g -k3,3g"
 
@@ -83,22 +83,17 @@ end
 
 api.nvim_create_user_command("Grep", grep, { bang = true, nargs = "+" })
 
-api.nvim_set_keymap("n", "g/", ":Grep ", { noremap = true })
-api.nvim_set_keymap(
-  "n",
-  "g/%",
-  ":Grep <C-r>=expand('%:p:t:r')<CR><CR>",
-  { noremap = true }
-)
-api.nvim_set_keymap(
+vim.keymap.set("n", "g/", ":Grep ")
+vim.keymap.set("n", "g/%", ":Grep <C-r>=expand('%:p:t:r')<CR><CR>")
+vim.keymap.set(
   "n",
   "gs",
   ":set opfunc=v:lua.grep.operator<CR>g@",
-  { noremap = true, silent = true }
+  { silent = true }
 )
-api.nvim_set_keymap(
+vim.keymap.set(
   "x",
   "gs",
   "<Cmd>call v:lua.grep.operator(mode())<CR>",
-  { noremap = true, silent = true }
+  { silent = true }
 )

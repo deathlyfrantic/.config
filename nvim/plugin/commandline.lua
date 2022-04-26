@@ -1,5 +1,3 @@
-local set_keymap = vim.api.nvim_set_keymap
-
 local function poscmd()
   return vim.fn.getcmdpos(), vim.fn.getcmdline()
 end
@@ -69,22 +67,18 @@ local function call(fn)
   return ([[<C-\>e luaeval("commandline.%s()")<CR>]]):format(fn)
 end
 
-local function remap(left, right)
-  set_keymap("c", left, right, {})
-end
-
-remap("<C-a>", "<Home>")
-remap("<C-b>", "<Left>")
-remap("<C-d>", "<Delete>")
-remap("<C-e>", "<End>")
-remap("<C-f>", "<Right>")
-remap("<C-g>", "<C-c>")
-remap("<C-n>", "<Down>")
-remap("<C-p>", "<Up>")
-remap("<C-k>", call("kill_line"))
-remap("<M-d>", call("delete_word"))
-set_keymap("c", "<M-b>", call("bwd_by_word"), {})
-set_keymap("c", "<M-f>", call("fwd_by_word"), {})
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<C-b>", "<Left>")
+vim.keymap.set("c", "<C-d>", "<Delete>")
+vim.keymap.set("c", "<C-e>", "<End>")
+vim.keymap.set("c", "<C-f>", "<Right>")
+vim.keymap.set("c", "<C-g>", "<C-c>")
+vim.keymap.set("c", "<C-n>", "<Down>")
+vim.keymap.set("c", "<C-p>", "<Up>")
+vim.keymap.set("c", "<C-k>", call("kill_line"))
+vim.keymap.set("c", "<M-d>", call("delete_word"))
+vim.keymap.set("c", "<M-b>", call("bwd_by_word"))
+vim.keymap.set("c", "<M-f>", call("fwd_by_word"))
 
 _G.commandline = {
   kill_line = kill_line,

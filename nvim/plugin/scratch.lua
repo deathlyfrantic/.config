@@ -69,27 +69,11 @@ local function new_buffer(name)
   vim.opt_local.statusline = "[Scratch/" .. name .. "]%=%l,%c%V%6P"
   vim.opt_local.wrap = true
   vim.opt_local.linebreak = true
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "q",
-    "<C-w>q",
-    { noremap = true, silent = true }
-  )
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "R",
-    "lua scratch.read(" .. name .. ")",
-    { noremap = true, silent = true }
-  )
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "<leader>s",
-    "<C-w>p",
-    { noremap = true, silent = true }
-  )
+  vim.keymap.set("n", "q", "<C-w>q", { buffer = true, silent = true })
+  vim.keymap.set("n", "R", function()
+    read(name)
+  end, { buffer = true, silent = true })
+  vim.keymap.set("n", "<leader>s", "<C-w>p", { buffer = true, silent = true })
   api.nvim_create_autocmd("WinLeave", {
     buffer = 0,
     callback = function()
@@ -156,27 +140,15 @@ local function completion()
   return ret
 end
 
-_G.scratch = {
-  read = read,
-  open_buffer = open_buffer,
-  selection = selection,
-}
-
 api.nvim_create_user_command(
   "ScratchBuffer",
   scratch,
   { complete = completion, nargs = "?" }
 )
 
-api.nvim_set_keymap(
-  "n",
-  "<leader>s",
-  "<Cmd>lua scratch.open_buffer(vim.v.count)<CR>",
-  { noremap = true, silent = true }
-)
-api.nvim_set_keymap(
-  "x",
-  "<leader>s",
-  "<Cmd>lua scratch.selection(vim.v.count)<CR>",
-  { noremap = true, silent = true }
-)
+vim.keymap.set("n", "<leader>s", function()
+  open_buffer(vim.v.count)
+end, { silent = true })
+vim.keymap.set("x", "<leader>s", function()
+  selection(vim.v.count)
+end, { silent = true })

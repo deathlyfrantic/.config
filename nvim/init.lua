@@ -207,12 +207,6 @@ api.nvim_create_autocmd("BufReadPost", {
 -- }}}
 
 -- keymaps and commands {{{
-local function noremap(mode, left, right, opts)
-  opts = opts or {}
-  opts.noremap = true
-  api.nvim_set_keymap(mode, left, right, opts)
-end
-
 -- abbreviations
 vim.cmd([[iabbrev shrug! ¯\_(ツ)_/¯]])
 
@@ -255,23 +249,28 @@ api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
 api.nvim_create_user_command("Fit", "silent! execute 'resize' line('$')", {})
 
 -- select last-pasted text
-noremap("n", "gV", "`[v`]")
+vim.keymap.set("n", "gV", "`[v`]")
 
 -- i don't need an escape key
-noremap("i", "jk", "<Esc>")
-noremap("t", "jk", [[<C-\><C-n>]])
+vim.keymap.set("i", "jk", "<Esc>")
+vim.keymap.set("t", "jk", [[<C-\><C-n>]])
 
 -- current directory in command-line
-noremap("c", "%%", [[fnameescape(expand("%:p:h")) .. "/"]], { expr = true })
+vim.keymap.set(
+  "c",
+  "%%",
+  [[fnameescape(expand("%:p:h")) .. "/"]],
+  { expr = true }
+)
 
 -- write then delete buffer; akin to wq
-noremap("c", "wbd", "Wbd")
+vim.keymap.set("c", "wbd", "Wbd")
 api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
 
 -- search bindings
-noremap("n", "*", "*N")
-noremap("n", "#", "#N")
-noremap("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
+vim.keymap.set("n", "*", "*N")
+vim.keymap.set("n", "#", "#N")
+vim.keymap.set("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
 
 -- close all floating windows
 local function close_floating_windows()
@@ -282,27 +281,27 @@ local function close_floating_windows()
   end
 end
 api.nvim_create_user_command("CloseFloatingWindows", close_floating_windows, {})
-noremap("n", "<Esc>", "<Cmd>CloseFloatingWindows<CR>")
+vim.keymap.set("n", "<Esc>", close_floating_windows)
 
 -- resize windows
-noremap("n", "<C-Left>", "<C-W><")
-noremap("n", "<C-Right>", "<C-W>>")
-noremap("n", "<C-Up>", "<C-W>+")
-noremap("n", "<C-Down>", "<C-W>-")
+vim.keymap.set("n", "<C-Left>", "<C-W><")
+vim.keymap.set("n", "<C-Right>", "<C-W>>")
+vim.keymap.set("n", "<C-Up>", "<C-W>+")
+vim.keymap.set("n", "<C-Down>", "<C-W>-")
 
 -- switch windows
-noremap("n", "<C-h>", "<C-W>h")
-noremap("n", "<C-l>", "<C-W>l")
-noremap("n", "<C-k>", "<C-W>k")
-noremap("n", "<C-j>", "<C-W>j")
+vim.keymap.set("n", "<C-h>", "<C-W>h")
+vim.keymap.set("n", "<C-l>", "<C-W>l")
+vim.keymap.set("n", "<C-k>", "<C-W>k")
+vim.keymap.set("n", "<C-j>", "<C-W>j")
 
 -- redraw screen
-noremap("n", "g<C-L>", "<Cmd>mode<CR>")
+vim.keymap.set("n", "g<C-L>", "<Cmd>mode<CR>")
 
 -- open terminal split
-noremap("n", "<C-W><C-t>", "<Cmd>botright vsp +term<CR>:startinsert<CR>")
-noremap("n", "<C-W>T", "<Cmd>botright sp +term<CR>:startinsert<CR>")
-noremap("n", "<C-W>t", "<Cmd>belowright 20sp +term<CR>:startinsert<CR>")
+vim.keymap.set("n", "<C-W><C-t>", "<Cmd>botright vsp +term<CR>:startinsert<CR>")
+vim.keymap.set("n", "<C-W>T", "<Cmd>botright sp +term<CR>:startinsert<CR>")
+vim.keymap.set("n", "<C-W>t", "<Cmd>belowright 20sp +term<CR>:startinsert<CR>")
 
 -- un-dos files with ^M line endings
 api.nvim_create_user_command("Undos", [[e ++ff=unix | %s/\r//g]], {})
@@ -315,31 +314,31 @@ api.nvim_create_user_command(
 )
 
 -- move by visual lines
-noremap("n", "j", "gj")
-noremap("n", "gj", "j")
-noremap("n", "k", "gk")
-noremap("n", "gk", "k")
-noremap("n", "0", "&wrap ? 'g0' : '0'", { expr = true })
-noremap("n", "g0", "&wrap ? '0' : 'g0'", { expr = true })
-noremap("n", "$", "&wrap ? 'g$' : '$'", { expr = true })
-noremap("n", "g$", "&wrap ? '$' : 'g$'", { expr = true })
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "gj", "j")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "gk", "k")
+vim.keymap.set("n", "0", "&wrap ? 'g0' : '0'", { expr = true })
+vim.keymap.set("n", "g0", "&wrap ? '0' : 'g0'", { expr = true })
+vim.keymap.set("n", "$", "&wrap ? 'g$' : '$'", { expr = true })
+vim.keymap.set("n", "g$", "&wrap ? '$' : 'g$'", { expr = true })
 
 -- maintain visual mode for indenting
-noremap("v", "<", "<gv")
-noremap("v", ">", ">gv")
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
 
 -- maintain visual mode for increment/decrement
-noremap("v", "<C-a>", "<C-a>gv")
-noremap("v", "<C-x>", "<C-x>gv")
+vim.keymap.set("v", "<C-a>", "<C-a>gv")
+vim.keymap.set("v", "<C-x>", "<C-x>gv")
 
 -- copy entire buffer to system clipboard
-noremap("n", "<leader>a", ":%yank +<CR>", { silent = true })
+vim.keymap.set("n", "<leader>a", ":%yank +<CR>", { silent = true })
 
 -- insert a single space
-noremap("n", "<leader><Space>", "i<Space><Esc>")
+vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- arrows
-_G.arrow = function(fat)
+local function arrow(fat)
   local before = " "
   if z.char_before_cursor():is_empty() then
     before = ""
@@ -356,13 +355,17 @@ _G.arrow = function(fat)
   end
   return before .. arrow .. after
 end
-api.nvim_set_keymap("i", "<C-j>", "v:lua.arrow(v:false)", { expr = true })
-api.nvim_set_keymap("i", "<C-l>", "v:lua.arrow(v:true)", { expr = true })
+vim.keymap.set("i", "<C-j>", function()
+  return arrow(false)
+end, { expr = true })
+vim.keymap.set("i", "<C-l>", function()
+  return arrow(true)
+end, { expr = true })
 group = api.nvim_create_augroup("init-autocmds-arrows", {})
 api.nvim_create_autocmd("FileType", {
   pattern = "c",
   callback = function()
-    api.nvim_buf_set_keymap(0, "i", "<C-j>", "->", {})
+    vim.keymap.set("i", "<C-j>", "->", { buffer = true })
   end,
   group = group,
 })
@@ -373,15 +376,15 @@ api.nvim_create_autocmd("FileType", {
       if z.char_before_cursor() == "{" then
         return "-> "
       end
-      return _G.arrow(false)
+      return arrow(false)
     end
-    api.nvim_buf_set_keymap(0, "i", "<C-j>", "b:arrow_fn()", { expr = true })
+    vim.keymap.set("i", "<C-j>", "b:arrow_fn()", { buffer = true, expr = true })
   end,
   group = group,
 })
 
 -- quickfix
-_G.quickfix_toggle = function(vertical)
+local function quickfix_toggle(vertical)
   local cr = api.nvim_replace_termcodes("<CR>", true, false, true)
   if
     #vim.tbl_filter(function(b)
@@ -395,35 +398,25 @@ _G.quickfix_toggle = function(vertical)
   end
   return ":botright copen" .. cr
 end
-noremap(
+vim.keymap.set(
   "n",
   "<leader>q",
-  "v:lua.quickfix_toggle()",
+  quickfix_toggle,
   { silent = true, expr = true }
 )
-noremap(
-  "n",
-  "<leader>Q",
-  "v:lua.quickfix_toggle(v:true)",
-  { silent = true, expr = true }
-)
+vim.keymap.set("n", "<leader>Q", function()
+  return quickfix_toggle(true)
+end, { silent = true, expr = true })
 api.nvim_create_autocmd("FileType", {
   pattern = "qf",
   callback = function()
-    api.nvim_buf_set_keymap(
-      0,
+    vim.keymap.set(
       "n",
       "<C-c>",
       ":cclose<CR>",
-      { noremap = true, silent = true }
+      { buffer = true, silent = true }
     )
-    api.nvim_buf_set_keymap(
-      0,
-      "n",
-      "q",
-      ":cclose<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, silent = true })
     vim.opt_local.wrap = false
   end,
   group = api.nvim_create_augroup("init-autocmds-quickfix", {}),

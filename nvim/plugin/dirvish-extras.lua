@@ -31,27 +31,14 @@ local function autocmds()
   vim.wo.number = false
   vim.wo.relativenumber = false
   vim.wo.statusline = "%F"
-  api.nvim_buf_set_keymap(
-    0,
+  vim.keymap.set(
     "n",
     "<C-r>",
     "<Cmd>Dirvish %<CR>",
-    { silent = true, noremap = true }
+    { buffer = true, silent = true }
   )
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "<CR>",
-    [[<Cmd>lua dirvish_extras.open()<CR>]],
-    { silent = true, noremap = true }
-  )
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "q",
-    [[<Cmd>lua dirvish_extras.toggle()<CR>]],
-    { silent = true, noremap = true }
-  )
+  vim.keymap.set("n", "<CR>", open, { buffer = true, silent = true })
+  vim.keymap.set("n", "q", toggle, { buffer = true, silent = true })
   vim.cmd("silent! keeppatterns " .. [[g@\v/\.[^\/]+/?$@d]])
   for _, pat in ipairs(vim.o.wildignore:split(",")) do
     vim.cmd([[silent! keeppatterns g@\v/ ]] .. pat .. "/?$@d")
@@ -63,14 +50,9 @@ api.nvim_create_autocmd("FileType", {
   callback = autocmds,
   group = api.nvim_create_augroup("dirvish-extras", {}),
 })
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   "n",
   "<Plug>(dirvish-toggle)",
-  [[<Cmd>lua dirvish_extras.toggle()<CR>]],
-  { silent = true }
+  toggle,
+  { silent = true, remap = true }
 )
-
-_G.dirvish_extras = {
-  toggle = toggle,
-  open = open,
-}

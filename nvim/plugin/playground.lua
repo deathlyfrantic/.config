@@ -51,13 +51,7 @@ local function new_output_buffer()
     once = true,
     group = api.nvim_create_augroup("playground-buf-delete", {}),
   })
-  api.nvim_buf_set_keymap(
-    0,
-    "n",
-    "q",
-    ":bd!<CR>",
-    { noremap = true, silent = true }
-  )
+  vim.keymap.set("n", "q", ":bd!<CR>", { buffer = true, silent = true })
 end
 
 local function load_or_create_buffer()

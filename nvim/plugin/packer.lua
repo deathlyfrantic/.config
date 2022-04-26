@@ -46,54 +46,30 @@ use({
     require("gitsigns").setup({
       signs = { add = { text = "+" }, change = { text = "~" } },
       on_attach = function(bufnr)
-        local map = function(mode, left, right, opts)
-          opts = opts or {}
-          vim.api.nvim_buf_set_keymap(bufnr, mode, left, right, opts)
-        end
-        map(
+        local gs = require("gitsigns")
+        vim.keymap.set(
           "n",
           "]c",
-          [[&diff ? "]c" : '<Cmd>lua require("gitsigns.actions").next_hunk()<CR>']],
-          { expr = true }
+          [[&diff ? "]c" : '<Cmd>lua require("gitsigns").next_hunk()<CR>']],
+          { buffer = true, expr = true }
         )
-        map(
+        vim.keymap.set(
           "n",
           "[c",
-          [[&diff ? "[c" : '<Cmd>lua require("gitsigns.actions").prev_hunk()<CR>']],
-          { expr = true }
+          [[&diff ? "[c" : '<Cmd>lua require("gitsigns").prev_hunk()<CR>']],
+          { buffer = true, expr = true }
         )
-        map("n", "<leader>hs", '<Cmd>lua require("gitsigns").stage_hunk()<CR>')
-        map(
-          "v",
-          "<leader>hs",
-          '<Cmd>lua require("gitsigns").stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
-        )
-        map(
-          "n",
-          "<leader>hu",
-          '<Cmd>lua require("gitsigns").undo_stage_hunk()<CR>'
-        )
-        map("n", "<leader>hr", '<Cmd>lua require("gitsigns").reset_hunk()<CR>')
-        map(
-          "n",
-          "<leader>hb",
-          '<Cmd>lua require("gitsigns").blame_line(true)<CR>'
-        )
-        map(
-          "n",
-          "<leader>hp",
-          '<Cmd>lua require("gitsigns").preview_hunk()<CR>'
-        )
-        map(
-          "o",
-          "ig",
-          ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>'
-        )
-        map(
-          "x",
-          "ig",
-          ':<C-u>lua require("gitsigns.actions").select_hunk()<CR>'
-        )
+        vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = true })
+        vim.keymap.set("v", "<leader>hs", function()
+          gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+        end, { buffer = true })
+        vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, { buffer = true })
+        vim.keymap.set("n", "<leader>hr", gs.reset_hunk, { buffer = true })
+        vim.keymap.set("n", "<leader>hb", function()
+          gs.blame_line({ full = true })
+        end, { buffer = true })
+        vim.keymap.set("n", "<leader>hp", gs.preview_hunk, { buffer = true })
+        vim.keymap.set({ "o", "x" }, "ig", gs.select_hunk, { buffer = true })
       end,
       preview_config = { border = "solid" },
       status_formatter = function(status)
@@ -135,19 +111,9 @@ use({
 use({
   "dense-analysis/ale",
   config = function()
-    vim.api.nvim_set_keymap(
-      "n",
-      "[a",
-      "<Cmd>ALEPreviousWrap<CR>",
-      { noremap = true, silent = true }
-    )
-    vim.api.nvim_set_keymap(
-      "n",
-      "]a",
-      "<Cmd>ALENextWrap<CR>",
-      { noremap = true, silent = true }
-    )
-    vim.api.nvim_set_keymap("n", "Q", "<Cmd>ALEDetail<CR>", { noremap = true })
+    vim.keymap.set("n", "[a", "<Cmd>ALEPreviousWrap<CR>", { silent = true })
+    vim.keymap.set("n", "]a", "<Cmd>ALENextWrap<CR>", { silent = true })
+    vim.keymap.set("n", "Q", "<Cmd>ALEDetail<CR>", { silent = true })
     local group = vim.api.nvim_create_augroup("packer-ale-config", {})
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview",
@@ -169,20 +135,23 @@ use({
       pattern = { "rust", "typescript" },
       callback = function()
         vim.bo.omnifunc = "ale#completion#OmniFunc"
-        vim.api.nvim_buf_set_keymap(
-          0,
+        vim.keymap.set(
           "n",
           "gd",
           "<Plug>(ale_go_to_definition)",
-          {}
+          { buffer = true, remap = true }
         )
-        vim.api.nvim_buf_set_keymap(0, "n", "K", "<Plug>(ale_hover)", {})
-        vim.api.nvim_buf_set_keymap(
-          0,
+        vim.keymap.set(
+          "n",
+          "K",
+          "<Plug>(ale_hover)",
+          { buffer = true, remap = true }
+        )
+        vim.keymap.set(
           "n",
           "<C-w>i",
           "<Plug>(ale_go_to_definition_in_split)",
-          {}
+          { buffer = true, remap = true }
         )
       end,
       group = group,
@@ -262,7 +231,7 @@ use({
   "justinmk/vim-dirvish",
   config = function()
     vim.g.dirvish_mode = ":sort ,^.*[/],"
-    vim.api.nvim_set_keymap("n", "-", "<Plug>(dirvish-toggle)", {})
+    vim.keymap.set("n", "-", "<Plug>(dirvish-toggle)", { remap = true })
   end,
 })
 
@@ -274,12 +243,7 @@ use({
     vim.g.undotree_SetFocusWhenToggle = 1
   end,
   setup = function()
-    vim.api.nvim_set_keymap(
-      "n",
-      "<C-q>",
-      "<Cmd>UndotreeToggle<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<C-q>", "<Cmd>UndotreeToggle<CR>", { silent = true })
   end,
 })
 
@@ -291,12 +255,7 @@ use({
     vim.g.tagbar_iconchars = { "+", "-" }
   end,
   setup = function()
-    vim.api.nvim_set_keymap(
-      "n",
-      "<C-t>",
-      "<Cmd>TagbarToggle<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<C-t>", "<Cmd>TagbarToggle<CR>", { silent = true })
   end,
 })
 
@@ -309,7 +268,7 @@ use({
     local keys = "1234567890qwertyuiop"
     vim.g.buftabline_plug_max = #keys
     for i, k in keys:chars() do
-      vim.api.nvim_set_keymap(
+      vim.keymap.set(
         "n",
         "<M-" .. k .. ">",
         "<Plug>BufTabLine.Go(" .. i .. ")",
@@ -323,12 +282,9 @@ use({
   "wellle/tmux-complete.vim",
   config = function()
     vim.g["tmuxcomplete#trigger"] = ""
-    vim.api.nvim_set_keymap(
-      "i",
-      "<C-x><C-t>",
-      "<Cmd>call v:lua.completion.wrap('tmuxcomplete#complete')<CR>",
-      { noremap = true }
-    )
+    vim.keymap.set("i", "<C-x><C-t>", function()
+      _G.completion.wrap("tmuxcomplete#complete")
+    end)
   end,
 })
 
@@ -337,24 +293,13 @@ use({
   config = function()
     local snippets = require("snippets")
     snippets.set_ux(require("snippets.inserters.text_markers"))
-    vim.api.nvim_set_keymap(
-      "i",
-      "<C-]>",
-      [[<Cmd>lua require("snippets").expand_at_cursor()<CR>]],
-      { noremap = true }
-    )
-    vim.api.nvim_set_keymap(
-      "i",
-      "<C-f>",
-      [[<Cmd>lua require("snippets").advance_snippet(1)<CR>]],
-      { noremap = true }
-    )
-    vim.api.nvim_set_keymap(
-      "i",
-      "<C-b>",
-      [[<Cmd>lua require("snippets").advance_snippet(-1)<CR>]],
-      { noremap = true }
-    )
+    vim.keymap.set("i", "<C-]>", snippets.expand_at_cursor)
+    vim.keymap.set("i", "<C-f>", function()
+      snippets.advance_snippet(1)
+    end)
+    vim.keymap.set("i", "<C-b>", function()
+      snippets.advance_snippet(-1)
+    end)
     snippets.snippets = require("my_snippets")
   end,
 })
@@ -387,7 +332,7 @@ use({
 use({
   "tpope/vim-eunuch",
   config = function()
-    vim.api.nvim_set_keymap("c", "w!!", "SudoWrite", { noremap = true })
+    vim.keymap.set("c", "w!!", "SudoWrite")
   end,
 })
 
@@ -396,30 +341,10 @@ use("tpope/vim-commentary")
 use({
   "tpope/vim-fugitive",
   config = function()
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>gs",
-      "<Cmd>Git<CR>",
-      { noremap = true, silent = true }
-    )
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>gc",
-      "<Cmd>Git commit<CR>",
-      { noremap = true, silent = true }
-    )
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>gw",
-      "<Cmd>Gwrite<CR>",
-      { noremap = true, silent = true }
-    )
-    vim.api.nvim_set_keymap(
-      "",
-      "<leader>gb",
-      ":GBrowse!<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<leader>gs", "<Cmd>Git<CR>", { silent = true })
+    vim.keymap.set("n", "<leader>gc", "<Cmd>Git commit<CR>", { silent = true })
+    vim.keymap.set("n", "<leader>gw", "<Cmd>Gwrite<CR>", { silent = true })
+    vim.keymap.set("", "<leader>gb", ":GBrowse!<CR>", { silent = true })
   end,
 })
 use("tommcdo/vim-fubitive")
