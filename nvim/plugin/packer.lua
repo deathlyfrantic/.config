@@ -357,11 +357,14 @@ if need_to_compile then
 end
 
 local script_name = debug.getinfo(1, "S").short_src
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = script_name,
-  callback = function()
-    vim.cmd("luafile " .. script_name)
-    packer.compile()
-  end,
-  group = vim.api.nvim_create_augroup("packer-config-reload", {}),
-})
+if not _G.have_set_packer_compile_autocmd then
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = script_name,
+    callback = function()
+      vim.cmd("luafile " .. script_name)
+      packer.compile()
+    end,
+    group = vim.api.nvim_create_augroup("packer-config-reload", {}),
+  })
+  _G.have_set_packer_compile_autocmd = true
+end
