@@ -7,9 +7,9 @@ function set-up-prompt {
     local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
     local base="$cwd$jobs$char%{$reset_color%} "
 
-    if [[ $SSH_CONNECTION != '' ]]; then
+    if [[ $SSH_TTY != "" ]]; then
         PROMPT=$user$at$host$(prompt-separator)$base
-    elif [[ $USER != 'zandr' ]]; then
+    elif [[ $USER != "zandr" ]]; then
         PROMPT=$user$(prompt-separator)$base
     else
         PROMPT=$base
