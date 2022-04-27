@@ -3,14 +3,7 @@ local api = vim.api
 local search_url = "https://duckduckgo.com/?q=%s"
 
 local function browser(url)
-  local open = "xdg-open"
-  local args = {}
-  if vim.fn.has("mac") == 1 then
-    open = "open"
-    table.insert(args, "-g")
-  end
-  table.insert(args, url)
-  vim.loop.spawn(open, { args = args })
+  vim.loop.spawn("open", { args = { "-g", url } })
 end
 
 local function search(url)
