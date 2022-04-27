@@ -38,11 +38,7 @@ function zshaddhistory {
 }
 
 function timer {
-    if [[ $1 == "" ]]; then
-        local secs=60
-    else
-        local secs=$1
-    fi
+    local secs=${1:-60}
     local pf=" %$(($COLUMNS / 2))s\e[0K\r"
     printf "\n"
     for i in $(seq $secs 1); do
