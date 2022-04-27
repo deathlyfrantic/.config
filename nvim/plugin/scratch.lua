@@ -126,7 +126,7 @@ local function scratch(args)
   open_buffer(name)
 end
 
-local function completion()
+local function completion(arglead)
   local ret = {}
   local handle = vim.loop.fs_scandir(vim.fn.stdpath("data"))
   local name, kind = vim.loop.fs_scandir_next(handle)
@@ -137,7 +137,9 @@ local function completion()
     end
     name, kind = vim.loop.fs_scandir_next(handle)
   end
-  return ret
+  return vim.tbl_filter(function(s)
+    return vim.startswith(s, arglead)
+  end, ret)
 end
 
 api.nvim_create_user_command(
