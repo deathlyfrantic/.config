@@ -179,8 +179,10 @@ local function playground(args)
   open_buffer(ground)
 end
 
-local function completion()
-  return vim.tbl_keys(grounds)
+local function completion(arglead)
+  return vim.tbl_filter(function(g)
+    return vim.startswith(g, arglead)
+  end, vim.tbl_keys(grounds))
 end
 
 api.nvim_create_user_command(

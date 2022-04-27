@@ -60,7 +60,7 @@ local function bdelete(args)
   end
 end
 
-local function completion()
+local function completion(arglead)
   local bufs = vim.tbl_map(
     function(b)
       return api.nvim_buf_get_name(b)
@@ -71,7 +71,17 @@ local function completion()
   )
   table.insert(bufs, "man")
   table.insert(bufs, "terminal")
-  return bufs
+  -- try to match against starting with arglead first
+  local start_with = vim.tbl_filter(function(b)
+    return vim.startswith(b, arglead)
+  end, bufs)
+  if #start_with > 0 then
+    return start_with
+  end
+  -- if that doesn't work, return anything that contains the arglead
+  return vim.tbl_filter(function(b)
+    return b:match(arglead)
+  end, bufs)
 end
 
 api.nvim_create_user_command(
