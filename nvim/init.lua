@@ -256,12 +256,9 @@ vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("t", "jk", [[<C-\><C-n>]])
 
 -- current directory in command-line
-vim.keymap.set(
-  "c",
-  "%%",
-  [[fnameescape(expand("%:p:h")) .. "/"]],
-  { expr = true }
-)
+vim.keymap.set("c", "%%", function()
+  return vim.fn.expand("%:p:h") .. "/"
+end, { expr = true })
 
 -- write then delete buffer; akin to wq
 vim.keymap.set("c", "wbd", "Wbd")
