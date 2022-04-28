@@ -447,22 +447,13 @@ local function source_local_vimrc(file, buf, force)
     vim.cmd("silent! source " .. vimrc)
   end
 end
-group = api.nvim_create_augroup("init-autocmds-local-vimrc", {})
-api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
   pattern = "*",
   callback = function(args)
-    source_local_vimrc(args.file, args.buf, false)
+    source_local_vimrc(args.file, args.buf, args.event == "VimEnter")
   end,
   nested = true,
-  group = group,
-})
-api.nvim_create_autocmd("VimEnter", {
-  pattern = "*",
-  callback = function(args)
-    source_local_vimrc(args.file, args.buf, true)
-  end,
-  nested = true,
-  group = group,
+  group = api.nvim_create_augroup("init-autocmds-local-vimrc", {}),
 })
 
 -- make directories if they don't exist before writing file
