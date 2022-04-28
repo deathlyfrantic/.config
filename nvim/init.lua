@@ -369,13 +369,12 @@ api.nvim_create_autocmd("FileType", {
 api.nvim_create_autocmd("FileType", {
   pattern = "vim",
   callback = function()
-    vim.b.arrow_fn = function()
+    vim.keymap.set("i", "<C-j>", function()
       if z.char_before_cursor() == "{" then
         return "-> "
       end
       return arrow(false)
-    end
-    vim.keymap.set("i", "<C-j>", "b:arrow_fn()", { buffer = true, expr = true })
+    end, { buffer = true, expr = true })
   end,
   group = group,
 })
