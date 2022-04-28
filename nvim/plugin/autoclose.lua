@@ -1,8 +1,6 @@
 local api = vim.api
 local z = require("z")
 
-local key_cr = api.nvim_replace_termcodes("<Enter>", true, false, true)
-local key_ctrl_o = api.nvim_replace_termcodes("<C-o>", true, false, true)
 local pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
 local closers = { [")"] = "(", ["]"] = "[", ["}"] = "{" }
 -- we only look at these patterns if the line ends in an opening pair so we
@@ -93,7 +91,7 @@ local function enter()
   then
     -- don't do anything if cursor is not at the end of a line,
     -- or if the (trimmed) line doesn't end with a left pair item
-    return key_cr
+    return "<CR>"
   end
   local stack = {}
   for i, c in state.line:chars() do
@@ -110,15 +108,14 @@ local function enter()
     slash = "\\ "
   end
   if #stack > 0 and should_close(state, stack) then
-    return key_cr
+    return "<CR>"
       .. slash
       .. table.concat(stack, ""):reverse()
       .. semi(state)
-      .. key_ctrl_o
-      .. "O"
+      .. "<C-o>O"
       .. slash
   end
-  return key_cr
+  return "<CR>"
 end
 
 vim.keymap.set("i", "<Plug>autocloseCR", enter, { expr = true })
