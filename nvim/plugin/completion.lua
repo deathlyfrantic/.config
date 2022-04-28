@@ -12,18 +12,15 @@ local function findstart()
 end
 
 local function tab(fwd)
-  local key_ctrln = api.nvim_replace_termcodes("<C-n>", true, false, true)
-  local key_ctrlp = api.nvim_replace_termcodes("<C-p>", true, false, true)
-  local key_tab = api.nvim_replace_termcodes("<Tab>", true, false, true)
   if vim.fn.pumvisible() > 0 then
     if fwd then
-      return key_ctrln
+      return "<C-n>"
     end
-    return key_ctrlp
+    return "<C-p>"
   elseif z.char_before_cursor():match("[A-Za-z0-9_]") then
-    return key_ctrlp
+    return "<C-p>"
   end
-  return key_tab
+  return "<Tab>"
 end
 
 local function undouble()

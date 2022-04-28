@@ -346,7 +346,7 @@ local function arrow(fat)
   end
   local line = api.nvim_get_current_line()
   local col = api.nvim_win_get_cursor(0)[2]
-  local after = api.nvim_replace_termcodes("<Right>", true, false, true)
+  local after = "<Right>"
   if #line <= col or not line:sub(col + 1, col + 1):is_empty() then
     after = " "
   end
@@ -382,18 +382,17 @@ api.nvim_create_autocmd("FileType", {
 
 -- quickfix
 local function quickfix_toggle(vertical)
-  local cr = api.nvim_replace_termcodes("<CR>", true, false, true)
   if
     #vim.tbl_filter(function(b)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
     end, api.nvim_list_bufs()) > 0
   then
-    return ":cclose" .. cr
+    return ":cclose<CR>"
   end
   if vertical then
-    return ":topleft vertical copen " .. math.floor(vim.o.columns / 3) .. cr
+    return ":topleft vertical copen " .. math.floor(vim.o.columns / 3) .. "<CR>"
   end
-  return ":botright copen" .. cr
+  return ":botright copen<CR>"
 end
 vim.keymap.set(
   "n",
