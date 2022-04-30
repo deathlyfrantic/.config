@@ -1,5 +1,3 @@
--- luacheck: ignore 142
-
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
   return vim.fn.trim(self)
