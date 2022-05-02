@@ -22,7 +22,7 @@ local add_tmux_key = function(key, mods, tmux_key, tmux_mods)
     keys,
     { key = key, mods = mods, action = "DisableDefaultAssignment" }
   )
-  action = {
+  local action = {
     Multiple = {
       { SendKey = { key = "F12" } },
       { SendKey = { key = tmux_key } },
