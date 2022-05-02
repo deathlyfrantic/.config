@@ -1,0 +1,11 @@
+[selene]
+base = "lua51"
+name = "vim"
+
+[vim]
+any = true
+
+[[package.searchpath.args]]
+type = "string"
+[[package.searchpath.args]]
+type = "string"
