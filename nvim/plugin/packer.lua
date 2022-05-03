@@ -292,7 +292,6 @@ use({
   "norcalli/snippets.nvim",
   config = function()
     local snippets = require("snippets")
-    snippets.set_ux(require("snippets.inserters.text_markers"))
     vim.keymap.set("i", "<C-]>", snippets.expand_at_cursor)
     vim.keymap.set("i", "<C-f>", function()
       snippets.advance_snippet(1)
