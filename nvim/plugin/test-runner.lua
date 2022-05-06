@@ -226,6 +226,9 @@ local function on_exit(...)
   end
 end
 
+-- function body declared below - this is a hack to avoid circular dependencies
+local rerun
+
 local function load_or_create_buffer()
   if test_buffer ~= nil and api.nvim_buf_is_valid(test_buffer) then
     api.nvim_set_current_buf(test_buffer)
@@ -276,7 +279,7 @@ local function run_tests(cmd, close)
   scroll_to_end()
 end
 
-local function rerun()
+rerun = function()
   vim.bo[test_buffer].modified = false
   vim.bo[test_buffer].modifiable = true
   local close = vim.b.close
