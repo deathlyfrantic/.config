@@ -218,7 +218,7 @@ local function on_exit(...)
     api.nvim_echo({
       {
         "Tests pass. (Test runner exit code was 0.)",
-        "GitGutterAdd",
+        "GitSignsAdd",
       },
     }, false, {})
   else
