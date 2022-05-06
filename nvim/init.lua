@@ -189,7 +189,7 @@ api.nvim_create_autocmd("BufWritePost", {
   group = group,
 })
 api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.env.VIMHOME .. "/colors/*.vim",
+  pattern = vim.env.VIMHOME .. "/colors/*.lua",
   callback = function(args)
     vim.cmd("colorscheme " .. vim.fn.fnamemodify(args.file, ":t:r"))
   end,
