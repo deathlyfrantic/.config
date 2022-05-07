@@ -7,5 +7,7 @@ any = true
 
 [[package.searchpath.args]]
 type = "string"
+required = true
 [[package.searchpath.args]]
 type = "string"
+required = true
