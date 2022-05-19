@@ -58,7 +58,6 @@ local function set_links()
     ALEWarningSign = "GitSignsChange",
     ALEErrorSign = "GitSignsChange",
     ALEInfoSign = "GitSignsChangeLine",
-    TermCursor = "Cursor",
     CursorColumn = "CursorLine",
     ColorColumn = "CursorLine",
     PmenuSel = "WildMenu",
