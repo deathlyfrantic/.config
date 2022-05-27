@@ -1,5 +1,4 @@
 alias sass='sassc'
-alias tmux='tmux -f "$XDG_CONFIG_HOME"/tmux/config'
 alias ls='ls -G'
 alias ll='ls -lhG'
 alias vim='nvim'
