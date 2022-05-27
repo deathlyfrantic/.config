@@ -321,12 +321,7 @@ use("tpope/vim-scriptease")
 use("tpope/vim-sleuth")
 use("tpope/vim-speeddating")
 use("tpope/vim-surround")
-use({
-  "tpope/vim-unimpaired",
-  config = function()
-    vim.g.nremap = { ["[a"] = "", ["]a"] = "" }
-  end,
-})
+use("tpope/vim-unimpaired")
 
 use({
   "tpope/vim-eunuch",
