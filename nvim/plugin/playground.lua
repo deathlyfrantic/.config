@@ -128,7 +128,7 @@ local function open_buffer(ground)
   vim.cmd("edit " .. filename)
   local cmd = string.format(ground.command, vim.fn.getreg("%"))
   local bufnr = api.nvim_get_current_buf()
-  local group = api.nvim_create_augroup("playground-bufnr-" .. bufnr({}))
+  local group = api.nvim_create_augroup("playground-bufnr-" .. bufnr, {})
   api.nvim_create_autocmd("BufWritePost", {
     buffer = bufnr,
     callback = function()
