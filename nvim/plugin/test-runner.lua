@@ -163,6 +163,9 @@ end
 
 local function javascript_jest(selection)
   local cmd = npm_or_yarn() .. " test"
+  if vim.startswith(cmd, "npm") then
+    cmd = cmd .. " --"
+  end
   if selection == "nearest" then
     return cmd .. " -t " .. vim.fn.shellescape(find_nearest_javascript_test())
   elseif selection == "file" then
