@@ -347,7 +347,7 @@ local setup = {
 for _, x in ipairs(setup) do
   local key, cmd, param = x.key, x.cmd, x.param
   api.nvim_create_user_command(cmd, function(args)
-    test(param, args.bang)
+    test(param, not args.bang)
   end, { bang = true })
   vim.keymap.set(
     "n",
