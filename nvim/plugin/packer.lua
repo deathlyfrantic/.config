@@ -322,14 +322,7 @@ use("tpope/vim-sleuth")
 use("tpope/vim-speeddating")
 use("tpope/vim-surround")
 use("tpope/vim-unimpaired")
-
-use({
-  "tpope/vim-eunuch",
-  config = function()
-    vim.keymap.set("c", "w!!", "SudoWrite")
-  end,
-})
-
+use("tpope/vim-eunuch")
 use("tpope/vim-commentary")
 
 use({
