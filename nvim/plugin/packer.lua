@@ -299,7 +299,7 @@ use({
     vim.keymap.set("i", "<C-b>", function()
       snippets.advance_snippet(-1)
     end)
-    snippets.snippets = require("my_snippets")
+    snippets.snippets = require("my-snippets")
   end,
 })
 
