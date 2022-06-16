@@ -61,7 +61,7 @@ local function find_nearest_rust_test_from_treesitter()
       row2 = row2 + 1
       -- if the cursor is in the test it's easy
       if row1 <= cursor_row and row2 >= cursor_row then
-        return ts_utils.get_node_text(node:field("name")[1], 0)[1]
+        return vim.treesitter.query.get_node_text(node:field("name")[1], 0)
       end
       -- cursor not in this test, so check if it's near the cursor.
       -- we're iterating in order so keep setting the closest to the current
@@ -73,7 +73,7 @@ local function find_nearest_rust_test_from_treesitter()
       end
     end
   end
-  return ts_utils.get_node_text(closest:field("name")[1], 0)[1]
+  return vim.treesitter.query.get_node_text(closest:field("name")[1], 0)
 end
 
 local function rust(selection)
@@ -111,14 +111,14 @@ local function find_nearest_javascript_test_from_treesitter()
   while node do
     if node:type() == "call_expression" then
       local fn = node:field("function")[1]
-      local fname = ts_utils.get_node_text(fn, 0)[1]
+      local fname = vim.treesitter.query.get_node_text(fn, 0)
       if vim.tbl_contains({ "it", "describe", "test" }, fname) then
         local args = node:field("arguments")[1]
         local first_arg = args:child(1)
         if first_arg:type() == "string" then
           local text = first_arg:child(1)
           if text:type() == "string_fragment" then
-            return ts_utils.get_node_text(text, 0)[1]
+            return vim.treesitter.query.get_node_text(text, 0)
           end
         end
       end
