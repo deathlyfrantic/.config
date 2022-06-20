@@ -27,12 +27,12 @@ local function adjust_foa_for_headers()
   end
 end
 
-local group = api.nvim_create_augroup("mail-ftplugin", {})
-api.nvim_create_autocmd(
+local group = vim.api.nvim_create_augroup("mail-ftplugin", {})
+vim.api.nvim_create_autocmd(
   "InsertLeave",
   { buffer = 0, callback = update_header_end, group = group }
 )
-api.nvim_create_autocmd(
+vim.api.nvim_create_autocmd(
   "CursorMoved",
   { buffer = 0, callback = adjust_foa_for_headers, group = group }
 )
