@@ -87,7 +87,6 @@ vim.filetype.add({
   },
   filename = {
     [".clang-format"] = "yaml",
-    [".luacheckrc"] = "lua",
   },
 })
 -- }}}
