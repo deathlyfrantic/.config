@@ -340,9 +340,9 @@ local function arrow(fat)
   if z.char_before_cursor():is_empty() then
     before = ""
   end
-  local arrow = "->"
+  local ret = "->"
   if fat then
-    arrow = "=>"
+    ret = "=>"
   end
   local line = api.nvim_get_current_line()
   local col = api.nvim_win_get_cursor(0)[2]
@@ -350,7 +350,7 @@ local function arrow(fat)
   if #line <= col or not line:sub(col + 1, col + 1):is_empty() then
     after = " "
   end
-  return before .. arrow .. after
+  return before .. ret .. after
 end
 vim.keymap.set("i", "<C-j>", function()
   return arrow(false)
