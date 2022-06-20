@@ -8,8 +8,8 @@ local function docstring_highlight()
   vim.cmd("highlight default link pythonDocstring pythonComment")
 end
 
-api.nvim_create_autocmd("Syntax", {
+vim.api.nvim_create_autocmd("Syntax", {
   buffer = 0,
   callback = docstring_highlight,
-  group = api.nvim_create_augroup("python-ftplugin", {}),
+  group = vim.api.nvim_create_augroup("python-ftplugin", {}),
 })
