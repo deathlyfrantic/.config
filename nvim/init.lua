@@ -423,8 +423,10 @@ local function source_local_vimrc(file, buf, force)
   if
     not force
     and (
-      is_fugitive
-      or vim.tbl_contains({ "help", "nofile" }, vim.bo[abuf].buftype)
+      is_fugitive or vim.tbl_contains(
+        { "help", "nofile" },
+        vim.bo[abuf].buftype
+      )
     )
   then
     return
