@@ -82,10 +82,8 @@ local function rust(selection)
   end
   -- change to source dir in case file is in a subproject, but strip off the
   -- trailing "src" component e.g. /code/project/src/main.rs -> /code/project
-  local cmd = string.format(
-    "(cd %s && cargo test)",
-    vim.fn.expand("%:p:h:h", true)
-  )
+  local cmd =
+    string.format("(cd %s && cargo test)", vim.fn.expand("%:p:h:h", true))
   if selection == "nearest" then
     local mod_tests_line = vim.fn.search("^mod tests {$", "n")
     if mod_tests_line == 0 then
