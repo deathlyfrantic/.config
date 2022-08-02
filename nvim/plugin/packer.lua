@@ -232,6 +232,18 @@ use({
   config = function()
     vim.g.dirvish_mode = ":sort ,^.*[/],"
     vim.keymap.set("n", "-", "<Plug>(dirvish-toggle)", { remap = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "dirvish",
+      callback = function()
+        vim.keymap.set(
+          "n",
+          "-",
+          "<Plug>(dirvish_up)",
+          { buffer = true, remap = true }
+        )
+      end,
+      group = vim.api.nvim_create_augroup("packer-dirvish-config", {}),
+    })
   end,
 })
 
