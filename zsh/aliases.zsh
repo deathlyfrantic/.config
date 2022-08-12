@@ -19,7 +19,7 @@ function mkcd { mkdir -p $1 && cd $1 } # this is alias-like
 alias diffstat='diffstat -C'
 alias diff='diff --color=auto'
 alias mpv='open -na /Applications/mpv.app'
-alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | star -s'
+alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | sort | uniq | star -s'
 alias redo='eval `hs`'
 alias pgrep='pgrep -i'
 alias alacritty='open -nF /Applications/Alacritty.app --args'
