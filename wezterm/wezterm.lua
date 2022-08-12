@@ -91,6 +91,12 @@ for _, location in ipairs(shell_locations) do
   end
 end
 
+-- maximize window on startup
+wezterm.on("gui-startup", function(cmd)
+  local _, _, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
+
 return {
   audible_bell = "Disabled",
   color_scheme = "Builtin Tango Dark",
