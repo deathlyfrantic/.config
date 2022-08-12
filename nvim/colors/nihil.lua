@@ -31,6 +31,7 @@ if vim.o.background == "dark" then
     Comment = { ctermfg = 238 },
     String = { ctermfg = 244 },
     GitSignsChange = { ctermfg = 184 },
+    BufTabLineActive = { ctermfg = 231, ctermbg = 245 },
   })
 else
   colors = vim.tbl_extend("force", colors, {
@@ -45,6 +46,7 @@ else
     Comment = { ctermfg = 246 },
     String = { ctermfg = 239 },
     GitSignsChange = { ctermfg = 226 },
+    BufTabLineActive = { ctermfg = 231, ctermbg = 235 },
   })
 end
 
