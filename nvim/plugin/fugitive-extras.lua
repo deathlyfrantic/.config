@@ -49,7 +49,7 @@ local function truncate_message(msg)
 end
 
 local function get_commit_from_line()
-  return api.nvim_get_current_line():match("^[0-9A-Fa-f]+")
+  return api.nvim_get_current_line():match("^%^?([0-9A-Fa-f]+)")
 end
 
 local function show_log_message()
