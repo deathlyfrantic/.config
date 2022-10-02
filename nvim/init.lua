@@ -13,10 +13,6 @@ if vim.fn.has("vim_starting") == 1 then
 
   -- make sure my string extras are loaded and always available
   require("string_extras")
-
-  -- use filetype.lua to detect filetypes
-  vim.g.do_filetype_lua = 1
-  vim.g.did_load_filetypes = 0
 end
 -- }}}
 
@@ -29,7 +25,7 @@ vim.opt.fillchars = "fold:-"
 vim.opt.fileformats = { "unix", "dos", "mac" }
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = "indent"
-vim.opt.formatoptions:append("n"):append("r"):append("o"):append("l")
+vim.opt.formatoptions = vim.opt.formatoptions + "n" + "r" + "o" + "l"
 vim.opt.gdefault = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = "split"
@@ -44,6 +40,7 @@ vim.opt.listchars = {
 }
 vim.opt.matchpairs:append("<:>")
 vim.opt.modeline = false
+vim.opt.mouse = ""
 vim.opt.startofline = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
@@ -63,20 +60,18 @@ vim.opt.title = true
 vim.opt.titlestring =
   [[nvim %{has_key(b:,'term_title')?b:term_title:len(expand('%'))>0?expand('%:t'):'[No name]'}]]
 vim.opt.undofile = true
-vim
-  .opt
-  .wildignore
-  :append("node_modules/") -- javascript
-  :append("package-lock.json")
-  :append("*.min.js")
-  :append("yarn.lock")
-  :append("Cargo.lock") -- rust
-  :append("*/target/*")
-  :append(".git") -- git
-  :append(".gitmodules")
-  :append("*.swp") -- vim
-  :append("packer_compiled.lua")
-  :append(".DS_Store") -- macos
+vim.opt.wildignore = vim.opt.wildignore
+  + "node_modules/" -- javascript
+  + "package-lock.json"
+  + "*.min.js"
+  + "yarn.lock"
+  + "Cargo.lock" -- rust
+  + "*/target/*"
+  + ".git" -- git
+  + ".gitmodules"
+  + "*.swp" -- vim
+  + "packer_compiled.lua"
+  + ".DS_Store" --macos
 vim.opt.wildignorecase = true
 -- }}}
 

@@ -61,7 +61,7 @@ local function new_buffer(name)
   vim.opt_local.buflisted = false
   vim.opt_local.bufhidden = "hide"
   vim.opt_local.buftype = "nofile"
-  vim.opt_local.formatoptions:remove("o"):remove("r")
+  vim.opt_local.formatoptions = vim.opt_local.formatoptions - "o" - "r"
   vim.opt_local.swapfile = false
   vim.opt_local.textwidth = 0
   vim.opt_local.winfixheight = true

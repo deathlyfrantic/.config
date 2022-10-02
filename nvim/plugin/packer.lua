@@ -47,18 +47,18 @@ use({
       signs = { add = { text = "+" }, change = { text = "~" } },
       on_attach = function()
         local gs = require("gitsigns")
-        vim.keymap.set(
-          "n",
-          "]c",
-          [[&diff ? "]c" : '<Cmd>lua require("gitsigns").next_hunk()<CR>']],
-          { buffer = true, expr = true }
-        )
-        vim.keymap.set(
-          "n",
-          "[c",
-          [[&diff ? "[c" : '<Cmd>lua require("gitsigns").prev_hunk()<CR>']],
-          { buffer = true, expr = true }
-        )
+        vim.keymap.set("n", "]c", function()
+          if vim.o.diff then
+            vim.api.nvim_input("]c")
+          end
+          gs.next_hunk()
+        end, { buffer = true })
+        vim.keymap.set("n", "[c", function()
+          if vim.o.diff then
+            vim.api.nvim_input("[c")
+          end
+          gs.prev_hunk()
+        end, { buffer = true })
         vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = true })
         vim.keymap.set("v", "<leader>hs", function()
           gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
