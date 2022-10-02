@@ -61,7 +61,7 @@ use({
         end, { buffer = true })
         vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = true })
         vim.keymap.set("v", "<leader>hs", function()
-          gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+          gs.stage_hunk({ vim.api.nvim_win_get_cursor(0)[1], vim.fn.line("v") })
         end, { buffer = true })
         vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, { buffer = true })
         vim.keymap.set("n", "<leader>hr", gs.reset_hunk, { buffer = true })

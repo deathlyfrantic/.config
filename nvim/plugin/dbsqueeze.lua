@@ -74,7 +74,7 @@ local function on_load(max)
   if second_to_last_line == nil or second_to_last_line ~= "" then
     return
   end
-  if vim.fn.line("$") <= max then
+  if api.nvim_buf_line_count(0) <= max then
     squeeze()
   end
 end

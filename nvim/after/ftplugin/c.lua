@@ -1,3 +1,5 @@
+local api = vim.api
+
 vim.opt_local.cinoptions:append({ "l1" })
 vim.opt_local.commentstring = "//%s"
 
@@ -28,8 +30,8 @@ end
 
 if
   vim.fn.expand("%:e") == "h"
-  and vim.fn.line("$") > 0
-  and vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
+  and api.nvim_buf_line_count(0) > 0
+  and api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
   local guard = string.format(
     "%s_%s",
@@ -44,6 +46,6 @@ then
     "",
     "#endif /* end of include guard: " .. guard .. "*/",
   }
-  vim.api.nvim_buf_set_lines(0, 0, 1, true, new_lines)
-  vim.api.nvim_win_set_cursor(0, { 4, 1 })
+  api.nvim_buf_set_lines(0, 0, 1, true, new_lines)
+  api.nvim_win_set_cursor(0, { 4, 1 })
 end
