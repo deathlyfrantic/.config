@@ -50,8 +50,8 @@ vim.opt.shiftwidth = 4
 vim.opt.shortmess:remove("F")
 vim.opt.smartcase = true
 vim.opt.spellfile = {
-  vim.fn.expand("$VIMHOME/spell/custom.utf-8.add"),
-  vim.fn.expand("$VIMHOME/spell/local.utf-8.add"),
+  vim.fs.normalize("$VIMHOME/spell/custom.utf-8.add"),
+  vim.fs.normalize("$VIMHOME/spell/local.utf-8.add"),
 }
 vim.opt.softtabstop = 4
 vim.opt.tags:prepend("./.git/tags;")
@@ -127,7 +127,7 @@ api.nvim_create_autocmd("BufReadPost", {
   callback = function()
     local mark = api.nvim_buf_get_mark(0, '"')
     if
-      not vim.fn.expand("%"):match("COMMIT_EDITMSG")
+      not api.nvim_buf_get_name(0):match("COMMIT_EDITMSG")
       and mark[1] > 1
       and mark[1] <= api.nvim_buf_line_count(0)
     then
@@ -251,7 +251,7 @@ vim.keymap.set("t", "jk", [[<C-\><C-n>]])
 
 -- current directory in command-line
 vim.keymap.set("c", "%%", function()
-  return vim.fn.expand("%:p:h") .. "/"
+  return vim.fs.dirname(vim.api.nvim_buf_get_name(0)) .. "/"
 end, { expr = true })
 
 -- write then delete buffer; akin to wq
@@ -452,7 +452,7 @@ api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
 api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
-    local dir = vim.fn.expand("%:p:h")
+    local dir = vim.fs.dirname(api.nvim_buf_get_name(0))
     if not vim.loop.fs_stat(dir) then
       if
         vim.fn.confirm("Directory does not exist. Create?", "&Yes\n&No", 2) == 1
@@ -469,8 +469,10 @@ api.nvim_create_autocmd("BufWritePre", {
 vim.cmd("colorscheme copper")
 
 _G.statusline_filename = function()
-  if #vim.fn.expand("%") > 0 then
-    return vim.fn.expand("%:~")
+  if #api.nvim_buf_get_name(0) > 0 then
+    return vim.fs
+      .normalize(api.nvim_buf_get_name(0))
+      :gsub(vim.fs.normalize("$HOME"), "~")
   end
   return string.format("[cwd: %s]", vim.fn.fnamemodify(vim.loop.cwd(), ":~"))
 end

@@ -29,14 +29,16 @@ for h, f in pairs(nested_headers) do
 end
 
 if
-  vim.fn.expand("%:e") == "h"
+  vim.endswith(api.nvim_buf_get_name(0), ".h")
   and api.nvim_buf_line_count(0) > 0
   and api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
   local guard = string.format(
     "%s_%s",
     string.upper(vim.fn.fnamemodify(vim.loop.cwd(), ":t")),
-    string.upper(vim.fn.expand("%:t")):gsub("[^A-Z0-9]", "_")
+    string
+      .upper(vim.fs.basename(api.nvim_buf_get_name(0)))
+      :gsub("[^A-Z0-9]", "_")
   )
   local new_lines = {
     "#ifndef " .. guard,

@@ -2,7 +2,7 @@ local api = vim.api
 local z = require("z")
 
 local function save_file(name)
-  return vim.fn.expand(
+  return vim.fs.normalize(
     string.format("%s/scratch-%s.txt", vim.fn.stdpath("data"), name)
   )
 end

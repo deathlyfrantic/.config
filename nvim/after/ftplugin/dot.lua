@@ -3,7 +3,7 @@ local function dot_to_png(args)
     vim.api.nvim_err_writeln("Graphviz/Dot is not available.")
     return
   end
-  local filename = vim.fn.expand("%:p")
+  local filename = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   if #args.args > 0 then
     filename = args.args
   end

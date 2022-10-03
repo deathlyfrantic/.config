@@ -154,9 +154,6 @@ local function find_project_dir(...)
     },
   }
   local fnamemodify = vim.fn.fnamemodify
-  local expand = function(path)
-    return vim.fn.expand(path, true)
-  end
   local start = vim.fn.getcwd()
   if select("#", ...) > 0 then
     start = ...
@@ -170,14 +167,14 @@ local function find_project_dir(...)
   vim.list_extend(files, markers.all.files or {})
   vim.list_extend(dirs, markers.all.dirs or {})
   local dir = start
-  while dir ~= expand("~") and dir ~= "/" do
+  while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
     local path = dir .. "/"
     if
       any(files, function(f)
-        return vim.fn.filereadable(expand(path .. f)) == 1
+        return vim.fn.filereadable(vim.fs.normalize(path .. f)) == 1
       end)
       or any(dirs, function(d)
-        return vim.fn.isdirectory(expand(path .. d)) == 1
+        return vim.fn.isdirectory(vim.fs.normalize(path .. d)) == 1
       end)
     then
       return fnamemodify(dir, ":p")

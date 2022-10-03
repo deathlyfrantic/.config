@@ -82,8 +82,10 @@ local function rust(selection)
   end
   -- change to source dir in case file is in a subproject, but strip off the
   -- trailing "src" component e.g. /code/project/src/main.rs -> /code/project
-  local cmd =
-    string.format("(cd %s && cargo test)", vim.fn.expand("%:p:h:h", true))
+  local cmd = string.format(
+    "(cd %s && cargo test)",
+    vim.fs.dirname(vim.fs.dirname(api.nvim_buf_get_name(0)))
+  )
   if selection == "nearest" then
     local mod_tests_line = vim.fn.search("^mod tests {$", "n")
     if mod_tests_line == 0 then
@@ -99,7 +101,10 @@ local function rust(selection)
     return cmd:sub(1, -2) .. string.format(" %s)", nearest)
   elseif selection == "file" then
     return cmd:sub(1, -2)
-      .. string.format(" %s::)", vim.fn.expand("%:t:r", true))
+      .. string.format(
+        " %s::)",
+        vim.fn.basename(api.nvim_buf_get_name(0)):match("(.*)%.")
+      )
   end
   return cmd
 end
@@ -145,7 +150,7 @@ local function npm_or_yarn()
 end
 
 local function javascript_mocha(selection, pretest)
-  local cmd = "npx mocha -- spec " .. vim.fn.expand("%:p", true)
+  local cmd = "npx mocha -- spec " .. vim.fs.normalize(api.nvim_buf_get_name(0))
   if #pretest > 0 then
     cmd = pretest .. " && " .. cmd
   end
@@ -167,7 +172,7 @@ local function javascript_jest(selection)
   if selection == "nearest" then
     return cmd .. " -t " .. vim.fn.shellescape(find_nearest_javascript_test())
   elseif selection == "file" then
-    return cmd .. " " .. vim.fn.expand("%:p", true)
+    return cmd .. " " .. vim.fs.normalize(api.nvim_buf_get_name(0))
   end
   return cmd
 end

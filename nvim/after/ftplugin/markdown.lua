@@ -1,14 +1,14 @@
+local api = vim.api
+
 vim.cmd("setlocal spell")
 vim.opt_local.wrapmargin = 0
 
 local function preview_markdown(args)
   if vim.fn.executable("cmark") == 0 then
-    vim.api.nvim_err_writeln(
-      "Unable to convert Markdown (cmark is not available)."
-    )
+    api.nvim_err_writeln("Unable to convert Markdown (cmark is not available).")
     return
   end
-  local filename = vim.fn.expand("%:p")
+  local filename = api.nvim_buf_get_name(0)
   if #args.args > 0 then
     filename = args
   end
@@ -18,7 +18,7 @@ local function preview_markdown(args)
   )
 end
 
-vim.api.nvim_buf_create_user_command(
+api.nvim_buf_create_user_command(
   0,
   "PreviewMarkdown",
   preview_markdown,
