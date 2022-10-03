@@ -168,21 +168,20 @@ local function find_project_dir(...)
   vim.list_extend(dirs, markers.all.dirs or {})
   local dir = start
   while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
-    local path = dir .. "/"
     if
       any(files, function(f)
-        return vim.fn.filereadable(vim.fs.normalize(path .. f)) == 1
+        return vim.fn.filereadable(vim.fs.normalize(dir .. "/" .. f)) == 1
       end)
       or any(dirs, function(d)
-        return vim.fn.isdirectory(vim.fs.normalize(path .. d)) == 1
+        return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
       end)
     then
       return fnamemodify(dir, ":p")
     end
-    dir = fnamemodify(dir, ":h")
-    if dir == "." then
+    if dir == vim.loop.cwd() then
       return fnamemodify(dir, ":p")
     end
+    dir = fnamemodify(dir, ":h")
   end
   return fnamemodify(dir, ":p")
 end
