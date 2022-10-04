@@ -153,7 +153,7 @@ local function find_project_dir(...)
       dirs = { ".git" },
     },
   }
-  local start = vim.fn.getcwd()
+  local start = vim.loop.cwd()
   if select("#", ...) > 0 then
     start = ...
   end
