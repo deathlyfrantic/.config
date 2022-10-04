@@ -125,7 +125,7 @@ local function get_hex_color(hl, attr)
   return ("#%06x"):format(dec)
 end
 
-local function find_project_dir(...)
+local function find_project_dir(start)
   local markers = {
     rust = {
       files = { "Cargo.toml", "Cargo.lock" },
@@ -148,10 +148,6 @@ local function find_project_dir(...)
       dirs = { ".git" },
     },
   }
-  local start = vim.loop.cwd()
-  if select("#", ...) > 0 then
-    start = ...
-  end
   local files, dirs = {}, {}
   local ft_markers = markers[vim.bo.filetype]
   if ft_markers then
@@ -160,7 +156,7 @@ local function find_project_dir(...)
   end
   vim.list_extend(files, markers.all.files or {})
   vim.list_extend(dirs, markers.all.dirs or {})
-  local dir = start
+  local dir = start or vim.loop.cwd()
   while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
     if
       any(files, function(f)
