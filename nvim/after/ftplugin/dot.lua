@@ -7,7 +7,7 @@ local function dot_to_png(args)
   if #args.args > 0 then
     filename = args.args
   end
-  local outfile = vim.fn.fnamemodify(filename, ":r") .. ".png"
+  local outfile = filename:match("(.*)%.") .. ".png"
   os.execute(string.format("dot %s -Tpng > %s", filename, outfile))
 end
 

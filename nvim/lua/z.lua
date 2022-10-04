@@ -153,7 +153,6 @@ local function find_project_dir(...)
       dirs = { ".git" },
     },
   }
-  local fnamemodify = vim.fn.fnamemodify
   local start = vim.fn.getcwd()
   if select("#", ...) > 0 then
     start = ...
@@ -176,14 +175,14 @@ local function find_project_dir(...)
         return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
       end)
     then
-      return fnamemodify(dir, ":p")
+      return vim.fs.normalize(dir) .. "/"
     end
     if dir == vim.loop.cwd() then
-      return fnamemodify(dir, ":p")
+      return vim.fs.normalize(dir) .. "/"
     end
-    dir = fnamemodify(dir, ":h")
+    dir = vim.fs.dirname(dir)
   end
-  return fnamemodify(dir, ":p")
+  return vim.fs.normalize(dir) .. "/"
 end
 
 local function buf_is_real(b)

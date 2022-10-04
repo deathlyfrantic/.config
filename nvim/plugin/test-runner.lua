@@ -31,7 +31,7 @@ local function makefile_test()
   if makefile == "" then
     return nil
   end
-  local dir = vim.fn.fnamemodify(makefile, ":h")
+  local dir = vim.fs.dirname(makefile)
   for line in io.open(makefile):lines() do
     if line:match("^test:") then
       return string.format("(cd %s && make test)", dir)

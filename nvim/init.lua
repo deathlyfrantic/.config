@@ -185,7 +185,7 @@ api.nvim_create_autocmd("BufWritePost", {
 api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.VIMHOME .. "/colors/*.lua",
   callback = function(args)
-    vim.cmd("colorscheme " .. vim.fn.fnamemodify(args.file, ":t:r"))
+    vim.cmd("colorscheme " .. vim.fs.basename(args.file):match("(.*)%."))
   end,
   group = group,
 })
@@ -430,7 +430,7 @@ local function source_local_vimrc(file, buf, force)
       z.tbl_reverse(
         vim.fn.findfile(
           ".vimrc.lua",
-          vim.fn.fnamemodify(file, ":p:h") .. ";",
+          vim.fs.dirname(vim.fs.normalize(file)) .. ";",
           -1
         )
       )
@@ -474,7 +474,10 @@ _G.statusline_filename = function()
       .normalize(api.nvim_buf_get_name(0))
       :gsub(vim.fs.normalize("$HOME"), "~")
   end
-  return string.format("[cwd: %s]", vim.fn.fnamemodify(vim.loop.cwd(), ":~"))
+  return string.format(
+    "[cwd: %s]",
+    vim.loop.cwd():gsub(vim.fs.normalize("$HOME"), "~")
+  )
 end
 
 vim.opt.statusline = "[%n] %{v:lua.statusline_filename()}%<"

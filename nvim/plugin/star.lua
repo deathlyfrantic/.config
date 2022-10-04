@@ -20,15 +20,18 @@ local function find_cmd(mode)
       return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
     end, api.nvim_list_bufs())
     open_files = vim.tbl_map(function(b)
-      return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+      return vim.fs
+        .normalize(api.nvim_buf_get_name(b))
+        :gsub("^" .. vim.loop.cwd() .. "/", "")
     end, bufs)
   end
-  return ("rg --files %s"):format(table.concat(
+  local ret = ("rg --files %s"):format(table.concat(
     vim.tbl_map(function(f)
-      return "-g !" .. vim.fn.shellescape(vim.fn.escape(f, " ["))
+      return "-g " .. vim.fn.shellescape(vim.fn.escape("!" .. f, " ["))
     end, open_files),
     " "
   ))
+  return ret
 end
 
 local function star_cmd()
@@ -63,7 +66,9 @@ end
 local function buffers_cmd()
   local bufs = vim.tbl_map(
     function(b)
-      return vim.fn.fnamemodify(api.nvim_buf_get_name(b), ":p:~:.")
+      return vim.fs
+        .normalize(api.nvim_buf_get_name(b))
+        :gsub("^" .. vim.loop.cwd() .. "/", "")
     end,
     vim.tbl_filter(function(b)
       return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
@@ -77,7 +82,7 @@ local function open_buffer(b)
     b = b[1]
   end
   api.nvim_set_current_buf(
-    vim.uri_to_bufnr(vim.uri_from_fname(vim.fn.fnamemodify(b, ":p")))
+    vim.uri_to_bufnr(vim.uri_from_fname(vim.fs.normalize(b)))
   )
 end
 

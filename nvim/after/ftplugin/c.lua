@@ -35,7 +35,7 @@ if
 then
   local guard = string.format(
     "%s_%s",
-    string.upper(vim.fn.fnamemodify(vim.loop.cwd(), ":t")),
+    string.upper(vim.fs.basename(vim.loop.cwd())),
     string
       .upper(vim.fs.basename(api.nvim_buf_get_name(0)))
       :gsub("[^A-Z0-9]", "_")
