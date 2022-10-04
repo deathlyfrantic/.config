@@ -108,15 +108,10 @@ local function to_array(item)
   return item
 end
 
-local function collect(iter, stop)
-  local i = 0
+local function collect(...)
   local ret = {}
-  for v in iter do
-    table.insert(ret, v)
-    i = i + 1
-    if stop ~= nil and i >= stop then
-      break
-    end
+  for item in ... do
+    table.insert(ret, item)
   end
   return ret
 end
