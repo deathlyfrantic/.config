@@ -171,6 +171,9 @@ local function open_star_buffer(mode)
   -- the star buffer where it will not be populated
   local term_cmd = modes[mode].cmd()
   local mode_text = find_cmd(mode)
+  -- need to call find_project_dir() now before opening the star buffer so we
+  -- used the cached value (which is a buffer variable)
+  local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
   if mode == "buffers" then
     mode_text = "open buffers"
   end
@@ -184,7 +187,6 @@ local function open_star_buffer(mode)
       on_exit(mode, ...)
     end,
   })
-  local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
   vim.wo.statusline = ("[%s] %s"):format(name, mode_text)
   vim.b.term_title = name
   vim.cmd("startinsert")

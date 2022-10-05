@@ -126,6 +126,15 @@ local function get_hex_color(hl, attr)
 end
 
 local function find_project_dir(start)
+  -- this should always be the same value for a given buffer, so cache the value
+  -- as a buffer variable to prevent repeated walking of the file system
+  if vim.b.z_project_dir then
+    return vim.b.z_project_dir
+  end
+  local cache = function(value)
+    vim.b.z_project_dir = value
+    return value
+  end
   local markers = {
     rust = {
       files = { "Cargo.toml", "Cargo.lock" },
@@ -166,14 +175,14 @@ local function find_project_dir(start)
         return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
       end)
     then
-      return vim.fs.normalize(dir) .. "/"
+      return cache(vim.fs.normalize(dir) .. "/")
     end
     if dir == vim.loop.cwd() then
-      return vim.fs.normalize(dir) .. "/"
+      return cache(vim.fs.normalize(dir) .. "/")
     end
     dir = vim.fs.dirname(dir)
   end
-  return vim.fs.normalize(dir) .. "/"
+  return cache(vim.fs.normalize(dir) .. "/")
 end
 
 local function buf_is_real(b)
