@@ -1,5 +1,4 @@
 local api = vim.api
-local ts_utils = require("nvim-treesitter.ts_utils")
 
 local test_buffer
 
@@ -110,7 +109,9 @@ local function rust(selection)
 end
 
 local function find_nearest_javascript_test_from_treesitter()
-  local node = ts_utils.get_node_at_cursor()
+  local cursor = api.nvim_win_get_cursor(0)
+  local row, col = cursor[1] - 1, cursor[2]
+  local node = vim.treesitter.get_node_at_pos(0, row, col)
   while node do
     if node:type() == "call_expression" then
       local fn = node:field("function")[1]
