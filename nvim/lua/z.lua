@@ -136,6 +136,19 @@ local function find_project_dir(start)
     return value
   end
   local markers = {
+    python = {
+      files = {
+        "mypy.ini",
+        "poetry.lock",
+        "pylintrc",
+        "pyproject.toml",
+        "requirements.txt",
+        "setup.cfg",
+        "setup.py",
+        "tox.ini",
+      },
+      dirs = { ".mypy_cache", ".pytest_cache", ".tox" },
+    },
     rust = {
       files = { "Cargo.toml", "Cargo.lock" },
       dirs = { "target" },
