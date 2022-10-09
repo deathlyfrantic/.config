@@ -101,13 +101,6 @@ local function include(name)
   return loadfile(path)()
 end
 
-local function to_array(item)
-  if type(item) ~= "table" then
-    return { item }
-  end
-  return item
-end
-
 local function collect(...)
   local ret = {}
   for item in ... do
@@ -221,7 +214,6 @@ return {
   tbl_reverse = tbl_reverse,
   popup = popup,
   include = include,
-  to_array = to_array,
   collect = collect,
   get_hex_color = get_hex_color,
   find_project_dir = find_project_dir,
