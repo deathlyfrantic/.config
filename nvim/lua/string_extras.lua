@@ -14,22 +14,22 @@ end
 
 local function string_pad(s, length, padding, direction)
   padding = padding or " "
-  local addl = length - vim.fn.strdisplaywidth(s)
-  if addl < 1 then
+  if length - vim.fn.strdisplaywidth(s) < 1 then
     return s
   end
-  if padding == " " and addl < 100 then
+  if padding:match("^%s*$") and length < 100 then
     if direction == "right" then
-      return s .. string.format("%-" .. addl .. "s", " ")
+      return string.format("%-" .. length .. "s", s)
     else
-      return string.format("%-" .. addl .. "s", " ") .. s
+      return string.format("%" .. length .. "s", s)
     end
   end
-  for _ = 1, addl do
+  while #s < length do
+    local addl = length - #s
     if direction == "right" then
-      s = s .. padding
+      s = s .. padding:sub(1, addl)
     else
-      s = padding .. s
+      s = padding:sub(1, addl) .. s
     end
   end
   return s
