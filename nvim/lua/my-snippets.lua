@@ -145,6 +145,29 @@ local c = {
       }]]),
 }
 
+local lua = {
+  describe = mid([[
+    describe("$1", function()
+      $0
+    end]]),
+  it = mid([[
+    it("$1", function()
+      $0
+    end)]]),
+  pending = mid([[
+    pending("$1", function()
+      $0
+    end)]]),
+  ae = mid([[
+    after_each(function()
+      $0
+    end)]]),
+  be = mid([[
+    before_each(function()
+      $0
+    end)]]),
+}
+
 return {
   _global = all,
   c = c,
@@ -153,4 +176,5 @@ return {
   rust = rust,
   typescript = javascript,
   vim = vim,
+  lua = lua,
 }
