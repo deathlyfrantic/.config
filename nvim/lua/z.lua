@@ -183,12 +183,9 @@ local function find_project_dir(start)
     then
       return cache(vim.fs.normalize(dir) .. "/")
     end
-    if dir == vim.loop.cwd() then
-      return cache(vim.fs.normalize(dir) .. "/")
-    end
     dir = vim.fs.dirname(dir)
   end
-  return cache(vim.fs.normalize(dir) .. "/")
+  return cache(vim.loop.cwd() .. "/")
 end
 
 local function buf_is_real(b)
