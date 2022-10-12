@@ -22,16 +22,15 @@ local function find_cmd(mode)
     open_files = vim.tbl_map(function(b)
       return vim.fs
         .normalize(api.nvim_buf_get_name(b))
-        :gsub("^" .. vim.loop.cwd() .. "/", "")
+        :gsub("^" .. vim.pesc(vim.loop.cwd()) .. "/", "")
     end, bufs)
   end
-  local ret = ("rg --files %s"):format(table.concat(
+  return ("rg --files %s"):format(table.concat(
     vim.tbl_map(function(f)
       return "-g " .. vim.fn.shellescape(vim.fn.escape("!" .. f, " ["))
     end, open_files),
     " "
   ))
-  return ret
 end
 
 local function star_cmd()
