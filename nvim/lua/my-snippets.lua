@@ -149,7 +149,7 @@ local lua = {
   describe = mid([[
     describe("$1", function()
       $0
-    end]]),
+    end)]]),
   it = mid([[
     it("$1", function()
       $0
