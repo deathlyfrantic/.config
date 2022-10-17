@@ -15,6 +15,14 @@ describe("string_extras", function()
     assert.same(s:split("|"), { "foo", "bar", "baz" })
   end)
 
+  it("is_empty", function()
+    assert.is_false(("foobar"):is_empty())
+    assert.is_true((""):is_empty())
+    assert.is_true((" "):is_empty())
+    assert.is_true(("\t"):is_empty())
+    assert.is_true(("  \t    "):is_empty())
+  end)
+
   describe("pad", function()
     local s = "foobar"
     local fmt
