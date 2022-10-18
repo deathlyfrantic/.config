@@ -439,8 +439,8 @@ api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
 -- make directories if they don't exist before writing file
 api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
-  callback = function()
-    local dir = vim.fs.dirname(api.nvim_buf_get_name(0))
+  callback = function(args)
+    local dir = vim.fs.dirname(args.file)
     if not vim.loop.fs_stat(dir) then
       if
         vim.fn.confirm("Directory does not exist. Create?", "&Yes\n&No", 2) == 1
