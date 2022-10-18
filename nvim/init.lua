@@ -401,7 +401,7 @@ api.nvim_create_autocmd("FileType", {
 
 -- local settings
 local function source_local_vimrc(file, buf, force)
-  local is_fugitive = ("^fugitive://"):match(file)
+  local is_fugitive = vim.startswith(file, "fugitive://")
   local abuf = tonumber(buf)
   if
     not force
