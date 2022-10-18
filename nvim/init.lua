@@ -138,6 +138,8 @@ api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- don't move my position when switching buffers
+-- i don't know that this is actually necessary. the commit in which it was
+-- added has a shitty message so i don't know why i did it.
 api.nvim_create_autocmd("BufWinLeave", {
   pattern = "*",
   callback = function()
