@@ -120,14 +120,14 @@ use({
       callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
-        vim.cmd("setlocal colorcolumn=0")
+        vim.cmd.setlocal("colorcolumn=0")
       end,
       group = group,
     })
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview.message",
       callback = function()
-        vim.cmd("setlocal colorcolumn=0")
+        vim.cmd.setlocal("colorcolumn=0")
       end,
       group = group,
     })
@@ -360,7 +360,7 @@ if not _G.have_set_packer_compile_autocmd then
   vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = script_name,
     callback = function()
-      vim.cmd("luafile " .. script_name)
+      vim.cmd.luafile(script_name)
       packer.compile()
     end,
     group = vim.api.nvim_create_augroup("packer-config-reload", {}),

@@ -2,9 +2,9 @@ local api = vim.api
 
 local function preamble(name, termguicolors)
   vim.o.termguicolors = termguicolors
-  vim.cmd("highlight clear")
+  vim.cmd.highlight("clear")
   if vim.fn.exists("syntax_on") then
-    vim.cmd("syntax reset")
+    vim.cmd.syntax("reset")
   end
   vim.g.colors_name = name
 end

@@ -1,11 +1,11 @@
 -- highlight docstrings as comments
 local function docstring_highlight()
-  vim.cmd(
-    [[syntax region pythonDocstring start=+^\s*[uU]\?[rR]\?\%("""\|'''\)+ ]]
+  vim.cmd.syntax(
+    [[region pythonDocstring start=+^\s*[uU]\?[rR]\?\%("""\|'''\)+ ]]
       .. [[end=+\%("""\|'''\)+ keepend excludenl ]]
       .. "contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError"
   )
-  vim.cmd("highlight default link pythonDocstring pythonComment")
+  vim.cmd.highlight("default link pythonDocstring pythonComment")
 end
 
 vim.api.nvim_create_autocmd("Syntax", {

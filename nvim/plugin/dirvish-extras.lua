@@ -13,7 +13,7 @@ local function toggle()
   if #dirvish_bufs == 0 then
     vim.cmd("topleft 35vsp +Dirvish")
   else
-    vim.cmd("bdelete! " .. table.concat(dirvish_bufs, " "))
+    vim.cmd.bdelete({ args = dirvish_bufs, bang = true })
   end
 end
 
@@ -23,7 +23,7 @@ local function open()
     vim.fn["dirvish#open"]("edit", 0)
   else
     toggle()
-    vim.cmd("edit " .. line)
+    vim.cmd.edit(line)
   end
 end
 

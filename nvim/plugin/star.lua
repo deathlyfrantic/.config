@@ -92,9 +92,9 @@ local function open_file(files)
   for i, f in ipairs(paths) do
     if vim.loop.fs_access(f, "r") then
       if i == 1 then
-        vim.cmd("edit " .. f)
+        vim.cmd.edit(f)
       else
-        vim.cmd("badd " .. f)
+        vim.cmd.badd(f)
       end
     end
   end
@@ -122,7 +122,7 @@ local modes = {
     end,
     open = function(paths)
       for _, commit in ipairs(paths) do
-        vim.cmd("Git show " .. commit:match("^%x+"))
+        vim.cmd.Git("show " .. commit:match("^%x+"))
       end
     end,
     width_divisor = 2,
@@ -188,7 +188,7 @@ local function open_star_buffer(mode)
   })
   vim.wo.statusline = ("[%s] %s"):format(name, mode_text)
   vim.b.term_title = name
-  vim.cmd("startinsert")
+  vim.cmd.startinsert()
 end
 
 local function star(args)

@@ -12,11 +12,11 @@ describe("init", function()
   end)
 
   describe("quits even if dirvish or quickfix is open", function()
-    local bo, cmd, nvim_buf_delete, nvim_list_bufs, nvim_list_wins
+    local bo, quit, nvim_buf_delete, nvim_list_bufs, nvim_list_wins
 
     before_each(function()
       bo = vim.bo
-      cmd = stub(vim, "cmd")
+      quit = stub(vim.cmd, "quit")
       nvim_list_wins = stub(vim.api, "nvim_list_wins").returns({ 1 })
       nvim_list_bufs = stub(vim.api, "nvim_list_bufs")
       nvim_buf_delete = stub(vim.api, "nvim_buf_delete")
@@ -24,7 +24,7 @@ describe("init", function()
 
     after_each(function()
       vim.bo = bo
-      cmd:revert()
+      quit:revert()
       nvim_list_wins:revert()
       nvim_list_bufs:revert()
       nvim_buf_delete:revert()
@@ -37,7 +37,7 @@ describe("init", function()
         "BufEnter",
         { group = "init-autocmds", pattern = "*" }
       )
-      assert.stub(cmd).called_with("quit")
+      assert.stub(quit).called(1)
       assert.stub(nvim_buf_delete).not_called()
     end)
 
@@ -48,7 +48,7 @@ describe("init", function()
         "BufEnter",
         { group = "init-autocmds", pattern = "*" }
       )
-      assert.stub(cmd).called_with("quit")
+      assert.stub(quit).called(1)
       assert.stub(nvim_buf_delete).not_called()
     end)
 
@@ -62,7 +62,7 @@ describe("init", function()
         "BufEnter",
         { group = "init-autocmds", pattern = "*" }
       )
-      assert.stub(cmd).not_called()
+      assert.stub(quit).not_called()
       assert.stub(nvim_buf_delete).called_with(0, { force = true })
     end)
   end)
@@ -152,14 +152,16 @@ describe("init", function()
   end)
 
   describe("config reloading", function()
-    local cmd
+    local colorscheme, source
 
     before_each(function()
-      cmd = stub(vim, "cmd")
+      colorscheme = stub(vim.cmd, "colorscheme")
+      source = stub(vim.cmd, "source")
     end)
 
     after_each(function()
-      cmd:revert()
+      colorscheme:revert()
+      source:revert()
     end)
 
     it("reloads $MYVIMRC", function()
@@ -167,7 +169,7 @@ describe("init", function()
         "BufWritePost",
         { group = "init-autocmds", pattern = vim.env.MYVIMRC }
       )
-      assert.stub(cmd).called_with("source $MYVIMRC")
+      assert.stub(source).called_with("$MYVIMRC")
     end)
 
     it("reloads plugin and lua library files", function()
@@ -176,7 +178,7 @@ describe("init", function()
           group = "init-autocmds",
           pattern = vim.env.VIMHOME .. f,
         })
-        assert.stub(cmd).called_with("source " .. vim.env.VIMHOME .. f)
+        assert.stub(source).called_with(vim.env.VIMHOME .. f)
       end
     end)
 
@@ -185,7 +187,7 @@ describe("init", function()
         group = "init-autocmds",
         pattern = vim.env.VIMHOME .. "/plugin/baz.txt",
       })
-      assert.stub(cmd).not_called()
+      assert.stub(source).not_called()
     end)
 
     it("refreshes colorscheme on save", function()
@@ -193,7 +195,7 @@ describe("init", function()
         group = "init-autocmds",
         pattern = vim.env.VIMHOME .. "/colors/foobar.lua",
       })
-      assert.stub(cmd).called_with("colorscheme foobar")
+      assert.stub(colorscheme).called_with("foobar")
     end)
   end)
 
@@ -208,7 +210,7 @@ describe("init", function()
       .returns({ relative = "win" })
     local nvim_win_close = stub(vim.api, "nvim_win_close")
     -- it should close all floating windows but not close non-floating windows
-    vim.cmd("CloseFloatingWindows")
+    vim.cmd.CloseFloatingWindows()
     assert.stub(nvim_win_close).called(2)
     assert.stub(nvim_win_close).called_with(2, true)
     assert.stub(nvim_win_close).called_with(4, true)

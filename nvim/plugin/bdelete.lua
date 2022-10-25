@@ -10,7 +10,7 @@ local function delete_current(force)
     return
   end
   if vim.fn.bufexists(0) == 1 and vim.fn.buflisted(0) == 1 then
-    vim.cmd("buffer #")
+    vim.cmd.buffer("#")
   else
     local bufs = vim.tbl_filter(function(b)
       return z.buf_is_real(b)

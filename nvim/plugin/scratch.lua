@@ -36,7 +36,7 @@ local function close_window(name)
   local stat = vim.loop.fs_stat(save_file(name))
   local bftime = vim.b.ftime
   local close = function()
-    vim.cmd(vim.fn.bufwinnr(bufname(name)) .. "close")
+    vim.cmd.close({ count = vim.fn.bufwinnr(bufname(name)) })
   end
   if not stat or not bftime or bftime >= stat.mtime.sec then
     write(name)
@@ -107,7 +107,7 @@ end
 local function selection(name)
   local contents = vim.fn.getreg('"')
   local regtype = vim.fn.getregtype('"')
-  vim.cmd("normal! y")
+  vim.cmd.normal({ args = { "y" }, bang = true })
   open_buffer(name)
   api.nvim_buf_set_lines(0, 0, -1, true, {})
   api.nvim_paste(vim.fn.getreg('"'), false, -1)

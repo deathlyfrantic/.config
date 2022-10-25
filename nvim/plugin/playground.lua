@@ -59,7 +59,7 @@ local function load_or_create_buffer()
     api.nvim_set_current_buf(output_buffer)
   else
     new_output_buffer()
-    vim.cmd("normal G")
+    vim.cmd.normal("G")
   end
 end
 
@@ -95,7 +95,7 @@ local function scroll_to_end()
     end, api.nvim_list_wins()))
   do
     api.nvim_set_current_win(w)
-    vim.cmd("normal G")
+    vim.cmd.normal("G")
   end
   api.nvim_set_current_win(current_window)
 end
@@ -125,7 +125,7 @@ end
 
 local function open_buffer(ground)
   local filename = vim.fn.tempname() .. "." .. ground.extension
-  vim.cmd("edit " .. filename)
+  vim.cmd.edit(filename)
   local cmd = string.format(ground.command, vim.fn.getreg("%"))
   local bufnr = api.nvim_get_current_buf()
   local group = api.nvim_create_augroup("playground-bufnr-" .. bufnr, {})

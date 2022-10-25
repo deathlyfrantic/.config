@@ -207,7 +207,7 @@ local function scroll_to_end()
   local current_window = api.nvim_get_current_win()
   for _, w in ipairs(vim.fn.win_findbuf(test_buffer)) do
     api.nvim_set_current_win(w)
-    vim.cmd("normal G")
+    vim.cmd.normal("G")
   end
   api.nvim_set_current_win(current_window)
 end

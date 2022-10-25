@@ -112,7 +112,7 @@ api.nvim_create_autocmd("BufEnter", {
           == 1
         or vim.bo.buftype == "quickfix"
       then
-        vim.cmd("quit")
+        vim.cmd.quit()
       else
         api.nvim_buf_delete(0, { force = true })
       end
@@ -172,7 +172,7 @@ api.nvim_create_autocmd("TermOpen", {
 api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.MYVIMRC,
   callback = function()
-    vim.cmd("source $MYVIMRC")
+    vim.cmd.source("$MYVIMRC")
   end,
   group = group,
   nested = true,
@@ -180,14 +180,14 @@ api.nvim_create_autocmd("BufWritePost", {
 api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.VIMHOME .. "/{plugin,lua}/*.lua",
   callback = function(args)
-    vim.cmd("source " .. args.file)
+    vim.cmd.source(args.file)
   end,
   group = group,
 })
 api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.VIMHOME .. "/colors/*.lua",
   callback = function(args)
-    vim.cmd("colorscheme " .. vim.fs.basename(args.file):match("(.*)%."))
+    vim.cmd.colorscheme(vim.fs.basename(args.file):match("(.*)%."))
   end,
   group = group,
 })
@@ -196,7 +196,7 @@ api.nvim_create_autocmd("BufWritePost", {
 api.nvim_create_autocmd("BufReadPost", {
   pattern = vim.env.MYVIMRC,
   callback = function()
-    vim.cmd("setlocal foldmethod=marker")
+    vim.cmd.setlocal("foldmethod=marker")
   end,
   group = group,
 })
@@ -204,21 +204,21 @@ api.nvim_create_autocmd("BufReadPost", {
 
 -- keymaps and commands {{{
 -- abbreviations
-vim.cmd([[iabbrev shrug! ¯\_(ツ)_/¯]])
+vim.cmd.iabbrev([[shrug! ¯\_(ツ)_/¯]])
 
 group = api.nvim_create_augroup("init-autocmds-abbreviations", {})
 api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "typescript" },
   callback = function()
-    vim.cmd("iabbrev <buffer> != !==")
-    vim.cmd("iabbrev <buffer> == ===")
+    vim.cmd.iabbrev("<buffer> != !==")
+    vim.cmd.iabbrev("<buffer> == ===")
   end,
   group = group,
 })
 api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "typescript", "lua", "vim", "zsh" },
   callback = function()
-    vim.cmd("iabbrev <buffer> fn! function")
+    vim.cmd.iabbrev("<buffer> fn! function")
   end,
   group = group,
 })
@@ -456,7 +456,7 @@ api.nvim_create_autocmd("BufWritePre", {
 -- }}}
 
 -- colors and appearance {{{
-vim.cmd("colorscheme copper")
+vim.cmd.colorscheme("copper")
 
 _G.statusline_filename = function()
   if #api.nvim_buf_get_name(0) > 0 then

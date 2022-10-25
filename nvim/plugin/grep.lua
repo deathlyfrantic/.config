@@ -10,7 +10,7 @@ local function grep(args)
   )
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
-    vim.cmd("redraw!")
+    vim.cmd.redraw({ bang = true })
     api.nvim_echo({ { "No matches found." } }, false, {})
   else
     if args.bang then

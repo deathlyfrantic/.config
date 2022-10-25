@@ -1,6 +1,6 @@
 local api = vim.api
 
-vim.cmd("setlocal spell")
+vim.cmd.setlocal("spell")
 vim.opt_local.wrapmargin = 0
 
 local function preview_markdown(args)
