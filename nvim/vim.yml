@@ -10,14 +10,22 @@ globals:
     any: true
 # plenary busted-style test functions
   describe:
-    any: true
+    args:
+      - type: string
+      - type: function
   it:
-    any: true
+    args:
+      - type: string
+      - type: function
   assert:
     any: true
   pending:
-    any: true
+    args:
+      - type: string
+      - type: function
   after_each:
-    any: true
+    args:
+      - type: function
   before_each:
-    any: true
+    args:
+      - type: function
