@@ -39,7 +39,7 @@ local function star_cmd()
       ["color-selected-bg"] = z.get_hex_color("StatusLine", "bg"),
       ["color-matched-selected-fg"] = z.get_hex_color("Comment", "fg"),
       ["color-matched-fg"] = z.get_hex_color("String", "fg"),
-      ["color-tag-fg"] = z.get_hex_color("WarningMsg", "bg"),
+      ["color-tag-fg"] = z.get_hex_color("Warning", "fg"),
     }
     star_cmd_str = "star -m --height " .. height() .. " "
     for k, v in pairs(colors) do

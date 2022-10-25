@@ -222,12 +222,11 @@ local function on_exit(...)
         end
       end, 1000)
     end
-    api.nvim_echo({
-      {
-        "Tests pass. (Test runner exit code was 0.)",
-        "GitSignsAdd",
-      },
-    }, false, {})
+    api.nvim_echo(
+      { { "Tests pass. (Test runner exit code was 0.)", "Success" } },
+      false,
+      {}
+    )
   else
     scroll_to_end()
   end
