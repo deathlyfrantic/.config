@@ -324,8 +324,16 @@ use({
   end,
 })
 
+use({
+  "tpope/vim-apathy",
+  config = function()
+    vim.g.lua_path = vim.tbl_map(function(p)
+      return p .. "/lua/?.lua"
+    end, vim.split(vim.o.runtimepath, ","))
+  end,
+})
+
 use("tpope/vim-abolish")
-use("tpope/vim-apathy")
 use("tpope/vim-endwise")
 use("tpope/vim-obsession")
 use("tpope/vim-repeat")
