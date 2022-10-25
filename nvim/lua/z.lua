@@ -27,14 +27,6 @@ local function find(t, f)
   return nil
 end
 
-local function zip(a, b)
-  local ret = {}
-  for i = 1, math.max(#a, #b) do
-    ret[i] = { a[i], b[i] }
-  end
-  return ret
-end
-
 local function tbl_reverse(t)
   local ret = {}
   local i = 1
@@ -207,7 +199,6 @@ return {
   any = any,
   all = all,
   find = find,
-  zip = zip,
   tbl_reverse = tbl_reverse,
   popup = popup,
   include = include,

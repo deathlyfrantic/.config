@@ -71,28 +71,6 @@ describe("z", function()
     end)
   end)
 
-  describe("zip", function()
-    it("combines tables", function()
-      local a = { 1, 2, 3 }
-      local b = { "a", "b", "c" }
-      assert.same(z.zip(a, b), { { 1, "a" }, { 2, "b" }, { 3, "c" } })
-    end)
-
-    it("uses the longest of the two tables", function()
-      local a = { 1, 2, 3, 4 }
-      local b = { "a", "b", "c" }
-      assert.same(
-        z.zip(a, b),
-        { { 1, "a" }, { 2, "b" }, { 3, "c" }, { 4, nil } }
-      )
-      b = { "a", "b", "c", "d", "e" }
-      assert.same(
-        z.zip(a, b),
-        { { 1, "a" }, { 2, "b" }, { 3, "c" }, { 4, "d" }, { nil, "e" } }
-      )
-    end)
-  end)
-
   it("tbl_reverse", function()
     assert.same(z.tbl_reverse({ 1, 2, 3, 4, 5 }), { 5, 4, 3, 2, 1 })
   end)
