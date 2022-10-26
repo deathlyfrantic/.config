@@ -105,22 +105,7 @@ return {
   enable_tab_bar = false,
   freetype_load_target = "Normal",
   font = wezterm.font("SF Mono", { weight = "Medium" }),
-  font_rules = {
-    {
-      italic = true,
-      font = wezterm.font("SF Mono", { weight = "Medium", italic = true }),
-    },
-    {
-      intensity = "Bold",
-      font = wezterm.font("SF Mono", { weight = "Bold" }),
-    },
-    {
-      italic = true,
-      intensity = "Bold",
-      font = wezterm.font("SF Mono", { weight = "Bold", italic = true }),
-    },
-  },
-  font_size = 16,
+  font_size = 15.75,
   force_reverse_video_cursor = true,
   harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
   initial_cols = 160,
