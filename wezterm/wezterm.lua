@@ -46,8 +46,8 @@ add_tmux_key("h", "CMD")
 add_tmux_key("j", "CMD")
 add_tmux_key("k", "CMD")
 add_tmux_key("l", "CMD")
-add_tmux_key("{", "CMD")
-add_tmux_key("}", "CMD")
+add_tmux_key("{", "SHIFT|CMD")
+add_tmux_key("}", "SHIFT|CMD")
 
 -- move windows
 add_tmux_key("LeftArrow", "SHIFT|CMD", nil, "SHIFT")
