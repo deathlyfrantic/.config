@@ -16,7 +16,7 @@ for i = 1, 9 do
 end
 
 -- tmux keys
-local add_tmux_key = function(key, mods, tmux_key, tmux_mods)
+local function add_tmux_key(key, mods, tmux_key, tmux_mods)
   tmux_key = tmux_key or key
   table.insert(
     keys,
