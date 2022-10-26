@@ -85,7 +85,10 @@ local shell_locations = {
 
 local zsh = "zsh"
 for _, location in ipairs(shell_locations) do
-  if io.popen("ls " .. location):read("*all") == location .. "\n" then
+  if
+    io.popen("ls " .. location .. " 2>/dev/null"):read("*all")
+    == location .. "\n"
+  then
     zsh = location
     break
   end
