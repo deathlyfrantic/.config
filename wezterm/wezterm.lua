@@ -114,6 +114,7 @@ return {
   initial_cols = 160,
   initial_rows = 50,
   keys = keys,
+  scrollback_lines = 10000,
   send_composed_key_when_left_alt_is_pressed = false,
   send_composed_key_when_right_alt_is_pressed = false,
   window_padding = {
