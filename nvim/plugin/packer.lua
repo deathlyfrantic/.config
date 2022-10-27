@@ -301,17 +301,35 @@ use({
 })
 
 use({
-  "norcalli/snippets.nvim",
+  "L3MON4D3/LuaSnip",
   config = function()
-    local snippets = require("snippets")
-    vim.keymap.set("i", "<C-]>", snippets.expand_at_cursor)
-    vim.keymap.set("i", "<C-f>", function()
-      snippets.advance_snippet(1)
+    local ls = require("luasnip")
+    ls.config.setup({
+      history = false,
+      update_events = "TextChanged,TextChangedI",
+    })
+    vim.keymap.set({ "i", "s" }, "<C-]>", ls.expand_or_jump)
+    vim.keymap.set({ "i", "s" }, "<C-f>", function()
+      ls.jump(1)
     end)
-    vim.keymap.set("i", "<C-b>", function()
-      snippets.advance_snippet(-1)
+    vim.keymap.set({ "i", "s" }, "<C-b>", function()
+      ls.jump(-1)
     end)
-    snippets.snippets = require("my-snippets")
+    vim.keymap.set({ "i", "s" }, "<C-e>", function()
+      if ls.choice_active() then
+        return "<Plug>luasnip-next-choice"
+      end
+      return "<C-e>"
+    end, { expr = true })
+    vim.keymap.set({ "i", "s" }, "<C-y>", function()
+      if ls.choice_active() then
+        return "<Plug>luasnip-prev-choice"
+      end
+      return "<C-y>"
+    end, { expr = true })
+    require("luasnip.loaders.from_lua").load({
+      paths = vim.fs.normalize("$VIMHOME/snippets"),
+    })
   end,
 })
 
