@@ -71,4 +71,57 @@ describe("string_extras", function()
       assert.equals(c, s:sub(i, i))
     end
   end)
+
+  describe("imatch", function()
+    it("matches case-insensitively", function()
+      local test_cases = { "FOOBAR", "foobar", "FoObAr", "fOoBaR" }
+      for _, test_case in ipairs(test_cases) do
+        assert.equals(test_case, test_case:imatch("foobar"))
+      end
+    end)
+
+    it("doesn't match if pattern isn't in string", function()
+      assert.falsy(("foobar"):imatch("baz"))
+    end)
+
+    describe("supports (most?) normal patterns", function()
+      local match
+
+      before_each(function()
+        match = spy.on(string, "match")
+      end)
+
+      after_each(function()
+        match:revert()
+      end)
+
+      it("works with % patterns", function()
+        assert.truthy(("123FoObAr"):imatch("%d*foobar"))
+        assert
+          .spy(match)
+          .called_with("123FoObAr", "%d*[Ff][Oo][Oo][Bb][Aa][Rr]")
+      end)
+
+      it("works with [] patterns", function()
+        local pattern = "[AbCdEf]"
+        assert.truthy(("A"):imatch(pattern))
+        assert.spy(match).called_with("A", pattern)
+        assert.falsy(("B"):imatch(pattern))
+      end)
+
+      it("works with captures", function()
+        assert.equals("FoO", ("FoObAr"):imatch("(foo)bar"))
+        assert.spy(match).called_with("FoObAr", "([Ff][Oo][Oo])[Bb][Aa][Rr]")
+      end)
+
+      it("works with complicated patterns", function()
+        local pattern = "^[+-]?%d+$"
+        for _, test in ipairs({ "-123", "+456", "789" }) do
+          assert.equals(test, test:imatch(pattern))
+          assert.spy(match).called_with(test, pattern)
+          match:clear()
+        end
+      end)
+    end)
+  end)
 end)

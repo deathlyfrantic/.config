@@ -53,3 +53,31 @@ end
 function string.chars(self)
   return string_chars, self, 0
 end
+
+function string.imatch(self, pattern)
+  local pat = ""
+  local in_percent = false
+  local in_bracket = false
+  for _, char in pattern:chars() do
+    if in_percent then
+      pat = pat .. char
+      in_percent = false
+    elseif char == "%" then
+      pat = pat .. char
+      in_percent = true
+    elseif in_bracket then
+      pat = pat .. char
+      if char == "]" then
+        in_bracket = false
+      end
+    elseif char == "[" then
+      pat = pat .. char
+      in_bracket = true
+    elseif char:match("%A") then
+      pat = pat .. char
+    else
+      pat = pat .. string.format("[%s%s]", char:upper(), char:lower())
+    end
+  end
+  return self:match(pat)
+end
