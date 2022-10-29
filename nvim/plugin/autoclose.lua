@@ -93,12 +93,10 @@ local function enter()
   end
   local stack = {}
   for i, c in state.line:chars() do
-    if not in_string(state.linenr, i) then
-      if pairs[c] ~= nil then
-        table.insert(stack, pairs[c])
-      elseif closers[c] ~= nil then
-        remove_last(stack, c)
-      end
+    if pairs[c] ~= nil and not in_string(state.linenr, i) then
+      table.insert(stack, pairs[c])
+    elseif closers[c] ~= nil and not in_string(state.linenr, i) then
+      remove_last(stack, c)
     end
   end
   local slash = ""
