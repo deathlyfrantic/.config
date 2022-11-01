@@ -22,3 +22,10 @@ alias mpv='open -na /Applications/mpv.app'
 alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | sort | uniq | star -s'
 alias redo='eval `hs`'
 alias pgrep='pgrep -i'
+function nvim {
+    if [ -n "$NVIM" ] && [ -n "$*" ]; then
+        command nvim --server "$NVIM" --remote $*
+    else
+        command nvim $*
+    fi
+}
