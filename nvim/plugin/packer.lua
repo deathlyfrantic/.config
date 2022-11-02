@@ -49,15 +49,17 @@ use({
         local gs = require("gitsigns")
         vim.keymap.set("n", "]c", function()
           if vim.o.diff then
-            vim.api.nvim_input("]c")
+            vim.api.nvim_feedkeys("]c", "nt", true)
+          else
+            gs.next_hunk()
           end
-          gs.next_hunk()
         end, { buffer = true })
         vim.keymap.set("n", "[c", function()
           if vim.o.diff then
-            vim.api.nvim_input("[c")
+            vim.api.nvim_feedkeys("[c", "nt", true)
+          else
+            gs.prev_hunk()
           end
-          gs.prev_hunk()
         end, { buffer = true })
         vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = true })
         vim.keymap.set("v", "<leader>hs", function()
