@@ -18,7 +18,7 @@ packer.init({
 
 use("wbthomason/packer.nvim")
 
-use({ "nvim-lua/plenary.nvim" })
+use("nvim-lua/plenary.nvim")
 
 use({
   "nvim-treesitter/nvim-treesitter",
