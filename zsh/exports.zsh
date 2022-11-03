@@ -1,4 +1,9 @@
-export PATH=$HOME/.cargo/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/opt/sqlite/bin:$PATH
+if [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+elif [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+export PATH="$HOME"/.cargo/bin:$PATH
 export XDG_RUNTIME_DIR=$TMPDIR
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/Library/Caches
