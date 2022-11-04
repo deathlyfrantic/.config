@@ -48,9 +48,7 @@ local function indent(line)
 end
 
 local function in_string(line, col)
-  return z.any(vim.fn.synstack(line, col), function(id)
-    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch("string")
-  end)
+  return z.highlight_at_pos_contains("string", { line, col })
 end
 
 local function remove_last(stack, char)

@@ -1,4 +1,5 @@
 local api = vim.api
+local treesitter_is_enabled = require("nvim-treesitter.configs").is_enabled
 
 local function any(t, f)
   for i, v in ipairs(t) do
@@ -195,6 +196,27 @@ local function char_before_cursor()
   return api.nvim_get_current_line():sub(column, column)
 end
 
+local function highlight_at_pos_contains(pattern, pos)
+  if not pos then
+    pos = vim.api.nvim_win_get_cursor(0)
+    pos[2] = pos[2] - 1
+  end
+  local line, column = pos[1], pos[2]
+  -- try to get node type from treesitter first. treesitter uses 0-based
+  -- indexing so subtract one from line and column.
+  if treesitter_is_enabled("highlight", vim.bo.filetype, 0) then
+    local ok, node =
+      pcall(vim.treesitter.get_node_at_pos, 0, line - 1, column - 1)
+    if ok then
+      return node:type():imatch(pattern)
+    end
+  end
+  -- fall back to vim regex highlighting names
+  return any(vim.fn.synstack(line, column), function(id)
+    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
+  end)
+end
+
 return {
   any = any,
   all = all,
@@ -207,4 +229,5 @@ return {
   find_project_dir = find_project_dir,
   buf_is_real = buf_is_real,
   char_before_cursor = char_before_cursor,
+  highlight_at_pos_contains = highlight_at_pos_contains,
 }
