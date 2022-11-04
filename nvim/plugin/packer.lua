@@ -26,7 +26,7 @@ use({
   config = function()
     require("nvim-treesitter.configs").setup({
       ensure_installed = { "javascript", "rust", "python" },
-      highlight = { enable = false },
+      highlight = { enable = true },
     })
   end,
 })
