@@ -1,7 +1,7 @@
 local spy = require("luassert.spy")
 
-describe("string_extras", function()
-  require("string_extras")
+describe("string-extras", function()
+  require("z.string-extras")
 
   it("trim", function()
     local trim = spy.on(vim.fn, "trim")

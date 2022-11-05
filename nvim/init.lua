@@ -12,7 +12,7 @@ if vim.fn.has("vim_starting") == 1 then
   vim.g.loaded_2html_plugin = "vim7.4_v1"
 
   -- make sure my string extras are loaded and always available
-  require("string_extras")
+  require("z.string-extras")
 end
 -- }}}
 

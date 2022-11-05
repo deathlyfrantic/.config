@@ -1,4 +1,4 @@
-require("mono-colors").define("album", true, {
+require("z.mono-colors").define("album", true, {
   Normal = { fg = "#dadada", bg = "#1c1c1c" },
   Visual = { bg = "#080808" },
   CursorLine = { bg = "#262626" },

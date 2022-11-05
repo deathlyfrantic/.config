@@ -1,4 +1,4 @@
-require("mono-colors").define("copper", true, {
+require("z.mono-colors").define("copper", true, {
   Normal = { fg = "#d2c8c4", bg = "#000000" },
   Visual = { bg = "#221b19" },
   CursorLine = { bg = "#19100d" },
