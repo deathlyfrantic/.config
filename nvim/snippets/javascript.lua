@@ -1,47 +1,38 @@
 local ls = require("luasnip")
-local s = ls.snippet
 local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
+local make = require("z.snippets").make
 
-return {
-  s(
-    "ifmain",
-    fmt(
-      [[
-  function main() {
-    <>
-  }
+return make({
+  ifmain = fmt(
+    [[
+      function main() {
+        <>
+      }
 
-  if (require.main === module) {
-    main();
-  }
-  ]],
-      { i(0) },
-      { delimiters = "<>" }
-    )
+      if (require.main === module) {
+        main();
+      }
+    ]],
+    { i(0) },
+    { delimiters = "<>" }
   ),
-  s(
-    "describe",
-    fmt(
-      [[
-  describe("[]", () => {
-    []
-  };
-  ]],
-      { i(1), i(0) },
-      { delimiters = "[]" }
-    )
+  describe = fmt(
+    [[
+      describe("[]", () => {
+        []
+      };
+    ]],
+    { i(1), i(0) },
+    { delimiters = "[]" }
   ),
-  s(
-    "it",
-    fmt(
-      [[
-  it("[]", async () => {
-    []
-  };
-  ]],
-      { i(1), i(0) },
-      { delimiters = "[]" }
-    )
+  it = fmt(
+    [[
+      it("[]", async () => {
+        []
+      };
+    ]],
+    { i(1), i(0) },
+    { delimiters = "[]" }
   ),
-}
+})
