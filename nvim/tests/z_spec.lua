@@ -164,32 +164,6 @@ describe("z", function()
     end)
   end)
 
-  describe("include", function()
-    it("adds $VIMHOME to paths", function()
-      local nvim_err_writeln = stub(vim.api, "nvim_err_writeln")
-      local searchpath = spy.on(package, "searchpath")
-      local path = package.path
-      local vh = vim.env.VIMHOME
-      package.path = ""
-      assert.is_nil(z.include("foobar"))
-      assert.spy(searchpath).called_with(
-        "foobar",
-        string.format(";%s/?.lua;%s/lua/?.lua;%s/plugin/?.lua", vh, vh, vh)
-      )
-      assert
-        .stub(nvim_err_writeln)
-        .called_with("Can't find foobar.lua in package.path")
-      nvim_err_writeln:clear()
-      nvim_err_writeln:revert()
-      searchpath:revert()
-      package.path = path
-    end)
-
-    it("loads a package", function()
-      assert.truthy(z.include("z"))
-    end)
-  end)
-
   describe("collect", function()
     it("works on one-argument iterators", function()
       local i = 0

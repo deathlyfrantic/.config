@@ -77,23 +77,6 @@ local function popup(text)
   return win
 end
 
--- like require() but reloads file every time so i don't have to restart nvim
--- to test changes
-local function include(name)
-  local paths = package.path
-  if paths:match(vim.env.VIMHOME) == nil then
-    paths = paths .. ";" .. vim.env.VIMHOME .. "/?.lua"
-    paths = paths .. ";" .. vim.env.VIMHOME .. "/lua/?.lua"
-    paths = paths .. ";" .. vim.env.VIMHOME .. "/plugin/?.lua"
-  end
-  local path = package.searchpath(name, paths)
-  if path == nil then
-    api.nvim_err_writeln(("Can't find %s.lua in package.path"):format(name))
-    return
-  end
-  return loadfile(path)()
-end
-
 local function collect(...)
   local ret = {}
   for item in ... do
@@ -223,7 +206,6 @@ return {
   find = find,
   tbl_reverse = tbl_reverse,
   popup = popup,
-  include = include,
   collect = collect,
   get_hex_color = get_hex_color,
   find_project_dir = find_project_dir,
