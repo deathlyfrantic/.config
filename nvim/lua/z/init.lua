@@ -184,7 +184,7 @@ local function highlight_at_pos_contains(pattern, pos)
     pos = vim.api.nvim_win_get_cursor(0)
     pos[2] = pos[2] - 1
   end
-  local line, column = pos[1], pos[2]
+  local line, column = unpack(pos)
   -- try to get node type from treesitter first. treesitter uses 0-based
   -- indexing so subtract one from line and column.
   if treesitter_is_enabled("highlight", vim.bo.filetype, 0) then

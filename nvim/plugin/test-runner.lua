@@ -109,9 +109,9 @@ local function rust(selection)
 end
 
 local function find_nearest_javascript_test_from_treesitter()
-  local cursor = api.nvim_win_get_cursor(0)
-  local row, col = cursor[1] - 1, cursor[2]
-  local node = vim.treesitter.get_node_at_pos(0, row, col)
+  local row, col = unpack(api.nvim_win_get_cursor(0))
+  -- treesitter rows are 0-indexed
+  local node = vim.treesitter.get_node_at_pos(0, row - 1, col)
   while node do
     if node:type() == "call_expression" then
       local fn = node:field("function")[1]

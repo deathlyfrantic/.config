@@ -10,9 +10,9 @@ local function comment_string()
   if z.highlight_at_pos_contains("comment") then
     return ""
   end
-  local pieces =
+  local before, after = unpack(
     vim.split(vim.o.commentstring, "%s", { plain = true, trimempty = true })
-  local before, after = pieces[1], pieces[2]
+  )
   if not vim.endswith(before, " ") then
     before = before .. " "
   end
