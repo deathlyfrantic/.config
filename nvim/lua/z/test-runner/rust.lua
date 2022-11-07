@@ -65,7 +65,7 @@ local function test(selection)
     return cmd:sub(1, -2)
       .. string.format(
         " %s::)",
-        vim.fn.basename(api.nvim_buf_get_name(0)):match("(.*)%.")
+        vim.fs.basename(api.nvim_buf_get_name(0)):match("(.*)%.")
       )
   end
   return cmd
