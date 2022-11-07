@@ -7,7 +7,7 @@ local function find_nearest_test_from_treesitter()
     [[((mod_item
       (((identifier) @mod-name (#eq? @mod-name "tests"))
         (declaration_list
-          (attribute_item (meta_item (identifier) @attr (#eq? @attr "test")))
+          (attribute_item (attribute (identifier) @attr (#eq? @attr "test")))
             . (function_item (identifier) (block)) @testfn)))
     )]]
   )
