@@ -1,7 +1,7 @@
 local api = vim.api
 local find_nearest_test = require("z.test-runner.utils").find_nearest_test
 
-local function find_nearest_test_from_treesitter()
+local function find_nearest_treesitter()
   local query = vim.treesitter.parse_query(
     vim.bo.filetype,
     [[((mod_item
@@ -35,11 +35,22 @@ local function find_nearest_test_from_treesitter()
       end
     end
   end
-  return vim.treesitter.query.get_node_text(closest:field("name")[1], 0)
+  if closest ~= nil then
+    return vim.treesitter.query.get_node_text(closest:field("name")[1], 0)
+  end
+  return nil
+end
+
+local function find_nearest_regex()
+  vim.notify(
+    "couldn't find test from treesitter, falling back to regex",
+    vim.log.levels.ERROR
+  )
+  return find_nearest_test([[#\[test]\n\s*fn\s\+\(\w*\)(]], 2)
 end
 
 local function test(selection)
-  if not vim.fn.executable("cargo") then
+  if vim.fn.executable("cargo") == 0 then
     return nil
   end
   -- change to source dir in case file is in a subproject, but strip off the
@@ -49,18 +60,13 @@ local function test(selection)
     vim.fs.dirname(vim.fs.dirname(api.nvim_buf_get_name(0)))
   )
   if selection == "nearest" then
-    local mod_tests_line = vim.fn.search("^mod tests {$", "n")
-    if mod_tests_line == 0 then
-      return cmd
+    -- don't look for a test if we can't find the `mod tests {}` declaration
+    if vim.fn.search("^\\s*mod tests {$", "n") > 0 then
+      local nearest = find_nearest_treesitter() or find_nearest_regex()
+      if nearest ~= nil then
+        return cmd:sub(1, -2) .. string.format(" %s)", nearest)
+      end
     end
-    local nearest = find_nearest_test_from_treesitter()
-    if nearest == nil then
-      api.nvim_err_writeln(
-        "couldn't find test from treesitter, falling back to regex"
-      )
-      nearest = find_nearest_test([[#\[test]\n\s*fn\s\+\(\w*\)(]], 2)
-    end
-    return cmd:sub(1, -2) .. string.format(" %s)", nearest)
   elseif selection == "file" then
     return cmd:sub(1, -2)
       .. string.format(
@@ -71,4 +77,8 @@ local function test(selection)
   return cmd
 end
 
-return { test = test }
+return {
+  find_nearest_treesitter = find_nearest_treesitter,
+  find_nearest_regex = find_nearest_regex,
+  test = test,
+}

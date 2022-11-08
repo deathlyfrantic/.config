@@ -1,7 +1,10 @@
 local api = vim.api
 
 local function get_match_lines(start, num)
-  return table.concat(api.nvim_buf_get_lines(0, start, start + num, true), "\n")
+  return table.concat(
+    api.nvim_buf_get_lines(0, start, start + num, false),
+    "\n"
+  )
 end
 
 local function find_nearest_test(pattern, atom)
