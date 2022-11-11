@@ -1,42 +1,14 @@
 local api = vim.api
-local find_nearest_test = require("z.test-runner.utils").find_nearest_test
+local utils = require("z.test-runner.utils")
 
 local function find_nearest_treesitter()
-  local query = vim.treesitter.parse_query(
-    vim.bo.filetype,
+  return utils.find_nearest_test_via_treesitter(
     [[((call_expression
       function: ((identifier) @fn (#match? @fn "^(describe|it|test|context)$")) 
-      arguments: (arguments . (string ((string_fragment) @testname)))) @testfn)
-    ]]
+      arguments: (arguments . (string ((string_fragment) @testname)))))
+    ]],
+    "testname"
   )
-  local tree = vim.treesitter.get_parser():parse()
-  local cursor_row = api.nvim_win_get_cursor(0)[1]
-  local closest = nil
-  for id, node, _ in query:iter_captures(tree[1]:root(), 0) do
-    local name = query.captures[id]
-    if name == "testname" then
-      local row1, _, row2, _ = node:range()
-      -- rows are 0-indexed
-      row1 = row1 + 1
-      row2 = row2 + 1
-      -- if the cursor is in the test it's easy
-      if row1 <= cursor_row and row2 >= cursor_row then
-        return vim.treesitter.query.get_node_text(node, 0)
-      end
-      -- cursor not in this test, so check if it's near the cursor.
-      -- we're iterating in order so keep setting the closest to the current
-      -- node as long as it's before the cursor; if we've passed the cursor and
-      -- still haven't found a test, set it to the one closest to the test after
-      -- the cursor, then stop.
-      if row2 < cursor_row or closest == nil then
-        closest = node
-      end
-    end
-  end
-  if closest ~= nil then
-    return vim.treesitter.query.get_node_text(closest, 0)
-  end
-  return nil
 end
 
 local function find_nearest_regex()
@@ -44,7 +16,7 @@ local function find_nearest_regex()
     "couldn't find test from treesitter, falling back to regex",
     vim.log.levels.ERROR
   )
-  local test = find_nearest_test(
+  local test = utils.find_nearest_test(
     [[^\s*\(it\|describe\|test\|context\)(["'']\(.*\)["''],]],
     3
   )
