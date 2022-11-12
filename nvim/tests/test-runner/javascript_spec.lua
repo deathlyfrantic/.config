@@ -1,14 +1,10 @@
 local stub = require("luassert.stub")
 local match = require("luassert.match")
-local dedent = require("plenary.strings").dedent
 local javascript = require("z.test-runner.javascript")
-
-local function set_cursor(row, col)
-  vim.api.nvim_win_set_cursor(0, { row, col or 0 })
-end
+local utils = require("z.test-utils")
 
 describe("test-runner/javascript", function()
-  local template = dedent([[
+  local template = [[
     describe("tests", () => {
       it("test1", () => {
         // ...
@@ -31,17 +27,16 @@ describe("test-runner/javascript", function()
       });
     });
 
-    ]])
+    ]]
 
   before_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, template:split("\n"))
+    utils.set_buf(template)
     vim.bo.filetype = "javascript"
   end)
 
   after_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-    -- doing it this way prevents the "unknown filetype" error from printing
-    vim.cmd("silent! setlocal filetype ''")
+    utils.clear_buf()
+    utils.clear_filetype()
   end)
 
   describe("treesitter", function()
@@ -57,13 +52,13 @@ describe("test-runner/javascript", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, javascript.find_nearest_treesitter())
       end
     end)
 
     it("returns nil if cursor is not in test/describe block", function()
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+      utils.clear_buf()
       assert.is_nil(javascript.find_nearest_treesitter())
     end)
   end)
@@ -80,7 +75,7 @@ describe("test-runner/javascript", function()
     end)
 
     it("logs error if called (because treesitter didn't find test)", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       assert.equals("test1", javascript.find_nearest_regex())
       assert.stub(notify).called_with(match.string(), vim.log.levels.ERROR)
     end)
@@ -99,13 +94,13 @@ describe("test-runner/javascript", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, javascript.find_nearest_regex())
       end
     end)
 
     it("returns nil if it can't find a test", function()
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+      utils.clear_buf()
       assert.is_nil(javascript.find_nearest_regex())
     end)
   end)
@@ -153,7 +148,7 @@ describe("test-runner/javascript", function()
     end)
 
     it("returns command for nearest", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       assert.equals(
         "npx mocha -- spec /foobar/file.js --grep='test1'",
         javascript.mocha("nearest")
@@ -161,7 +156,7 @@ describe("test-runner/javascript", function()
     end)
 
     it("adds pretest if provided", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       assert.equals(
         "pretest && npx mocha -- spec /foobar/file.js --grep='test1'",
         javascript.mocha("nearest", "pretest")
@@ -181,7 +176,7 @@ describe("test-runner/javascript", function()
 
     it("returns generic test command if nearest test is nil", function()
       local notify = stub(vim, "notify")
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+      utils.clear_buf()
       assert.equals("npm test", javascript.mocha("nearest"))
       notify:revert()
     end)
@@ -200,7 +195,7 @@ describe("test-runner/javascript", function()
     end)
 
     it("returns command for nearest", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       assert.equals("npm test -- -t 'test1'", javascript.jest("nearest"))
     end)
 
@@ -214,7 +209,7 @@ describe("test-runner/javascript", function()
 
     it("returns generic test command if nearest test is nil", function()
       local notify = stub(vim, "notify")
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+      utils.clear_buf()
       assert.equals("npm test --", javascript.jest("nearest"))
       notify:revert()
     end)
@@ -253,7 +248,7 @@ describe("test-runner/javascript", function()
     it(
       "returns mocha command if package.json scripts.test contains 'mocha'",
       function()
-        set_cursor(3)
+        utils.set_cursor(3)
         findfile.returns("/foobar/package.json")
         ioopen.returns({
           read = function()
@@ -270,7 +265,7 @@ describe("test-runner/javascript", function()
     it(
       "returns jest command if package.json scripts.test contains 'jest'",
       function()
-        set_cursor(3)
+        utils.set_cursor(3)
         findfile.returns("/foobar/package.json")
         ioopen.returns({
           read = function()
@@ -282,7 +277,7 @@ describe("test-runner/javascript", function()
     )
 
     it("returns generic test command for other cases", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       findfile.returns("/foobar/package.json")
       ioopen.returns({
         read = function()

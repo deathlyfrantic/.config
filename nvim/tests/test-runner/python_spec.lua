@@ -1,14 +1,10 @@
 local stub = require("luassert.stub")
 local match = require("luassert.match")
-local dedent = require("plenary.strings").dedent
 local python = require("z.test-runner.python")
-
-local function set_cursor(row, col)
-  vim.api.nvim_win_set_cursor(0, { row, col or 0 })
-end
+local utils = require("z.test-utils")
 
 describe("test-runner/python", function()
-  local template = dedent([[
+  local template = [[
     class TestFoo:
         def test_in_class1():
             pass
@@ -34,17 +30,16 @@ describe("test-runner/python", function()
 
 
     def not_a_test():
-        pass]])
+        pass]]
 
   before_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, template:split("\n"))
+    utils.set_buf(template)
     vim.bo.filetype = "python"
   end)
 
   after_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-    -- doing it this way prevents the "unknown filetype" error from printing
-    vim.cmd("silent! setlocal filetype ''")
+    utils.clear_buf()
+    utils.clear_filetype()
   end)
 
   describe("treesitter", function()
@@ -64,7 +59,7 @@ describe("test-runner/python", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, python.find_nearest_treesitter())
       end
     end)
@@ -87,7 +82,7 @@ describe("test-runner/python", function()
     end)
 
     it("logs error if called (because treesitter didn't find test)", function()
-      set_cursor(3)
+      utils.set_cursor(3)
       assert.equals("test_in_class1", python.find_nearest_regex())
       assert.stub(notify).called_with(match.string(), vim.log.levels.ERROR)
     end)
@@ -109,7 +104,7 @@ describe("test-runner/python", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, python.find_nearest_regex())
       end
     end)

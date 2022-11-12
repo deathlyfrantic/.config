@@ -1,38 +1,33 @@
 local stub = require("luassert.stub")
 local match = require("luassert.match")
-local dedent = require("plenary.strings").dedent
 local rust = require("z.test-runner.rust")
-
-local function set_cursor(row, col)
-  vim.api.nvim_win_set_cursor(0, { row, col or 0 })
-end
+local utils = require("z.test-utils")
 
 describe("test-runner/rust", function()
-  local template = dedent([[
-      #[cfg(test)]
-      mod tests {
-          use super::*;
+  local template = [[
+    #[cfg(test)]
+    mod tests {
+      use super::*;
 
-          #[test]
-          fn test_foo() {
-              // ...
-          }
+      #[test]
+      fn test_foo() {
+        // ...
+      }
 
-          #[test]
-          fn test_bar() {
-              // ...
-          }
-      }]])
+      #[test]
+      fn test_bar() {
+        // ...
+      }
+    }]]
 
   before_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, template:split("\n"))
+    utils.set_buf(template)
     vim.bo.filetype = "rust"
   end)
 
   after_each(function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-    -- doing it this way prevents the "unknown filetype" error from printing
-    vim.cmd("silent! setlocal filetype ''")
+    utils.clear_buf()
+    utils.clear_filetype()
   end)
 
   describe("treesitter", function()
@@ -46,14 +41,14 @@ describe("test-runner/rust", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, rust.find_nearest_treesitter())
       end
     end)
 
     it("returns nil if it cannot find a test", function()
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-      set_cursor(1)
+      utils.clear_buf()
+      utils.set_cursor(1)
       assert.is_nil(rust.find_nearest_treesitter())
     end)
   end)
@@ -70,7 +65,7 @@ describe("test-runner/rust", function()
     end)
 
     it("logs error if called (because treesitter didn't find test)", function()
-      set_cursor(1)
+      utils.set_cursor(1)
       assert.equals("test_foo", rust.find_nearest_regex())
       assert.stub(notify).called_with(match.string(), vim.log.levels.ERROR)
     end)
@@ -85,14 +80,14 @@ describe("test-runner/rust", function()
       }
       for _, test_case in ipairs(test_cases) do
         local line, expected = unpack(test_case)
-        set_cursor(line)
+        utils.set_cursor(line)
         assert.equals(expected, rust.find_nearest_regex())
       end
     end)
 
     it("returns nil if it cannot find a test", function()
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-      set_cursor(1)
+      utils.clear_buf()
+      utils.set_cursor(1)
       assert.is_nil(rust.find_nearest_regex())
     end)
   end)
@@ -122,7 +117,7 @@ describe("test-runner/rust", function()
     end)
 
     it("returns command for a specific test", function()
-      set_cursor(1)
+      utils.set_cursor(1)
       assert.equals("(cd /foobar && cargo test test_foo)", rust.test("nearest"))
     end)
 

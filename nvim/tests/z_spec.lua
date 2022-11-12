@@ -2,6 +2,7 @@ local z = require("z")
 local spy = require("luassert.spy")
 local stub = require("luassert.stub")
 local treesitter_config = require("nvim-treesitter.configs")
+local utils = require("z.test-utils")
 
 describe("z", function()
   describe("any", function()
@@ -339,25 +340,23 @@ describe("z", function()
     local s = "foobar"
 
     before_each(function()
-      vim.api.nvim_buf_set_lines(0, 0, 0, false, { s })
+      utils.set_buf(s)
     end)
 
-    after_each(function()
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-    end)
+    after_each(utils.clear_buf)
 
     it("returns correct values", function()
       -- can't set cursor to 6 to check against "r" because there is no trailing
       -- space and the position is clamped; cursor position { 1, 6 } is the same
       -- as position { 1, 5 }
       for i = 1, #s - 1 do
-        vim.api.nvim_win_set_cursor(0, { 1, i })
+        utils.set_cursor(1, i)
         assert.equals(z.char_before_cursor(), s:sub(i, i))
       end
     end)
 
     it('returns "" if in the first column', function()
-      vim.api.nvim_win_set_cursor(0, { 1, 0 })
+      utils.set_cursor(1)
       assert.equals(z.char_before_cursor(), "")
     end)
   end)
@@ -369,14 +368,14 @@ describe("z", function()
       is_enabled = stub(treesitter_config, "is_enabled")
       get_node_at_pos = spy.on(vim.treesitter, "get_node_at_pos")
       vim.bo.filetype = "lua"
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, { [[local s = "foobar"]] })
+      utils.set_buf([[local s = "foobar"]])
     end)
 
     after_each(function()
       is_enabled:revert()
       get_node_at_pos:revert()
-      vim.bo.filetype = ""
-      vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+      utils.clear_buf()
+      utils.clear_filetype()
     end)
 
     it("uses treesitter highlighting if it is enabled", function()
@@ -401,7 +400,7 @@ describe("z", function()
       local nvim_win_get_cursor = spy.on(vim.api, "nvim_win_get_cursor")
       vim.cmd.TSBufEnable("highlight")
       is_enabled.returns(true)
-      vim.api.nvim_win_set_cursor(0, { 1, 13 })
+      utils.set_cursor(1, 13)
       assert.is_truthy(z.highlight_at_pos_contains("string"))
       assert.spy(get_node_at_pos).called_with(0, 0, 11)
       assert.spy(nvim_win_get_cursor).called_with(0)
