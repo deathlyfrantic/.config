@@ -5,6 +5,7 @@ local mt = {
   runners = {
     javascript = require("z.test-runner.javascript").test,
     make = require("z.test-runner.makefile").test,
+    python = require("z.test-runner.python").test,
     rust = require("z.test-runner.rust").test,
     typescript = require("z.test-runner.javascript").test,
   },
