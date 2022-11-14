@@ -82,20 +82,19 @@ end)
 -- find which zsh to use
 local shell_locations = {
   -- homebrew-installed zsh on intel macs
-  "/usr/local/bin/zsh",
+  "/usr/local/bin",
   -- homebrew-installed zsh on apple silicon macs
-  "/opt/homebrew/bin/zsh",
+  "/opt/homebrew/bin",
   -- zsh not installed via homebrew
-  "/usr/bin/zsh",
+  "/usr/bin",
 }
 
 local zsh = "zsh"
+local tmux = "tmux"
 for _, location in ipairs(shell_locations) do
-  if
-    io.popen("ls " .. location .. " 2>/dev/null"):read("*all")
-    == location .. "\n"
-  then
-    zsh = location
+  if io.popen("ls " .. location .. "/zsh 2>/dev/null"):read("*all") ~= "" then
+    zsh = location .. "/zsh"
+    tmux = location .. "/tmux"
     break
   end
 end
@@ -104,7 +103,7 @@ return {
   audible_bell = "Disabled",
   color_scheme = "Builtin Tango Dark",
   custom_block_glyphs = false,
-  default_prog = { zsh, "-c", "tmux" },
+  default_prog = { zsh, "-c", tmux },
   enable_tab_bar = false,
   freetype_load_target = "Normal",
   font = wezterm.font("SF Mono", { weight = "Medium" }),
