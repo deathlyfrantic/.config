@@ -73,6 +73,12 @@ add_tmux_key("f", "SHIFT|CMD", "F")
 -- thumbs
 add_tmux_key(" ", "SHIFT|CMD")
 
+-- maximize window on startup
+wezterm.on("gui-startup", function(cmd)
+  local _, _, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
+
 -- find which zsh to use
 local shell_locations = {
   -- homebrew-installed zsh on intel macs
@@ -82,12 +88,6 @@ local shell_locations = {
   -- zsh not installed via homebrew
   "/usr/bin/zsh",
 }
-
--- maximize window on startup
-wezterm.on("gui-startup", function(cmd)
-  local _, _, window = wezterm.mux.spawn_window(cmd or {})
-  window:gui_window():maximize()
-end)
 
 local zsh = "zsh"
 for _, location in ipairs(shell_locations) do
