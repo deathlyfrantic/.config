@@ -1,7 +1,7 @@
-local api = vim.api
+local TermWindow = require("z.term-window")
 
 local mt = {
-  test_buffer = nil,
+  term_window = nil,
   runners = {
     javascript = require("z.test-runner.javascript").test,
     make = require("z.test-runner.makefile").test,
@@ -14,99 +14,42 @@ mt.__index = mt
 local TestRunner = {}
 setmetatable(TestRunner, mt)
 
-function TestRunner.scroll_to_end(self)
-  local current_window = api.nvim_get_current_win()
-  for _, w in ipairs(vim.fn.win_findbuf(self.test_buffer)) do
-    api.nvim_set_current_win(w)
-    vim.cmd.normal("G")
-  end
-  api.nvim_set_current_win(current_window)
-end
-
-function TestRunner.on_exit(self, ...)
-  local close, _, exit_code = select(1, ...)
+function on_exit(_, exit_code)
   if exit_code == 0 then
-    if close then
-      vim.defer_fn(function()
-        if api.nvim_buf_is_valid(self.test_buffer) then
-          api.nvim_buf_delete(self.test_buffer, { force = true })
-        end
-      end, 1000)
-    end
-    api.nvim_echo(
+    vim.api.nvim_echo(
       { { "Tests pass. (Test runner exit code was 0.)", "Success" } },
       false,
       {}
     )
-  else
-    self:scroll_to_end()
-  end
-end
-
--- function body declared below - this is a hack to avoid circular dependencies
-function TestRunner.rerun(self)
-  vim.bo[self.test_buffer].modified = false
-  vim.bo[self.test_buffer].modifiable = true
-  local close = vim.b.close
-  if close == nil then
-    close = true
-  end
-  self:run(vim.b.command, close)
-end
-
-function TestRunner.load_or_create_buffer(self)
-  if self.test_buffer ~= nil and api.nvim_buf_is_valid(self.test_buffer) then
-    api.nvim_set_current_buf(self.test_buffer)
-  else
-    self.test_buffer = api.nvim_create_buf(false, false)
-    vim.bo[self.test_buffer].buftype = "nofile"
-    vim.bo[self.test_buffer].modifiable = false
-    api.nvim_set_current_buf(self.test_buffer)
-    api.nvim_create_autocmd("BufDelete", {
-      buffer = self.test_buffer,
-      callback = function()
-        self.test_buffer = nil
-      end,
-    })
-    vim.keymap.set(
-      "n",
-      "q",
-      ":bd!<CR>",
-      { buffer = self.test_buffer, silent = true }
-    )
-    vim.keymap.set("n", "R", function()
-      self:rerun()
-    end, { buffer = self.test_buffer, silent = true })
-  end
-end
-
-function TestRunner.new_test_window(self)
-  local height = math.floor(vim.o.lines / 3)
-  vim.cmd("botright " .. height .. "split")
-  self:load_or_create_buffer()
-end
-
-function TestRunner.ensure_test_window(self)
-  if #vim.fn.win_findbuf(self.test_buffer) < 1 then
-    self:new_test_window()
   end
 end
 
 function TestRunner.run(self, cmd, close)
-  self:ensure_test_window()
-  api.nvim_set_current_win(vim.fn.win_findbuf(self.test_buffer)[1])
-  vim.b.command = cmd
-  vim.b.close = close
-  vim.bo.modified = false
-  vim.fn.termopen(cmd, {
-    on_exit = function(...)
-      self:on_exit(close, ...)
-    end,
-  })
-  self:scroll_to_end()
+  if not self.term_window then
+    self.term_window = TermWindow.new({ close_on_success = close })
+    self.term_window:on("Exit", function(...)
+      on_exit(...)
+    end)
+    self.term_window:on("BufDelete", function()
+      self.term_window = nil
+    end)
+    self.term_window:on("BufAdd", function()
+      local buf = self.term_window.buffer
+      vim.keymap.set("n", "R", function()
+        -- rerun the tests
+        vim.bo[buf].modified = false
+        vim.bo[buf].modifiable = true
+        self:run(cmd, self.term_window.close_on_success)
+      end, { buffer = buf, silent = true })
+    end)
+  else
+    -- do this here in case we're reusing the TermWindow for another test
+    self.term_window.close_on_success = close
+  end
+  self.term_window:run(cmd)
 end
 
-function TestRunner.test(self, selection, force)
+function TestRunner.test(self, selection, close)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
@@ -124,7 +67,7 @@ function TestRunner.test(self, selection, force)
       -- vimscript and echo the result, which we then capture as a string :oof:
       table.insert(
         test_cmds,
-        api.nvim_exec("echo b:test_command." .. selection .. "()", true)
+        vim.api.nvim_exec("echo b:test_command." .. selection .. "()", true)
       )
     end
   elseif self.runners[filetype] ~= nil then
@@ -144,13 +87,11 @@ function TestRunner.test(self, selection, force)
   else
     table.insert(errs, "no `Makefile` found")
   end
-  local current_window = api.nvim_get_current_win()
   if #test_cmds > 0 then
-    self:run(test_cmds[1], force)
+    self:run(test_cmds[1], close)
   else
-    api.nvim_err_writeln(table.concat(errs, " and "))
+    vim.notify(table.concat(errs, " and "), vim.log.levels.ERROR)
   end
-  api.nvim_set_current_win(current_window)
 end
 
 return {
