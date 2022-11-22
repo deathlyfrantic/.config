@@ -197,7 +197,10 @@ local function star(args)
     mode = args.args
   end
   if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
-    api.nvim_err_writeln(string.format("'%s' is not a valid mode", mode))
+    vim.notify(
+      string.format("'%s' is not a valid mode", mode),
+      vim.log.levels.ERROR
+    )
     return
   end
   open_star_buffer(mode)

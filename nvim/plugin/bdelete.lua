@@ -6,7 +6,7 @@ local e89 = "E89: No write since last change for buffer %d (add ! to override)"
 local function delete_current(force)
   local buf = api.nvim_get_current_buf()
   if vim.bo[buf].modified and not force then
-    api.nvim_err_writeln(e89:format(buf))
+    vim.notify(e89:format(buf), vim.log.levels.ERROR)
     return
   end
   if vim.fn.bufexists(0) == 1 and vim.fn.buflisted(0) == 1 then
@@ -34,7 +34,7 @@ local function delete_by_name(force, name, term)
   end, api.nvim_list_bufs())
   for _, b in ipairs(bufs) do
     if vim.bo[b].modified and not force then
-      api.nvim_err_writeln(e89:format(b))
+      vim.notify(e89:format(b), vim.log.levels.ERROR)
       return
     end
   end

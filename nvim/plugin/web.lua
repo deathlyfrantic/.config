@@ -1,5 +1,3 @@
-local api = vim.api
-
 local search_url = "https://duckduckgo.com/?q=%s"
 
 local function browser(url)
@@ -15,8 +13,9 @@ end
 
 local function operator(kind)
   local error = function(msg)
-    vim.api.nvim_err_writeln(
-      msg or "Multiline selections do not work with this operator"
+    vim.notify(
+      msg or "Multiline selections do not work with this operator",
+      vim.log.levels.ERROR
     )
   end
   if kind:match("[V]") then
@@ -47,11 +46,11 @@ end
 _G.web = { operator = operator }
 
 -- Browse alias is for Fugitive's Gbrowse
-api.nvim_create_user_command("Browse", "Web <args>", { nargs = 1 })
-api.nvim_create_user_command("Web", function(args)
+vim.api.nvim_create_user_command("Browse", "Web <args>", { nargs = 1 })
+vim.api.nvim_create_user_command("Web", function(args)
   browser(args.args)
 end, { nargs = 1 })
-api.nvim_create_user_command("Search", function(args)
+vim.api.nvim_create_user_command("Search", function(args)
   search(args.args)
 end, { nargs = 1 })
 

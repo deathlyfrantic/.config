@@ -1,6 +1,6 @@
 local function dot_to_png(args)
   if vim.fn.executable("dot") == 0 then
-    vim.api.nvim_err_writeln("Graphviz/Dot is not available.")
+    vim.notify("Graphviz/Dot is not available.", vim.log.levels.ERROR)
     return
   end
   local filename = vim.fs.normalize(vim.api.nvim_buf_get_name(0))

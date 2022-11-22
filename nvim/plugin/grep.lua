@@ -1,5 +1,3 @@
-local api = vim.api
-
 local function grep(args)
   vim.cmd(
     "silent grep! "
@@ -11,7 +9,7 @@ local function grep(args)
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
     vim.cmd.redraw({ bang = true })
-    api.nvim_echo({ { "No matches found." } }, false, {})
+    vim.api.nvim_echo({ { "No matches found." } }, false, {})
   else
     if args.bang then
       vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
@@ -24,8 +22,9 @@ end
 
 local function operator(kind)
   local error = function(msg)
-    api.nvim_err_writeln(
-      msg or "Multiline selections do not work with this operator"
+    vim.notify(
+      msg or "Multiline selections do not work with this operator",
+      vim.log.levels.ERROR
     )
   end
   if kind:match("[V]") then
@@ -78,10 +77,10 @@ if vim.fn.executable("rg") then
     grep(args)
     vim.opt_local.grepprg = saved_grepprg
   end
-  api.nvim_create_user_command("Rg", rg, { bang = true, nargs = "+" })
+  vim.api.nvim_create_user_command("Rg", rg, { bang = true, nargs = "+" })
 end
 
-api.nvim_create_user_command("Grep", grep, { bang = true, nargs = "+" })
+vim.api.nvim_create_user_command("Grep", grep, { bang = true, nargs = "+" })
 
 vim.keymap.set("n", "g/", ":Grep ")
 vim.keymap.set("n", "g/%", ":Grep <C-r>=expand('%:p:t:r')<CR><CR>")
