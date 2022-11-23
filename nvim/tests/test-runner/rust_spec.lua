@@ -7,17 +7,17 @@ describe("test-runner/rust", function()
   local template = [[
     #[cfg(test)]
     mod tests {
-      use super::*;
+        use super::*;
 
-      #[test]
-      fn test_foo() {
-        // ...
-      }
+        #[test]
+        fn test_foo() {
+            // ...
+        }
 
-      #[test]
-      fn test_bar() {
-        // ...
-      }
+        #[test]
+        fn test_bar() {
+            // ...
+        }
     }]]
 
   before_each(function()
