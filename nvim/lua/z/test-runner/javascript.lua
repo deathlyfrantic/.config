@@ -4,7 +4,7 @@ local utils = require("z.test-runner.utils")
 local function find_nearest_treesitter()
   return utils.find_nearest_test_via_treesitter(
     [[((call_expression
-      function: ((identifier) @fn (#match? @fn "^(describe|it|test|context)$")) 
+      function: ((identifier) @fn (#any-of? @fn "describe" "it" "test" "context")) 
       arguments: (arguments . (string ((string_fragment) @testname)))))
     ]],
     "testname"
