@@ -171,8 +171,7 @@ local function buf_is_real(b)
 end
 
 local function char_before_cursor()
-  local cursor = api.nvim_win_get_cursor(0)
-  local column = cursor[2]
+  local column = api.nvim_win_get_cursor(0)[2]
   if column < 1 then
     return ""
   end

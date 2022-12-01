@@ -2,10 +2,10 @@ local api = vim.api
 local z = require("z")
 
 local function findstart()
-  local cursor = api.nvim_win_get_cursor(0)
+  local row = api.nvim_win_get_cursor(0)[1]
   local pos = vim.fn.searchpos([[\s]], "bn")
   -- cursor is on same line as found whitespace
-  if pos[1] == cursor[1] then
+  if pos[1] == row then
     return pos[2]
   end
   return 0
@@ -26,15 +26,11 @@ end
 local function undouble()
   -- stolen from Damian Conway
   -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/003fb8e06e1b8d321a129869a62eaa702cea6dc9/.vimrc#L1372-L1381
-  local cursor = api.nvim_win_get_cursor(0)
+  local row, col = unpack(api.nvim_win_get_cursor(0))
   local line = api.nvim_get_current_line()
-  local new_line = vim.fn.substitute(
-    line,
-    [[\(\.\?\k\+\)\%]] .. cursor[2] + 1 .. [[c\zs\1]],
-    "",
-    ""
-  )
-  api.nvim_buf_set_lines(0, cursor[1] - 1, cursor[1], true, { new_line })
+  local new_line =
+    vim.fn.substitute(line, [[\(\.\?\k\+\)\%]] .. col + 1 .. [[c\zs\1]], "", "")
+  api.nvim_buf_set_lines(0, row - 1, row, true, { new_line })
 end
 
 local function wrap(f)
@@ -42,10 +38,10 @@ local function wrap(f)
     -- assuming this is the name of a viml function
     f = vim.fn[f]
   end
-  local cursor = api.nvim_win_get_cursor(0)
+  local col = api.nvim_win_get_cursor(0)[2]
   local start = f(true, 0)
   local line = api.nvim_get_current_line()
-  local base = line:sub(start, cursor[2] + 1)
+  local base = line:sub(start, col + 1)
   vim.fn.complete(start + 1, f(false, base))
 end
 
