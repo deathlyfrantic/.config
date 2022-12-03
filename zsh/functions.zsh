@@ -36,22 +36,3 @@ function zshaddhistory {
     done
     return 0
 }
-
-function timer {
-    local secs=${1:-60}
-    local pf=" %$(($COLUMNS / 2))s\e[0K\r"
-    printf "\n"
-    for i in $(seq $secs 1); do
-        printf $pf $i
-        sleep 1
-    done
-    printf "$pf\n\n" "DONE"
-    tput bel
-}
-
-function nofail {
-    false
-    until [[ $? -eq 0 ]]; do
-        $*
-    done
-}
