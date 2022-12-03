@@ -1,3 +1,4 @@
+# shellcheck disable=SC2206
 fpath=(/usr/local/share/zsh-completions/ /opt/homebrew/share/zsh-completions/ $fpath)
 
 # colors are important here in the future, where we live
@@ -5,15 +6,16 @@ autoload colors; colors
 
 typeset -A fg_bright
 if [[ $TERM == 'tmux-256color' || -n "$COLORTERM" || -n $VIMHOME || $TERM_PROGRAM == "Apple_Terminal" ]]; then
-    fg_bright+=(black   $(echo -e '\e[90m'))
-    fg_bright+=(red     $(echo -e '\e[91m'))
-    fg_bright+=(green   $(echo -e '\e[92m'))
-    fg_bright+=(yellow  $(echo -e '\e[93m'))
-    fg_bright+=(blue    $(echo -e '\e[94m'))
-    fg_bright+=(magenta $(echo -e '\e[95m'))
-    fg_bright+=(cyan    $(echo -e '\e[96m'))
+    fg_bright+=([black]=$(echo -e '\e[90m'))
+    fg_bright+=([red]=$(echo -e '\e[91m'))
+    fg_bright+=([green]=$(echo -e '\e[92m'))
+    fg_bright+=([yellow]=$(echo -e '\e[93m'))
+    fg_bright+=([blue]=$(echo -e '\e[94m'))
+    fg_bright+=([magenta]=$(echo -e '\e[95m'))
+    fg_bright+=([cyan]=$(echo -e '\e[96m'))
 else
-    set -A fg_bright ${(kv)fg_bold}
+    # shellcheck disable=SC2296
+    set -A fg_bright "${(@kv)fg_bold}"
 fi
 
 # general options
@@ -24,9 +26,9 @@ unsetopt beep case_glob flowcontrol
 set-up-prompt
 
 # history
-HISTFILE="$XDG_DATA_HOME"/zsh-history
-HISTSIZE=1000000
-SAVEHIST=1000000
+export HISTFILE="$XDG_DATA_HOME"/zsh-history
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 
 # i have no idea what this stuff does! it was in here from the beginning
 zstyle :compinstall filename "$ZDOTDIR/.zshrc"
@@ -48,7 +50,7 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/"
 
 # Show titles for completion types and group by type
-zstyle ':completion:*:descriptions' format "$fg_bold[black]:: $fg_bold[blue]%d$reset_color"
+zstyle ':completion:*:descriptions' format "${fg_bold[black]}:: ${fg_bold[blue]}%d$reset_color"
 zstyle ':completion:*' group-name ''
 
 # Ignore some common useless files
@@ -56,13 +58,11 @@ zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__' '.DS_Store' 'node
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
 # substring search must be sourced after syntax highlighting to work correctly
-plugins=(zsh-syntax-highlighting zsh-history-substring-search)
-
-for plugin in $plugins; do
-    if [ -f /opt/homebrew/share/$plugin/$plugin.zsh ]; then
-        source /opt/homebrew/share/$plugin/$plugin.zsh
-    elif [ -f /usr/local/share/$plugin/$plugin.zsh ]; then
-        source /usr/local/share/$plugin/$plugin.zsh
+for plugin in zsh-syntax-highlighting zsh-history-substring-search; do
+    if [ -f "/opt/homebrew/share/$plugin/$plugin.zsh" ]; then
+        source "/opt/homebrew/share/$plugin/$plugin.zsh"
+    elif [ -f "/usr/local/share/$plugin/$plugin.zsh" ]; then
+        source "/usr/local/share/$plugin/$plugin.zsh"
     else
         echo "$plugin plugin not found"
     fi
@@ -71,8 +71,8 @@ done
 # hopefully a much saner keyboard mapping section
 bindkey -e
 autoload zkbd
-if [[ -a $ZDOTDIR/zkbd/$TERM ]]; then
-    source $ZDOTDIR/zkbd/$TERM
+if [[ -a "$ZDOTDIR/zkbd/$TERM" ]]; then
+    source "$ZDOTDIR/zkbd/$TERM"
     [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
     [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
     [[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char

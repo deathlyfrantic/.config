@@ -14,11 +14,11 @@ function set_title {
 function precmd {
     local dir=${PWD/$HOME/\~}
     set_title "zsh $dir"
-    echo $fg_bright[black]$(repeat $COLUMNS printf -- '-%.0s')$reset_color
+    echo "${fg_bright[black]}$(repeat $COLUMNS printf -- '-%.0s')$reset_color"
 }
 
 function preexec {
-    set_title $*
+    set_title "$@"
 }
 
 function zshaddhistory {
@@ -29,7 +29,7 @@ function zshaddhistory {
         '^ll '
         '^ll$'
     )
-    for i in $boring; do
+    for i in "${boring[@]}"; do
         if [[ $1 =~ $i ]]; then
             return 1
         fi
