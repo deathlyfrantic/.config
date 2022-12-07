@@ -334,6 +334,7 @@ use({
     require("luasnip.loaders.from_lua").load({
       paths = vim.fs.normalize("$VIMHOME/snippets"),
     })
+    ls.filetype_extend("typescript", { "javascript" })
   end,
 })
 
