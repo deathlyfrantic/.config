@@ -199,6 +199,30 @@ local function highlight_at_pos_contains(pattern, pos)
   end)
 end
 
+local function help(contents)
+  if type(contents) == "string" then
+    contents = vim.split(contents, "\n", { plain = true, trimempty = true })
+  end
+  local help_win = find(vim.api.nvim_list_wins(), function(win)
+    return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"
+  end)
+  if not help_win then
+    vim.cmd.split()
+    help_win = vim.api.nvim_get_current_win()
+  end
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, contents)
+  vim.bo[buf].buftype = "help"
+  vim.bo[buf].filetype = "help"
+  vim.bo[buf].readonly = true
+  vim.bo[buf].modified = false
+  vim.bo[buf].modifiable = false
+  vim.api.nvim_win_set_buf(help_win, buf)
+  if #contents < vim.api.nvim_win_get_height(help_win) then
+    vim.api.nvim_win_set_height(help_win, #contents)
+  end
+end
+
 return {
   any = any,
   all = all,
@@ -211,4 +235,5 @@ return {
   buf_is_real = buf_is_real,
   char_before_cursor = char_before_cursor,
   highlight_at_pos_contains = highlight_at_pos_contains,
+  help = help,
 }

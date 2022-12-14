@@ -24,9 +24,14 @@ local function clear_filetype()
   vim.cmd("silent! setlocal filetype ''")
 end
 
+local function get_buf(buf)
+  return vim.api.nvim_buf_get_lines(buf or 0, 0, -1, false)
+end
+
 return {
   set_cursor = set_cursor,
   set_buf = set_buf,
   clear_buf = clear_buf,
   clear_filetype = clear_filetype,
+  get_buf = get_buf,
 }
