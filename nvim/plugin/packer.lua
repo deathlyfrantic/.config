@@ -163,10 +163,10 @@ use({
     vim.g.ale_fixers = {
       ["*"] = { "remove_trailing_lines", "trim_whitespace" },
       rust = { "rustfmt" },
-      javascript = { "prettier" },
-      javascriptreact = { "prettier" },
-      typescript = { "prettier" },
-      typescriptreact = { "prettier" },
+      javascript = { "deno", "prettier" },
+      javascriptreact = { "deno", "prettier" },
+      typescript = { "deno", "prettier" },
+      typescriptreact = { "deno", "prettier" },
       -- order of json fixers is important: always fix with jq, but if the
       -- repo has prettier installed, fix with it second; this way json files in
       -- repos that have prettier get fixed by prettier, but other json files at
