@@ -10,11 +10,6 @@ describe("string-extras", function()
     assert.spy(trim).called(1)
   end)
 
-  it("split", function()
-    local s = "foo|bar|baz"
-    assert.same(s:split("|"), { "foo", "bar", "baz" })
-  end)
-
   it("is_empty", function()
     assert.is_false(("foobar"):is_empty())
     assert.is_true((""):is_empty())

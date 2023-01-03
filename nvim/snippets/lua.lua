@@ -50,8 +50,7 @@ return make({
   ),
   req = fmt([[local {} = require("{}")]], {
     d(2, function(args)
-      local text = args[1][1] or ""
-      local pieces = text:split(".")
+      local pieces = vim.split(args[1][1] or "", ".", { plain = true })
       local options = {}
       for len = 0, #pieces - 1 do
         local option = table

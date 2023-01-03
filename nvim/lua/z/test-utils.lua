@@ -7,7 +7,7 @@ end
 local function set_buf(lines, buf)
   if type(lines) == "string" then
     if lines:match("\n") then
-      lines = dedent(lines):split("\n")
+      lines = vim.split(dedent(lines), "\n", { plain = true })
     else
       lines = { lines }
     end

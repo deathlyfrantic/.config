@@ -34,7 +34,9 @@ local function text_snippet(snippet)
     return fmt(snippet, { i(0) })
   end
   if snippet:find("\n") then
-    return t(dedent(snippet):split("\n"))
+    return t(
+      vim.split(dedent(snippet), "\n", { plain = true, trimempty = true })
+    )
   end
   return t(snippet)
 end

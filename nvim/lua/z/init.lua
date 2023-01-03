@@ -44,7 +44,7 @@ local function popup(text)
   if type(text) == "table" then
     contents = text
   elseif type(text) == "string" then
-    contents = text:split("\n")
+    contents = vim.split(text, "\n", { plain = true, trimempty = true })
   else
     contents = { tostring(text) }
   end

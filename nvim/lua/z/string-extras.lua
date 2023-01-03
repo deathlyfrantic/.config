@@ -3,10 +3,6 @@ function string.trim(self)
   return vim.fn.trim(self)
 end
 
-function string.split(self, sep)
-  return vim.split(self, sep, true)
-end
-
 function string.is_empty(self)
   local start, _ = self:match("^%s*$")
   return start ~= nil

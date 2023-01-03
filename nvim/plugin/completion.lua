@@ -56,13 +56,20 @@ local function gitcommit()
     else
       cmd = cmd .. " -n 5000"
     end
-    local commits = io.popen(cmd):read("*all"):split("\n")
+    local commits = vim.split(
+      io.popen(cmd):read("*all"),
+      "\n",
+      { plain = true, trimempty = true }
+    )
     table.sort(commits, function(a, b)
       -- chop off the commit hash when sorting
       return a:gsub("^%w+%s+", "") < b:gsub("^%w+%s", "")
     end)
     return vim.tbl_map(function(commit)
-      return { abbr = commit, word = commit:split(" ")[1] }
+      return {
+        abbr = commit,
+        word = vim.split(commit, " ", { plain = true, trimempty = true })[1],
+      }
     end, commits)
   end)
 end
