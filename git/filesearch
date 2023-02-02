@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 listing=$(for rev in $(git rev-list --all); do
-    git ls-tree -r $rev | grep "$@"
+    git ls-tree -r "$rev" | grep "$@"
 done | awk '
     { if (!($4 in files)) files[$4] = $3 }
     END {
@@ -11,4 +11,6 @@ done | awk '
             print file "^^^" files[file] "^^^" commit}
         }
 ' | sort)
-echo "file^^^blob^^^commit\n----^^^----^^^------\n$listing" | column -s '^^^' -t
+
+printf "file^^^blob^^^commit\n----^^^----^^^------\n%s" "$listing" \
+    | column -s '^^^' -t 2>/dev/null

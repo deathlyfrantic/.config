@@ -32,7 +32,7 @@
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h^^^%Cred%d %Creset%s^^^%Cgreen(%ar)^^^%C(bold blue)%an%Creset' | column -s '^^^' -t"
     ctags = "!~/.config/git/hooks/make-ctags"
     delete-merged-branches = "!if [ \"$(git rev-parse --abbrev-ref HEAD)\" != \"main\" ]; then echo \"not on main branch\" && exit 1; fi; git branch --merged origin/main | grep -v '^\\* main$' | xargs git branch -d"
-    filesearch = "!f() { ~/.config/git/filesearch \"$@\"; }; f"
+    filesearch = "!~/.config/git/filesearch"
     fixup = "!git commit --fixup=$(git log --oneline --no-merges -n 20 | star | cut -d' ' -f1)"
     unpushed = "log HEAD ^origin"
 [commit]
