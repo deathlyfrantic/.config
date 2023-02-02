@@ -158,7 +158,9 @@ use({
       end,
       group = group,
     })
+    vim.g.ale_use_neovim_diagnostics_api = 1
     vim.g.ale_hover_to_floating_preview = 1
+    vim.g.ale_detail_to_floating_preview = 1
     vim.g.ale_floating_window_border = { " ", " ", " ", " ", " ", " " }
     vim.g.ale_fixers = {
       ["*"] = { "remove_trailing_lines", "trim_whitespace" },
@@ -175,7 +177,6 @@ use({
       lua = { "stylua" },
     }
     vim.g.ale_fix_on_save = 1
-    vim.g.ale_fix_on_save_ignore = { mail = { "trim_whitespace" } }
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
     vim.g.ale_linters = { zsh = { "shell", "shellcheck" } }
     if vim.fn.executable("rust-analyzer") then
