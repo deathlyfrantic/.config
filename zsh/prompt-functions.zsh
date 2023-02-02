@@ -8,8 +8,10 @@ function set-up-prompt {
     # shellcheck disable=SC2016
     local jobs='%(1j.$(prompt-widget jobs %j before).)'
     # shellcheck disable=SC2016
+    local code='%(0?..$(prompt-widget exit %? before))'
+    # shellcheck disable=SC2016
     local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
-    local base="$cwd$jobs$char%{$reset_color%} "
+    local base="$cwd$jobs$code$char%{$reset_color%} "
 
     if [[ $SSH_TTY != "" ]]; then
         PROMPT=$user$at$host$(prompt-separator)$base
