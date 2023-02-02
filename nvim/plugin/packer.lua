@@ -300,7 +300,7 @@ use({
   config = function()
     vim.g["tmuxcomplete#trigger"] = ""
     vim.keymap.set("i", "<C-x><C-t>", function()
-      _G.completion.wrap("tmuxcomplete#complete")
+      require("z.completion").wrap("tmuxcomplete#complete")
     end)
   end,
 })
