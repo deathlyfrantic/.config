@@ -4,7 +4,7 @@ local need_to_compile = false
 
 if vim.fn.isdirectory(packer_path) ~= 1 then
   os.execute("git clone github:wbthomason/packer.nvim " .. packer_path)
-  vim.api.nvim_echo({ { "Installed packer.nvim", "WarningMsg" } }, false, {})
+  vim.notify("Installed packer.nvim", vim.log.levels.WARN)
   need_to_compile = true
 end
 
