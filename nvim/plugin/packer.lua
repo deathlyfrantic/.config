@@ -388,6 +388,7 @@ if need_to_compile then
 end
 
 local script_name = debug.getinfo(1, "S").short_src
+-- selene: allow(global_usage)
 if not _G.have_set_packer_compile_autocmd then
   vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = script_name,
