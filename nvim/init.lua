@@ -458,19 +458,7 @@ api.nvim_create_autocmd("BufWritePre", {
 -- colors and appearance {{{
 vim.cmd.colorscheme("copper")
 
-_G.statusline_filename = function()
-  if #api.nvim_buf_get_name(0) > 0 then
-    return vim.fs
-      .normalize(api.nvim_buf_get_name(0))
-      :gsub(vim.fs.normalize("$HOME"), "~")
-  end
-  return string.format(
-    "[cwd: %s]",
-    vim.loop.cwd():gsub(vim.fs.normalize("$HOME"), "~")
-  )
-end
-
-vim.opt.statusline = "[%n] %{v:lua.statusline_filename()}%<"
+vim.opt.statusline = "[%n] %{v:lua.require('z.statusline').filename()}%<"
   .. "%( %{get(b:, 'gitsigns_status', '')}%)"
   .. "%( %h%)%( %m%)%( %r%)"
   .. "%{&ff != 'unix' ? ' [' .. &ff .. ']' : ''}"
