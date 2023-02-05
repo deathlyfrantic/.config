@@ -56,7 +56,7 @@ _G.grep = { operator = operator }
 
 local sort_cmd = "sort -t ':' -k1,1f -k2,2g -k3,3g"
 
-if vim.fn.executable("rg") then
+if vim.fn.executable("rg") == 1 then
   local ignores = table.concat(
     vim.tbl_map(function(v)
       return string.format("-g '!%s'", v)
