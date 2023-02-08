@@ -223,6 +223,24 @@ local function help(contents)
   end
 end
 
+local function v_star_search_set(cmd, raw)
+  cmd = cmd or "/"
+  local temp = vim.fn.getreg('"')
+  vim.cmd("normal! gvy")
+  local search = vim.fn.getreg('"')
+  if not raw then
+    search = vim.fn.escape(search, cmd .. "\\*")
+  end
+  search = search
+    :gsub("\n", "\\n")
+    :gsub("%[", "\\[")
+    :gsub("~", "\\~")
+    :gsub("%.", "\\.")
+    :gsub("\22", [[\%%x16]]) -- ctrl-v
+  vim.fn.setreg("/", search)
+  vim.fn.setreg('"', temp)
+end
+
 return {
   any = any,
   all = all,
@@ -236,4 +254,5 @@ return {
   char_before_cursor = char_before_cursor,
   highlight_at_pos_contains = highlight_at_pos_contains,
   help = help,
+  v_star_search_set = v_star_search_set,
 }

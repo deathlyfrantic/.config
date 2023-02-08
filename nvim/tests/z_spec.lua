@@ -455,4 +455,56 @@ describe("z", function()
       assert.equals(1, vim.api.nvim_win_get_height(0))
     end)
   end)
+
+  describe("v_star_search_set", function()
+    local getreg, setreg
+
+    before_each(function()
+      getreg = stub(vim.fn, "getreg")
+      setreg = stub(vim.fn, "setreg")
+    end)
+
+    after_each(function()
+      getreg:revert()
+      setreg:revert()
+    end)
+
+    it("works with all patterns", function()
+      -- test patterns from
+      -- https://github.com/bronson/vim-visual-star-search/blob/master/test-patterns
+      local test_patterns = {
+        ["don't"] = "don't",
+        ["'don't'"] = "'don't'",
+        ["'don''t'"] = "'don''t'",
+        ['"amy\'s quote"'] = [["amy's quote"]],
+        ["{,*/}"] = [[{,\*\/}]],
+        ["**"] = [[\*\*]],
+        ["a[bc]d"] = [[a\[bc]d]],
+        ["g~re"] = [[g\~re]],
+        ["hello."] = [[hello\.]],
+        ["helloo"] = "helloo",
+        ["vv"] = [[v\%x16v]],
+      }
+      for test, expected in pairs(test_patterns) do
+        getreg.returns(test)
+        z.v_star_search_set("/")
+        assert.stub(setreg).called_with("/", expected)
+        setreg:clear()
+      end
+    end)
+
+    it([[doesn't escape \ and * when raw is true]], function()
+      local escape = stub(vim.fn, "escape")
+      getreg.returns("foobar")
+      z.v_star_search_set("/", true)
+      assert.stub(escape).not_called()
+      escape:revert()
+    end)
+
+    it("works with ?", function()
+      getreg.returns("foo?bar")
+      z.v_star_search_set("?")
+      assert.stub(setreg).called_with("/", [[foo\?bar]])
+    end)
+  end)
 end)

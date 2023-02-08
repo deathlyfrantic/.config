@@ -339,7 +339,6 @@ use({
   end,
 })
 
-use("nelstrom/vim-visual-star-search")
 use("tommcdo/vim-exchange")
 use({
   "tommcdo/vim-lion",

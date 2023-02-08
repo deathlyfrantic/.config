@@ -264,6 +264,16 @@ api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
 vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "#", "#N")
 vim.keymap.set("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
+vim.keymap.set(
+  "x",
+  "*",
+  [[:<C-u>lua require("z").v_star_search_set("/")<CR>/<C-r>=@/<CR><CR>N]]
+)
+vim.keymap.set(
+  "x",
+  "#",
+  [[:<C-u>lua require("z").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
+)
 
 -- close all floating windows
 local function close_floating_windows()
