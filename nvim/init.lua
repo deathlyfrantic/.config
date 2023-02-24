@@ -231,7 +231,7 @@ api.nvim_create_user_command(
 )
 api.nvim_create_user_command(
   "H",
-  "H<bang> <args>",
+  "h<bang> <args>",
   { bang = true, complete = "help", nargs = 1 }
 )
 api.nvim_create_user_command("Q", "q<bang>", { bang = true })
