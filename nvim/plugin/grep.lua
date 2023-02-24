@@ -1,3 +1,5 @@
+local z = require("z")
+
 local function grep(args)
   vim.cmd(
     "silent grep! "
@@ -20,39 +22,11 @@ local function grep(args)
   end
 end
 
-local function operator(kind)
-  local error = function(msg)
-    vim.notify(
-      msg or "Multiline selections do not work with this operator",
-      vim.log.levels.ERROR
-    )
-  end
-  if kind:match("[V]") then
-    error()
-    return
-  end
-  local regsave = vim.fn.getreg("@")
-  local selsave = vim.o.selection
-  vim.o.selection = "inclusive"
-  if kind == "v" then
-    vim.cmd([[silent execute "normal! y"]])
-  else
-    vim.cmd([[silent execute "normal! `[v`]y"]])
-  end
-  local search = vim.fn.getreg("@")
-  vim.o.selection = selsave
-  vim.fn.setreg("@", regsave)
-  if search:match("\n") then
-    error()
-    return
-  elseif search == "" then
-    error("No selection")
-    return
-  end
-  grep({ args = search, bang = false })
-end
-
-_G.grep = { operator = operator }
+_G.grep = {
+  operator = z.make_operator_fn(function(search)
+    grep({ args = search, bang = false })
+  end),
+}
 
 local sort_cmd = "sort -t ':' -k1,1f -k2,2g -k3,3g"
 

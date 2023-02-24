@@ -241,6 +241,40 @@ local function v_star_search_set(cmd, raw)
   vim.fn.setreg('"', temp)
 end
 
+local function make_operator_fn(callback)
+  local error_msg = function(msg)
+    vim.notify(
+      msg or "Multiline selections do not work with this operator",
+      vim.log.levels.ERROR
+    )
+  end
+  return function(kind)
+    if kind:find("[V]") then
+      error_msg()
+      return
+    end
+    local regsave = vim.fn.getreg("@")
+    local selsave = vim.o.selection
+    vim.o.selection = "inclusive"
+    if kind == "v" then
+      vim.cmd([[silent execute "normal! y"]])
+    else
+      vim.cmd([[silent execute "normal! `[v`]y"]])
+    end
+    local selection = vim.fn.getreg("@")
+    vim.o.selection = selsave
+    vim.fn.setreg("@", regsave)
+    if not selection or selection == "" then
+      error_msg("No selection")
+      return
+    elseif selection:trim():find("\n") then
+      error_msg()
+      return
+    end
+    callback(selection)
+  end
+end
+
 return {
   any = any,
   all = all,
@@ -255,4 +289,5 @@ return {
   highlight_at_pos_contains = highlight_at_pos_contains,
   help = help,
   v_star_search_set = v_star_search_set,
+  make_operator_fn = make_operator_fn,
 }

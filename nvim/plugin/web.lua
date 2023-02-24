@@ -1,3 +1,5 @@
+local z = require("z")
+
 local search_url = "https://duckduckgo.com/?q=%s"
 
 local function browser(url)
@@ -11,39 +13,11 @@ local function search(url)
   browser(url)
 end
 
-local function operator(kind)
-  local error = function(msg)
-    vim.notify(
-      msg or "Multiline selections do not work with this operator",
-      vim.log.levels.ERROR
-    )
-  end
-  if kind:match("[V]") then
-    error()
-    return
-  end
-  local regsave = vim.fn.getreg("@")
-  local selsave = vim.o.selection
-  vim.o.selection = "inclusive"
-  if kind == "v" then
-    vim.cmd([[silent execute "normal! y"]])
-  else
-    vim.cmd([[silent execute "normal! `[v`]y"]])
-  end
-  local url = vim.fn.getreg("@"):trim()
-  vim.o.selection = selsave
-  vim.fn.setreg("@", regsave)
-  if url:match("\n") then
-    error()
-    return
-  elseif url == "" then
-    error("No selection")
-    return
-  end
-  search(url)
-end
-
-_G.web = { operator = operator }
+_G.web = {
+  operator = z.make_operator_fn(function(url)
+    search(url:trim())
+  end),
+}
 
 -- Browse alias is for Fugitive's Gbrowse
 vim.api.nvim_create_user_command("Browse", "Web <args>", { nargs = 1 })
