@@ -2,6 +2,7 @@ local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
+local partial = require("luasnip.extras").partial
 local fmt = require("luasnip.extras.fmt").fmt
 local dedent = require("plenary.strings").dedent
 local z = require("z")
@@ -23,9 +24,13 @@ local function comment_string()
 end
 
 local function force_comment(text, nodes)
-  local before, after = comment_string()
-  table.insert(nodes, 1, t(before))
-  table.insert(nodes, t(after or ""))
+  -- these need to be partials so that `comment_string` is evaluated at the time
+  -- the snippet is expanded, rather than when this function is called
+  local function get_part(part)
+    return select(part, comment_string()) or ""
+  end
+  table.insert(nodes, 1, partial(get_part, 1))
+  table.insert(nodes, partial(get_part, 2))
   return fmt("{}" .. text .. "{}", nodes)
 end
 
