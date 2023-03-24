@@ -45,7 +45,7 @@ local function nodes(snippet)
   if type(snippet) == "string" then
     return text_snippet(snippet)
   end
-  if type(snippet) == "table" then
+  if type(snippet) == "table" and getmetatable(snippet) == nil then
     local ret = {}
     for k, v in ipairs(snippet) do
       if type(v) == "string" then
