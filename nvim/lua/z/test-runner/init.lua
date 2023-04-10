@@ -63,7 +63,10 @@ function test(selection, close)
       -- vimscript and echo the result, which we then capture as a string :oof:
       table.insert(
         test_cmds,
-        vim.api.nvim_exec("echo b:test_command." .. selection .. "()", true)
+        vim.api.nvim_exec2(
+          "echo b:test_command." .. selection .. "()",
+          { output = true }
+        ).output
       )
     end
   elseif runners[filetype] ~= nil then

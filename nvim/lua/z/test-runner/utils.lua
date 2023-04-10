@@ -34,7 +34,7 @@ local function find_nearest_test_via_treesitter(
   node_text_fn = node_text_fn or function(node)
     return node
   end
-  local query = vim.treesitter.parse_query(vim.bo.filetype, sexpr)
+  local query = vim.treesitter.query.parse(vim.bo.filetype, sexpr)
   local tree = vim.treesitter.get_parser():parse()
   local cursor_row = api.nvim_win_get_cursor(0)[1]
   local nearest = nil
@@ -46,7 +46,7 @@ local function find_nearest_test_via_treesitter(
       row2 = row2 + 1
       -- if the cursor is in the test it's easy
       if row1 <= cursor_row and row2 >= cursor_row then
-        return vim.treesitter.query.get_node_text(node_text_fn(node), 0)
+        return vim.treesitter.get_node_text(node_text_fn(node), 0)
       end
       -- cursor not in this test, so check if it's near the cursor.
       -- we're iterating in order so keep setting the closest to the current
@@ -59,7 +59,7 @@ local function find_nearest_test_via_treesitter(
     end
   end
   if nearest ~= nil then
-    return vim.treesitter.query.get_node_text(node_text_fn(nearest), 0)
+    return vim.treesitter.get_node_text(node_text_fn(nearest), 0)
   end
   return nil
 end

@@ -1,7 +1,6 @@
 local z = require("z")
 local spy = require("luassert.spy")
 local stub = require("luassert.stub")
-local treesitter_config = require("nvim-treesitter.configs")
 local utils = require("z.test-utils")
 
 describe("z", function()
@@ -233,7 +232,7 @@ describe("z", function()
       cwd.returns(vim.fs.normalize("$HOME/"))
       assert.equals(
         z.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
     end)
 
@@ -246,7 +245,7 @@ describe("z", function()
       cwd.returns(vim.fs.normalize("$HOME/foo/bar"))
       assert.equals(
         z.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
     end)
 
@@ -256,7 +255,7 @@ describe("z", function()
       cwd.returns(vim.fs.normalize("$HOME/foo"))
       assert.equals(
         z.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
     end)
 
@@ -266,7 +265,7 @@ describe("z", function()
       cwd.returns(vim.fs.normalize("$HOME/foo"))
       assert.equals(
         z.find_project_dir(vim.fs.normalize("/etc/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
     end)
 
@@ -276,13 +275,13 @@ describe("z", function()
       cwd.returns(vim.fs.normalize("$HOME/foo"))
       assert.equals(
         z.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
       assert.stub(cwd).called(1)
       cwd:clear()
       assert.equals(
         z.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo/")
+        vim.fs.normalize("$HOME/foo") .. "/"
       )
       assert.stub(cwd).not_called()
     end)
@@ -362,34 +361,31 @@ describe("z", function()
   end)
 
   describe("highlight_at_pos_contains", function()
-    local is_enabled, get_node_at_pos
+    local get_node
 
     before_each(function()
-      is_enabled = stub(treesitter_config, "is_enabled")
-      get_node_at_pos = spy.on(vim.treesitter, "get_node_at_pos")
+      get_node = spy.on(vim.treesitter, "get_node")
       vim.bo.filetype = "lua"
       utils.set_buf([[local s = "foobar"]])
     end)
 
     after_each(function()
-      is_enabled:revert()
-      get_node_at_pos:revert()
+      get_node:revert()
       utils.clear_buf()
       utils.clear_filetype()
     end)
 
     it("uses treesitter highlighting if it is enabled", function()
-      vim.cmd.TSBufEnable("highlight")
-      is_enabled.returns(true)
+      vim.treesitter.start()
       assert.is_truthy(z.highlight_at_pos_contains("string", { 1, 12 }))
       assert.is_falsy(z.highlight_at_pos_contains("string", { 1, 1 }))
-      assert.spy(get_node_at_pos).called_with(0, 0, 11)
+      assert.spy(get_node).called_with({ bufnr = 0, pos = { 0, 11 } })
     end)
 
     it("uses vim regex if treesitter highlighting is not enabled", function()
       local synstack = spy.on(vim.fn, "synstack")
-      vim.cmd.TSBufDisable("highlight")
-      is_enabled.returns(false)
+      vim.bo.syntax = ""
+      vim.treesitter.stop()
       assert.is_truthy(z.highlight_at_pos_contains("string", { 1, 12 }))
       assert.is_falsy(z.highlight_at_pos_contains("string", { 1, 1 }))
       assert.spy(synstack).called_with(1, 12)
@@ -398,11 +394,10 @@ describe("z", function()
 
     it("uses cursor position if none is supplied", function()
       local nvim_win_get_cursor = spy.on(vim.api, "nvim_win_get_cursor")
-      vim.cmd.TSBufEnable("highlight")
-      is_enabled.returns(true)
+      vim.treesitter.start()
       utils.set_cursor(1, 13)
       assert.is_truthy(z.highlight_at_pos_contains("string"))
-      assert.spy(get_node_at_pos).called_with(0, 0, 11)
+      assert.spy(get_node).called_with({ bufnr = 0, pos = { 0, 11 } })
       assert.spy(nvim_win_get_cursor).called_with(0)
       nvim_win_get_cursor:revert()
     end)

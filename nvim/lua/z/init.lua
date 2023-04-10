@@ -1,5 +1,4 @@
 local api = vim.api
-local treesitter_is_enabled = require("nvim-treesitter.configs").is_enabled
 
 local function any(t, f)
   for i, v in ipairs(t) do
@@ -86,10 +85,10 @@ local function collect(...)
 end
 
 local function get_hex_color(hl, attr)
-  local colors = api.nvim_get_hl_by_name(hl, true)
-  local dec = colors.background
+  local colors = api.nvim_get_hl(0, { name = hl })
+  local dec = colors.bg
   if attr == "fg" or attr == "foreground" then
-    dec = colors.foreground
+    dec = colors.fg
   end
   return ("#%06x"):format(dec)
 end
@@ -184,19 +183,23 @@ local function highlight_at_pos_contains(pattern, pos)
     pos[2] = pos[2] - 1
   end
   local line, column = unpack(pos)
-  -- try to get node type from treesitter first. treesitter uses 0-based
-  -- indexing so subtract one from line and column.
-  if treesitter_is_enabled("highlight", vim.bo.filetype, 0) then
-    local ok, node =
-      pcall(vim.treesitter.get_node_at_pos, 0, line - 1, column - 1)
-    if ok then
-      return node:type():imatch(pattern)
-    end
+  -- if syntax is on that means treesitter highlighting is not enabled, so use
+  -- vim regex highlighting
+  if vim.bo.syntax ~= "" then
+    return any(vim.fn.synstack(line, column), function(id)
+      return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
+    end)
   end
-  -- fall back to vim regex highlighting names
-  return any(vim.fn.synstack(line, column), function(id)
-    return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
-  end)
+  -- if syntax isn't set then try to get node type from treesitter. treesitter
+  -- uses 0-based indexing so subtract one from line and column.
+  local ok, node = pcall(
+    vim.treesitter.get_node,
+    { bufnr = 0, pos = { line - 1, column - 1 } }
+  )
+  if ok then
+    return node:type():imatch(pattern)
+  end
+  return false
 end
 
 local function help(contents)
