@@ -2,15 +2,6 @@ local stub = require("luassert.stub")
 local z = require("z")
 
 describe("init", function()
-  it("always turn off paste when leaving insert mode", function()
-    vim.o.paste = true
-    vim.api.nvim_exec_autocmds(
-      "InsertLeave",
-      { group = "init-autocmds", pattern = "*" }
-    )
-    assert.is_false(vim.o.paste)
-  end)
-
   describe("quits even if dirvish or quickfix is open", function()
     local bo, quit, nvim_buf_delete, nvim_list_bufs, nvim_list_wins
 

@@ -88,15 +88,6 @@ vim.filetype.add({
 
 -- autocommands {{{
 local group = api.nvim_create_augroup("init-autocmds", {})
--- always turn off paste when leaving insert mode (just in case)
-api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
-  callback = function()
-    vim.o.paste = false
-  end,
-  group = group,
-})
-
 -- quit even if dirvish or quickfix is open
 api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
@@ -475,7 +466,6 @@ vim.opt.statusline = "[%n] %{v:lua.require('z.statusline').filename()}%<"
   .. "%{len(&fenc) && &fenc != 'utf-8' ? ' [' .. &fenc .. ']' : ''}"
   .. "%="
   .. "%{&wrap ? '[wrap] ' : ''}"
-  .. "%{&paste ? '[paste] ' : ''}"
   .. "%(%{ObsessionStatus()} %)"
   .. "  %l,%c%V%6P"
 -- }}}
