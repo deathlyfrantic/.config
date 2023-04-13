@@ -75,17 +75,6 @@ vim.opt.wildignore = vim.opt.wildignore
 vim.opt.wildignorecase = true
 -- }}}
 
--- filetypes {{{
-vim.filetype.add({
-  extension = {
-    h = "c",
-  },
-  filename = {
-    [".clang-format"] = "yaml",
-  },
-})
--- }}}
-
 -- autocommands {{{
 local group = api.nvim_create_augroup("init-autocmds", {})
 -- quit even if dirvish or quickfix is open
