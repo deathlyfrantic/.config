@@ -122,14 +122,14 @@ use({
       callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
-        vim.cmd.setlocal("colorcolumn=0")
+        vim.opt_local.colorcolumn = "0"
       end,
       group = group,
     })
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview.message",
       callback = function()
-        vim.cmd.setlocal("colorcolumn=0")
+        vim.opt_local.colorcolumn = "0"
       end,
       group = group,
     })

@@ -3,7 +3,7 @@ local api = vim.api
 vim.opt_local.formatoptions:remove({ "o", "r" })
 vim.opt_local.formatoptions:append({ "w" })
 vim.opt_local.textwidth = 72
-vim.cmd.setlocal("spell")
+vim.opt_local.spell = true
 
 local header_end = -1
 

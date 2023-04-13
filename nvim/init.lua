@@ -176,7 +176,7 @@ api.nvim_create_autocmd("BufWritePost", {
 api.nvim_create_autocmd("BufReadPost", {
   pattern = vim.env.MYVIMRC,
   callback = function()
-    vim.cmd.setlocal("foldmethod=marker")
+    vim.opt_local.foldmethod = "marker"
   end,
   group = group,
 })

@@ -1,1 +1,1 @@
-vim.cmd.setlocal("cursorcolumn")
+vim.opt_local.cursorcolumn = true
