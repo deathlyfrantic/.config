@@ -5,6 +5,11 @@ local keys = {
   { key = "Enter", mods = "ALT", action = "DisableDefaultAssignment" },
   -- tmux prefix key
   { key = "b", mods = "CMD", action = { SendKey = { key = "F12" } } },
+  -- disable switching between native tabs
+  { key = "{", mods = "CMD", action = "DisableDefaultAssignment" },
+  { key = "}", mods = "CMD", action = "DisableDefaultAssignment" },
+  { key = "[", mods = "SHIFT|CMD", action = "DisableDefaultAssignment" },
+  { key = "]", mods = "SHIFT|CMD", action = "DisableDefaultAssignment" },
 }
 
 -- disable ALT-# keys to switch native tabs
