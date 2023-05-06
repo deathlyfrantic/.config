@@ -67,14 +67,9 @@ done
 # hopefully a much saner keyboard mapping section
 bindkey -e
 autoload zkbd
-if [[ -a "$ZDOTDIR/zkbd/$TERM" ]]; then
-    source "$ZDOTDIR/zkbd/$TERM"
-    [[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
-    [[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
-    [[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
-    [[ -n ${key[Up]} ]] && bindkey "${key[Up]}" history-substring-search-up
-    [[ -n ${key[Down]} ]] && bindkey "${key[Down]}" history-substring-search-down
-fi
+bindkey "${key[Home]}" beginning-of-line
+bindkey "${key[End]}" end-of-line
+bindkey "${key[Delete]}" delete-char
 bindkey '^[[Z' reverse-menu-complete
 bindkey '^N' history-substring-search-down
 bindkey '^P' history-substring-search-up
