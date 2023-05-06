@@ -50,11 +50,17 @@
 
 # install rust - check rustup.rs for up-to-date instructions
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# install rust components
+rustup component add clippy rustfmt rust-analyzer
+# create rustup and cargo completions
+mkdir -p "$XDG_CONFIG_HOME/zsh/completions"
+rustup completions zsh > "$XDG_CONFIG_HOME/zsh/completions/_rustup"
+rustup completions zsh cargo > "$XDG_CONFIG_HOME/zsh/completions/_cargo"
 
 # install brew packages
 brew tap homebrew/cask-fonts && brew install font-sf-mono
 brew tap homebrew/cask && brew install 1password firefox music-bar netnewswire signal wezterm
-brew install git neovim ripgrep rustfmt selene shellcheck stylua tmux tree universal-ctags
+brew install git neovim ripgrep selene shellcheck stylua tmux tree universal-ctags
 brew install zsh zsh-completions zsh-history-substring-search zsh-syntax-highlighting
 brew tap damascenorafael/tap && brew install reminders-menubar
 
