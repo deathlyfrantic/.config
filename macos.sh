@@ -15,6 +15,7 @@
 #   switch to desktop 2 -> ^⌘2
 #   switch to desktop 3 -> ^⌘3 etc
 #   uncheck application windows
+#   app shortcuts -> safari -> "New Tab at End" -> ⌘T
 #
 # settings -> keyboard -> text
 #   uncheck correct spelling automatically
@@ -33,7 +34,6 @@
 #
 # settings -> desktop & screen saver -> hot corners
 #   lower right -> put display to sleep
-#   lower left -> quick note
 #
 # settings -> dock & menu bar
 #   check automatically hide and show dock
