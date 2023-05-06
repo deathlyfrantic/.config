@@ -84,31 +84,16 @@ wezterm.on("gui-startup", function(cmd)
   window:gui_window():maximize()
 end)
 
--- find which zsh to use
-local shell_locations = {
-  -- homebrew-installed zsh on intel macs
-  "/usr/local/bin",
-  -- homebrew-installed zsh on apple silicon macs
-  "/opt/homebrew/bin",
-  -- zsh not installed via homebrew
-  "/usr/bin",
-}
-
-local zsh = "zsh"
-local tmux = "tmux"
-for _, location in ipairs(shell_locations) do
-  if io.popen("ls " .. location .. "/zsh 2>/dev/null"):read("*all") ~= "" then
-    zsh = location .. "/zsh"
-    tmux = location .. "/tmux"
-    break
-  end
-end
-
 return {
   audible_bell = "Disabled",
   color_scheme = "Builtin Tango Dark",
   custom_block_glyphs = false,
-  default_prog = { zsh, "-l", "-c", tmux },
+  default_prog = {
+    "/opt/homebrew/bin/zsh",
+    "-l",
+    "-c",
+    "/opt/homebrew/bin/tmux",
+  },
   enable_tab_bar = false,
   freetype_load_target = "Normal",
   font = wezterm.font("SF Mono", { weight = "Medium" }),

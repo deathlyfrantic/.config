@@ -1,5 +1,5 @@
 # shellcheck disable=SC2206
-fpath=(/usr/local/share/zsh-completions/ /opt/homebrew/share/zsh-completions/ $fpath)
+fpath+=(/opt/homebrew/share/zsh-completions/ /opt/homebrew/share/zsh/site-functions/ $XDG_CONFIG_HOME/zsh/completions)
 
 # colors are important here in the future, where we live
 autoload colors; colors
@@ -59,13 +59,9 @@ zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
 # substring search must be sourced after syntax highlighting to work correctly
 for plugin in zsh-syntax-highlighting zsh-history-substring-search; do
-    if [ -f "/opt/homebrew/share/$plugin/$plugin.zsh" ]; then
-        source "/opt/homebrew/share/$plugin/$plugin.zsh"
-    elif [ -f "/usr/local/share/$plugin/$plugin.zsh" ]; then
-        source "/usr/local/share/$plugin/$plugin.zsh"
-    else
-        echo "$plugin plugin not found"
-    fi
+    [ -f "/opt/homebrew/share/$plugin/$plugin.zsh" ] \
+        && source "/opt/homebrew/share/$plugin/$plugin.zsh" \
+        || echo "$plugin plugin not found"
 done
 
 # hopefully a much saner keyboard mapping section
