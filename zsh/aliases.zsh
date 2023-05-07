@@ -33,7 +33,15 @@ function mkcd {
 
 function nvim {
     if [[ -n "$NVIM" && -n "$*" ]]; then
-        command nvim --server "$NVIM" --remote "$@"
+        local args=()
+        for arg in "$@"; do
+            if [ -f "$arg" ]; then
+                args+=("$(pwd -P)/$arg")
+            else
+                args+=("$arg")
+            fi
+        done
+        command nvim --server "$NVIM" --remote "${args[@]}"
     else
         command nvim "$@"
     fi
