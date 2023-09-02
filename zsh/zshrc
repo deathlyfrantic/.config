@@ -79,7 +79,7 @@ zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 
 function star-history-search {
-    eval 'LBUFFER=$(echo -n $(hs)) '
+    eval 'LBUFFER=$(echo -n $(hs "$LBUFFER")) '
     zle reset-prompt
 }
 zle -N star-history-search
