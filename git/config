@@ -29,12 +29,15 @@
     prompt = true
 [alias]
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
-    recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h^^^%Cred%d %Creset%s^^^%Cgreen(%ar)^^^%C(bold blue)%an%Creset' | column -s '^^^' -t"
-    ctags = "!~/.config/git/hooks/make-ctags"
-    delete-merged-branches = "!if [ \"$(git rev-parse --abbrev-ref HEAD)\" != \"main\" ]; then echo \"not on main branch\" && exit 1; fi; git branch --merged origin/main | grep -v '^\\* main$' | xargs git branch -d"
-    filesearch = "!~/.config/git/filesearch"
+    recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h⌘%Cred%d %Creset%s⌘%Cgreen(%ar)⌘%C(bold blue)%an%Creset' | column -s '⌘' -t"
+    ctags = "!$XDG_CONFIG_HOME/git/hooks/make-ctags"
+    delete-merges-branches = "!$XDG_CONFIG_HOME/git/delete-merged-branches"
+    filesearch = "!$XDG_CONFIG_HOME/git/filesearch"
     fixup = "!git commit --fixup=$(git log --oneline --no-merges -n 20 | star | cut -d' ' -f1)"
-    unpushed = "log HEAD ^origin"
+    unpushed = "!git log HEAD ^origin/$(git main-branch-name)"
+    main-branch-name = "!$XDG_CONFIG_HOME/git/main-branch-name"
+    first-commit = "rev-list --max-parents=0 HEAD"
+    first-show = "!git show $(git first-commit)"
 [commit]
     verbose = 1
 [pull]

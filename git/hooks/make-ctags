@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
+
 # shamelessly stolen from
 # https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
+
 set -e
-dir="$(git rev-parse --git-dir)"
-(cd "$dir" && pwd) | grep -iq homebrew && exit 0 # don't make tags for the homebrew repo
-trap 'rm -f "$dir/$$.tags"' EXIT
-git ls-files | ctags --tag-relative=yes -L - -f"$dir/$$.tags"
-mv "$dir/$$.tags" "$dir/tags"
+
+# don't make tags for the homebrew repo
+(cd .git && pwd) | grep -iq homebrew && exit 0
+
+trap 'rm -f ".git/$$.tags"' EXIT
+git ls-files | ctags --tag-relative=yes -L - -f".git/$$.tags"
+mv ".git/$$.tags" ".git/tags"

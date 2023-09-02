@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# ensure .git/refs/remotes/origin/HEAD exists. aliases are executed from the top
+# directory of a repo so we can hard-code the path.
+[ ! -f .git/refs/remotes/origin/HEAD ] \
+    && git remote set-head origin -a > /dev/null
+
+git branch -r \
+    | grep '\s* origin/HEAD' \
+    | sed 's@^[[:space:]]*origin/HEAD -> origin/@@'

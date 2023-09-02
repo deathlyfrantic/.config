@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+mainbranch=$(git main-branch-name)
+
+# don't do anything if we're not on the main branch
+[ "$(git rev-parse --abbrev-ref HEAD)" != "$mainbranch" ] \
+    && echo "not on main branch ($mainbranch)" \
+    && exit 1
+
+git branch --merged "origin/$mainbranch" \
+    | grep -v "^\\* $mainbranch" \
+    | xargs git branch -d

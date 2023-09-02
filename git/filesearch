@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 listing=$(for rev in $(git rev-list --all); do
     git ls-tree -r "$rev" | grep "$@"
 done | awk '
@@ -8,9 +9,10 @@ done | awk '
             cmd = "git describe --always " files[file] " | cut -f1 -d':'"
             cmd | getline commit
             close(cmd)
-            print file "^^^" files[file] "^^^" commit}
+            print file "⌘" files[file] "⌘" commit}
         }
 ' | sort)
 
-printf "file^^^blob^^^commit\n----^^^----^^^------\n%s" "$listing" \
-    | column -s '^^^' -t 2>/dev/null
+[ -z "$listing" ] && echo "No files found for search '$*'." >&2 && exit 1
+
+printf "file⌘blob⌘commit\n----⌘----⌘------\n%s\n" "$listing" | column -s '⌘' -t
