@@ -478,6 +478,7 @@ describe("z", function()
         ["g~re"] = [[g\~re]],
         ["hello."] = [[hello\.]],
         ["helloo"] = "helloo",
+        ["foo^^^bar"] = [[foo\^\^\^bar]],
         ["vv"] = [[v\%x16v]],
       }
       for test, expected in pairs(test_patterns) do

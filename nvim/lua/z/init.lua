@@ -239,6 +239,7 @@ local function v_star_search_set(cmd, raw)
     :gsub("%[", "\\[")
     :gsub("~", "\\~")
     :gsub("%.", "\\.")
+    :gsub("%^", "\\^")
     :gsub("\22", [[\%%x16]]) -- ctrl-v
   vim.fn.setreg("/", search)
   vim.fn.setreg('"', temp)
