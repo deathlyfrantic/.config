@@ -77,8 +77,8 @@ describe("z", function()
   end)
 
   describe("popup", function()
-    local function popup(contents)
-      local win = z.popup(contents)
+    local function popup(contents, title)
+      local win = z.popup(contents, title)
       local buf = vim.api.nvim_win_get_buf(win)
       local lines = utils.get_buf(buf)
       vim.api.nvim_win_close(win, true)
@@ -125,6 +125,23 @@ describe("z", function()
         }, overrides or {})
       end
 
+      it("sets title and title_pos if title is provided", function()
+        screenrow.returns(1)
+        screencol.returns(1)
+        local buf = popup({ "foobar", "baz", "quux" }, "title").buf
+        assert.spy(nvim_open_win).called_with(
+          buf,
+          false,
+          opts({
+            anchor = "NW",
+            row = 1,
+            col = 1,
+            title = "title",
+            title_pos = "center",
+          })
+        )
+      end)
+
       it("opens to northwest", function()
         screenrow.returns(1)
         screencol.returns(1)
@@ -156,7 +173,6 @@ describe("z", function()
         screenrow.returns(1)
         screencol.returns((math.floor((vim.o.columns / 2) + 1)))
         local buf = popup({ "foobar", "baz", "quux" }).buf
-
         assert
           .spy(nvim_open_win)
           .called_with(buf, false, opts({ anchor = "NE", col = 0, row = 1 }))

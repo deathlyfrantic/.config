@@ -37,7 +37,7 @@ local function tbl_reverse(t)
   return ret
 end
 
-local function popup(text)
+local function popup(text, title)
   local buf = api.nvim_create_buf(false, true)
   local contents
   if type(text) == "table" then
@@ -56,6 +56,8 @@ local function popup(text)
     width = math.max(unpack(vim.tbl_map(string.len, contents))),
     anchor = "",
     border = "solid",
+    title = title,
+    title_pos = title and "center" or nil,
   }
   if vim.fn.screenrow() > (vim.o.lines / 2) then
     opts.anchor = opts.anchor .. "S"

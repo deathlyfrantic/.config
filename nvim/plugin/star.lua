@@ -148,7 +148,7 @@ local function on_exit(mode, _, exit_code)
   end
 end
 
-local function popup_window(buf, mode)
+local function popup_window(buf, mode, title)
   local divisor = modes[mode].width_divisor or 3
   local width = math.max(80, math.floor(vim.o.columns / divisor))
   local opts = {
@@ -160,6 +160,8 @@ local function popup_window(buf, mode)
     row = math.floor(vim.o.lines / 2) - math.floor(height() / 2),
     col = math.floor(vim.o.columns / 2) - math.floor(width / 2),
     anchor = "NW",
+    title = title,
+    title_pos = "center",
   }
   api.nvim_open_win(buf, true, opts)
   vim.wo.winhl = "Normal:Normal,FloatBorder:Normal"
@@ -178,7 +180,7 @@ local function open_star_buffer(mode)
   end
   -- now open the star buffer
   buffer = api.nvim_create_buf(false, false)
-  popup_window(buffer, mode)
+  popup_window(buffer, mode, (" [%s] %s "):format(name, mode_text))
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   vim.fn.termopen(term_cmd, {
