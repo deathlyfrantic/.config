@@ -97,6 +97,11 @@ local function set_links()
     rustCharacter = "String",
     NvimInternalError = "Error",
     FloatBorder = "StatusLine",
+    DiagnosticInfo = "LineNr",
+    ["@gitcommit_error"] = "Error",
+    ["@error.json"] = "Error",
+    ["@text.diff.add"] = "DiffAdd",
+    ["@text.diff.delete"] = "DiffDelete",
   }
 
   for k, v in pairs(links) do

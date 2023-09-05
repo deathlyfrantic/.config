@@ -25,7 +25,19 @@ use({
   run = ":TSUpdate",
   config = function()
     require("nvim-treesitter.configs").setup({
-      ensure_installed = { "javascript", "rust", "python" },
+      ensure_installed = {
+        "bash",
+        "diff",
+        "gitcommit",
+        "javascript",
+        "json",
+        "markdown",
+        "python",
+        "rust",
+        "toml",
+        "typescript",
+        "yaml",
+      },
       highlight = { enable = true },
     })
   end,
