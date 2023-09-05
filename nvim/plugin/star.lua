@@ -87,7 +87,7 @@ end
 
 local function open_file(files)
   local paths = vim.tbl_map(function(f)
-    return vim.fn.escape(z.find_project_dir() .. f, " [")
+    return vim.fn.fnameescape(z.find_project_dir() .. f)
   end, files)
   for i, f in ipairs(paths) do
     if vim.loop.fs_access(f, "r") then
@@ -96,6 +96,8 @@ local function open_file(files)
       else
         vim.cmd.badd(f)
       end
+    else
+      vim.notify("can't access '" .. f .. "'", vim.log.levels.ERROR)
     end
   end
 end
