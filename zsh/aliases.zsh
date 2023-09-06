@@ -1,7 +1,5 @@
-alias sass='sassc'
 alias ls='ls -G'
 alias ll='ls -lhG'
-alias vim='nvim'
 alias less='less -FiXR'
 alias xmllint='xmllint --format'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqliterc'
@@ -11,8 +9,7 @@ alias diffstat='diffstat -C'
 alias diff='diff --color=auto'
 alias mpv='open -na /Applications/mpv.app'
 alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | sort | uniq | star -s'
-alias redo='eval `hs`'
-alias pgrep='pgrep -i'
+alias pgrep='pgrep -il'
 
 # alias-like functions
 function rgl {
