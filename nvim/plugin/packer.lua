@@ -190,11 +190,7 @@ use({
     }
     vim.g.ale_fix_on_save = 1
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
-    local linters = { zsh = { "shell", "shellcheck" } }
-    if vim.fn.executable("rust-analyzer") == 1 then
-      linters.rust = { "analyzer", "cargo" }
-    end
-    vim.g.ale_linters = linters
+    vim.g.ale_linters = { zsh = { "shell", "shellcheck" } }
     vim.g.ale_c_clang_options =
       "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
     vim.g.ale_lua_stylua_options = "--config-path "
