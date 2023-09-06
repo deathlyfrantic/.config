@@ -20,19 +20,3 @@ function precmd {
 function preexec {
     set_title "$@"
 }
-
-function zshaddhistory {
-    # don't save boring history
-    local boring=(
-        '^ls '
-        '^ls$'
-        '^ll '
-        '^ll$'
-    )
-    for i in "${boring[@]}"; do
-        if [[ $1 =~ $i ]]; then
-            return 1
-        fi
-    done
-    return 0
-}
