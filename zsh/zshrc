@@ -1,11 +1,153 @@
-# shellcheck disable=SC2206
-fpath+=(/opt/homebrew/share/zsh-completions/ /opt/homebrew/share/zsh/site-functions/ $XDG_CONFIG_HOME/zsh/completions)
+# prompt functions
+function prompt-color-echo {
+    local text=$1
+    local color=$2
+    local modifier=$3
+    local esc="${fg[$color]}"
+    if [ "$color" = "reset" ]; then
+        esc=$reset_color
+    elif [ "$modifier" = "bright" ]; then
+        esc=${fg_bright[$color]}
+    elif [ "$modifier" = "bold" ]; then
+        esc=${fg_bold[$color]}
+    fi
+    echo -n "%{$esc%}$text%{$reset_color%}"
+}
+
+function prompt-timestamp {
+    local sep hrs min sec
+    sep=$(prompt-color-echo : black bright)
+    hrs=$(prompt-color-echo "%D{%H}" reset)
+    min=$(prompt-color-echo "%D{%M}" reset)
+    sec=$(prompt-color-echo "%D{%S}" reset)
+    echo -n "$hrs$sep$min$sep$sec"
+}
+
+function prompt-separator {
+    prompt-color-echo " :: " black bright
+}
+
+function prompt-widget {
+    local left=$1
+    local right=$2
+    local sep=$3
+    [ "$sep" = "before" ] && prompt-separator
+    prompt-color-echo "$left" reset
+    prompt-color-echo / black bright
+    prompt-color-echo "$right" blue bright
+    [ "$sep" = "after" ] && prompt-separator
+}
+
+function prompt-venv {
+    [ -n "$VIRTUAL_ENV" ] && prompt-widget \
+        "$(basename "$(dirname "$VIRTUAL_ENV")")" \
+        "$(basename "$VIRTUAL_ENV")" \
+        after
+}
+
+function prompt-git-status-echo-if-nonzero {
+    local number=$1
+    local symbol=$2
+    local color=$3
+    local modifier=$4
+    [ "$number" -gt 0 ] && prompt-color-echo "$symbol$number" "$color" "$modifier"
+}
+
+function prompt-git-status {
+    local porcelain
+    porcelain=$(git status --porcelain=2 --branch 2>&1)
+
+    # exit early if not a git repo
+    echo "$porcelain" | grep -q '^fatal' > /dev/null && return
+
+    # branch name (and ahead/behind if applicable)
+    local branch
+    branch=$(echo "$porcelain" | awk '$2 == "branch.head" { print $3 }')
+    if [ "$branch" = "(detached)" ]; then
+        branch=":"$(git rev-parse --short HEAD)
+        prompt-color-echo "$branch" reset
+    else
+        prompt-color-echo "$branch" reset
+        local branchab
+        branchab=$(echo "$porcelain" | grep branch.ab)
+        if [ "$branchab" != "" ]; then
+            local ahead behind
+            ahead=$(echo "$branchab" | awk '{ print $3 + 0 }')
+            behind=$(echo "$branchab" | awk '{ print $4 + 0 }')
+            prompt-git-status-echo-if-nonzero "$behind" "<" red bright
+            prompt-git-status-echo-if-nonzero "$ahead" ">" cyan bright
+        fi
+    fi
+
+    # separator
+    prompt-color-echo / black bright
+
+    # staged/conflicts/changed/untracked
+    local staged conflicts changed untracked
+    staged=$(echo "$porcelain" | grep -c '^[12] [MADRC].')
+    conflicts=$(echo "$porcelain" | grep -c '^u ')
+    changed=$(echo "$porcelain" | grep -c '^[12] .[MADRC]')
+    untracked=$(echo "$porcelain" | grep -c '^? ')
+    prompt-git-status-echo-if-nonzero "$staged" "-" yellow bright
+    prompt-git-status-echo-if-nonzero "$conflicts" "!" red bright
+    prompt-git-status-echo-if-nonzero "$changed" "+" blue bright
+    prompt-git-status-echo-if-nonzero "$untracked" "_" magenta bright
+
+    # clean
+    [ $((staged + conflicts + changed + untracked)) -eq 0 ] && \
+        prompt-color-echo "=" green bright
+
+    # separator between widgets
+    prompt-separator
+}
+
+function prompt-set-up {
+    local user at host
+    user=$(prompt-color-echo %n blue)
+    at=$(prompt-color-echo @ blue bright)
+    host=$(prompt-color-echo %m blue)
+    # shellcheck disable=SC2016
+    local cwd='${${(%):-%~}//\//%{$fg_bright[black]%\}/%{$reset_color%\}}'
+    # shellcheck disable=SC2016
+    local jobs='%(1j.$(prompt-widget jobs %j before).)'
+    # shellcheck disable=SC2016
+    local code='%(0?..$(prompt-widget exit %? before))'
+    # shellcheck disable=SC2016
+    local char=' %(!.%{$fg_bright[red]%}#.%{$fg_bright[green]%}$)'
+    local base="$cwd$jobs$code$char%{$reset_color%} "
+
+    if [ "$SSH_TTY" != "" ]; then
+        PROMPT=$user$at$host$(prompt-separator)$base
+    elif [ "$USER" != "zandr" ]; then
+        PROMPT=$user$(prompt-separator)$base
+    else
+        PROMPT=$base
+    fi
+    export PROMPT
+
+    # shellcheck disable=SC2016
+    RPROMPT='${$(prompt-venv)}${$(prompt-git-status)}$(prompt-timestamp)'
+    export RPROMPT
+}
+
+prompt-set-up
+
+# completion paths
+fpath+=(
+    /opt/homebrew/share/zsh-completions/
+    /opt/homebrew/share/zsh/site-functions/
+    "$XDG_CONFIG_HOME"/zsh/completions
+)
 
 # colors are important here in the future, where we live
 autoload colors; colors
 
 typeset -A fg_bright
-if [[ $TERM == 'tmux-256color' || -n "$COLORTERM" || -n $VIMHOME || $TERM_PROGRAM == "Apple_Terminal" ]]; then
+if [ "$TERM" = "tmux-256color" ] \
+    || [ -n "$COLORTERM" ] \
+    || [ -n "$VIMHOME" ] \
+    || [ "$TERM_PROGRAM" = "Apple_Terminal" ]
+then
     fg_bright+=([black]=$(echo -e '\e[90m'))
     fg_bright+=([red]=$(echo -e '\e[91m'))
     fg_bright+=([green]=$(echo -e '\e[92m'))
@@ -22,41 +164,37 @@ fi
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
 unsetopt beep case_glob flowcontrol
 
-# prompt
-set-up-prompt
-
 # history
 export HISTFILE="$XDG_DATA_HOME"/zsh-history
 export HISTSIZE=1000000
 export SAVEHIST=1000000
 
-# i have no idea what this stuff does! it was in here from the beginning
-zstyle :compinstall filename "$ZDOTDIR/.zshrc"
-
-autoload -Uz compinit
-compinit
-
-# futuristic zsh commands
+# zmv is occasionally useful
 autoload zmv
 
-# completion stuff stolen from https://github.com/eevee/rc/blob/master/.zshrc
+# completion
+zstyle :compinstall filename "$ZDOTDIR/.zshrc"
+autoload -Uz compinit; compinit
+
+# this section stolen from https://github.com/eevee/rc/blob/master/.zshrc
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=**' 'r:|=**'
 zstyle ':completion:*' menu select yes
 zstyle ':completion:*:default' list-colors ''
 zstyle ':completion:*' max-errors 2
 
-# Turn on caching
+# turn on caching
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/"
 
-# Show titles for completion types and group by type
+# show titles for completion types and group by type
 zstyle ':completion:*:descriptions' format "${fg_bold[black]}:: ${fg_bold[blue]}%d$reset_color"
 zstyle ':completion:*' group-name ''
 
-# Ignore some common useless files
+# ignore some common useless files
 zstyle ':completion:*' ignored-patterns '*?.pyc' '__pycache__' '.DS_Store' 'node_modules' 'package-lock.json'
 zstyle ':completion:*:*:rm:*:*' ignored-patterns
 
+# plugins
 # substring search must be sourced after syntax highlighting to work correctly
 for plugin in zsh-syntax-highlighting zsh-history-substring-search; do
     [ -f "/opt/homebrew/share/$plugin/$plugin.zsh" ] \
@@ -64,7 +202,7 @@ for plugin in zsh-syntax-highlighting zsh-history-substring-search; do
         || echo "$plugin plugin not found"
 done
 
-# hopefully a much saner keyboard mapping section
+# keyboard mapping
 bindkey -e
 autoload zkbd
 bindkey "${key[Home]}" beginning-of-line
@@ -78,9 +216,86 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 
+# star history search
 function star-history-search {
     eval 'LBUFFER=$(echo -n $(hs "$LBUFFER")) '
     zle reset-prompt
 }
 zle -N star-history-search
 bindkey '^X^S' star-history-search
+
+# aliases
+alias ls='ls -G'
+alias ll='ls -lhG'
+alias less='less -FiXR'
+alias xmllint='xmllint --format'
+alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqliterc'
+alias b='brew'
+alias rg='rg -S'
+alias diffstat='diffstat -C'
+alias diff='diff --color=auto'
+alias mpv='open -na /Applications/mpv.app'
+alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | sort | uniq | star -s'
+alias pgrep='pgrep -il'
+
+# alias-like functions
+function rgl {
+    rg -Sp "$@" | less
+}
+
+function hog {
+    if [ -z "$*" ]; then
+        du -d1 -h | sort -h
+    else
+        du -d0 -h "$@" | sort -h
+    fi
+}
+
+function mkcd {
+    mkdir -p "$1" && cd "$1" || exit 1
+}
+
+function nvim {
+    if [ -n "$NVIM" ] && [ -n "$*" ]; then
+        local args=()
+        for arg in "$@"; do
+            if [ -f "$arg" ]; then
+                args+=("$(pwd -P)/$arg")
+            else
+                args+=("$arg")
+            fi
+        done
+        command nvim --server "$NVIM" --remote "${args[@]}"
+    else
+        command nvim "$@"
+    fi
+}
+
+# functions
+function set_title {
+    local prefix=""
+    local mode=0 # 1 = tab, 2 = window, 0 = both
+
+    if [ "$SSH_TTY" != "" ]; then
+        # shellcheck disable=SC2153
+        prefix="[$USER@$HOST] "
+    elif [ "$USER" != "zandr" ]; then
+        prefix="[$USER] "
+    fi
+
+    print -n "\e]$mode;$prefix$1\a"
+}
+
+function command-separator {
+    echo "${fg_bright[black]}$(repeat $COLUMNS printf -- '-%.0s')$reset_color"
+}
+
+function precmd {
+    local dir="${PWD/$HOME/\~}"
+    set_title "zsh $dir"
+    command-separator
+}
+
+function preexec {
+    set_title "$@"
+}
