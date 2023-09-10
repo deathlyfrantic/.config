@@ -231,7 +231,6 @@ alias less='less -FiXR'
 alias xmllint='xmllint --format'
 alias sqlite3='sqlite3 -init "$XDG_CONFIG_HOME"/sqliterc'
 alias b='brew'
-alias rg='rg -S'
 alias diffstat='diffstat -C'
 alias diff='diff --color=auto'
 alias mpv='open -na /Applications/mpv.app'
@@ -239,8 +238,8 @@ alias hs='history 1 | sed -e "s/^[[:space:]]*[[:digit:]]*[[:space:]]*//" | sort 
 alias pgrep='pgrep -il'
 
 # alias-like functions
-function rgl {
-    rg -Sp "$@" | less
+function rg {
+    command rg -Sp "$@" | less
 }
 
 function hog {
