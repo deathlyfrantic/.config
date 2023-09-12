@@ -71,7 +71,7 @@ vim.opt.wildignore = vim.opt.wildignore
   + ".gitmodules"
   + "*.swp" -- vim
   + "packer_compiled.lua"
-  + ".DS_Store" --macos
+  + ".DS_Store" -- macos
 vim.opt.wildignorecase = true
 -- }}}
 
