@@ -111,13 +111,25 @@ local modes = {
       return files_cmd("files")
     end,
     open = open_file,
+    text = function()
+      return find_cmd("files")
+    end,
   },
-  buffers = { cmd = buffers_cmd, open = open_buffer },
+  buffers = {
+    cmd = buffers_cmd,
+    open = open_buffer,
+    text = function()
+      return "open buffers"
+    end,
+  },
   all = {
     cmd = function()
       return files_cmd("all")
     end,
     open = open_file,
+    text = function()
+      return find_cmd("files")
+    end,
   },
   git_commits = {
     cmd = function()
@@ -131,6 +143,9 @@ local modes = {
       end
     end,
     width_divisor = 2,
+    text = function()
+      return "git commits"
+    end,
   },
 }
 
@@ -176,13 +191,10 @@ local function open_star_buffer(mode)
   -- need to look at vim.b.star_find_cmd in the current buffer before opening
   -- the star buffer where it will not be populated
   local term_cmd = modes[mode].cmd()
-  local mode_text = find_cmd(mode)
+  local mode_text = modes[mode].text()
   -- need to call find_project_dir() now before opening the star buffer so we
   -- used the cached value (which is a buffer variable)
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
-  if mode == "buffers" then
-    mode_text = "open buffers"
-  end
   -- now open the star buffer
   buffer = api.nvim_create_buf(false, false)
   popup_window(buffer, mode, (" [%s] %s "):format(name, mode_text))
