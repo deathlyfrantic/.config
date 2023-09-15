@@ -25,6 +25,9 @@ local function find_cmd(mode)
         :gsub("^" .. vim.pesc(vim.loop.cwd()) .. "/", "")
     end, bufs)
   end
+  if #open_files == 0 then
+    return "rg --files"
+  end
   return ("rg --files %s"):format(table.concat(
     vim.tbl_map(function(f)
       return "-g " .. vim.fn.shellescape(vim.fn.escape("!" .. f, " ["))
@@ -168,6 +171,13 @@ local function on_exit(mode, _, exit_code)
   end
 end
 
+local function popup_window_title(title, width)
+  if #title > width - 2 then
+    title = title:sub(1, width - 6) .. " ..."
+  end
+  return " " .. title .. " "
+end
+
 local function popup_window(buf, mode, title)
   local divisor = modes[mode].width_divisor or 3
   local width = math.max(80, math.floor(vim.o.columns / divisor))
@@ -180,7 +190,7 @@ local function popup_window(buf, mode, title)
     row = math.floor(vim.o.lines / 2) - math.floor(height() / 2),
     col = math.floor(vim.o.columns / 2) - math.floor(width / 2),
     anchor = "NW",
-    title = title,
+    title = popup_window_title(title, width),
     title_pos = "center",
   }
   api.nvim_open_win(buf, true, opts)
@@ -197,7 +207,7 @@ local function open_star_buffer(mode)
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
   -- now open the star buffer
   buffer = api.nvim_create_buf(false, false)
-  popup_window(buffer, mode, (" [%s] %s "):format(name, mode_text))
+  popup_window(buffer, mode, ("[%s] %s"):format(name, mode_text))
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
   vim.fn.termopen(term_cmd, {
