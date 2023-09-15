@@ -3,7 +3,7 @@
 mainbranch=$(git main-branch-name)
 
 # don't do anything if we're not on the main branch
-[ "$(git rev-parse --abbrev-ref HEAD)" != "$mainbranch" ] \
+[ "$(git branch --show-current)" != "$mainbranch" ] \
     && echo "not on main branch ($mainbranch)" \
     && exit 1
 
