@@ -30,7 +30,7 @@ end
 
 if
   vim.endswith(api.nvim_buf_get_name(0), ".h")
-  and api.nvim_buf_line_count(0) > 0
+  and api.nvim_buf_line_count(0) == 1
   and api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
   local guard = string.format(
