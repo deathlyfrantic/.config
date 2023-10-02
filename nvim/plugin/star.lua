@@ -194,7 +194,8 @@ local function popup_window(buf, mode, title)
     title_pos = "center",
   }
   api.nvim_open_win(buf, true, opts)
-  vim.wo.winhl = "Normal:Normal,FloatBorder:Normal"
+  vim.opt.winhl:append("Normal:Normal")
+  vim.opt.winhl:append("FloatBorder:Normal")
 end
 
 local function open_star_buffer(mode)
