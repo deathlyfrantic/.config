@@ -1,26 +1,10 @@
-local packer_path = vim.fn.stdpath("config") .. "/pack/packer/start/packer.nvim"
+local pm = require("z.package-manager")
 
-local need_to_compile = false
+pm.init()
 
-if vim.fn.isdirectory(packer_path) ~= 1 then
-  os.execute("git clone github:wbthomason/packer.nvim " .. packer_path)
-  vim.notify("Installed packer.nvim", vim.log.levels.WARN)
-  need_to_compile = true
-end
+pm.add("nvim-lua/plenary.nvim")
 
-local packer = require("packer")
-local use = packer.use
-
-packer.init({
-  package_root = vim.fn.stdpath("config") .. "/pack",
-  display = { working_sym = "…" },
-})
-
-use("wbthomason/packer.nvim")
-
-use("nvim-lua/plenary.nvim")
-
-use({
+pm.add({
   "nvim-treesitter/nvim-treesitter",
   run = ":TSUpdate",
   config = function()
@@ -43,16 +27,20 @@ use({
   end,
 })
 
-use({ "rust-lang/rust.vim", ft = "rust" })
-use({ "pangloss/vim-javascript", ft = "javascript" })
+pm.add(
+  { "rust-lang/rust.vim", ft = "rust" },
+  { "pangloss/vim-javascript", ft = "javascript" }
+)
 
-use("Julian/vim-textobj-variable-segment")
-use("kana/vim-textobj-user")
-use("michaeljsmith/vim-indent-object")
-use("glts/vim-textobj-comment")
-use("deathlyfrantic/vim-textobj-blanklines")
+pm.add(
+  "Julian/vim-textobj-variable-segment",
+  "kana/vim-textobj-user",
+  "michaeljsmith/vim-indent-object",
+  "glts/vim-textobj-comment",
+  "deathlyfrantic/vim-textobj-blanklines"
+)
 
-use({
+pm.add({
   "lewis6991/gitsigns.nvim",
   config = function()
     require("gitsigns").setup({
@@ -117,18 +105,18 @@ use({
       callback = function()
         require("gitsigns").refresh()
       end,
-      group = vim.api.nvim_create_augroup("packer-gitsigns-config", {}),
+      group = vim.api.nvim_create_augroup("z-gitsigns-config", {}),
     })
   end,
 })
 
-use({
+pm.add({
   "dense-analysis/ale",
   config = function()
     vim.keymap.set("n", "[a", "<Cmd>ALEPreviousWrap<CR>", { silent = true })
     vim.keymap.set("n", "]a", "<Cmd>ALENextWrap<CR>", { silent = true })
     vim.keymap.set("n", "Q", "<Cmd>ALEDetail<CR>", { silent = true })
-    local group = vim.api.nvim_create_augroup("packer-ale-config", {})
+    local group = vim.api.nvim_create_augroup("z-ale-config", {})
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview",
       callback = function()
@@ -199,14 +187,14 @@ use({
   end,
 })
 
-use({
+pm.add({
   "junegunn/goyo.vim",
   cmd = "Goyo",
   config = function()
     vim.g.goyo_height = "96%"
     vim.g.goyo_width = 82
     local autocmd_handle
-    local group = vim.api.nvim_create_augroup("packer-goyo-config", {})
+    local group = vim.api.nvim_create_augroup("z-goyo-config", {})
     vim.api.nvim_create_autocmd("User", {
       pattern = "GoyoEnter",
       callback = function()
@@ -241,7 +229,7 @@ use({
   end,
 })
 
-use({
+pm.add({
   "justinmk/vim-dirvish",
   config = function()
     vim.g.dirvish_mode = ":sort ,^.*[/],"
@@ -256,12 +244,12 @@ use({
           { buffer = true, remap = true }
         )
       end,
-      group = vim.api.nvim_create_augroup("packer-dirvish-config", {}),
+      group = vim.api.nvim_create_augroup("z-dirvish-config", {}),
     })
   end,
 })
 
-use({
+pm.add({
   "mbbill/undotree",
   cmd = "UndotreeToggle",
   config = function()
@@ -273,7 +261,7 @@ use({
   end,
 })
 
-use({
+pm.add({
   "preservim/tagbar",
   cmd = "TagbarToggle",
   config = function()
@@ -285,7 +273,7 @@ use({
   end,
 })
 
-use({
+pm.add({
   "ap/vim-buftabline",
   config = function()
     vim.g.buftabline_show = 1
@@ -304,7 +292,7 @@ use({
   end,
 })
 
-use({
+pm.add({
   "wellle/tmux-complete.vim",
   config = function()
     vim.g["tmuxcomplete#trigger"] = ""
@@ -314,7 +302,7 @@ use({
   end,
 })
 
-use({
+pm.add({
   "L3MON4D3/LuaSnip",
   config = function()
     local ls = require("luasnip")
@@ -348,36 +336,37 @@ use({
   end,
 })
 
-use("tommcdo/vim-exchange")
-use({
+pm.add("tommcdo/vim-exchange", {
   "tommcdo/vim-lion",
   config = function()
     vim.g.lion_squeeze_spaces = 1
   end,
 })
 
-use({
-  "tpope/vim-apathy",
-  config = function()
-    vim.g.lua_path = vim.tbl_map(function(p)
-      return p .. "/lua/?.lua"
-    end, vim.split(vim.o.runtimepath, ","))
-  end,
-})
+pm.add(
+  "tpope/vim-abolish",
+  {
+    "tpope/vim-apathy",
+    config = function()
+      vim.g.lua_path = vim.tbl_map(function(p)
+        return p .. "/lua/?.lua"
+      end, vim.split(vim.o.runtimepath, ","))
+    end,
+  },
+  { "tpope/vim-dadbod", cmd = "DB" },
+  "tpope/vim-endwise",
+  "tpope/vim-obsession",
+  "tpope/vim-repeat",
+  "tpope/vim-scriptease",
+  "tpope/vim-sleuth",
+  "tpope/vim-speeddating",
+  "tpope/vim-surround",
+  "tpope/vim-unimpaired",
+  "tpope/vim-eunuch",
+  "tpope/vim-commentary"
+)
 
-use("tpope/vim-abolish")
-use("tpope/vim-endwise")
-use("tpope/vim-obsession")
-use("tpope/vim-repeat")
-use("tpope/vim-scriptease")
-use("tpope/vim-sleuth")
-use("tpope/vim-speeddating")
-use("tpope/vim-surround")
-use("tpope/vim-unimpaired")
-use("tpope/vim-eunuch")
-use("tpope/vim-commentary")
-
-use({
+pm.add({
   "tpope/vim-fugitive",
   config = function()
     vim.keymap.set("n", "<leader>gs", "<Cmd>Git<CR>", { silent = true })
@@ -385,26 +374,4 @@ use({
     vim.keymap.set("n", "<leader>gw", "<Cmd>Gwrite<CR>", { silent = true })
     vim.keymap.set("", "<leader>gb", ":GBrowse!<CR>", { silent = true })
   end,
-})
-use("tommcdo/vim-fubitive")
-use("tpope/vim-rhubarb")
-
-use({ "tpope/vim-dadbod", cmd = "DB" })
-
-if need_to_compile then
-  packer.compile()
-end
-
-local script_name = debug.getinfo(1, "S").short_src
--- selene: allow(global_usage)
-if not _G.have_set_packer_compile_autocmd then
-  vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = script_name,
-    callback = function()
-      vim.cmd.luafile(script_name)
-      packer.compile()
-    end,
-    group = vim.api.nvim_create_augroup("packer-config-reload", {}),
-  })
-  _G.have_set_packer_compile_autocmd = true
-end
+}, "tommcdo/vim-fubitive", "tpope/vim-rhubarb")
