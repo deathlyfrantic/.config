@@ -183,7 +183,7 @@ local function update()
   for name, spec in pairs(packages) do
     if not dir_exists(spec.path) then
       vim.notify(
-        string.format("Need to install plugin '%s'", spec.name),
+        string.format("Need to install package '%s'", spec.name),
         vim.log.levels.ERROR
       )
       return
@@ -227,19 +227,12 @@ local function update()
   end
   local successes, failures = {}, {}
   for name, result in pairs(job_results) do
-    if result.success and git_logs[name] then
-      -- run any post-update tasks. only do this here if there is something in
-      -- `git_logs` because we don't need to run tasks for plugins that didn't
-      -- have any new commits.
-      local run = packages[name].run
-      if run then
-        if vim.is_callable(run) then
-          run()
-        elseif type(run) == "string" and run:sub(1, 1) == ":" then
-          vim.cmd(run:sub(2))
-        end
+    if result.success then
+      if git_logs[name] then
+        -- we should always get here, but to be safe, guard against missing
+        -- output in `git_logs`
+        table.insert(successes, name)
       end
-      table.insert(successes, name)
     else
       failures[name] = result
     end
@@ -258,6 +251,18 @@ local function update()
         table.insert(output, "      " .. line)
       end
       table.insert(output, "")
+      -- run post-update tasks
+      local run = packages[name].run
+      if run then
+        -- run update functions outside of this loop since they might block
+        vim.defer_fn(function()
+          if vim.is_callable(run) then
+            run()
+          elseif type(run) == "string" and run:sub(1, 1) == ":" then
+            vim.cmd(run:sub(2))
+          end
+        end, 500)
+      end
     end
   end
   if vim.tbl_count(failures) > 0 then
@@ -280,7 +285,7 @@ local function update()
       vim.wo.cursorline = true
     end)
   else
-    vim.notify("No plugins needed to be updated.", vim.log.levels.INFO)
+    vim.notify("No packages needed to be updated.", vim.log.levels.INFO)
   end
 end
 
@@ -316,7 +321,7 @@ local function create_package_spec(spec)
   if match then
     ret.dir = match:sub(2)
   end
-  -- absolute path to plugin
+  -- absolute path to package
   ret.path = string.format("%s%s/%s", path_base, ret.type, ret.dir)
   return ret
 end
@@ -327,7 +332,7 @@ local function run_user_code(spec, key)
     if not ok then
       vim.notify(
         string.format(
-          "Error running %s for plugin '%s': %s",
+          "Error running %s for package '%s': %s",
           key,
           spec.name,
           tostring(err)
@@ -342,16 +347,17 @@ local function add(...)
   for _, pkg in ipairs({ ... }) do
     local spec = create_package_spec(pkg)
     packages[spec.name] = spec
-    -- run setup code for all plugins
+    -- run setup code for all packages
     run_user_code(spec, "setup")
     if spec.type == "start" then
-      -- immediately run config code for start plugins
+      -- immediately run config code for start packages
       run_user_code(spec, "config")
     else
+      -- only run config for optional packages immediately before they are
+      -- loaded
       if spec.cmd then
         vim.api.nvim_create_user_command(spec.cmd, function(opts)
           vim.api.nvim_del_user_command(spec.cmd)
-          -- only run config for opt plugins immediately before they are loaded
           run_user_code(spec, "config")
           vim.cmd.packadd(spec.dir)
           local new_opts = {
@@ -371,7 +377,6 @@ local function add(...)
         vim.api.nvim_create_autocmd("FileType", {
           pattern = spec.ft,
           callback = function()
-            -- only run config for opt plugins immediately before they are loaded
             run_user_code(spec, "config")
             vim.cmd.packadd(spec.dir)
             vim.cmd(
