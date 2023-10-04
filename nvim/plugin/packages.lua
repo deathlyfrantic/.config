@@ -330,7 +330,7 @@ pm.add({
       return "<C-y>"
     end, { expr = true })
     require("luasnip.loaders.from_lua").load({
-      paths = vim.fs.normalize("$VIMHOME/snippets"),
+      paths = vim.fn.stdpath("config") .. "/snippets",
     })
     ls.filetype_extend("typescript", { "javascript" })
   end,

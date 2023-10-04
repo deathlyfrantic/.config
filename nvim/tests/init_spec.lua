@@ -167,16 +167,16 @@ describe("init", function()
       for _, f in ipairs({ "/plugin/foo.lua", "/lua/bar.lua" }) do
         vim.api.nvim_exec_autocmds("BufWritePost", {
           group = "init-autocmds",
-          pattern = vim.env.VIMHOME .. f,
+          pattern = vim.fn.stdpath("config") .. f,
         })
-        assert.stub(source).called_with(vim.env.VIMHOME .. f)
+        assert.stub(source).called_with(vim.fn.stdpath("config") .. f)
       end
     end)
 
     it("doesn't reload non-lua files", function()
       vim.api.nvim_exec_autocmds("BufWritePost", {
         group = "init-autocmds",
-        pattern = vim.env.VIMHOME .. "/plugin/baz.txt",
+        pattern = vim.fn.stdpath("config") .. "/plugin/baz.txt",
       })
       assert.stub(source).not_called()
     end)
@@ -184,7 +184,7 @@ describe("init", function()
     it("refreshes colorscheme on save", function()
       vim.api.nvim_exec_autocmds("BufWritePost", {
         group = "init-autocmds",
-        pattern = vim.env.VIMHOME .. "/colors/foobar.lua",
+        pattern = vim.fn.stdpath("config") .. "/colors/foobar.lua",
       })
       assert.stub(colorscheme).called_with("foobar")
     end)

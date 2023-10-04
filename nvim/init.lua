@@ -3,8 +3,6 @@ local z = require("z")
 
 -- startup processes {{{
 if vim.fn.has("vim_starting") == 1 then
-  vim.env.VIMHOME = vim.fn.stdpath("config")
-
   -- turn off built-in plugins i don't want
   vim.g.loaded_netrwPlugin = "v153"
   vim.g.loaded_netrw = "v153"
@@ -49,8 +47,8 @@ vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
 vim.opt.spellfile = {
-  vim.fs.normalize("$VIMHOME/spell/custom.utf-8.add"),
-  vim.fs.normalize("$VIMHOME/spell/local.utf-8.add"),
+  vim.fn.stdpath("config") .. "/spell/custom.utf-8.add",
+  vim.fn.stdpath("config") .. "/spell/local.utf-8.add",
 }
 vim.opt.softtabstop = 4
 vim.opt.tags:prepend("./.git/tags;")
@@ -156,14 +154,14 @@ api.nvim_create_autocmd("BufWritePost", {
   nested = true,
 })
 api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.env.VIMHOME .. "/{plugin,lua}/*.lua",
+  pattern = vim.fn.stdpath("config") .. "/{plugin,lua}/*.lua",
   callback = function(args)
     vim.cmd.source(args.file)
   end,
   group = group,
 })
 api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.env.VIMHOME .. "/colors/*.lua",
+  pattern = vim.fn.stdpath("config") .. "/colors/*.lua",
   callback = function(args)
     vim.cmd.colorscheme(vim.fs.basename(args.file):match("(.*)%."))
   end,
