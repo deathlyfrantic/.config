@@ -43,6 +43,31 @@ local function popup_window(title, contents, callback)
   end
 end
 
+local function run_jobs(cmds)
+  local jobs, results = {}, {}
+  for name, cmd in pairs(cmds) do
+    results[name] = {}
+    table.insert(
+      jobs,
+      vim.fn.jobstart(cmd, {
+        on_exit = function(_, code, _)
+          results[name].success = code == 0
+        end,
+        on_stderr = function(_, output, _)
+          results[name].stderr = output
+        end,
+        on_stdout = function(_, output, _)
+          results[name].stdout = output
+        end,
+        stderr_buffered = true,
+        stdout_buffered = true,
+      })
+    )
+  end
+  vim.fn.jobwait(jobs)
+  return results
+end
+
 local function clean()
   local installed = {}
   for name, type in vim.fs.dir(path_base, { depth = 2 }) do
@@ -98,25 +123,11 @@ local function install()
     vim.log.levels.INFO
   )
   vim.cmd.redraw({ bang = true })
-  local job_results = {}
+  local cmds = {}
   for _, spec in ipairs(need_to_install) do
-    job_results[spec.name] = {}
+    cmds[spec.name] = string.format("git clone %s %s", spec.url, spec.path)
   end
-  local jobs = vim.tbl_map(function(spec)
-    return vim.fn.jobstart(
-      string.format("git clone %s %s", spec.url, spec.path),
-      {
-        on_exit = function(_, code, _)
-          job_results[spec.name].success = code == 0
-        end,
-        on_stderr = function(_, output, _)
-          job_results[spec.name].stderr = output
-        end,
-        stderr_buffered = true,
-      }
-    )
-  end, need_to_install)
-  vim.fn.jobwait(jobs)
+  local job_results = run_jobs(cmds)
   local successes, failures = {}, {}
   for name, result in pairs(job_results) do
     if result.success then
@@ -179,7 +190,7 @@ local function open_diff()
 end
 
 local function update()
-  local jobs, job_results = {}, {}
+  local cmds = {}
   for name, spec in pairs(packages) do
     if not dir_exists(spec.path) then
       vim.notify(
@@ -188,30 +199,12 @@ local function update()
       )
       return
     end
-    job_results[name] = {}
-    table.insert(
-      jobs,
-      vim.fn.jobstart(
-        string.format("git -C %s pull --ff-only --no-rebase", spec.path),
-        {
-          on_exit = function(_, code, _)
-            job_results[name].success = code == 0
-          end,
-          on_stderr = function(_, output, _)
-            job_results[name].stderr = output
-          end,
-          on_stdout = function(_, output, _)
-            job_results[name].stdout = output
-          end,
-          stderr_buffered = true,
-          stdout_buffered = true,
-        }
-      )
-    )
+    cmds[name] =
+      string.format("git -C %s pull --ff-only --no-rebase", spec.path)
   end
   vim.notify("Updating packages ...", vim.log.levels.INFO)
   vim.cmd.redraw({ bang = true })
-  vim.fn.jobwait(jobs)
+  local job_results = run_jobs(cmds)
   local git_logs = {}
   for name, spec in pairs(packages) do
     if
