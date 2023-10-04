@@ -47,7 +47,6 @@ vim.opt.wrap = false
 vim.opt.omnifunc = "syntaxcomplete#Complete"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
-vim.opt.shortmess:remove("F")
 vim.opt.smartcase = true
 vim.opt.spellfile = {
   vim.fs.normalize("$VIMHOME/spell/custom.utf-8.add"),
