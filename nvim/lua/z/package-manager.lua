@@ -30,6 +30,7 @@ local function popup_window(title, contents, callback)
   }
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, contents)
+  vim.bo[buf].modifiable = false
   local win_id = vim.api.nvim_open_win(buf, true, opts)
   vim.opt.winhl:append("Normal:Normal")
   vim.opt.winhl:append("FloatBorder:Normal")
