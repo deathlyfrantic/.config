@@ -1,5 +1,3 @@
-local api = vim.api
-
 local function any(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
@@ -38,7 +36,7 @@ local function tbl_reverse(t)
 end
 
 local function popup(text, title)
-  local buf = api.nvim_create_buf(false, true)
+  local buf = vim.api.nvim_create_buf(false, true)
   local contents
   if type(text) == "table" then
     contents = text
@@ -47,7 +45,7 @@ local function popup(text, title)
   else
     contents = { tostring(text) }
   end
-  api.nvim_buf_set_lines(buf, 0, -1, true, contents)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, contents)
   local opts = {
     relative = "cursor",
     height = #contents,
@@ -73,7 +71,7 @@ local function popup(text, title)
     opts.anchor = opts.anchor .. "W"
     opts.col = 1
   end
-  local win = api.nvim_open_win(buf, false, opts)
+  local win = vim.api.nvim_open_win(buf, false, opts)
   vim.wo[win].colorcolumn = "0"
   return win
 end
@@ -87,7 +85,7 @@ local function collect(...)
 end
 
 local function get_hex_color(hl, attr)
-  local colors = api.nvim_get_hl(0, { name = hl })
+  local colors = vim.api.nvim_get_hl(0, { name = hl })
   local dec = colors.bg
   if attr == "fg" or attr == "foreground" then
     dec = colors.fg
@@ -166,17 +164,17 @@ local function find_project_dir(start)
 end
 
 local function buf_is_real(b)
-  return api.nvim_buf_is_valid(b)
-    and api.nvim_buf_is_loaded(b)
+  return vim.api.nvim_buf_is_valid(b)
+    and vim.api.nvim_buf_is_loaded(b)
     and vim.bo[b].buflisted
 end
 
 local function char_before_cursor()
-  local column = api.nvim_win_get_cursor(0)[2]
+  local column = vim.api.nvim_win_get_cursor(0)[2]
   if column < 1 then
     return ""
   end
-  return api.nvim_get_current_line():sub(column, column)
+  return vim.api.nvim_get_current_line():sub(column, column)
 end
 
 local function highlight_at_pos_contains(pattern, pos)

@@ -1,4 +1,3 @@
-local api = vim.api
 local utils = require("z.test-runner.utils")
 
 local function find_nearest_treesitter()
@@ -42,7 +41,8 @@ local function npm_or_yarn()
 end
 
 local function mocha(selection, pretest)
-  local cmd = "npx mocha -- spec " .. vim.fs.normalize(api.nvim_buf_get_name(0))
+  local cmd = "npx mocha -- spec "
+    .. vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   if pretest and #pretest > 0 then
     cmd = pretest .. " && " .. cmd
   end
@@ -68,7 +68,7 @@ local function jest(selection)
       return cmd .. " -t " .. vim.fn.shellescape(find_nearest())
     end
   elseif selection == "file" then
-    return cmd .. " " .. vim.fs.normalize(api.nvim_buf_get_name(0))
+    return cmd .. " " .. vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   end
   return cmd
 end

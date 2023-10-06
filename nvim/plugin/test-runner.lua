@@ -1,4 +1,3 @@
-local api = vim.api
 local test = require("z.test-runner").test
 
 local setups = {
@@ -9,7 +8,7 @@ local setups = {
 
 for _, setup in ipairs(setups) do
   local cmd, key, param = unpack(setup)
-  api.nvim_create_user_command(cmd, function(args)
+  vim.api.nvim_create_user_command(cmd, function(args)
     test(param, not args.bang)
   end, { bang = true })
   vim.keymap.set(

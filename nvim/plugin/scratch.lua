@@ -1,4 +1,3 @@
-local api = vim.api
 local z = require("z")
 
 local function save_file(name)
@@ -16,16 +15,16 @@ local function height()
 end
 
 local function read(name)
-  local pos = api.nvim_win_get_cursor(0)
-  api.nvim_buf_set_lines(0, 0, -1, true, {})
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
   local new_lines = z.collect(io.open(save_file(name)):lines())
-  api.nvim_buf_set_lines(0, 0, -1, true, new_lines)
-  api.nvim_win_set_cursor(0, pos)
+  vim.api.nvim_buf_set_lines(0, 0, -1, true, new_lines)
+  vim.api.nvim_win_set_cursor(0, pos)
   vim.b.ftime = os.time()
 end
 
 local function write(name)
-  local contents = api.nvim_buf_get_lines(0, 0, -1, true)
+  local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
   local f = io.open(save_file(name), "w")
   f:write(table.concat(contents, "\n") .. "\n")
   f:close()
@@ -74,12 +73,12 @@ local function new_buffer(name)
     read(name)
   end, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>s", "<C-w>p", { buffer = true, silent = true })
-  api.nvim_create_autocmd("WinLeave", {
+  vim.api.nvim_create_autocmd("WinLeave", {
     buffer = 0,
     callback = function()
       close_window(name)
     end,
-    group = api.nvim_create_augroup("augroup-scratch-" .. name, {}),
+    group = vim.api.nvim_create_augroup("augroup-scratch-" .. name, {}),
   })
 end
 
@@ -96,7 +95,7 @@ local function open_buffer(name)
     if winid == -1 then
       vim.cmd(string.format("topleft %ssplit +buffer%s", height(), bnum))
     else
-      api.nvim_set_current_win(winid)
+      vim.api.nvim_set_current_win(winid)
     end
     if stat and stat.mtime.sec > (vim.b.ftime or 0) then
       read(name)
@@ -109,8 +108,8 @@ local function selection(name)
   local regtype = vim.fn.getregtype('"')
   vim.cmd.normal({ args = { "y" }, bang = true })
   open_buffer(name)
-  api.nvim_buf_set_lines(0, 0, -1, true, {})
-  api.nvim_paste(vim.fn.getreg('"'), false, -1)
+  vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
+  vim.api.nvim_paste(vim.fn.getreg('"'), false, -1)
   vim.fn.setreg('"', contents, regtype)
 end
 
@@ -142,7 +141,7 @@ local function completion(arglead)
   end, ret)
 end
 
-api.nvim_create_user_command(
+vim.api.nvim_create_user_command(
   "ScratchBuffer",
   scratch,
   { complete = completion, nargs = "?" }

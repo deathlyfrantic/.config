@@ -1,8 +1,6 @@
-local api = vim.api
-
 local function get_match_lines(start, num)
   return table.concat(
-    api.nvim_buf_get_lines(0, start, start + num, false),
+    vim.api.nvim_buf_get_lines(0, start, start + num, false),
     "\n"
   )
 end
@@ -10,7 +8,7 @@ end
 local function find_nearest_test(pattern, atom)
   local num_lines = #vim.split(pattern, [[\n]])
   local match = vim.fn.matchlist(
-    get_match_lines(api.nvim_win_get_cursor(0)[1] - 1, num_lines),
+    get_match_lines(vim.api.nvim_win_get_cursor(0)[1] - 1, num_lines),
     pattern
   )
   if #match > 0 then
@@ -36,7 +34,7 @@ local function find_nearest_test_via_treesitter(
   end
   local query = vim.treesitter.query.parse(vim.bo.filetype, sexpr)
   local tree = vim.treesitter.get_parser():parse()
-  local cursor_row = api.nvim_win_get_cursor(0)[1]
+  local cursor_row = vim.api.nvim_win_get_cursor(0)[1]
   local nearest = nil
   for id, node, _ in query:iter_captures(tree[1]:root(), 0) do
     if query.captures[id] == capture_name then

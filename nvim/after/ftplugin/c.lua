@@ -1,5 +1,3 @@
-local api = vim.api
-
 vim.opt_local.cinoptions:append({ "l1" })
 vim.opt_local.commentstring = "//%s"
 
@@ -29,15 +27,15 @@ for h, f in pairs(nested_headers) do
 end
 
 if
-  vim.endswith(api.nvim_buf_get_name(0), ".h")
-  and api.nvim_buf_line_count(0) == 1
-  and api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
+  vim.endswith(vim.api.nvim_buf_get_name(0), ".h")
+  and vim.api.nvim_buf_line_count(0) == 1
+  and vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
   local guard = string.format(
     "%s_%s",
     string.upper(vim.fs.basename(vim.loop.cwd())),
     string
-      .upper(vim.fs.basename(api.nvim_buf_get_name(0)))
+      .upper(vim.fs.basename(vim.api.nvim_buf_get_name(0)))
       :gsub("[^A-Z0-9]", "_")
   )
   local new_lines = {
@@ -48,6 +46,6 @@ then
     "",
     "#endif /* end of include guard: " .. guard .. "*/",
   }
-  api.nvim_buf_set_lines(0, 0, 1, true, new_lines)
-  api.nvim_win_set_cursor(0, { 4, 1 })
+  vim.api.nvim_buf_set_lines(0, 0, 1, true, new_lines)
+  vim.api.nvim_win_set_cursor(0, { 4, 1 })
 end

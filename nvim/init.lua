@@ -1,4 +1,3 @@
-local api = vim.api
 local z = require("z")
 
 -- startup processes {{{
@@ -72,25 +71,25 @@ vim.opt.wildignorecase = true
 -- }}}
 
 -- autocommands {{{
-local group = api.nvim_create_augroup("init-autocmds", {})
+local group = vim.api.nvim_create_augroup("init-autocmds", {})
 -- quit even if dirvish or quickfix is open
-api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     if
-      #api.nvim_list_wins() == 1
+      #vim.api.nvim_list_wins() == 1
       and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "dirvish")
     then
       if
         #vim.tbl_filter(function(b)
             return vim.bo[b].buflisted
-          end, api.nvim_list_bufs())
+          end, vim.api.nvim_list_bufs())
           == 1
         or vim.bo.buftype == "quickfix"
       then
         vim.cmd.quit()
       else
-        api.nvim_buf_delete(0, { force = true })
+        vim.api.nvim_buf_delete(0, { force = true })
       end
     end
   end,
@@ -98,16 +97,16 @@ api.nvim_create_autocmd("BufEnter", {
 })
 
 -- see :help last-position-jump
-api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
   callback = function()
-    local mark = api.nvim_buf_get_mark(0, '"')
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
     if
-      not api.nvim_buf_get_name(0):match("COMMIT_EDITMSG")
+      not vim.api.nvim_buf_get_name(0):match("COMMIT_EDITMSG")
       and mark[1] > 1
-      and mark[1] <= api.nvim_buf_line_count(0)
+      and mark[1] <= vim.api.nvim_buf_line_count(0)
     then
-      api.nvim_win_set_cursor(0, mark)
+      vim.api.nvim_win_set_cursor(0, mark)
     end
   end,
   group = group,
@@ -116,14 +115,14 @@ api.nvim_create_autocmd("BufReadPost", {
 -- don't move my position when switching buffers
 -- i don't know that this is actually necessary. the commit in which it was
 -- added has a shitty message so i don't know why i did it.
-api.nvim_create_autocmd("BufWinLeave", {
+vim.api.nvim_create_autocmd("BufWinLeave", {
   pattern = "*",
   callback = function()
     vim.b.winview = vim.fn.winsaveview()
   end,
   group = group,
 })
-api.nvim_create_autocmd("BufWinEnter", {
+vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
   callback = function()
     if vim.b.winview then
@@ -135,7 +134,7 @@ api.nvim_create_autocmd("BufWinEnter", {
 })
 
 -- terminal settings
-api.nvim_create_autocmd("TermOpen", {
+vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   callback = function()
     vim.opt_local.number = false
@@ -145,7 +144,7 @@ api.nvim_create_autocmd("TermOpen", {
 })
 
 -- reload config files on saving
-api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.MYVIMRC,
   callback = function()
     vim.cmd.source("$MYVIMRC")
@@ -153,14 +152,14 @@ api.nvim_create_autocmd("BufWritePost", {
   group = group,
   nested = true,
 })
-api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath("config") .. "/{plugin,lua}/*.lua",
   callback = function(args)
     vim.cmd.source(args.file)
   end,
   group = group,
 })
-api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath("config") .. "/colors/*.lua",
   callback = function(args)
     vim.cmd.colorscheme(vim.fs.basename(args.file):match("(.*)%."))
@@ -169,7 +168,7 @@ api.nvim_create_autocmd("BufWritePost", {
 })
 
 -- set foldmethod for this file
-api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = vim.env.MYVIMRC,
   callback = function()
     vim.opt_local.foldmethod = "marker"
@@ -182,8 +181,8 @@ api.nvim_create_autocmd("BufReadPost", {
 -- abbreviations
 vim.cmd.iabbrev([[shrug! ¯\_(ツ)_/¯]])
 
-group = api.nvim_create_augroup("init-autocmds-abbreviations", {})
-api.nvim_create_autocmd("FileType", {
+group = vim.api.nvim_create_augroup("init-autocmds-abbreviations", {})
+vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "typescript" },
   callback = function()
     vim.cmd.iabbrev("<buffer> != !==")
@@ -191,7 +190,7 @@ api.nvim_create_autocmd("FileType", {
   end,
   group = group,
 })
-api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "typescript", "lua", "vim", "zsh" },
   callback = function()
     vim.cmd.iabbrev("<buffer> fn! function")
@@ -200,25 +199,29 @@ api.nvim_create_autocmd("FileType", {
 })
 
 -- typos
-api.nvim_create_user_command(
+vim.api.nvim_create_user_command(
   "E",
   "e<bang> <args>",
   { bang = true, complete = "file", nargs = 1 }
 )
-api.nvim_create_user_command(
+vim.api.nvim_create_user_command(
   "H",
   "h<bang> <args>",
   { bang = true, complete = "help", nargs = 1 }
 )
-api.nvim_create_user_command("Q", "q<bang>", { bang = true })
-api.nvim_create_user_command("Qa", "qa<bang>", { bang = true })
-api.nvim_create_user_command("QA", "qa<bang>", { bang = true })
-api.nvim_create_user_command("Wq", "wq<bang>", { bang = true })
-api.nvim_create_user_command("WQ", "wq<bang>", { bang = true })
-api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
+vim.api.nvim_create_user_command("Q", "q<bang>", { bang = true })
+vim.api.nvim_create_user_command("Qa", "qa<bang>", { bang = true })
+vim.api.nvim_create_user_command("QA", "qa<bang>", { bang = true })
+vim.api.nvim_create_user_command("Wq", "wq<bang>", { bang = true })
+vim.api.nvim_create_user_command("WQ", "wq<bang>", { bang = true })
+vim.api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
 
 -- fit current window to contents
-api.nvim_create_user_command("Fit", "silent! execute 'resize' line('$')", {})
+vim.api.nvim_create_user_command(
+  "Fit",
+  "silent! execute 'resize' line('$')",
+  {}
+)
 
 -- select last-pasted text
 vim.keymap.set("n", "gV", "`[v`]")
@@ -234,7 +237,7 @@ end, { expr = true })
 
 -- write then delete buffer; akin to wq
 vim.keymap.set("c", "wbd", "Wbd")
-api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
+vim.api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
 
 -- search bindings
 vim.keymap.set("n", "*", "*N")
@@ -253,13 +256,17 @@ vim.keymap.set(
 
 -- close all floating windows
 local function close_floating_windows()
-  for _, id in ipairs(api.nvim_list_wins()) do
-    if api.nvim_win_get_config(id).relative ~= "" then
-      api.nvim_win_close(id, true)
+  for _, id in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(id).relative ~= "" then
+      vim.api.nvim_win_close(id, true)
     end
   end
 end
-api.nvim_create_user_command("CloseFloatingWindows", close_floating_windows, {})
+vim.api.nvim_create_user_command(
+  "CloseFloatingWindows",
+  close_floating_windows,
+  {}
+)
 vim.keymap.set("n", "<Esc>", close_floating_windows)
 
 -- resize windows
@@ -283,10 +290,10 @@ vim.keymap.set("n", "<C-W>T", "<Cmd>botright sp +term<CR>:startinsert<CR>")
 vim.keymap.set("n", "<C-W>t", "<Cmd>belowright 20sp +term<CR>:startinsert<CR>")
 
 -- un-dos files with ^M line endings
-api.nvim_create_user_command("Undos", [[e ++ff=unix | %s/\r//g]], {})
+vim.api.nvim_create_user_command("Undos", [[e ++ff=unix | %s/\r//g]], {})
 
 -- set indentation
-api.nvim_create_user_command(
+vim.api.nvim_create_user_command(
   "SetIndent",
   "setlocal softtabstop=<args> shiftwidth=<args>",
   { bar = true, nargs = 1 }
@@ -326,8 +333,8 @@ local function arrow(fat)
   if fat then
     ret = "=>"
   end
-  local line = api.nvim_get_current_line()
-  local col = api.nvim_win_get_cursor(0)[2]
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
   local after = "<Right>"
   if #line <= col or not line:sub(col + 1, col + 1):is_empty() then
     after = " "
@@ -340,8 +347,8 @@ end, { expr = true })
 vim.keymap.set("i", "<C-l>", function()
   return arrow(true)
 end, { expr = true })
-group = api.nvim_create_augroup("init-autocmds-arrows", {})
-api.nvim_create_autocmd("FileType", {
+group = vim.api.nvim_create_augroup("init-autocmds-arrows", {})
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "c",
   callback = function()
     vim.keymap.set("i", "<C-j>", "->", { buffer = true })
@@ -354,7 +361,7 @@ local function quickfix_toggle(vertical)
   if
     #vim.tbl_filter(function(b)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
-    end, api.nvim_list_bufs()) > 0
+    end, vim.api.nvim_list_bufs()) > 0
   then
     return ":cclose<CR>"
   end
@@ -372,7 +379,7 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>Q", function()
   return quickfix_toggle(true)
 end, { silent = true, expr = true })
-api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
   callback = function()
     vim.keymap.set(
@@ -384,7 +391,7 @@ api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, silent = true })
     vim.opt_local.wrap = false
   end,
-  group = api.nvim_create_augroup("init-autocmds-quickfix", {}),
+  group = vim.api.nvim_create_augroup("init-autocmds-quickfix", {}),
 })
 
 -- local settings
@@ -415,17 +422,17 @@ local function source_local_vimrc(file, buf, force)
     vim.cmd("silent! source " .. vimrc)
   end
 end
-api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
   pattern = "*",
   callback = function(args)
     source_local_vimrc(args.file, args.buf, args.event == "VimEnter")
   end,
   nested = true,
-  group = api.nvim_create_augroup("init-autocmds-local-vimrc", {}),
+  group = vim.api.nvim_create_augroup("init-autocmds-local-vimrc", {}),
 })
 
 -- make directories if they don't exist before writing file
-api.nvim_create_autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
     local dir = vim.fs.dirname(args.file)
@@ -437,7 +444,7 @@ api.nvim_create_autocmd("BufWritePre", {
       end
     end
   end,
-  group = api.nvim_create_augroup("init-autocmds-mkdir-on-write", {}),
+  group = vim.api.nvim_create_augroup("init-autocmds-mkdir-on-write", {}),
 })
 -- }}}
 

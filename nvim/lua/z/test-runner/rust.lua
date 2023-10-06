@@ -1,4 +1,3 @@
-local api = vim.api
 local utils = require("z.test-runner.utils")
 
 local function find_nearest_treesitter()
@@ -32,7 +31,7 @@ local function test(selection)
   -- trailing "src" component e.g. /code/project/src/main.rs -> /code/project
   local cmd = string.format(
     "(cd %s && cargo test)",
-    vim.fs.dirname(vim.fs.dirname(api.nvim_buf_get_name(0)))
+    vim.fs.dirname(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
   )
   if selection == "nearest" then
     -- don't look for a test if we can't find the `mod tests {}` declaration
@@ -46,7 +45,7 @@ local function test(selection)
     return cmd:sub(1, -2)
       .. string.format(
         " %s::)",
-        vim.fs.basename(api.nvim_buf_get_name(0)):match("(.*)%.")
+        vim.fs.basename(vim.api.nvim_buf_get_name(0)):match("(.*)%.")
       )
   end
   return cmd

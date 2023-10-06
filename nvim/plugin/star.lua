@@ -1,4 +1,3 @@
-local api = vim.api
 local z = require("z")
 
 local file = vim.fn.tempname()
@@ -17,11 +16,11 @@ local function find_cmd(mode)
     open_files = {}
   else
     local bufs = vim.tbl_filter(function(b)
-      return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-    end, api.nvim_list_bufs())
+      return z.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
+    end, vim.api.nvim_list_bufs())
     open_files = vim.tbl_map(function(b)
       return vim.fs
-        .normalize(api.nvim_buf_get_name(b))
+        .normalize(vim.api.nvim_buf_get_name(b))
         :gsub("^" .. vim.pesc(vim.loop.cwd()) .. "/", "")
     end, bufs)
   end
@@ -69,12 +68,12 @@ local function buffers_cmd()
   local bufs = vim.tbl_map(
     function(b)
       return vim.fs
-        .normalize(api.nvim_buf_get_name(b))
+        .normalize(vim.api.nvim_buf_get_name(b))
         :gsub("^" .. vim.loop.cwd() .. "/", "")
     end,
     vim.tbl_filter(function(b)
-      return z.buf_is_real(b) and api.nvim_buf_get_name(b) ~= ""
-    end, api.nvim_list_bufs())
+      return z.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
+    end, vim.api.nvim_list_bufs())
   )
   return base_cmd():format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
 end
@@ -86,7 +85,7 @@ local function open_buffer(b)
   if not vim.startswith(b, "/") then
     b = vim.loop.cwd() .. "/" .. b
   end
-  api.nvim_set_current_buf(
+  vim.api.nvim_set_current_buf(
     vim.uri_to_bufnr(vim.uri_from_fname(vim.fs.normalize(b)))
   )
 end
@@ -153,13 +152,13 @@ local modes = {
 }
 
 local function delete_buffer()
-  api.nvim_buf_delete(buffer, { force = true })
+  vim.api.nvim_buf_delete(buffer, { force = true })
   buffer = nil
 end
 
 local function on_exit(mode, _, exit_code)
   local previous_window = vim.fn.win_getid(vim.fn.winnr("#"))
-  api.nvim_set_current_win(previous_window)
+  vim.api.nvim_set_current_win(previous_window)
   if buffer ~= nil then
     delete_buffer()
   end
@@ -193,7 +192,7 @@ local function popup_window(buf, mode, title)
     title = popup_window_title(title, width),
     title_pos = "center",
   }
-  api.nvim_open_win(buf, true, opts)
+  vim.api.nvim_open_win(buf, true, opts)
   vim.opt.winhl:append("Normal:Normal")
   vim.opt.winhl:append("FloatBorder:Normal")
 end
@@ -207,7 +206,7 @@ local function open_star_buffer(mode)
   -- used the cached value (which is a buffer variable)
   local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
   -- now open the star buffer
-  buffer = api.nvim_create_buf(false, false)
+  buffer = vim.api.nvim_create_buf(false, false)
   popup_window(buffer, mode, ("[%s] %s"):format(name, mode_text))
   vim.bo[buffer].buftype = "nofile"
   vim.bo[buffer].modifiable = false
@@ -242,15 +241,15 @@ local function completion(arglead)
   end, vim.tbl_keys(modes))
 end
 
-api.nvim_create_autocmd({ "ColorScheme", "VimResized" }, {
+vim.api.nvim_create_autocmd({ "ColorScheme", "VimResized" }, {
   pattern = "*",
   callback = function()
     star_cmd_str = nil
   end,
-  group = api.nvim_create_augroup("star-colorscheme-reset", {}),
+  group = vim.api.nvim_create_augroup("star-colorscheme-reset", {}),
 })
 
-api.nvim_create_user_command(
+vim.api.nvim_create_user_command(
   "Star",
   star,
   { complete = completion, nargs = "?" }

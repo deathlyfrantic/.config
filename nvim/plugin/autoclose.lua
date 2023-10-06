@@ -1,4 +1,3 @@
-local api = vim.api
 local z = require("z")
 
 local pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
@@ -26,7 +25,7 @@ local semi_lines = {
 semi_lines.typescript = semi_lines.javascript
 
 local function getline(num)
-  return api.nvim_buf_get_lines(0, num - 1, num, false)[1] or ""
+  return vim.api.nvim_buf_get_lines(0, num - 1, num, false)[1] or ""
 end
 
 local function semi(state)
@@ -75,8 +74,8 @@ end
 local function enter()
   local state = {
     ft = vim.bo.filetype,
-    cursor = api.nvim_win_get_cursor(0),
-    line = api.nvim_get_current_line(),
+    cursor = vim.api.nvim_win_get_cursor(0),
+    line = vim.api.nvim_get_current_line(),
   }
   state.linenr = state.cursor[1]
   state.col = state.cursor[2]

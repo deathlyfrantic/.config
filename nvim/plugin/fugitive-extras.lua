@@ -1,6 +1,5 @@
 -- this is a modified version of vim-fugitive-blame-ext by Tom McDonald
 -- see: https://github.com/tommcdo/vim-fugitive-blame-ext
-local api = vim.api
 local z = require("z")
 
 local subj_cmd = "git --git-dir=%s show -s --pretty=format:%%s %s"
@@ -30,7 +29,7 @@ local function truncate_message(msg)
     vim.o.ruler
     or (
       vim.o.laststatus == 0
-      or (vim.o.laststatus == 1 and #api.nvim_list_wins() == 1)
+      or (vim.o.laststatus == 1 and #vim.api.nvim_list_wins() == 1)
     )
   then
     -- Statusline is not visible, so the ruler is. Its width is either 17
@@ -49,18 +48,18 @@ local function truncate_message(msg)
 end
 
 local function get_commit_from_line()
-  return api.nvim_get_current_line():match("^%^?([0-9A-Fa-f]+)")
+  return vim.api.nvim_get_current_line():match("^%^?([0-9A-Fa-f]+)")
 end
 
 local function show_log_message()
   local commit = get_commit_from_line()
   local blame = log_message(commit)
-  api.nvim_echo({ { truncate_message(blame.subj) } }, false, {})
+  vim.api.nvim_echo({ { truncate_message(blame.subj) } }, false, {})
 end
 
 local function close_popup()
-  if popup_window and api.nvim_win_is_valid(popup_window) then
-    api.nvim_win_close(popup_window, true)
+  if popup_window and vim.api.nvim_win_is_valid(popup_window) then
+    vim.api.nvim_win_close(popup_window, true)
   end
   popup_window = nil
 end
@@ -70,16 +69,16 @@ local function popup()
   local commit = get_commit_from_line()
   local blame = log_message(commit)
   popup_window = z.popup(blame.full)
-  api.nvim_create_autocmd({ "CursorMoved", "BufLeave", "BufWinLeave" }, {
+  vim.api.nvim_create_autocmd({ "CursorMoved", "BufLeave", "BufWinLeave" }, {
     buffer = 0,
     callback = close_popup,
     once = true,
-    group = api.nvim_create_augroup("fugitive-extras-popup", {}),
+    group = vim.api.nvim_create_augroup("fugitive-extras-popup", {}),
   })
 end
 
-local group = api.nvim_create_augroup("fugitive-extras-blame", {})
-api.nvim_create_autocmd("BufEnter", {
+local group = vim.api.nvim_create_augroup("fugitive-extras-blame", {})
+vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.fugitiveblame",
   callback = function()
     -- needs to be separate and deferred otherwise it doesn't work ¯\_(ツ)_/¯
@@ -87,11 +86,11 @@ api.nvim_create_autocmd("BufEnter", {
   end,
   group = group,
 })
-api.nvim_create_autocmd(
+vim.api.nvim_create_autocmd(
   "CursorMoved",
   { pattern = "*.fugitiveblame", callback = show_log_message, group = group }
 )
-api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "fugitiveblame",
   callback = function()
     vim.keymap.set("n", "Q", popup, { buffer = true })

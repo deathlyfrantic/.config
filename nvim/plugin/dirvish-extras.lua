@@ -1,9 +1,7 @@
-local api = vim.api
-
 local function toggle()
   local bufs = vim.tbl_filter(function(buf)
-    return api.nvim_buf_is_loaded(buf)
-  end, api.nvim_list_bufs())
+    return vim.api.nvim_buf_is_loaded(buf)
+  end, vim.api.nvim_list_bufs())
   local dirvish_bufs = {}
   for _, id in ipairs(bufs) do
     if vim.bo[id].filetype == "dirvish" then
@@ -18,7 +16,7 @@ local function toggle()
 end
 
 local function open()
-  local line = api.nvim_get_current_line()
+  local line = vim.api.nvim_get_current_line()
   if line:match("/$") ~= nil then
     vim.fn["dirvish#open"]("edit", 0)
   else
@@ -47,10 +45,10 @@ local function autocmds()
   end
 end
 
-api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "dirvish",
   callback = autocmds,
-  group = api.nvim_create_augroup("dirvish-extras", {}),
+  group = vim.api.nvim_create_augroup("dirvish-extras", {}),
 })
 vim.keymap.set(
   "n",

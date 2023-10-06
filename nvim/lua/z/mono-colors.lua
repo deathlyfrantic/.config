@@ -1,5 +1,3 @@
-local api = vim.api
-
 local function preamble(name, termguicolors)
   vim.o.termguicolors = termguicolors
   vim.cmd.highlight("clear")
@@ -11,7 +9,7 @@ end
 
 local function highlight(t)
   for k, v in pairs(t) do
-    api.nvim_set_hl(0, k, v)
+    vim.api.nvim_set_hl(0, k, v)
   end
 end
 
@@ -46,7 +44,7 @@ local function clear_highlights()
   }
 
   for _, group in ipairs(no_highlights) do
-    api.nvim_set_hl(0, group, {})
+    vim.api.nvim_set_hl(0, group, {})
   end
 end
 
@@ -105,7 +103,7 @@ local function set_links()
   }
 
   for k, v in pairs(links) do
-    api.nvim_set_hl(0, k, { link = v })
+    vim.api.nvim_set_hl(0, k, { link = v })
   end
 end
 
