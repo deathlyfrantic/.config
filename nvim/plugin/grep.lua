@@ -19,6 +19,10 @@ local function grep(args)
       vim.cmd("botright copen " .. math.min(num_results, 10))
     end
     vim.w.quickfix_title = string.format([[grep "%s"]], args.args)
+    -- easy refresh
+    vim.keymap.set("n", "R", function()
+      grep(args)
+    end, { buffer = true })
   end
 end
 
