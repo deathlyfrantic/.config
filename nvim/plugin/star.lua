@@ -82,7 +82,7 @@ local function open_buffer(b)
   if type(b) == "table" then
     b = b[1]
   end
-  if not vim.startswith(b, "/") then
+  if not b:starts_with("/") then
     b = vim.loop.cwd() .. "/" .. b
   end
   vim.api.nvim_set_current_buf(
@@ -237,7 +237,7 @@ end
 
 local function completion(arglead)
   return vim.tbl_filter(function(m)
-    return vim.startswith(m, arglead)
+    return m:starts_with(arglead)
   end, vim.tbl_keys(modes))
 end
 

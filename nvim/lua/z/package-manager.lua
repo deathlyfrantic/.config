@@ -158,11 +158,10 @@ local function install()
 end
 
 local function open_diff()
-  local pieces = vim.split(
-    vim.api.nvim_get_current_line():trim(),
-    " ",
-    { plain = true, trimempty = true }
-  )
+  local pieces = vim.api
+    .nvim_get_current_line()
+    :trim()
+    :split(" ", { plain = true, trimempty = true })
   if pieces == 0 or not pieces[1]:match("^[0-9A-Fa-f]+$") then
     return
   end
@@ -174,7 +173,7 @@ local function open_diff()
     if #lines == 0 then
       return
     end
-    pieces = vim.split(lines[1]:trim(), " ", { plain = true, trimempty = true })
+    pieces = lines[1]:trim():split(" ", { plain = true, trimempty = true })
     if pieces[1] == "✓" then
       local package = packages[pieces[2]]
       popup_window(

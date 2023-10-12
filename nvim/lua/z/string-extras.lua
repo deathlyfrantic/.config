@@ -4,8 +4,19 @@ function string.trim(self)
 end
 
 function string.is_empty(self)
-  local start, _ = self:match("^%s*$")
-  return start ~= nil
+  return self:match("^%s*$") ~= nil
+end
+
+function string.split(self, sep, opts)
+  return vim.split(self, sep, opts)
+end
+
+function string.starts_with(self, prefix)
+  return vim.startswith(self, prefix)
+end
+
+function string.ends_with(self, prefix)
+  return vim.endswith(self, prefix)
 end
 
 local function string_pad(s, length, padding, direction)

@@ -72,7 +72,7 @@ local function completion(arglead)
   table.insert(bufs, "terminal")
   -- try to match against starting with arglead first
   local start_with = vim.tbl_filter(function(b)
-    return vim.startswith(b, arglead)
+    return b:starts_with(arglead)
   end, bufs)
   if #start_with > 0 then
     return start_with

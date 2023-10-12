@@ -137,7 +137,7 @@ local function completion(arglead)
     name, kind = vim.loop.fs_scandir_next(handle)
   end
   return vim.tbl_filter(function(s)
-    return vim.startswith(s, arglead)
+    return s:starts_with(arglead)
   end, ret)
 end
 

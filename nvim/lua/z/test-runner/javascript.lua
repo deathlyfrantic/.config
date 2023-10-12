@@ -59,7 +59,7 @@ end
 
 local function jest(selection)
   local cmd = npm_or_yarn() .. " test"
-  if vim.startswith(cmd, "npm") then
+  if cmd:starts_with("npm") then
     cmd = cmd .. " --"
   end
   if selection == "nearest" then

@@ -27,7 +27,7 @@ for h, f in pairs(nested_headers) do
 end
 
 if
-  vim.endswith(vim.api.nvim_buf_get_name(0), ".h")
+  vim.api.nvim_buf_get_name(0):ends_with(".h")
   and vim.api.nvim_buf_line_count(0) == 1
   and vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then

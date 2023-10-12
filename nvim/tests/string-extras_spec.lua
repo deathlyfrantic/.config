@@ -18,6 +18,23 @@ describe("string-extras", function()
     assert.is_true(("  \t    "):is_empty())
   end)
 
+  it("split", function()
+    assert.same((":aa::b:"):split(":"), { "", "aa", "", "b", "" })
+    assert.same(("axaby"):split("ab?"), { "", "x", "y" })
+    assert.same(("x*yz*o"):split("*", { plain = true }), { "x", "yz", "o" })
+    assert.same(("|x|y|z|"):split("|", { trimempty = true }), { "x", "y", "z" })
+  end)
+
+  it("starts_with", function()
+    assert.is_true(("foobar"):starts_with("foo"))
+    assert.is_false(("foobar"):starts_with("qqq"))
+  end)
+
+  it("ends_with", function()
+    assert.is_true(("foobar"):ends_with("bar"))
+    assert.is_false(("foobar"):ends_with("qqq"))
+  end)
+
   describe("pad", function()
     local s = "foobar"
     local fmt

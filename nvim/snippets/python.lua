@@ -29,8 +29,10 @@ return make({
     {
       i(1),
       f(function(args)
-        local pieces =
-          vim.split(args[1][1] or "", ",", { plain = true, trimempty = true })
+        local pieces = (args[1][1] or ""):split(
+          ",",
+          { plain = true, trimempty = true }
+        )
         if #pieces == 0 then
           return ""
         end

@@ -6,7 +6,7 @@ local function get_match_lines(start, num)
 end
 
 local function find_nearest_test(pattern, atom)
-  local num_lines = #vim.split(pattern, [[\n]])
+  local num_lines = #pattern:split([[\n]])
   local match = vim.fn.matchlist(
     get_match_lines(vim.api.nvim_win_get_cursor(0)[1] - 1, num_lines),
     pattern

@@ -41,7 +41,7 @@ local function popup(text, title)
   if type(text) == "table" then
     contents = text
   elseif type(text) == "string" then
-    contents = vim.split(text, "\n", { plain = true, trimempty = true })
+    contents = text:split("\n", { plain = true, trimempty = true })
   else
     contents = { tostring(text) }
   end
@@ -204,7 +204,7 @@ end
 
 local function help(contents)
   if type(contents) == "string" then
-    contents = vim.split(contents, "\n", { plain = true, trimempty = true })
+    contents = contents:split("\n", { plain = true, trimempty = true })
   end
   local help_win = find(vim.api.nvim_list_wins(), function(win)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"

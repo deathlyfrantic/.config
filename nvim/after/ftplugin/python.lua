@@ -21,9 +21,7 @@ vim.api.nvim_create_autocmd("Syntax", {
 
 local function pydoc_help(args)
   local output = z.collect(io.popen("python3 -m pydoc " .. args.args):lines())
-  if
-    #output == 0 or vim.startswith(output[1], "No Python documentation found")
-  then
+  if #output == 0 or output[1]:starts_with("No Python documentation found") then
     vim.notify("E149: Sorry, no help for " .. args.args, vim.log.levels.ERROR)
     return
   end

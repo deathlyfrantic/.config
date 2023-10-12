@@ -5,10 +5,9 @@ local function populate_rustfmt_edition()
   end
   local cargo_toml = io.open(cargo_toml_path)
   for line in cargo_toml:lines() do
-    if vim.startswith(line:trim(), "edition") then
-      local edition = vim
-        .split(line, "=", { plain = true, trimempty = true })[2]
-        :match([["(.+)"]])
+    if line:trim():starts_with("edition") then
+      local edition =
+        line:split("=", { plain = true, trimempty = true })[2]:match([["(.+)"]])
       if edition then
         vim.b.ale_rust_rustfmt_options = "--edition " .. edition
         break

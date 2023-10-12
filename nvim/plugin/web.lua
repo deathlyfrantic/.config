@@ -7,7 +7,7 @@ local function browser(url)
 end
 
 local function search(url)
-  if not vim.startswith(url, "http") then
+  if not url:starts_with("http") then
     url = search_url:format(url:gsub(" ", "+"))
   end
   browser(url)

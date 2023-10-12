@@ -350,7 +350,7 @@ pm.add(
     config = function()
       vim.g.lua_path = vim.tbl_map(function(p)
         return p .. "/lua/?.lua"
-      end, vim.split(vim.o.runtimepath, ","))
+      end, vim.o.runtimepath:split(","))
     end,
   },
   { "tpope/vim-dadbod", cmd = "DB" },

@@ -82,8 +82,7 @@ local function open_buffer(ground)
       vim.loop.fs_unlink(filename)
     end,
   })
-  local template = vim.split(
-    dedent(ground.template or ""),
+  local template = dedent(ground.template or ""):split(
     "\n",
     { plain = true, trimempty = true }
   )
@@ -118,7 +117,7 @@ end
 
 local function completion(arglead)
   return vim.tbl_filter(function(g)
-    return vim.startswith(g, arglead)
+    return g:starts_with(arglead)
   end, vim.tbl_keys(grounds))
 end
 

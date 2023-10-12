@@ -11,13 +11,12 @@ local function comment_string()
   if z.highlight_at_pos_contains("comment") then
     return ""
   end
-  local before, after = unpack(
-    vim.split(vim.o.commentstring, "%s", { plain = true, trimempty = true })
-  )
-  if not vim.endswith(before, " ") then
+  local before, after =
+    unpack(vim.o.commentstring:split("%s", { plain = true, trimempty = true }))
+  if not before:ends_with(" ") then
     before = before .. " "
   end
-  if after and not vim.startswith(after, " ") then
+  if after and not after:starts_with(" ") then
     after = " " .. after
   end
   return before, after
@@ -39,9 +38,7 @@ local function text_snippet(snippet)
     return fmt(snippet, { i(0) })
   end
   if snippet:find("\n") then
-    return t(
-      vim.split(dedent(snippet), "\n", { plain = true, trimempty = true })
-    )
+    return t(dedent(snippet):split("\n", { plain = true, trimempty = true }))
   end
   return t(snippet)
 end

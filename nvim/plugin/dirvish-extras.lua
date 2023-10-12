@@ -39,7 +39,7 @@ local function autocmds()
   vim.keymap.set("n", "q", toggle, { buffer = true, silent = true })
   vim.cmd("silent! keeppatterns " .. [[g@\v/\.[^\/]+/?$@d]])
   for _, pat in
-    ipairs(vim.split(vim.o.wildignore, ",", { plain = true, trimempty = true }))
+    ipairs(vim.o.wildignore:split(",", { plain = true, trimempty = true }))
   do
     vim.cmd([[silent! keeppatterns g@\v/ ]] .. pat .. "/?$@d")
   end
