@@ -35,6 +35,7 @@
     filesearch = "!$XDG_CONFIG_HOME/git/filesearch"
     fixup = "!git commit --fixup=$(git log --oneline --no-merges -n 20 | star | cut -d' ' -f1)"
     unpushed = "!git log HEAD ^origin/$(git main-branch-name)"
+    unpushed-diff = "!git diff HEAD ^origin/$(git main-branch-name)"
     main-branch-name = "!$XDG_CONFIG_HOME/git/main-branch-name"
     first-commit = "rev-list --max-parents=0 HEAD"
     first-show = "!git show $(git first-commit)"
