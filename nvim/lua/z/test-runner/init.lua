@@ -10,21 +10,13 @@ local runners = {
   typescript = require("z.test-runner.javascript").test,
 }
 
-function on_exit(_, exit_code)
-  if exit_code == 0 then
-    vim.api.nvim_echo(
-      { { "Tests pass. (Test runner exit code was 0.)", "Success" } },
-      false,
-      {}
-    )
-  end
-end
-
 function run(cmd, close)
   if not term_window then
     term_window = TermWindow.new({ close_on_success = close })
-    term_window:on("Exit", function(...)
-      on_exit(...)
+    term_window:on("Exit", function(_, exit_code)
+      if exit_code == 0 then
+        vim.notify("Tests pass. (Test runner exit code was 0.)")
+      end
     end)
     term_window:on("BufDelete", function()
       term_window = nil

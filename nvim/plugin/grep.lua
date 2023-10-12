@@ -11,7 +11,7 @@ local function grep(args)
   local num_results = #vim.fn.getqflist()
   if num_results == 0 then
     vim.cmd.redraw({ bang = true })
-    vim.api.nvim_echo({ { "No matches found." } }, false, {})
+    vim.notify("No matches found.", vim.log.levels.INFO)
   else
     if args.bang then
       vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
