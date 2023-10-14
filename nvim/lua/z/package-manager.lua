@@ -120,13 +120,13 @@ local function install()
     return
   end
   vim.notify(
-    string.format("Installing %s packages ...", #need_to_install),
+    ("Installing %s packages ..."):format(#need_to_install),
     vim.log.levels.INFO
   )
   vim.cmd.redraw({ bang = true })
   local cmds = {}
   for _, spec in ipairs(need_to_install) do
-    cmds[spec.name] = string.format("git clone %s %s", spec.url, spec.path)
+    cmds[spec.name] = ("git clone %s %s"):format(spec.url, spec.path)
   end
   local job_results = run_jobs(cmds)
   local successes, failures = {}, {}
@@ -194,13 +194,12 @@ local function update()
   for name, spec in pairs(packages) do
     if not dir_exists(spec.path) then
       vim.notify(
-        string.format("Need to install package '%s'", spec.name),
+        ("Need to install package '%s'"):format(spec.name),
         vim.log.levels.ERROR
       )
       return
     end
-    cmds[name] =
-      string.format("git -C %s pull --ff-only --no-rebase", spec.path)
+    cmds[name] = ("git -C %s pull --ff-only --no-rebase"):format(spec.path)
   end
   vim.notify("Updating packages ...", vim.log.levels.INFO)
   vim.cmd.redraw({ bang = true })
@@ -289,12 +288,9 @@ local function create_package_spec(spec)
   end
   -- if spec isn't a table, then it also wasn't a string
   if type(spec) ~= "table" then
-    error(
-      string.format(
-        "Invalid package spec: %s (type is '%s' - must be string or table)",
-        tostring(spec),
-        type(spec)
-      )
+    error("Invalid package spec: %s (type is '%s' - must be string or table)"):format(
+      tostring(spec),
+      type(spec)
     )
   end
   local name = spec[1]
@@ -315,7 +311,7 @@ local function create_package_spec(spec)
     ret.dir = match:sub(2)
   end
   -- absolute path to package
-  ret.path = string.format("%s%s/%s", path_base, ret.type, ret.dir)
+  ret.path = ("%s%s/%s"):format(path_base, ret.type, ret.dir)
   return ret
 end
 
@@ -324,8 +320,7 @@ local function run_user_code(spec, key)
     local ok, err = pcall(spec[key])
     if not ok then
       vim.notify(
-        string.format(
-          "Error running %s for package '%s': %s",
+        ("Error running %s for package '%s': %s"):format(
           key,
           spec.name,
           tostring(err)

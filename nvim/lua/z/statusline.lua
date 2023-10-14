@@ -4,8 +4,7 @@ local function filename()
       .normalize(vim.api.nvim_buf_get_name(0))
       :gsub(vim.fs.normalize("$HOME"), "~")
   end
-  return string.format(
-    "[cwd: %s]",
+  return ("[cwd: %s]"):format(
     vim.loop.cwd():gsub(vim.fs.normalize("$HOME"), "~")
   )
 end

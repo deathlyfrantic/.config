@@ -6,7 +6,7 @@ local function test()
   local dir = vim.fs.dirname(makefile)
   for line in io.open(makefile):lines() do
     if line:match("^test:") then
-      return string.format("(cd %s && make test)", dir)
+      return ("(cd %s && make test)"):format(dir)
     end
   end
 end

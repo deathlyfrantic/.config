@@ -14,9 +14,7 @@ local function preview_markdown(args)
     filename = args
   end
   local outfile = vim.fn.tempname() .. ".html"
-  os.execute(
-    string.format("cmark %s > %s; open -g %s", filename, outfile, outfile)
-  )
+  os.execute(("cmark %s > %s; open -g %s"):format(filename, outfile, outfile))
 end
 
 vim.api.nvim_buf_create_user_command(

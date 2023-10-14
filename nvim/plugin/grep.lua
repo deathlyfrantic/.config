@@ -18,7 +18,7 @@ local function grep(args)
     else
       vim.cmd("botright copen " .. math.min(num_results, 10))
     end
-    vim.w.quickfix_title = string.format([[grep "%s"]], args.args)
+    vim.w.quickfix_title = ([[grep "%s"]]):format(args.args)
     -- easy refresh
     vim.keymap.set("n", "R", function()
       grep(args)
@@ -37,13 +37,13 @@ local sort_cmd = "sort -t ':' -k1,1f -k2,2g -k3,3g"
 if vim.fn.executable("rg") == 1 then
   local ignores = table.concat(
     vim.tbl_map(function(v)
-      return string.format("-g '!%s'", v)
+      return ("-g '!%s'"):format(v)
     end, vim.o.wildignore:split(",")),
     " "
   )
-  vim.o.grepprg = string.format(
-    "rg -F -S -H --no-heading --vimgrep %s '$*' \\| " .. sort_cmd,
-    ignores
+  vim.o.grepprg = ("rg -F -S -H --no-heading --vimgrep %s '$*' \\| %s"):format(
+    ignores,
+    sort_cmd
   )
   vim.o.grepformat = "%f:%l:%c:%m"
 

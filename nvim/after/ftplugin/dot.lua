@@ -8,7 +8,7 @@ local function dot_to_png(args)
     filename = args.args
   end
   local outfile = filename:match("(.*)%.") .. ".png"
-  os.execute(string.format("dot %s -Tpng > %s", filename, outfile))
+  os.execute(("dot %s -Tpng > %s"):format(filename, outfile))
 end
 
 vim.api.nvim_buf_create_user_command(0, "DotToPng", dot_to_png, { nargs = "?" })

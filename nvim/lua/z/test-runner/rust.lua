@@ -29,8 +29,7 @@ local function test(selection)
   end
   -- change to source dir in case file is in a subproject, but strip off the
   -- trailing "src" component e.g. /code/project/src/main.rs -> /code/project
-  local cmd = string.format(
-    "(cd %s && cargo test)",
+  local cmd = ("(cd %s && cargo test)"):format(
     vim.fs.dirname(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
   )
   if selection == "nearest" then
@@ -38,15 +37,14 @@ local function test(selection)
     if vim.fn.search("^\\s*mod tests {$", "n") > 0 then
       local nearest = find_nearest_treesitter() or find_nearest_regex()
       if nearest ~= nil then
-        return cmd:sub(1, -2) .. string.format(" %s)", nearest)
+        return ("%s %s)"):format(cmd:sub(1, -2), nearest)
       end
     end
   elseif selection == "file" then
-    return cmd:sub(1, -2)
-      .. string.format(
-        " %s::)",
-        vim.fs.basename(vim.api.nvim_buf_get_name(0)):match("(.*)%.")
-      )
+    return ("%s %s::)"):format(
+      cmd:sub(1, -2),
+      vim.fs.basename(vim.api.nvim_buf_get_name(0)):match("(.*)%.")
+    )
   end
   return cmd
 end

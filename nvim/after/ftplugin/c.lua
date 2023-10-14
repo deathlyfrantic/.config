@@ -19,11 +19,11 @@ local headers = {
 local nested_headers = { systypes = "sys/types" }
 
 for _, h in ipairs(headers) do
-  vim.cmd.iabbrev(string.format("<buffer> %sh #include <%s.h>", h, h))
+  vim.cmd.iabbrev(("<buffer> %sh #include <%s.h>"):format(h, h))
 end
 
 for h, f in pairs(nested_headers) do
-  vim.cmd.iabbrev(string.format("<buffer> %sh #include <%s.h>", h, f))
+  vim.cmd.iabbrev(("<buffer> %sh #include <%s.h>"):format(h, f))
 end
 
 if
@@ -31,12 +31,9 @@ if
   and vim.api.nvim_buf_line_count(0) == 1
   and vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
-  local guard = string.format(
-    "%s_%s",
-    string.upper(vim.fs.basename(vim.loop.cwd())),
-    string
-      .upper(vim.fs.basename(vim.api.nvim_buf_get_name(0)))
-      :gsub("[^A-Z0-9]", "_")
+  local guard = ("%s_%s"):format(
+    vim.fs.basename(vim.loop.cwd()):upper(),
+    vim.fs.basename(vim.api.nvim_buf_get_name(0)):upper():gsub("[^A-Z0-9]", "_")
   )
   local new_lines = {
     "#ifndef " .. guard,

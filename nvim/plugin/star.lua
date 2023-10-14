@@ -52,8 +52,7 @@ local function star_cmd()
 end
 
 local function base_cmd()
-  return string.format(
-    "(cd %s && %%s | %s > %s)",
+  return ("(cd %s && %%s | %s > %s)"):format(
     z.find_project_dir(),
     star_cmd(),
     file
@@ -226,10 +225,7 @@ local function star(args)
     mode = args.args
   end
   if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
-    vim.notify(
-      string.format("'%s' is not a valid mode", mode),
-      vim.log.levels.ERROR
-    )
+    vim.notify(("'%s' is not a valid mode"):format(mode), vim.log.levels.ERROR)
     return
   end
   open_star_buffer(mode)

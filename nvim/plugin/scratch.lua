@@ -2,12 +2,12 @@ local z = require("z")
 
 local function save_file(name)
   return vim.fs.normalize(
-    string.format("%s/scratch-%s.txt", vim.fn.stdpath("data"), name)
+    ("%s/scratch-%s.txt"):format(vim.fn.stdpath("data"), name)
   )
 end
 
 local function bufname(name)
-  return string.format("__Scratch-%s__", name)
+  return ("__Scratch-%s__"):format(name)
 end
 
 local function height()
@@ -55,7 +55,7 @@ local function close_window(name)
 end
 
 local function new_buffer(name)
-  vim.cmd(string.format("topleft %snew %s", height(), bufname(name)))
+  vim.cmd(("topleft %snew %s"):format(height(), bufname(name)))
   vim.opt_local.filetype = "scratch"
   vim.opt_local.buflisted = false
   vim.opt_local.bufhidden = "hide"
@@ -93,7 +93,7 @@ local function open_buffer(name)
   else
     local winid = vim.fn.bufwinid(bnum)
     if winid == -1 then
-      vim.cmd(string.format("topleft %ssplit +buffer%s", height(), bnum))
+      vim.cmd(("topleft %ssplit +buffer%s"):format(height(), bnum))
     else
       vim.api.nvim_set_current_win(winid)
     end

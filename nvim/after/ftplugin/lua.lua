@@ -5,6 +5,7 @@ if
 then
   vim.opt_local.keywordprg = ":help"
   vim.opt_local.omnifunc = "v:lua.vim.lua_omnifunc"
-  vim.b.ale_lua_selene_options =
-    string.format("--config %s/selene.toml", vim.fn.stdpath("config"))
+  vim.b.ale_lua_selene_options = ("--config %s/selene.toml"):format(
+    vim.fn.stdpath("config")
+  )
 end

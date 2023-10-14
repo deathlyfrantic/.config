@@ -26,9 +26,9 @@ local function string_pad(s, length, padding, direction)
   end
   if padding:match("^%s*$") and length < 100 then
     if direction == "right" then
-      return string.format("%-" .. length .. "s", s)
+      return ("%-" .. length .. "s"):format(s)
     else
-      return string.format("%" .. length .. "s", s)
+      return ("%" .. length .. "s"):format(s)
     end
   end
   while #s < length do
@@ -83,7 +83,7 @@ function string.imatch(self, pattern)
     elseif char:match("%A") then
       pat = pat .. char
     else
-      pat = pat .. string.format("[%s%s]", char:upper(), char:lower())
+      pat = pat .. ("[%s%s]"):format(char:upper(), char:lower())
     end
   end
   return self:match(pat)
