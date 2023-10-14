@@ -49,7 +49,7 @@ local function bdelete(args)
     return
   end
   local name = args.args
-  local arg = string.lower(name)
+  local arg = name:lower()
   if arg == "man" then
     delete_by_name(true, "^man://", false)
   elseif arg:match("^term") then
