@@ -297,11 +297,10 @@ local function create_package_spec(spec)
   local ret = {
     name = name,
     cmd = spec.cmd,
-    ft = spec.ft,
     config = spec.config,
     setup = spec.setup,
     run = spec.run,
-    type = (spec.ft or spec.cmd) and "opt" or "start",
+    type = spec.cmd and "opt" or "start",
     url = name:find(":") and name or "github:" .. name,
     dir = name, -- might be changed by code after
   }
@@ -359,27 +358,6 @@ local function add(...)
           end
           vim.api.nvim_cmd(new_opts, {})
         end, { bar = true, bang = true, nargs = "*", range = true })
-      elseif spec.ft then
-        local augroup =
-          vim.api.nvim_create_augroup("z-package-manager-" .. spec.name, {})
-        vim.api.nvim_create_autocmd("FileType", {
-          pattern = spec.ft,
-          callback = function()
-            run_user_code(spec, "config")
-            vim.cmd.packadd(spec.dir)
-            vim.cmd(
-              "doautocmd <nomodeline> filetypeplugin FileType " .. spec.ft
-            )
-            vim.cmd(
-              "doautocmd <nomodeline> filetypeindent FileType " .. spec.ft
-            )
-            vim.cmd("doautocmd <nomodeline> syntaxset FileType " .. spec.ft)
-            vim.api.nvim_del_augroup_by_id(augroup)
-          end,
-          group = augroup,
-          once = true,
-          nested = true,
-        })
       end
     end
   end
