@@ -27,8 +27,6 @@ pm.add({
   end,
 })
 
-pm.add({ "rust-lang/rust.vim", ft = "rust" })
-
 pm.add(
   "Julian/vim-textobj-variable-segment",
   "kana/vim-textobj-user",
