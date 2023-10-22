@@ -99,13 +99,25 @@ local function clean()
     ) .. "\n\nDo you want to remove these directories?",
   }, function(choice)
     if choice == "Yes" then
+      local successes, failures = "", ""
       for _, path in ipairs(need_to_remove) do
-        if vim.fn.delete(path, "rf") ~= 0 then
-          vim.notify(
-            "Failed to remove directory " .. path,
-            vim.log.levels.ERROR
-          )
+        if vim.fn.delete(path, "rf") == 0 then
+          successes = successes .. " - " .. path .. "\n"
+        else
+          failures = failures .. " - " .. path .. "\n"
         end
+      end
+      if #successes > 0 then
+        vim.notify(
+          "Successfully deleted directories:\n\n" .. successes,
+          vim.log.levels.INFO
+        )
+      end
+      if #failures > 0 then
+        vim.notify(
+          "Failed to delete directories:\n\n" .. failures,
+          vim.log.levels.ERROR
+        )
       end
     end
   end)
