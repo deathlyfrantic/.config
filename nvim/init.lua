@@ -59,7 +59,6 @@ vim.opt.undofile = true
 vim.opt.wildignore = vim.opt.wildignore
   + "node_modules/" -- javascript
   + "package-lock.json"
-  + "*.min.js"
   + "yarn.lock"
   + "Cargo.lock" -- rust
   + "*/target/*"
