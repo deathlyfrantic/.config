@@ -6,7 +6,7 @@ require("z.mono-colors").define("album", true, {
   LineNr = { fg = "#444444" },
   StatusLine = { fg = "#dadada", bg = "#5f875f" },
   StatusLineNC = { fg = "#080808", bg = "#3f5a3f" },
-  VertSplit = { fg = "#080808" },
+  WinSeparator = { fg = "#080808" },
   Comment = { fg = "#585858" },
   String = { fg = "#9e9e9e" },
   MatchParen = { fg = "#ffaf5f", bg = "#303030", bold = true },

@@ -6,7 +6,7 @@ require("z.mono-colors").define("copper", true, {
   LineNr = { fg = "#69524c" },
   StatusLine = { fg = "#d2c8c4", bg = "#5d4b44" },
   StatusLineNC = { fg = "#5d4b44", bg = "#221b19" },
-  VertSplit = { fg = "#221b19" },
+  WinSeparator = { fg = "#221b19" },
   Comment = { fg = "#846960" },
   String = { fg = "#c9a79c" },
   MatchParen = { fg = "#ff7700", bold = true },

@@ -6,7 +6,7 @@ require("z.mono-colors").define("gaia", true, {
   LineNr = { fg = "#444444" },
   StatusLine = { fg = "#080808", bg = "#877a5c" },
   StatusLineNC = { fg = "#080808", bg = "#4e473a" },
-  VertSplit = { fg = "#4e473a" },
+  WinSeparator = { fg = "#4e473a" },
   Comment = { fg = "#585858" },
   String = { fg = "#9e9e9e" },
   MatchParen = { fg = "#e09a5c", bg = "#404040", bold = true },

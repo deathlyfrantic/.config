@@ -6,7 +6,7 @@ require("z.mono-colors").define("mastodon", true, {
   LineNr = { fg = "#4c5269" },
   StatusLine = { fg = "#c4c8d2", bg = "#444b5d" },
   StatusLineNC = { fg = "#444b5d", bg = "#191b22" },
-  VertSplit = { fg = "#191b22" },
+  WinSeparator = { fg = "#191b22" },
   Comment = { fg = "#606984" },
   String = { fg = "#9ca7c9" },
   MatchParen = { fg = "#ff7722", bold = true },
