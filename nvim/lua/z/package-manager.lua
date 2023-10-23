@@ -123,6 +123,13 @@ local function clean()
   end)
 end
 
+local function generate_helptags(spec)
+  local doc_dir = spec.path .. "/doc"
+  if dir_exists(doc_dir) then
+    vim.cmd.helptags(doc_dir)
+  end
+end
+
 local function install()
   local need_to_install = vim.tbl_filter(function(spec)
     return not dir_exists(spec.path)
@@ -145,6 +152,7 @@ local function install()
   for name, result in pairs(job_results) do
     if result.success then
       table.insert(successes, name)
+      generate_helptags(packages[name])
     else
       failures[name] = result
     end
@@ -197,6 +205,22 @@ local function open_diff()
         end
       )
       return
+    end
+  end
+end
+
+local function run_user_code(spec, key, desc)
+  if vim.is_callable(spec[key]) then
+    local ok, err = pcall(spec[key])
+    if not ok then
+      vim.notify(
+        ("Error running %s for package '%s': %s"):format(
+          desc or key,
+          spec.name,
+          tostring(err)
+        ),
+        vim.log.levels.ERROR
+      )
     end
   end
 end
@@ -256,14 +280,15 @@ local function update()
       end
       table.insert(output, "")
       -- run post-update tasks
+      generate_helptags(packages[name])
       local run = packages[name].run
       if run then
         -- run update functions outside of this loop since they might block
         vim.defer_fn(function()
-          if vim.is_callable(run) then
-            run()
-          elseif type(run) == "string" and run:sub(1, 1) == ":" then
+          if type(run) == "string" and run:sub(1, 1) == ":" then
             vim.cmd(run:sub(2))
+          else
+            run_user_code(packages[name], "run", "post-update task")
           end
         end, 500)
       end
@@ -324,22 +349,6 @@ local function create_package_spec(spec)
   -- absolute path to package
   ret.path = ("%s%s/%s"):format(path_base, ret.type, ret.dir)
   return ret
-end
-
-local function run_user_code(spec, key)
-  if vim.is_callable(spec[key]) then
-    local ok, err = pcall(spec[key])
-    if not ok then
-      vim.notify(
-        ("Error running %s for package '%s': %s"):format(
-          key,
-          spec.name,
-          tostring(err)
-        ),
-        vim.log.levels.ERROR
-      )
-    end
-  end
 end
 
 local function add(...)
