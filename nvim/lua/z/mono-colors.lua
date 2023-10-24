@@ -127,6 +127,12 @@ local function set_term_colors()
   vim.g.terminal_color_15 = "#eeeeec"
 end
 
+local function popup_window_namespace(colors)
+  local ns_id = vim.api.nvim_create_namespace("z-popup-window")
+  vim.api.nvim_set_hl(ns_id, "Normal", colors.Normal)
+  vim.api.nvim_set_hl(ns_id, "FloatBorder", colors.Normal)
+end
+
 local function define(name, termguicolors, colors)
   preamble(name, termguicolors)
   highlight(colors)
@@ -135,6 +141,7 @@ local function define(name, termguicolors, colors)
   if termguicolors then
     set_term_colors()
   end
+  popup_window_namespace(colors)
 end
 
 return {

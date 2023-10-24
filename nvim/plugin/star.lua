@@ -191,9 +191,11 @@ local function popup_window(buf, mode, title)
     title = popup_window_title(title, width),
     title_pos = "center",
   }
-  vim.api.nvim_open_win(buf, true, opts)
-  vim.opt.winhl:append("Normal:Normal")
-  vim.opt.winhl:append("FloatBorder:Normal")
+  local win_id = vim.api.nvim_open_win(buf, true, opts)
+  vim.api.nvim_win_set_hl_ns(
+    win_id,
+    vim.api.nvim_create_namespace("z-popup-window")
+  )
 end
 
 local function open_star_buffer(mode)
