@@ -176,8 +176,7 @@ pm.add({
     vim.g.ale_linters = { zsh = { "shell", "shellcheck" } }
     vim.g.ale_c_clang_options =
       "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
-    vim.g.ale_lua_stylua_options = "--config-path "
-      .. vim.fs.normalize("$XDG_CONFIG_HOME/stylua.toml")
+    vim.g.ale_lua_stylua_options = "--search-parent-directories"
     vim.g.ale_sh_shellcheck_dialect = "bash"
   end,
 })
