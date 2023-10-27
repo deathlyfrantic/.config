@@ -5,6 +5,7 @@ local d = ls.dynamic_node
 local c = ls.choice_node
 local sn = ls.sn
 local fmt = require("luasnip.extras.fmt").fmt
+local rep = require("luasnip.extras").rep
 local make = require("z.snippets").make
 
 return make({
@@ -47,6 +48,26 @@ return make({
       end
     ]],
     { i(1), i(2), i(0) }
+  ),
+  class = fmt(
+    [[
+      local <> = {}
+      <>.__index = <>
+
+      function <>.new(...)
+        <>
+        return setmetatable(..., <>)
+      end
+
+      return setmetatable({}, {
+        __call = function(_, ...)
+          return <>.new(...)
+        end,
+        __index = <>
+      })
+    ]],
+    { i(1), rep(1), rep(1), rep(1), i(0), rep(1), rep(1), rep(1) },
+    { delimiters = "<>" }
   ),
   req = fmt([[local {} = require("{}")]], {
     d(2, function(args)
