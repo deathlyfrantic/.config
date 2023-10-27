@@ -12,7 +12,7 @@ local runners = {
 
 function run(cmd, close)
   if not term_window then
-    term_window = TermWindow.new({ close_on_success = close })
+    term_window = TermWindow({ close_on_success = close })
     term_window:on("Exit", function(_, exit_code)
       if exit_code == 0 then
         vim.notify("Tests pass. (Test runner exit code was 0.)")

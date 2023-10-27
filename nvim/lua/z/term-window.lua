@@ -1,6 +1,5 @@
 local TermWindow = {}
-TermWindow.mt = {}
-TermWindow.mt.__index = TermWindow
+TermWindow.__index = TermWindow
 
 local default_config = {
   height_fn = function()
@@ -11,12 +10,23 @@ local default_config = {
 }
 
 function TermWindow.new(config)
-  local ret = { buffer = nil, callbacks = {} }
-  setmetatable(ret, TermWindow.mt)
-  for k, v in pairs(vim.tbl_extend("force", default_config, config or {})) do
-    ret[k] = v
-  end
-  return ret
+  vim.validate({
+    config = { config, "table", true },
+  })
+  return setmetatable(
+    vim.tbl_extend(
+      "force",
+      -- start with default config
+      default_config,
+      -- layer specific config over top
+      config or {},
+      -- then ensure `buffer` and `callbacks` are always correctly initiated.
+      -- `buffer = nil` here doesn't actually wipe out `buffer` if it exists,
+      -- but I'm leaving it for reference.
+      { buffer = nil, callbacks = {} }
+    ),
+    TermWindow
+  )
 end
 
 function TermWindow.do_event(self, event, ...)
@@ -118,4 +128,9 @@ function TermWindow.run(self, cmd)
   vim.api.nvim_set_current_win(current_window)
 end
 
-return TermWindow
+return setmetatable({}, {
+  __call = function(_, config)
+    return TermWindow.new(config)
+  end,
+  __index = TermWindow,
+})

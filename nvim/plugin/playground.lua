@@ -41,7 +41,7 @@ local grounds = {
 
 local function run(buf, cmd)
   if not term_windows[buf] then
-    term_windows[buf] = TermWindow.new({
+    term_windows[buf] = TermWindow({
       height_fn = function()
         return math.floor(math.min(vim.api.nvim_win_get_height(0) / 3, 15))
       end,
