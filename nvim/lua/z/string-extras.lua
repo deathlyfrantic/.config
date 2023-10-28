@@ -24,7 +24,7 @@ local function string_pad(s, length, padding, direction)
   if length - vim.fn.strdisplaywidth(s) < 1 then
     return s
   end
-  if padding:match("^%s*$") and length < 100 then
+  if padding:is_empty() and length < 100 then
     if direction == "right" then
       return ("%-" .. length .. "s"):format(s)
     else

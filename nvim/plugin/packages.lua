@@ -246,7 +246,7 @@ pm.add({
         vim.wo.statusline = "%F"
         vim.keymap.set("n", "<CR>", function()
           local line = vim.api.nvim_get_current_line()
-          if line:match("/$") ~= nil then
+          if line:ends_with("/") then
             vim.fn["dirvish#open"]("edit", 0)
           else
             toggle()
