@@ -19,7 +19,7 @@ end
 local function find(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
-      return v
+      return v, i
     end
   end
   return nil
