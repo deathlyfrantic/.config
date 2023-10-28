@@ -28,7 +28,7 @@ local function delete_by_name(force, name, term)
   local bufs = vim.tbl_filter(function(b)
     local bufname = vim.api.nvim_buf_get_name(b)
     return z.buf_is_real(b)
-      and (bufname == name or bufname:match(name))
+      and bufname:match(name)
       and (vim.bo[b].buftype ~= "terminal" or term)
   end, vim.api.nvim_list_bufs())
   for _, b in ipairs(bufs) do
