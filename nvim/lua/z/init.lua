@@ -229,7 +229,7 @@ end
 local function v_star_search_set(cmd, raw)
   cmd = cmd or "/"
   local temp = vim.fn.getreg('"')
-  vim.cmd("normal! gvy")
+  vim.cmd.normal({ args = { "gvy" }, bang = true })
   local search = vim.fn.getreg('"')
   if not raw then
     search = vim.fn.escape(search, cmd .. "\\*")
@@ -261,9 +261,13 @@ local function make_operator_fn(callback)
     local selsave = vim.o.selection
     vim.o.selection = "inclusive"
     if kind == "v" then
-      vim.cmd([[silent execute "normal! y"]])
+      vim.cmd.normal({ args = { "y" }, bang = true, mods = { silent = true } })
     else
-      vim.cmd([[silent execute "normal! `[v`]y"]])
+      vim.cmd.normal({
+        args = { "`[v`]y" },
+        bang = true,
+        mods = { silent = true },
+      })
     end
     local selection = vim.fn.getreg("@")
     vim.o.selection = selsave

@@ -304,15 +304,15 @@ describe("init", function()
   end)
 
   describe("source local vimrc", function()
-    local cmd, findfile
+    local source, findfile
 
     before_each(function()
-      cmd = stub(vim, "cmd")
+      source = stub(vim.cmd, "source")
       findfile = stub(vim.fn, "findfile").returns({})
     end)
 
     after_each(function()
-      cmd:revert()
+      source:revert()
       findfile:revert()
       vim.api.nvim_buf_set_name(0, "")
       vim.bo.buftype = ""
@@ -325,7 +325,7 @@ describe("init", function()
         { group = "init-autocmds-local-vimrc", pattern = "fugitive://foobar" }
       )
       assert.stub(findfile).not_called()
-      assert.stub(cmd).not_called()
+      assert.stub(source).not_called()
     end)
 
     it("does nothing in help/nofile buffers", function()
@@ -336,7 +336,7 @@ describe("init", function()
           { group = "init-autocmds-local-vimrc", pattern = "*" }
         )
         assert.stub(findfile).not_called()
-        assert.stub(cmd).not_called()
+        assert.stub(source).not_called()
       end
     end)
 
@@ -360,13 +360,19 @@ describe("init", function()
         pattern = "/foo/bar/baz/quux.txt",
       })
       assert.stub(findfile).called(1)
-      assert.stub(cmd).called(3)
-      assert.equals(cmd.calls[1].vals[1], "silent! source /foo/.vimrc.lua")
-      assert.equals(cmd.calls[2].vals[1], "silent! source /foo/bar/.vimrc.lua")
-      assert.equals(
-        cmd.calls[3].vals[1],
-        "silent! source /foo/bar/baz/.vimrc.lua"
-      )
+      assert.stub(source).called(3)
+      assert.same(source.calls[1].vals[1], {
+        args = { "/foo/.vimrc.lua" },
+        mods = { emsg_silent = true, silent = true },
+      })
+      assert.same(source.calls[2].vals[1], {
+        args = { "/foo/bar/.vimrc.lua" },
+        mods = { emsg_silent = true, silent = true },
+      })
+      assert.same(source.calls[3].vals[1], {
+        args = { "/foo/bar/baz/.vimrc.lua" },
+        mods = { emsg_silent = true, silent = true },
+      })
     end)
 
     it("make non-existent directories before writing file", function()

@@ -13,11 +13,13 @@ local function grep(args)
     vim.cmd.redraw({ bang = true })
     vim.notify("No matches found.", vim.log.levels.INFO)
   else
-    if args.bang then
-      vim.cmd("topleft vertical copen " .. math.floor(vim.o.columns / 3))
-    else
-      vim.cmd("botright copen " .. math.min(num_results, 10))
-    end
+    vim.cmd.copen(args.bang and {
+      mods = { split = "topleft", vertical = true },
+      range = { math.floor(vim.o.columns / 3) },
+    } or {
+      mods = { split = "botright" },
+      range = { math.min(num_results, 10) },
+    })
     vim.w.quickfix_title = ([[grep "%s"]]):format(args.args)
     -- easy refresh
     vim.keymap.set("n", "R", function()

@@ -55,7 +55,11 @@ local function close_window(name)
 end
 
 local function new_buffer(name)
-  vim.cmd(("topleft %snew %s"):format(height(), bufname(name)))
+  vim.cmd.new({
+    args = { bufname(name) },
+    mods = { split = "topleft" },
+    range = { height() },
+  })
   vim.opt_local.filetype = "scratch"
   vim.opt_local.buflisted = false
   vim.opt_local.bufhidden = "hide"
@@ -93,7 +97,8 @@ local function open_buffer(name)
   else
     local winid = vim.fn.bufwinid(bnum)
     if winid == -1 then
-      vim.cmd(("topleft %ssplit +buffer%s"):format(height(), bnum))
+      vim.cmd.split({ mods = { split = "topleft" }, range = { height() } })
+      vim.cmd.buffer(bnum)
     else
       vim.api.nvim_set_current_win(winid)
     end

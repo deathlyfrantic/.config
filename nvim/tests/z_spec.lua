@@ -521,7 +521,7 @@ describe("z", function()
   end)
 
   describe("make_operator_fn", function()
-    local cmd, getreg, notify
+    local normal, getreg, notify
     local spied = spy(function(v)
       return v
     end)
@@ -529,13 +529,13 @@ describe("z", function()
       "Multiline selections do not work with this operator"
 
     before_each(function()
-      cmd = stub(vim, "cmd")
+      normal = stub(vim.cmd, "normal")
       getreg = stub(vim.fn, "getreg")
       notify = stub(vim, "notify")
     end)
 
     after_each(function()
-      cmd:revert()
+      normal:revert()
       getreg:revert()
       notify:revert()
       spied:clear()
@@ -564,7 +564,9 @@ describe("z", function()
       local operator = z.make_operator_fn(spied)
       operator("v")
       assert.stub(notify).not_called()
-      assert.stub(cmd).called_with([[silent execute "normal! y"]])
+      assert
+        .stub(normal)
+        .called_with({ args = { "y" }, bang = true, mods = { silent = true } })
       assert.spy(spied).called(1)
       assert.spy(spied).called_with("selection")
     end)
@@ -574,7 +576,11 @@ describe("z", function()
       local operator = z.make_operator_fn(spied)
       operator("n")
       assert.stub(notify).not_called()
-      assert.stub(cmd).called_with([[silent execute "normal! `[v`]y"]])
+      assert.stub(normal).called_with({
+        args = { "`[v`]y" },
+        bang = true,
+        mods = { silent = true },
+      })
       assert.spy(spied).called(1)
       assert.spy(spied).called_with("selection")
     end)
@@ -584,7 +590,9 @@ describe("z", function()
       getreg.returns("")
       local operator = z.make_operator_fn(spied)
       operator("v")
-      assert.stub(cmd).called_with([[silent execute "normal! y"]])
+      assert
+        .stub(normal)
+        .called_with({ args = { "y" }, bang = true, mods = { silent = true } })
       assert.stub(notify).called_with("No selection", vim.log.levels.ERROR)
       assert.spy(spied).not_called()
     end)
@@ -594,7 +602,9 @@ describe("z", function()
       getreg.returns(nil)
       local operator = z.make_operator_fn(spied)
       operator("v")
-      assert.stub(cmd).called_with([[silent execute "normal! y"]])
+      assert
+        .stub(normal)
+        .called_with({ args = { "y" }, bang = true, mods = { silent = true } })
       assert.stub(notify).called_with("No selection", vim.log.levels.ERROR)
       assert.spy(spied).not_called()
     end)
@@ -603,7 +613,9 @@ describe("z", function()
       getreg.returns("foo\nbar\nbaz")
       local operator = z.make_operator_fn(spied)
       operator("v")
-      assert.stub(cmd).called_with([[silent execute "normal! y"]])
+      assert
+        .stub(normal)
+        .called_with({ args = { "y" }, bang = true, mods = { silent = true } })
       assert.stub(notify).called_with(default_error_msg, vim.log.levels.ERROR)
       assert.spy(spied).not_called()
     end)
@@ -617,7 +629,11 @@ describe("z", function()
       local operator = z.make_operator_fn(spied)
       operator("n")
       assert.stub(notify).not_called()
-      assert.stub(cmd).called_with([[silent execute "normal! `[v`]y"]])
+      assert.stub(normal).called_with({
+        args = { "`[v`]y" },
+        bang = true,
+        mods = { silent = true },
+      })
       assert.spy(spied).called(1)
       assert.spy(spied).called_with("this is my selection")
       assert.equals(vim.fn.getreg("@"), "this is my selection")

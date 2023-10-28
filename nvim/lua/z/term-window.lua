@@ -107,7 +107,10 @@ function TermWindow.open(self)
     return vim.api.nvim_win_get_buf(w) == self.buffer
   end, vim.api.nvim_list_wins())
   if #wins == 0 then
-    vim.cmd(self.location .. " " .. self.height_fn() .. "split")
+    vim.cmd.split({
+      mods = { split = self.location },
+      range = { self.height_fn() },
+    })
     self.window = vim.api.nvim_get_current_win()
     self:do_event("WinNew")
     self:load_or_create_buffer()

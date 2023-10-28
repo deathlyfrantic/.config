@@ -418,7 +418,10 @@ local function source_local_vimrc(file, buf, force)
       )
     )
   do
-    vim.cmd("silent! source " .. vimrc)
+    vim.cmd.source({
+      args = { vimrc },
+      mods = { emsg_silent = true, silent = true },
+    })
   end
 end
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {

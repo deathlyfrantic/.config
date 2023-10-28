@@ -9,7 +9,8 @@ local function toggle()
     end
   end
   if #dirvish_bufs == 0 then
-    vim.cmd("topleft 35vsp +Dirvish")
+    vim.cmd.vsplit({ mods = { split = "topleft" }, range = { 35 } })
+    vim.cmd.Dirvish()
   else
     vim.cmd.bdelete({ args = dirvish_bufs, bang = true })
   end
@@ -37,11 +38,17 @@ local function autocmds()
   )
   vim.keymap.set("n", "<CR>", open, { buffer = true, silent = true })
   vim.keymap.set("n", "q", toggle, { buffer = true, silent = true })
-  vim.cmd("silent! keeppatterns " .. [[g@\v/\.[^\/]+/?$@d]])
+  vim.cmd.global({
+    [[@\v/\.[^\/]+/?$@d]],
+    mods = { keeppatterns = true, silent = true, emsg_silent = true },
+  })
   for _, pat in
     ipairs(vim.o.wildignore:split(",", { plain = true, trimempty = true }))
   do
-    vim.cmd([[silent! keeppatterns g@\v/ ]] .. pat .. "/?$@d")
+    vim.cmd.global({
+      ([[@\v/%s/?$@d]]):format(pat),
+      mods = { keeppatterns = true, silent = true, emsg_silent = true },
+    })
   end
 end
 
