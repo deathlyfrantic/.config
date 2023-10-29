@@ -334,6 +334,7 @@ local function create_package_spec(spec)
   end
   local name = spec[1]
   local ret = {
+    as = spec.as,
     name = name,
     cmd = spec.cmd,
     config = spec.config,
@@ -341,11 +342,11 @@ local function create_package_spec(spec)
     run = spec.run,
     type = spec.cmd and "opt" or "start",
     url = name:find(":") and name or "github:" .. name,
-    dir = name, -- might be changed by code after
+    dir = spec.as or name, -- might be changed by code after
   }
   -- given name like `user/repo`, use `repo` as the dir name
   local match = ret.name:match("/[^/]+$")
-  if match then
+  if match and not ret.as then
     ret.dir = match:sub(2)
   end
   -- absolute path to package
