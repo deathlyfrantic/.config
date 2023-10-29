@@ -395,13 +395,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- local settings
 local function source_local_vimrc(file, buf, force)
-  local is_fugitive = file:starts_with("fugitive://")
-  local abuf = tonumber(buf)
   if
     not force
     and (
-      is_fugitive
-      or vim.tbl_contains({ "help", "nofile" }, vim.bo[abuf].buftype)
+      file:starts_with("fugitive://")
+      or vim.tbl_contains({ "help", "nofile" }, vim.bo[tonumber(buf)].buftype)
     )
   then
     return
