@@ -20,8 +20,7 @@ local function clear_buf(buf)
 end
 
 local function clear_filetype()
-  -- doing it this way prevents the "unknown filetype" error from printing
-  vim.cmd("silent! setlocal filetype ''")
+  vim.cmd.setlocal("filetype=")
 end
 
 local function get_buf(buf)
