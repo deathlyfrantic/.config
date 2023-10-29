@@ -427,7 +427,7 @@ end
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "VimEnter" }, {
   pattern = "*",
   callback = function(args)
-    source_local_vimrc(args.file, args.buf, args.event == "VimEnter")
+    source_local_vimrc(args.match, args.buf, args.event == "VimEnter")
   end,
   nested = true,
   group = vim.api.nvim_create_augroup("init-autocmds-local-vimrc", {}),
