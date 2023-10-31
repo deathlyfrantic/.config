@@ -1,3 +1,5 @@
+local z = require("z")
+
 local packages = {}
 
 local path_base = vim.fn.stdpath("config") .. "/pack/z/"
@@ -200,7 +202,9 @@ local function open_diff()
       local package = packages[pieces[2]]
       popup_window(
         package.name .. " commit " .. commit,
-        vim.fn.systemlist("git -C " .. package.path .. " show " .. commit),
+        z.collect(
+          io.popen("git -C " .. package.path .. " show " .. commit):lines()
+        ),
         function()
           vim.wo.cursorline = true
           vim.bo.filetype = "git"
@@ -248,10 +252,12 @@ local function update()
       job_results[name].success
       and job_results[name].stdout[1] ~= "Already up to date."
     then
-      git_logs[name] = vim.fn.systemlist(
-        "git -C "
-          .. spec.path
-          .. " log --format='%h %s' --no-color HEAD@{1}..HEAD"
+      git_logs[name] = z.collect(
+        io.popen(
+          "git -C "
+            .. spec.path
+            .. " log --format='%h %s' --no-color HEAD@{1}..HEAD"
+        ):lines()
       )
     end
   end
