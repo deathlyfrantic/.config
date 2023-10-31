@@ -49,6 +49,19 @@ return make({
     ]],
     { i(1), i(2), i(0) }
   ),
+  module = fmt(
+    [[
+      local M = {}
+
+      function M.<>(<>)
+        <>
+      end
+
+      return M
+    ]],
+    { i(1), i(2), i(0) },
+    { delimiters = "<>" }
+  ),
   class = fmt(
     [[
       local <> = {}
