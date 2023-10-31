@@ -1,5 +1,7 @@
 local TermWindow = require("z.term-window")
 
+local M = {}
+
 local term_window = nil
 
 local runners = {
@@ -10,7 +12,7 @@ local runners = {
   typescript = require("z.test-runner.javascript").test,
 }
 
-function run(cmd, close)
+local function run(cmd, close)
   if not term_window then
     term_window = TermWindow({ close_on_success = close })
     term_window:on("Exit", function(_, exit_code)
@@ -37,7 +39,7 @@ function run(cmd, close)
   term_window:run(cmd)
 end
 
-function test(selection, close)
+function M.test(selection, close)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
@@ -82,8 +84,7 @@ function test(selection, close)
   end
 end
 
-return {
-  test = test,
-  -- expose this for use in local config files etc
-  find_nearest_test = require("z.test-runner.utils").find_nearest_test,
-}
+-- expose this for use in local config files etc
+M.find_nearest_test = require("z.test-runner.utils").find_nearest_test
+
+return M

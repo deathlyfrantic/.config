@@ -7,7 +7,9 @@ local fmt = require("luasnip.extras.fmt").fmt
 local dedent = require("plenary.strings").dedent
 local z = require("z")
 
-local function comment_string()
+local M = {}
+
+function M.comment_string()
   if z.highlight_at_pos_contains("comment") then
     return ""
   end
@@ -22,11 +24,11 @@ local function comment_string()
   return before, after
 end
 
-local function force_comment(text, nodes)
+function M.force_comment(text, nodes)
   -- these need to be partials so that `comment_string` is evaluated at the time
   -- the snippet is expanded, rather than when this function is called
   local function get_part(part)
-    return select(part, comment_string()) or ""
+    return select(part, M.comment_string()) or ""
   end
   table.insert(nodes, 1, partial(get_part, 1))
   table.insert(nodes, partial(get_part, 2))
@@ -61,7 +63,7 @@ local function nodes(snippet)
   return snippet
 end
 
-local function make(snippets)
+function M.make(snippets)
   local ret = {}
   for k, v in pairs(snippets) do
     table.insert(ret, s(k, nodes(v)))
@@ -69,8 +71,4 @@ local function make(snippets)
   return ret
 end
 
-return {
-  comment_string = comment_string,
-  force_comment = force_comment,
-  make = make,
-}
+return M

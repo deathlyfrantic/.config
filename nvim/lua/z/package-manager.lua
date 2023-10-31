@@ -1,5 +1,7 @@
 local z = require("z")
 
+local M = {}
+
 local packages = {}
 
 local path_base = vim.fn.stdpath("config") .. "/pack/z/"
@@ -73,7 +75,7 @@ local function run_jobs(cmds)
   return results
 end
 
-local function clean()
+function M.clean()
   local installed = {}
   for name, type in vim.fs.dir(path_base, { depth = 2 }) do
     -- filter out non-directories, and the "start" and "opt" directories
@@ -134,7 +136,7 @@ local function generate_helptags(spec)
   end
 end
 
-local function install()
+function M.install()
   local need_to_install = vim.tbl_filter(function(spec)
     return not dir_exists(spec.path)
   end, packages)
@@ -231,7 +233,7 @@ local function run_user_code(spec, key, desc)
   end
 end
 
-local function update()
+function M.update()
   local cmds = {}
   for name, spec in pairs(packages) do
     if not dir_exists(spec.path) then
@@ -360,7 +362,7 @@ local function create_package_spec(spec)
   return ret
 end
 
-local function add(...)
+function M.add(...)
   for _, pkg in ipairs({ ... }) do
     local spec = create_package_spec(pkg)
     packages[spec.name] = spec
@@ -393,17 +395,11 @@ local function add(...)
   end
 end
 
-local function init()
+function M.init()
   packages = {}
-  vim.api.nvim_create_user_command("PackageClean", clean, {})
-  vim.api.nvim_create_user_command("PackageInstall", install, {})
-  vim.api.nvim_create_user_command("PackageUpdate", update, {})
+  vim.api.nvim_create_user_command("PackageClean", M.clean, {})
+  vim.api.nvim_create_user_command("PackageInstall", M.install, {})
+  vim.api.nvim_create_user_command("PackageUpdate", M.update, {})
 end
 
-return {
-  add = add,
-  clean = clean,
-  init = init,
-  install = install,
-  update = update,
-}
+return M

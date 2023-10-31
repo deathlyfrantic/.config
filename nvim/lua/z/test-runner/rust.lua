@@ -1,6 +1,8 @@
 local utils = require("z.test-runner.utils")
 
-local function find_nearest_treesitter()
+local M = {}
+
+function M.find_nearest_treesitter()
   return utils.find_nearest_test_via_treesitter(
     [[((mod_item
       (((identifier) @mod-name (#eq? @mod-name "tests"))
@@ -15,7 +17,7 @@ local function find_nearest_treesitter()
   )
 end
 
-local function find_nearest_regex()
+function M.find_nearest_regex()
   vim.notify(
     "couldn't find test from treesitter, falling back to regex",
     vim.log.levels.ERROR
@@ -23,7 +25,7 @@ local function find_nearest_regex()
   return utils.find_nearest_test([[#\[test]\n\s*fn\s\+\(\w*\)(]], 2)
 end
 
-local function test(selection)
+function M.test(selection)
   if vim.fn.executable("cargo") == 0 then
     return nil
   end
@@ -35,7 +37,7 @@ local function test(selection)
   if selection == "nearest" then
     -- don't look for a test if we can't find the `mod tests {}` declaration
     if vim.fn.search("^\\s*mod tests {$", "n") > 0 then
-      local nearest = find_nearest_treesitter() or find_nearest_regex()
+      local nearest = M.find_nearest_treesitter() or M.find_nearest_regex()
       if nearest ~= nil then
         return ("%s %s)"):format(cmd:sub(1, -2), nearest)
       end
@@ -49,8 +51,4 @@ local function test(selection)
   return cmd
 end
 
-return {
-  find_nearest_treesitter = find_nearest_treesitter,
-  find_nearest_regex = find_nearest_regex,
-  test = test,
-}
+return M

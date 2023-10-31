@@ -1,3 +1,5 @@
+local M = {}
+
 local function get_match_lines(start, num)
   return table.concat(
     vim.api.nvim_buf_get_lines(0, start, start + num, false),
@@ -5,7 +7,7 @@ local function get_match_lines(start, num)
   )
 end
 
-local function find_nearest_test(pattern, atom)
+function M.find_nearest_test(pattern, atom)
   local num_lines = #pattern:split([[\n]])
   local match = vim.fn.matchlist(
     get_match_lines(vim.api.nvim_win_get_cursor(0)[1] - 1, num_lines),
@@ -24,11 +26,7 @@ local function find_nearest_test(pattern, atom)
   end
 end
 
-local function find_nearest_test_via_treesitter(
-  sexpr,
-  capture_name,
-  node_text_fn
-)
+function M.find_nearest_test_via_treesitter(sexpr, capture_name, node_text_fn)
   node_text_fn = node_text_fn or function(node)
     return node
   end
@@ -62,7 +60,4 @@ local function find_nearest_test_via_treesitter(
   return nil
 end
 
-return {
-  find_nearest_test = find_nearest_test,
-  find_nearest_test_via_treesitter = find_nearest_test_via_treesitter,
-}
+return M

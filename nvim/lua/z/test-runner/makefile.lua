@@ -1,4 +1,6 @@
-local function test()
+local M = {}
+
+function M.test()
   local makefile = vim.fn.findfile("Makefile", ";")
   if makefile == "" then
     return nil
@@ -11,4 +13,4 @@ local function test()
   end
 end
 
-return { test = test }
+return M

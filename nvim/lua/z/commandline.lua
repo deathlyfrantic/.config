@@ -1,8 +1,10 @@
+local M = {}
+
 local function poscmd()
   return vim.fn.getcmdpos(), vim.fn.getcmdline()
 end
 
-local function kill_line()
+function M.kill_line()
   local pos, cmd = poscmd()
   if pos == 1 then
     return ""
@@ -10,7 +12,7 @@ local function kill_line()
   return cmd:sub(1, pos - 1)
 end
 
-local function delete_word()
+function M.delete_word()
   local pos, cmd = poscmd()
   local stop = pos
   while cmd:sub(stop + 1, stop + 1):match("[^%w]") and stop < #cmd do
@@ -28,7 +30,7 @@ local function delete_word()
   return cmd:sub(0, pos - 1) .. cmd:sub(stop + 1)
 end
 
-local function bwd_by_word()
+function M.bwd_by_word()
   local pos, cmd = poscmd()
   if pos ~= 1 then
     local saw_letter = false
@@ -43,7 +45,7 @@ local function bwd_by_word()
   return cmd
 end
 
-local function fwd_by_word()
+function M.fwd_by_word()
   local pos, cmd = poscmd()
   local cmdlen = #cmd
   if pos < cmdlen then
@@ -59,9 +61,4 @@ local function fwd_by_word()
   return cmd
 end
 
-return {
-  kill_line = kill_line,
-  bwd_by_word = bwd_by_word,
-  fwd_by_word = fwd_by_word,
-  delete_word = delete_word,
-}
+return M

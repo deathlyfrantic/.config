@@ -1,4 +1,6 @@
-local function filename()
+local M = {}
+
+function M.filename()
   if #vim.api.nvim_buf_get_name(0) > 0 then
     return vim.fs
       .normalize(vim.api.nvim_buf_get_name(0))
@@ -9,4 +11,4 @@ local function filename()
   )
 end
 
-return { filename = filename }
+return M

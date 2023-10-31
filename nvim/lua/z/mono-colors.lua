@@ -1,3 +1,5 @@
+local M = {}
+
 local function preamble(name, termguicolors)
   vim.o.termguicolors = termguicolors
   vim.cmd.highlight("clear")
@@ -133,7 +135,7 @@ local function popup_window_namespace(colors)
   vim.api.nvim_set_hl(ns_id, "FloatBorder", colors.Normal)
 end
 
-local function define(name, termguicolors, colors)
+function M.define(name, termguicolors, colors)
   preamble(name, termguicolors)
   highlight(colors)
   clear_highlights()
@@ -144,6 +146,4 @@ local function define(name, termguicolors, colors)
   popup_window_namespace(colors)
 end
 
-return {
-  define = define,
-}
+return M

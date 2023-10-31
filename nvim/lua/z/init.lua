@@ -1,4 +1,6 @@
-local function any(t, f)
+local M = {}
+
+function M.any(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
       return true
@@ -7,7 +9,7 @@ local function any(t, f)
   return false
 end
 
-local function all(t, f)
+function M.all(t, f)
   for i, v in ipairs(t) do
     if not f(v, i) then
       return false
@@ -16,7 +18,7 @@ local function all(t, f)
   return true
 end
 
-local function find(t, f)
+function M.find(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
       return v, i
@@ -25,7 +27,7 @@ local function find(t, f)
   return nil
 end
 
-local function tbl_reverse(t)
+function M.tbl_reverse(t)
   local ret = {}
   local i = 1
   for j = #t, 1, -1 do
@@ -35,7 +37,7 @@ local function tbl_reverse(t)
   return ret
 end
 
-local function popup(text, title)
+function M.popup(text, title)
   local buf = vim.api.nvim_create_buf(false, true)
   local contents
   if type(text) == "table" then
@@ -76,7 +78,7 @@ local function popup(text, title)
   return win
 end
 
-local function collect(...)
+function M.collect(...)
   local ret = {}
   for item in ... do
     table.insert(ret, item)
@@ -84,7 +86,7 @@ local function collect(...)
   return ret
 end
 
-local function get_hex_color(hl, attr)
+function M.get_hex_color(hl, attr)
   local colors = vim.api.nvim_get_hl(0, { name = hl })
   local dec = colors.bg
   if attr == "fg" or attr == "foreground" then
@@ -93,7 +95,7 @@ local function get_hex_color(hl, attr)
   return ("#%06x"):format(dec)
 end
 
-local function find_project_dir(start)
+function M.find_project_dir(start)
   -- this should always be the same value for a given buffer, so cache the value
   -- as a buffer variable to prevent repeated walking of the file system
   if vim.b.z_project_dir then
@@ -149,10 +151,10 @@ local function find_project_dir(start)
   local dir = start or vim.loop.cwd()
   while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
     if
-      any(files, function(f)
+      M.any(files, function(f)
         return vim.fn.filereadable(vim.fs.normalize(dir .. "/" .. f)) == 1
       end)
-      or any(dirs, function(d)
+      or M.any(dirs, function(d)
         return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
       end)
     then
@@ -163,13 +165,13 @@ local function find_project_dir(start)
   return cache(vim.loop.cwd() .. "/")
 end
 
-local function buf_is_real(b)
+function M.buf_is_real(b)
   return vim.api.nvim_buf_is_valid(b)
     and vim.api.nvim_buf_is_loaded(b)
     and vim.bo[b].buflisted
 end
 
-local function char_before_cursor()
+function M.char_before_cursor()
   local column = vim.api.nvim_win_get_cursor(0)[2]
   if column < 1 then
     return ""
@@ -177,7 +179,7 @@ local function char_before_cursor()
   return vim.api.nvim_get_current_line():sub(column, column)
 end
 
-local function highlight_at_pos_contains(pattern, pos)
+function M.highlight_at_pos_contains(pattern, pos)
   if not pos then
     pos = vim.api.nvim_win_get_cursor(0)
     pos[2] = pos[2] - 1
@@ -186,7 +188,7 @@ local function highlight_at_pos_contains(pattern, pos)
   -- if syntax is on that means treesitter highlighting is not enabled, so use
   -- vim regex highlighting
   if vim.bo.syntax ~= "" then
-    return any(vim.fn.synstack(line, column), function(id)
+    return M.any(vim.fn.synstack(line, column), function(id)
       return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
     end)
   end
@@ -202,11 +204,11 @@ local function highlight_at_pos_contains(pattern, pos)
   return false
 end
 
-local function help(contents)
+function M.help(contents)
   if type(contents) == "string" then
     contents = contents:split("\n", { plain = true, trimempty = true })
   end
-  local help_win = find(vim.api.nvim_list_wins(), function(win)
+  local help_win = M.find(vim.api.nvim_list_wins(), function(win)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"
   end)
   if not help_win then
@@ -226,7 +228,7 @@ local function help(contents)
   end
 end
 
-local function v_star_search_set(cmd, raw)
+function M.v_star_search_set(cmd, raw)
   cmd = cmd or "/"
   local temp = vim.fn.getreg('"')
   vim.cmd.normal({ args = { "gvy" }, bang = true })
@@ -245,7 +247,7 @@ local function v_star_search_set(cmd, raw)
   vim.fn.setreg('"', temp)
 end
 
-local function make_operator_fn(callback)
+function M.make_operator_fn(callback)
   local error_msg = function(msg)
     vim.notify(
       msg or "Multiline selections do not work with this operator",
@@ -283,19 +285,4 @@ local function make_operator_fn(callback)
   end
 end
 
-return {
-  any = any,
-  all = all,
-  find = find,
-  tbl_reverse = tbl_reverse,
-  popup = popup,
-  collect = collect,
-  get_hex_color = get_hex_color,
-  find_project_dir = find_project_dir,
-  buf_is_real = buf_is_real,
-  char_before_cursor = char_before_cursor,
-  highlight_at_pos_contains = highlight_at_pos_contains,
-  help = help,
-  v_star_search_set = v_star_search_set,
-  make_operator_fn = make_operator_fn,
-}
+return M

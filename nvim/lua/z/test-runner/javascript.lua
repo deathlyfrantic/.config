@@ -1,6 +1,8 @@
 local utils = require("z.test-runner.utils")
 
-local function find_nearest_treesitter()
+local M = {}
+
+function M.find_nearest_treesitter()
   return utils.find_nearest_test_via_treesitter(
     [[((call_expression
       function: ((identifier) @fn (#any-of? @fn "describe" "it" "test" "context")) 
@@ -10,7 +12,7 @@ local function find_nearest_treesitter()
   )
 end
 
-local function find_nearest_regex()
+function M.find_nearest_regex()
   vim.notify(
     "couldn't find test from treesitter, falling back to regex",
     vim.log.levels.ERROR
@@ -26,10 +28,10 @@ local function find_nearest_regex()
 end
 
 local function find_nearest()
-  return find_nearest_treesitter() or find_nearest_regex()
+  return M.find_nearest_treesitter() or M.find_nearest_regex()
 end
 
-local function npm_or_yarn()
+function M.npm_or_yarn()
   if vim.b.z_test_runner_npm_or_yarn == nil then
     if vim.fn.findfile("yarn.lock", ";") ~= "" then
       vim.b.z_test_runner_npm_or_yarn = "yarn"
@@ -40,7 +42,7 @@ local function npm_or_yarn()
   return vim.b.z_test_runner_npm_or_yarn
 end
 
-local function mocha(selection, pretest)
+function M.mocha(selection, pretest)
   local cmd = "npx mocha -- spec "
     .. vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   if pretest and #pretest > 0 then
@@ -54,11 +56,11 @@ local function mocha(selection, pretest)
   elseif selection == "file" then
     return cmd
   end
-  return npm_or_yarn() .. " test"
+  return M.npm_or_yarn() .. " test"
 end
 
-local function jest(selection)
-  local cmd = npm_or_yarn() .. " test"
+function M.jest(selection)
+  local cmd = M.npm_or_yarn() .. " test"
   if cmd:starts_with("npm") then
     cmd = cmd .. " --"
   end
@@ -73,7 +75,7 @@ local function jest(selection)
   return cmd
 end
 
-local function test(selection)
+function M.test(selection)
   local package_json = vim.fn.findfile("package.json", ";")
   if package_json == "" then
     return nil
@@ -82,20 +84,13 @@ local function test(selection)
   local scripts = package.scripts or {}
   local test_cmd = scripts.test or ""
   if test_cmd:match("mocha") then
-    return mocha(selection, scripts.pretest or "")
+    return M.mocha(selection, scripts.pretest or "")
   elseif test_cmd:match("jest") then
-    return jest(selection)
+    return M.jest(selection)
   end
   if #test_cmd > 0 then
-    return npm_or_yarn() .. " test"
+    return M.npm_or_yarn() .. " test"
   end
 end
 
-return {
-  find_nearest_treesitter = find_nearest_treesitter,
-  find_nearest_regex = find_nearest_regex,
-  npm_or_yarn = npm_or_yarn,
-  mocha = mocha,
-  jest = jest,
-  test = test,
-}
+return M
