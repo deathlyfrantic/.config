@@ -15,4 +15,28 @@ function M.treesitter()
   return ok and result and result:type() or ""
 end
 
+function M.init()
+  vim.opt.statusline =
+    -- buffer number and filename
+    "[%n] %{v:lua.require('z.statusline').filename()}%<"
+    -- gitsigns status, as defined by status_formatter in the package spec
+    .. "%( %{get(b:, 'gitsigns_status', '')}%)"
+    -- help buffer flag, modified flag, readonly flag
+    .. "%( %h%)%( %m%)%( %r%)"
+    -- show file format if not unix
+    .. "%{&ff != 'unix' ? ' [' .. &ff .. ']' : ''}"
+    -- show file encoding if not utf-8
+    .. "%{len(&fenc) && &fenc != 'utf-8' ? ' [' .. &fenc .. ']' : ''}"
+    -- separator
+    .. "%="
+    -- treesitter node type
+    .. "%{v:lua.require('z.statusline').treesitter()}   "
+    -- show wrap if it is on
+    .. "%{&wrap ? '[wrap] ' : ''}"
+    -- session tracking via obsession
+    .. "%(%{ObsessionStatus()} %)"
+    -- line, column, virtual column if different, percentage through file
+    .. "  %l,%c%V%6P"
+end
+
 return M

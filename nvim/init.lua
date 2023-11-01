@@ -448,20 +448,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 -- }}}
 
--- colors and appearance {{{
 vim.cmd.colorscheme("copper")
-
-vim.opt.statusline = "[%n] %{v:lua.require('z.statusline').filename()}%<"
-  .. "%( %{get(b:, 'gitsigns_status', '')}%)"
-  .. "%( %h%)%( %m%)%( %r%)"
-  .. "%{&ff != 'unix' ? ' [' .. &ff .. ']' : ''}"
-  .. "%{len(&fenc) && &fenc != 'utf-8' ? ' [' .. &fenc .. ']' : ''}"
-  .. "%="
-  .. "%{v:lua.require('z.statusline').treesitter()}   "
-  .. "%{&wrap ? '[wrap] ' : ''}"
-  .. "%(%{ObsessionStatus()} %)"
-  .. "  %l,%c%V%6P"
--- }}}
 
 -- plugins in `/lua` {{{
 -- these have to export functions so need to be somewhere they can be found by
@@ -469,5 +456,6 @@ vim.opt.statusline = "[%n] %{v:lua.require('z.statusline').filename()}%<"
 -- automatically.
 require("z.commandline").init()
 require("z.completion").init()
+require("z.statusline").init()
 require("z.test-runner").init()
 -- }}}
