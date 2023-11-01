@@ -1,3 +1,4 @@
+local stub = require("luassert.stub")
 local statusline = require("z.statusline")
 
 describe("statusline", function()
@@ -16,6 +17,39 @@ describe("statusline", function()
         statusline.filename(),
         "[cwd: " .. vim.loop.cwd():gsub(vim.fs.normalize("$HOME"), "~") .. "]"
       )
+    end)
+  end)
+
+  describe("treesitter", function()
+    local get_node
+
+    before_each(function()
+      get_node = stub(vim.treesitter, "get_node")
+    end)
+
+    after_each(function()
+      get_node:revert()
+    end)
+
+    it("returns empty string if get_node() returns an error", function()
+      get_node.invokes(function()
+        error("error")
+      end)
+      assert.equals(statusline.treesitter(), "")
+    end)
+
+    it("returns empty string if get_node() returns a falsey value", function()
+      get_node.returns(nil)
+      assert.equals(statusline.treesitter(), "")
+    end)
+
+    it("returns node:type() if get_node() returns a node", function()
+      get_node.returns({
+        type = function()
+          return "node type"
+        end,
+      })
+      assert.equals(statusline.treesitter(), "node type")
     end)
   end)
 end)
