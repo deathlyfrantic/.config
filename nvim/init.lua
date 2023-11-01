@@ -461,3 +461,12 @@ vim.opt.statusline = "[%n] %{v:lua.require('z.statusline').filename()}%<"
   .. "%(%{ObsessionStatus()} %)"
   .. "  %l,%c%V%6P"
 -- }}}
+
+-- plugins in `/lua` {{{
+-- these have to export functions so need to be somewhere they can be found by
+-- `require()`, otherwise they could live in `/plugin` and be sourced
+-- automatically.
+require("z.commandline").init()
+require("z.completion").init()
+require("z.test-runner").init()
+-- }}}

@@ -39,7 +39,7 @@ local function run(cmd, close)
   term_window:run(cmd)
 end
 
-function M.test(selection, close)
+local function test(selection, close)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
@@ -82,6 +82,27 @@ function M.test(selection, close)
   else
     vim.notify(table.concat(errs, " and "), vim.log.levels.ERROR)
   end
+end
+
+function M.init()
+  -- run nearest test - command RunNearestTest, key t
+  vim.api.nvim_create_user_command("RunNearestTest", function(args)
+    test("nearest", not args.bang)
+  end, { bang = true })
+  vim.keymap.set("n", "<leader>t", ":RunNearestTest<CR>", { silent = true })
+  vim.keymap.set("n", "g<leader>t", ":RunNearestTest!<CR>", { silent = true })
+  -- run test file - command RunTestSuite, key T
+  vim.api.nvim_create_user_command("RunTestFile", function(args)
+    test("file", not args.bang)
+  end, { bang = true })
+  vim.keymap.set("n", "<leader>T", ":RunTestFile<CR>", { silent = true })
+  vim.keymap.set("n", "g<leader>T", ":RunTestFile!<CR>", { silent = true })
+  -- run all tests - command RunTestSuite, key <C-t>
+  vim.api.nvim_create_user_command("RunTestSuite", function(args)
+    test("all", not args.bang)
+  end, { bang = true })
+  vim.keymap.set("n", "<leader><C-t>", ":RunTestSuite<CR>", { silent = true })
+  vim.keymap.set("n", "g<leader><C-t>", ":RunTestSuite!<CR>", { silent = true })
 end
 
 -- expose this for use in local config files etc

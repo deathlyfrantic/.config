@@ -2,7 +2,7 @@ local z = require("z")
 
 local M = {}
 
-function M.findstart()
+local function findstart()
   local row = vim.api.nvim_win_get_cursor(0)[1]
   local pos = vim.fn.searchpos([[\s]], "bn")
   -- cursor is on same line as found whitespace
@@ -12,7 +12,7 @@ function M.findstart()
   return 0
 end
 
-function M.tab(fwd)
+local function tab(fwd)
   if vim.fn.pumvisible() > 0 then
     if fwd then
       return "<C-n>"
@@ -24,9 +24,9 @@ function M.tab(fwd)
   return "<Tab>"
 end
 
-function M.undouble()
-  -- stolen from Damian Conway
-  -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/003fb8e06e1b8d321a129869a62eaa702cea6dc9/.vimrc#L1372-L1381
+-- stolen from Damian Conway
+-- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/003fb8e06e1b8d321a129869a62eaa702cea6dc9/.vimrc#L1372-L1381
+local function undouble()
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local line = vim.api.nvim_get_current_line()
   local new_line =
@@ -34,6 +34,7 @@ function M.undouble()
   vim.api.nvim_buf_set_lines(0, row - 1, row, true, { new_line })
 end
 
+-- "wrap" a completion function so it can be triggered arbitrarily
 function M.wrap(f)
   if type(f) == "string" then
     -- assuming this is the name of a viml function
@@ -46,10 +47,10 @@ function M.wrap(f)
   vim.fn.complete(start + 1, f(false, base))
 end
 
-function M.gitcommit()
+local function gitcommit()
   M.wrap(function(fs, base)
     if fs then
-      return M.findstart()
+      return findstart()
     end
     local cmd = "git log --oneline --no-merges"
     if #base > 0 then
@@ -70,6 +71,21 @@ function M.gitcommit()
       }
     end, commits)
   end)
+end
+
+function M.init()
+  vim.api.nvim_create_autocmd("CompleteDone", {
+    pattern = "*",
+    callback = undouble,
+    group = vim.api.nvim_create_augroup("completion-undouble", {}),
+  })
+  vim.keymap.set("i", "<Tab>", function()
+    return tab(true)
+  end, { silent = true, expr = true })
+  vim.keymap.set("i", "<S-Tab>", function()
+    return tab(false)
+  end, { silent = true, expr = true })
+  vim.keymap.set("i", "<C-x><C-g>", gitcommit, { silent = true })
 end
 
 return M

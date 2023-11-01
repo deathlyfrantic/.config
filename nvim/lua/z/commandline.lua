@@ -61,4 +61,20 @@ function M.fwd_by_word()
   return cmd
 end
 
+function M.init()
+  vim.keymap.set("c", "<C-a>", "<Home>")
+  vim.keymap.set("c", "<C-b>", "<Left>")
+  vim.keymap.set("c", "<C-d>", "<Delete>")
+  vim.keymap.set("c", "<C-e>", "<End>")
+  vim.keymap.set("c", "<C-f>", "<Right>")
+  vim.keymap.set("c", "<C-g>", "<C-c>")
+  vim.keymap.set("c", "<C-n>", "<Down>")
+  vim.keymap.set("c", "<C-p>", "<Up>")
+  local expr = [[<C-\>e luaeval("require('z.commandline').%s()")<CR>]]
+  vim.keymap.set("c", "<C-k>", expr:format("kill_line"))
+  vim.keymap.set("c", "<M-d>", expr:format("delete_word"))
+  vim.keymap.set("c", "<M-b>", expr:format("bwd_by_word"))
+  vim.keymap.set("c", "<M-f>", expr:format("fwd_by_word"))
+end
+
 return M
