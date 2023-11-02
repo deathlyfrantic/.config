@@ -4,7 +4,7 @@ local stub = require("luassert.stub")
 local utils = require("z.test-utils")
 
 describe("z", function()
-  describe("any", function()
+  describe("tbl_any", function()
     local spied = spy(function(v)
       return v
     end)
@@ -15,17 +15,17 @@ describe("z", function()
 
     it("returns true if any value is true", function()
       local t = { false, false, true, false }
-      assert.is_true(z.any(t, spied))
+      assert.is_true(z.tbl_any(t, spied))
       assert.spy(spied).called(3)
     end)
 
     it("returns false if no value is true", function()
-      assert.is_false(z.any({ false, false, false }, spied))
+      assert.is_false(z.tbl_any({ false, false, false }, spied))
       assert.spy(spied).called(3)
     end)
   end)
 
-  describe("all", function()
+  describe("tbl_all", function()
     local spied = spy(function(v)
       return v
     end)
@@ -35,18 +35,18 @@ describe("z", function()
     end)
 
     it("returns true if all values are true", function()
-      assert.is_true(z.all({ true, true, true }, spied))
+      assert.is_true(z.tbl_all({ true, true, true }, spied))
       assert.spy(spied).called(3)
     end)
 
     it("returns false if any value is not true", function()
       local t = { true, false, true }
-      assert.is_false(z.all(t, spied))
+      assert.is_false(z.tbl_all(t, spied))
       assert.spy(spied).called(2)
     end)
   end)
 
-  describe("find", function()
+  describe("tbl_find", function()
     local spied = spy(function(v)
       return v % 2 == 0
     end)
@@ -56,14 +56,14 @@ describe("z", function()
     end)
 
     it("returns value and index if found", function()
-      local value, index = z.find({ 1, 3, 5, 7, 8, 9 }, spied)
+      local value, index = z.tbl_find({ 1, 3, 5, 7, 8, 9 }, spied)
       assert.equals(value, 8)
       assert.equals(index, 5)
       assert.spy(spied).called(5)
     end)
 
     it("returns first value and index found", function()
-      local value, index = z.find({ 1, 2, 2, 2, 2 }, spied)
+      local value, index = z.tbl_find({ 1, 2, 2, 2, 2 }, spied)
       assert.equals(value, 2)
       assert.equals(index, 2)
       assert.spy(spied).called(2)
@@ -71,7 +71,7 @@ describe("z", function()
 
     it("returns nil if not found", function()
       local t = { 1, 3, 5, 7, 9 }
-      assert.is_nil(z.find(t, spied))
+      assert.is_nil(z.tbl_find(t, spied))
       assert.spy(spied).called(#t)
     end)
   end)

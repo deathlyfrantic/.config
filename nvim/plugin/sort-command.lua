@@ -36,7 +36,7 @@ end
 -- "c,b,a" becomes "a,b,c"
 -- "c, b, a" becomes "a, b, c"
 local function determine_glue(pieces, separator)
-  local contains_space = z.any(pieces, function(piece)
+  local contains_space = z.tbl_any(pieces, function(piece)
     return piece:find("^%s") or piece:find("%s$")
   end)
   return separator .. (contains_space and " " or "")

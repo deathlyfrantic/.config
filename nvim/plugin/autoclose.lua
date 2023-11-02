@@ -33,7 +33,7 @@ local function semi(state)
     return ""
   end
   if
-    z.any(semi_lines[state.ft], function(pat)
+    z.tbl_any(semi_lines[state.ft], function(pat)
       return state.trimmed:match(pat)
     end)
   then

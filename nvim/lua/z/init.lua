@@ -1,6 +1,6 @@
 local M = {}
 
-function M.any(t, f)
+function M.tbl_any(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
       return true
@@ -9,7 +9,7 @@ function M.any(t, f)
   return false
 end
 
-function M.all(t, f)
+function M.tbl_all(t, f)
   for i, v in ipairs(t) do
     if not f(v, i) then
       return false
@@ -18,7 +18,7 @@ function M.all(t, f)
   return true
 end
 
-function M.find(t, f)
+function M.tbl_find(t, f)
   for i, v in ipairs(t) do
     if f(v, i) then
       return v, i
@@ -141,10 +141,10 @@ function M.find_project_dir(start)
   local dir = start or vim.loop.cwd()
   while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
     if
-      M.any(files, function(f)
+      M.tbl_any(files, function(f)
         return vim.fn.filereadable(vim.fs.normalize(dir .. "/" .. f)) == 1
       end)
-      or M.any(dirs, function(d)
+      or M.tbl_any(dirs, function(d)
         return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
       end)
     then
@@ -178,7 +178,7 @@ function M.highlight_at_pos_contains(pattern, pos)
   -- if syntax is on that means treesitter highlighting is not enabled, so use
   -- vim regex highlighting
   if vim.bo.syntax ~= "" then
-    return M.any(vim.fn.synstack(line, column), function(id)
+    return M.tbl_any(vim.fn.synstack(line, column), function(id)
       return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
     end)
   end
@@ -198,7 +198,7 @@ function M.help(contents)
   if type(contents) == "string" then
     contents = contents:split("\n", { plain = true, trimempty = true })
   end
-  local help_win = M.find(vim.api.nvim_list_wins(), function(win)
+  local help_win = M.tbl_find(vim.api.nvim_list_wins(), function(win)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"
   end)
   if not help_win then
