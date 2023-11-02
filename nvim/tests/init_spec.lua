@@ -229,13 +229,13 @@ describe("init", function()
 
     -- this is a hacky way to access the otherwise-hidden callback for a keymap
     -- but it works, and it's easier than trying to use insert mode in a test
-    local arrow = z.tbl_find(vim.api.nvim_get_keymap("i"), function(m)
+    local arrow = z.tbl_find(function(m)
       return m.lhs == "<C-J>"
-    end).callback
+    end, vim.api.nvim_get_keymap("i")).callback
 
-    local fat_arrow = z.tbl_find(vim.api.nvim_get_keymap("i"), function(m)
+    local fat_arrow = z.tbl_find(function(m)
       return m.lhs == "<C-L>"
-    end).callback
+    end, vim.api.nvim_get_keymap("i")).callback
 
     it("doesn't add a space before if in the first column", function()
       assert.equals(arrow(), "-> ")
@@ -280,9 +280,9 @@ describe("init", function()
       nvim_list_bufs:revert()
     end)
 
-    local quickfix_toggle = z.tbl_find(vim.api.nvim_get_keymap("n"), function(m)
+    local quickfix_toggle = z.tbl_find(function(m)
       return m.lhs == "\\q"
-    end).callback
+    end, vim.api.nvim_get_keymap("n")).callback
 
     it("closes quickfix window if already open", function()
       vim.bo = { { filetype = "qf", buflisted = true } }
