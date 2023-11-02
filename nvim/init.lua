@@ -405,19 +405,14 @@ local function source_local_vimrc(file, buf, force)
     return
   end
   -- apply settings from lowest dir to highest, so most specific are applied last
-  for _, vimrc in
-    ipairs(
-      z.tbl_reverse(
-        vim.fn.findfile(
-          ".vimrc.lua",
-          vim.fs.dirname(vim.fs.normalize(file)) .. ";",
-          -1
-        )
-      )
-    )
-  do
+  local vimrcs = vim.fn.findfile(
+    ".vimrc.lua",
+    vim.fs.dirname(vim.fs.normalize(file)) .. ";",
+    -1
+  )
+  for i = #vimrcs, 1, -1 do
     vim.cmd.source({
-      args = { vimrc },
+      args = { vimrcs[i] },
       mods = { emsg_silent = true, silent = true },
     })
   end

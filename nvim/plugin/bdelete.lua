@@ -14,9 +14,9 @@ local function delete_current(force)
     local bufs = vim.tbl_filter(function(b)
       return z.buf_is_real(b)
     end, vim.api.nvim_list_bufs())
-    for _, b in ipairs(z.tbl_reverse(bufs)) do
-      if b ~= buf then
-        vim.api.nvim_set_current_buf(b)
+    for i = #bufs, 1, -1 do
+      if bufs[i] ~= buf then
+        vim.api.nvim_set_current_buf(bufs[i])
         break
       end
     end

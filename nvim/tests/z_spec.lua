@@ -76,10 +76,6 @@ describe("z", function()
     end)
   end)
 
-  it("tbl_reverse", function()
-    assert.same(z.tbl_reverse({ 1, 2, 3, 4, 5 }), { 5, 4, 3, 2, 1 })
-  end)
-
   describe("popup", function()
     local function popup(contents, title)
       local win = z.popup(contents, title)

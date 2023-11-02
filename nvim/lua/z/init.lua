@@ -27,16 +27,6 @@ function M.find(t, f)
   return nil
 end
 
-function M.tbl_reverse(t)
-  local ret = {}
-  local i = 1
-  for j = #t, 1, -1 do
-    ret[i] = t[j]
-    i = i + 1
-  end
-  return ret
-end
-
 function M.popup(text, title)
   local buf = vim.api.nvim_create_buf(false, true)
   local contents
