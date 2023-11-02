@@ -96,10 +96,7 @@ local function open_buffer(ground)
 end
 
 local function playground(args)
-  local filetype = vim.bo.filetype
-  if #args.args > 0 then
-    filetype = args.args
-  end
+  local filetype = #args.args > 0 and args.args or vim.bo.filetype
   if not filetype or filetype == "" then
     vim.notify("No filetype specified", vim.log.levels.ERROR)
     return

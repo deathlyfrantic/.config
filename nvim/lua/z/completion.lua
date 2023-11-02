@@ -6,18 +6,12 @@ local function findstart()
   local row = vim.api.nvim_win_get_cursor(0)[1]
   local pos = vim.fn.searchpos([[\s]], "bn")
   -- cursor is on same line as found whitespace
-  if pos[1] == row then
-    return pos[2]
-  end
-  return 0
+  return pos[1] == row and pos[2] or 0
 end
 
 local function tab(fwd)
   if vim.fn.pumvisible() > 0 then
-    if fwd then
-      return "<C-n>"
-    end
-    return "<C-p>"
+    return fwd and "<C-n>" or "<C-p>"
   elseif z.char_before_cursor():match("[A-Za-z0-9_]") then
     return "<C-p>"
   end

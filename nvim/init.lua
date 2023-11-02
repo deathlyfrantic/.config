@@ -324,14 +324,8 @@ vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- arrows
 local function arrow(fat)
-  local before = " "
-  if z.char_before_cursor():is_empty() then
-    before = ""
-  end
-  local ret = "->"
-  if fat then
-    ret = "=>"
-  end
+  local before = z.char_before_cursor():is_empty() and "" or " "
+  local ret = fat and "=>" or "->"
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2]
   local after = "<Right>"

@@ -6,10 +6,7 @@ end
 
 function M.kill_line()
   local pos, cmd = poscmd()
-  if pos == 1 then
-    return ""
-  end
-  return cmd:sub(1, pos - 1)
+  return pos == 1 and "" or cmd:sub(1, pos - 1)
 end
 
 function M.delete_word()
@@ -24,10 +21,8 @@ function M.delete_word()
     end
     stop = stop + 1
   end
-  if pos == 1 then
-    return cmd:sub(stop + 1)
-  end
-  return cmd:sub(0, pos - 1) .. cmd:sub(stop + 1)
+  return pos == 1 and cmd:sub(stop + 1)
+    or cmd:sub(0, pos - 1) .. cmd:sub(stop + 1)
 end
 
 function M.bwd_by_word()

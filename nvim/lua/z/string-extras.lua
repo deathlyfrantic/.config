@@ -25,11 +25,8 @@ local function string_pad(s, length, padding, direction)
     return s
   end
   if padding:is_empty() and length < 100 then
-    if direction == "right" then
-      return ("%-" .. length .. "s"):format(s)
-    else
-      return ("%" .. length .. "s"):format(s)
-    end
+    return direction == "right" and ("%-" .. length .. "s"):format(s)
+      or ("%" .. length .. "s"):format(s)
   end
   while #s < length do
     local addl = length - #s

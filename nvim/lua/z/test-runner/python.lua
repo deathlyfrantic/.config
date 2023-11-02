@@ -45,10 +45,8 @@ function M.pytest(selection)
 end
 
 function M.test(selection)
-  if vim.fn.executable("pytest") == 1 then
-    return M.pytest(selection)
-  end
-  return "python3 -m unittest"
+  return vim.fn.executable("pytest") == 1 and M.pytest(selection)
+    or "python3 -m unittest"
 end
 
 return M

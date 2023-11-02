@@ -78,10 +78,7 @@ end
 
 function M.get_hex_color(hl, attr)
   local colors = vim.api.nvim_get_hl(0, { name = hl })
-  local dec = colors.bg
-  if attr == "fg" or attr == "foreground" then
-    dec = colors.fg
-  end
+  local dec = (attr == "fg" or attr == "foreground") and colors.fg or colors.bg
   return ("#%06x"):format(dec)
 end
 
@@ -163,10 +160,8 @@ end
 
 function M.char_before_cursor()
   local column = vim.api.nvim_win_get_cursor(0)[2]
-  if column < 1 then
-    return ""
-  end
-  return vim.api.nvim_get_current_line():sub(column, column)
+  return column < 1 and ""
+    or vim.api.nvim_get_current_line():sub(column, column)
 end
 
 function M.highlight_at_pos_contains(pattern, pos)
@@ -188,10 +183,7 @@ function M.highlight_at_pos_contains(pattern, pos)
     vim.treesitter.get_node,
     { bufnr = 0, pos = { line - 1, column - 1 } }
   )
-  if ok then
-    return node:type():imatch(pattern)
-  end
-  return false
+  return ok and node:type():imatch(pattern)
 end
 
 function M.help(contents)

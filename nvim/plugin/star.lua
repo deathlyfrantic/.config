@@ -222,10 +222,7 @@ local function open_star_buffer(mode)
 end
 
 local function star(args)
-  local mode = "files"
-  if #args.args > 0 then
-    mode = args.args
-  end
+  local mode = #args.args > 0 and args.args or "files"
   if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
     vim.notify(("'%s' is not a valid mode"):format(mode), vim.log.levels.ERROR)
     return

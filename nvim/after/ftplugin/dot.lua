@@ -3,10 +3,8 @@ local function dot_to_png(args)
     vim.notify("Graphviz/Dot is not available.", vim.log.levels.ERROR)
     return
   end
-  local filename = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
-  if #args.args > 0 then
-    filename = args.args
-  end
+  local filename = #args.args > 0 and args.args
+    or vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   local outfile = filename:match("(.*)%.") .. ".png"
   os.execute(("dot %s -Tpng > %s"):format(filename, outfile))
 end

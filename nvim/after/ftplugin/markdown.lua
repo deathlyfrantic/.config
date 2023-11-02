@@ -9,10 +9,7 @@ local function preview_markdown(args)
     )
     return
   end
-  local filename = vim.api.nvim_buf_get_name(0)
-  if #args.args > 0 then
-    filename = args
-  end
+  local filename = #args.args > 0 and args.args or vim.api.nvim_buf_get_name(0)
   local outfile = vim.fn.tempname() .. ".html"
   os.execute(("cmark %s > %s; open -g %s"):format(filename, outfile, outfile))
 end

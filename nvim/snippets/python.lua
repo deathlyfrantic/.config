@@ -45,10 +45,7 @@ return make({
         end
         local ret = {}
         for n, word in ipairs(words) do
-          local indent = ""
-          if n > 1 then
-            indent = "    "
-          end
+          local indent = n > 1 and "    " or ""
           table.insert(ret, indent .. "self." .. word .. " = " .. word)
         end
         return ret
