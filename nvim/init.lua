@@ -358,9 +358,9 @@ vim.api.nvim_create_autocmd("FileType", {
 -- quickfix
 local function quickfix_toggle(vertical)
   if
-    #vim.tbl_filter(function(b)
+    z.tbl_any(function(b)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
-    end, vim.api.nvim_list_bufs()) > 0
+    end, vim.api.nvim_list_bufs())
   then
     return ":cclose<CR>"
   end
