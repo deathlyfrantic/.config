@@ -130,7 +130,7 @@ local function set_term_colors()
 end
 
 local function popup_window_namespace(colors)
-  local ns_id = vim.api.nvim_create_namespace("z-popup-window")
+  local ns_id = vim.api.nvim_create_namespace("popup-window")
   vim.api.nvim_set_hl(ns_id, "Normal", colors.Normal)
   vim.api.nvim_set_hl(ns_id, "FloatBorder", colors.Normal)
 end

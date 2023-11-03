@@ -194,7 +194,7 @@ local function popup_window(buf, mode, title)
   local win_id = vim.api.nvim_open_win(buf, true, opts)
   vim.api.nvim_win_set_hl_ns(
     win_id,
-    vim.api.nvim_create_namespace("z-popup-window")
+    vim.api.nvim_create_namespace("popup-window")
   )
 end
 

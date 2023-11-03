@@ -100,7 +100,7 @@ pm.add({
       callback = function()
         require("gitsigns").refresh()
       end,
-      group = vim.api.nvim_create_augroup("z-gitsigns-config", {}),
+      group = vim.api.nvim_create_augroup("gitsigns-config", {}),
     })
   end,
 })
@@ -111,7 +111,7 @@ pm.add({
     vim.keymap.set("n", "[a", "<Cmd>ALEPreviousWrap<CR>", { silent = true })
     vim.keymap.set("n", "]a", "<Cmd>ALENextWrap<CR>", { silent = true })
     vim.keymap.set("n", "Q", "<Cmd>ALEDetail<CR>", { silent = true })
-    local group = vim.api.nvim_create_augroup("z-ale-config", {})
+    local group = vim.api.nvim_create_augroup("ale-config", {})
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview",
       callback = function()
@@ -188,7 +188,7 @@ pm.add({
     vim.g.goyo_height = "96%"
     vim.g.goyo_width = 82
     local autocmd_handle
-    local group = vim.api.nvim_create_augroup("z-goyo-config", {})
+    local group = vim.api.nvim_create_augroup("goyo-config", {})
     vim.api.nvim_create_autocmd("User", {
       pattern = "GoyoEnter",
       callback = function()
@@ -275,7 +275,7 @@ pm.add({
           { buffer = true, remap = true }
         )
       end,
-      group = vim.api.nvim_create_augroup("z-dirvish-config", {}),
+      group = vim.api.nvim_create_augroup("dirvish-config", {}),
     })
     vim.keymap.set("n", "-", toggle, { silent = true, remap = true })
     vim.g.dirvish_mode = ":sort ,^.*[/],"
@@ -428,7 +428,7 @@ pm.add({
       return vim.b.blame_messages[commit]
     end
 
-    local group = vim.api.nvim_create_augroup("z-fugitive-config-blame", {})
+    local group = vim.api.nvim_create_augroup("fugitive-config-blame", {})
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved" }, {
       pattern = "*.fugitiveblame",
       callback = function()
