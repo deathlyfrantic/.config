@@ -21,7 +21,7 @@ function M.find_nearest_regex()
     [[^\s*\(it\|describe\|test\|context\)(["'']\(.*\)["''],]],
     3
   )
-  if test ~= nil then
+  if test then
     return vim.fn.substitute(test, [[\([{\[(+)\]}]\)]], [[\\\1]], "g")
   end
   return nil
@@ -32,7 +32,7 @@ local function find_nearest()
 end
 
 function M.npm_or_yarn()
-  if vim.b.z_test_runner_npm_or_yarn == nil then
+  if not vim.b.z_test_runner_npm_or_yarn then
     if vim.fn.findfile("yarn.lock", ";") ~= "" then
       vim.b.z_test_runner_npm_or_yarn = "yarn"
     else
@@ -50,7 +50,7 @@ function M.mocha(selection, pretest)
   end
   if selection == "nearest" then
     local nearest = find_nearest()
-    if nearest ~= nil then
+    if nearest then
       return cmd .. " --grep=" .. vim.fn.shellescape(find_nearest())
     end
   elseif selection == "file" then
@@ -66,7 +66,7 @@ function M.jest(selection)
   end
   if selection == "nearest" then
     local nearest = find_nearest()
-    if nearest ~= nil then
+    if nearest then
       return cmd .. " -t " .. vim.fn.shellescape(find_nearest())
     end
   elseif selection == "file" then

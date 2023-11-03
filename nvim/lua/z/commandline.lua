@@ -30,8 +30,8 @@ function M.bwd_by_word()
   if pos ~= 1 then
     local saw_letter = false
     for i = pos - 1, 0, -1 do
-      saw_letter = saw_letter or cmd:sub(i, i):match("%w") ~= nil
-      if cmd:sub(i, i):match("%w") == nil and saw_letter then
+      saw_letter = saw_letter or cmd:sub(i, i):match("%w")
+      if not cmd:sub(i, i):match("%w") and saw_letter then
         break
       end
       vim.fn.setcmdpos(i)
@@ -46,8 +46,8 @@ function M.fwd_by_word()
   if pos < cmdlen then
     local saw_letter = false
     for i = pos, cmdlen do
-      saw_letter = saw_letter or cmd:sub(i, i):match("%w") ~= nil
-      if cmd:sub(i, i):match("%w") == nil and saw_letter then
+      saw_letter = saw_letter or cmd:sub(i, i):match("%w")
+      if not cmd:sub(i, i):match("%w") and saw_letter then
         break
       end
       vim.fn.setcmdpos(i + 1)

@@ -8,7 +8,7 @@ local function height()
 end
 
 local function find_cmd(mode)
-  if vim.b.star_find_cmd ~= nil then
+  if vim.b.star_find_cmd then
     return vim.b.star_find_cmd
   end
   local open_files
@@ -36,7 +36,7 @@ local function find_cmd(mode)
 end
 
 local function star_cmd()
-  if star_cmd_str == nil then
+  if not star_cmd_str then
     local colors = {
       ["color-selected-bg"] = z.get_hex_color("StatusLine", "bg"),
       ["color-matched-selected-fg"] = z.get_hex_color("Comment", "fg"),
@@ -158,7 +158,7 @@ end
 local function on_exit(mode, _, exit_code)
   local previous_window = vim.fn.win_getid(vim.fn.winnr("#"))
   vim.api.nvim_set_current_win(previous_window)
-  if buffer ~= nil then
+  if buffer then
     delete_buffer()
   end
   if exit_code == 0 then

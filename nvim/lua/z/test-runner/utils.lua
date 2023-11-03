@@ -49,12 +49,12 @@ function M.find_nearest_test_via_treesitter(sexpr, capture_name, node_text_fn)
       -- node as long as it's before the cursor; if we've passed the cursor and
       -- still haven't found a test, set it to the one closest to the test after
       -- the cursor, then stop.
-      if row2 < cursor_row or nearest == nil then
+      if row2 < cursor_row or not nearest then
         nearest = node
       end
     end
   end
-  if nearest ~= nil then
+  if nearest then
     return vim.treesitter.get_node_text(node_text_fn(nearest), 0)
   end
   return nil

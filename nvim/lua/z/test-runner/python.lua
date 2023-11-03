@@ -35,7 +35,7 @@ function M.pytest(selection)
   local filename = vim.api.nvim_buf_get_name(0)
   if selection == "nearest" then
     local nearest = M.find_nearest_treesitter() or M.find_nearest_regex()
-    if nearest ~= nil then
+    if nearest then
       return "pytest " .. filename .. "::" .. nearest
     end
   elseif selection == "file" then

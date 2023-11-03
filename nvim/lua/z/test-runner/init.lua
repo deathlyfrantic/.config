@@ -45,8 +45,7 @@ local function test(selection, close)
   if type(vim.b.test_command) == "string" then
     table.insert(test_cmds, vim.b.test_command)
   elseif
-    type(vim.b.test_command) == "table"
-    and vim.b.test_command[selection] ~= nil
+    type(vim.b.test_command) == "table" and vim.b.test_command[selection]
   then
     if type(vim.b.test_command[selection]) == "string" then
       table.insert(test_cmds, vim.b.test_command[selection])
@@ -63,16 +62,16 @@ local function test(selection, close)
         ).output
       )
     end
-  elseif runners[filetype] ~= nil then
+  elseif runners[filetype] then
     local cmd = runners[filetype](selection)
-    if cmd ~= nil then
+    if cmd then
       table.insert(test_cmds, cmd)
     end
   else
     table.insert(errs, "No tests available for filetype '" .. filetype .. "'")
   end
   local maketest = runners.make()
-  if maketest ~= nil then
+  if maketest then
     table.insert(test_cmds, maketest)
   else
     table.insert(errs, "no `Makefile` found")

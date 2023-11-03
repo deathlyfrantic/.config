@@ -38,7 +38,7 @@ function M.test(selection)
     -- don't look for a test if we can't find the `mod tests {}` declaration
     if vim.fn.search("^\\s*mod tests {$", "n") > 0 then
       local nearest = M.find_nearest_treesitter() or M.find_nearest_regex()
-      if nearest ~= nil then
+      if nearest then
         return ("%s %s)"):format(cmd:sub(1, -2), nearest)
       end
     end

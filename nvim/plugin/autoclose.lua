@@ -29,7 +29,7 @@ local function getline(num)
 end
 
 local function semi(state)
-  if semi_lines[state.ft] == nil then
+  if not semi_lines[state.ft] then
     return ""
   end
   if
@@ -82,7 +82,7 @@ local function enter()
   state.trimmed = state.line:trim()
   if
     state.col < #state.line:gsub("%s*$", "")
-    or pairs[state.trimmed:sub(-1, -1)] == nil
+    or not pairs[state.trimmed:sub(-1, -1)]
   then
     -- don't do anything if cursor is not at the end of a line,
     -- or if the (trimmed) line doesn't end with a left pair item
@@ -90,9 +90,9 @@ local function enter()
   end
   local stack = {}
   for i, c in state.line:chars() do
-    if pairs[c] ~= nil and not in_string(state.linenr, i) then
+    if pairs[c] and not in_string(state.linenr, i) then
       table.insert(stack, pairs[c])
-    elseif closers[c] ~= nil and not in_string(state.linenr, i) then
+    elseif closers[c] and not in_string(state.linenr, i) then
       remove_last(stack, c)
     end
   end

@@ -76,7 +76,7 @@ function TermWindow.on_exit(self, ...)
 end
 
 function TermWindow.load_or_create_buffer(self)
-  if self.buffer == nil or not vim.api.nvim_buf_is_valid(self.buffer) then
+  if not self.buffer or not vim.api.nvim_buf_is_valid(self.buffer) then
     self.buffer = vim.api.nvim_create_buf(false, false)
     self:do_event("BufAdd")
     vim.bo[self.buffer].buftype = "nofile"
