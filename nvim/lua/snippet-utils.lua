@@ -5,12 +5,12 @@ local i = ls.insert_node
 local partial = require("luasnip.extras").partial
 local fmt = require("luasnip.extras.fmt").fmt
 local dedent = require("plenary.strings").dedent
-local z = require("z")
+local utils = require("utils")
 
 local M = {}
 
 function M.comment_string()
-  if z.highlight_at_pos_contains("comment") then
+  if utils.highlight_at_pos_contains("comment") then
     return ""
   end
   local before, after =

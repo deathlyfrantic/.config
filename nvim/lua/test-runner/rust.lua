@@ -1,4 +1,4 @@
-local utils = require("z.test-runner.utils")
+local utils = require("test-runner.utils")
 
 local M = {}
 

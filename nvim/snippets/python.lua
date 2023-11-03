@@ -2,7 +2,7 @@ local ls = require("luasnip")
 local i = ls.insert_node
 local f = ls.function_node
 local fmt = require("luasnip.extras.fmt").fmt
-local make = require("z.snippets").make
+local make = require("snippet-utils").make
 
 return make({
   ifmain = [[

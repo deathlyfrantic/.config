@@ -4,8 +4,8 @@ local i = ls.insert_node
 local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
 local partial = require("luasnip.extras").partial
-local force_comment = require("z.snippets").force_comment
-local make = require("z.snippets").make
+local force_comment = require("snippet-utils").force_comment
+local make = require("snippet-utils").make
 
 return make({
   date = partial(os.date, "%F"),

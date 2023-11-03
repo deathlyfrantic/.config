@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local file = vim.fn.tempname()
 local buffer, star_cmd_str
@@ -16,7 +16,7 @@ local function find_cmd(mode)
     open_files = {}
   else
     local bufs = vim.tbl_filter(function(b)
-      return z.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
+      return utils.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
     end, vim.api.nvim_list_bufs())
     open_files = vim.tbl_map(function(b)
       return vim.fs
@@ -38,10 +38,10 @@ end
 local function star_cmd()
   if not star_cmd_str then
     local colors = {
-      ["color-selected-bg"] = z.get_hex_color("StatusLine", "bg"),
-      ["color-matched-selected-fg"] = z.get_hex_color("Comment", "fg"),
-      ["color-matched-fg"] = z.get_hex_color("String", "fg"),
-      ["color-tag-fg"] = z.get_hex_color("Warning", "fg"),
+      ["color-selected-bg"] = utils.get_hex_color("StatusLine", "bg"),
+      ["color-matched-selected-fg"] = utils.get_hex_color("Comment", "fg"),
+      ["color-matched-fg"] = utils.get_hex_color("String", "fg"),
+      ["color-tag-fg"] = utils.get_hex_color("Warning", "fg"),
     }
     star_cmd_str = "star -m --height " .. height() .. " "
     for k, v in pairs(colors) do
@@ -53,7 +53,7 @@ end
 
 local function base_cmd()
   return ("(cd %s && %%s | %s > %s)"):format(
-    z.find_project_dir(),
+    utils.find_project_dir(),
     star_cmd(),
     file
   )
@@ -71,7 +71,7 @@ local function buffers_cmd()
         :gsub("^" .. vim.loop.cwd() .. "/", "")
     end,
     vim.tbl_filter(function(b)
-      return z.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
+      return utils.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
     end, vim.api.nvim_list_bufs())
   )
   return base_cmd():format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
@@ -91,7 +91,7 @@ end
 
 local function open_file(files)
   local paths = vim.tbl_map(function(f)
-    return vim.fn.fnameescape(z.find_project_dir() .. f)
+    return vim.fn.fnameescape(utils.find_project_dir() .. f)
   end, files)
   for i, f in ipairs(paths) do
     if vim.loop.fs_access(f, "r") then
@@ -163,7 +163,7 @@ local function on_exit(mode, _, exit_code)
   end
   if exit_code == 0 then
     if vim.loop.fs_access(file, "r") then
-      local paths = z.collect(io.open(file):lines())
+      local paths = utils.collect(io.open(file):lines())
       modes[mode].open(paths)
     end
   end
@@ -205,7 +205,7 @@ local function open_star_buffer(mode)
   local mode_text = modes[mode].text()
   -- need to call find_project_dir() now before opening the star buffer so we
   -- used the cached value (which is a buffer variable)
-  local name = ("Star(%s)"):format(z.find_project_dir():sub(1, -2))
+  local name = ("Star(%s)"):format(utils.find_project_dir():sub(1, -2))
   -- now open the star buffer
   buffer = vim.api.nvim_create_buf(false, false)
   popup_window(buffer, mode, ("[%s] %s"):format(name, mode_text))

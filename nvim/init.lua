@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 -- startup processes {{{
 if vim.fn.has("vim_starting") == 1 then
@@ -9,7 +9,7 @@ if vim.fn.has("vim_starting") == 1 then
   vim.g.loaded_2html_plugin = "vim7.4_v1"
 
   -- make sure my string extras are loaded and always available
-  require("z.string-extras")
+  require("string-extras")
 end
 -- }}}
 
@@ -245,12 +245,12 @@ vim.keymap.set("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
 vim.keymap.set(
   "x",
   "*",
-  [[:<C-u>lua require("z").v_star_search_set("/")<CR>/<C-r>=@/<CR><CR>N]]
+  [[:<C-u>lua require("utils").v_star_search_set("/")<CR>/<C-r>=@/<CR><CR>N]]
 )
 vim.keymap.set(
   "x",
   "#",
-  [[:<C-u>lua require("z").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
+  [[:<C-u>lua require("utils").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
 )
 
 -- close all floating windows
@@ -324,7 +324,7 @@ vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- arrows
 local function arrow(fat)
-  local before = z.char_before_cursor():is_empty() and "" or " "
+  local before = utils.char_before_cursor():is_empty() and "" or " "
   local ret = fat and "=>" or "->"
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2]
@@ -352,7 +352,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- quickfix
 local function quickfix_toggle(vertical)
   if
-    z.tbl_any(function(b)
+    utils.tbl_any(function(b)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
     end, vim.api.nvim_list_bufs())
   then
@@ -443,8 +443,8 @@ vim.cmd.colorscheme("copper")
 -- these have to export functions so need to be somewhere they can be found by
 -- `require()`, otherwise they could live in `/plugin` and be sourced
 -- automatically.
-require("z.commandline").init()
-require("z.completion").init()
-require("z.statusline").init()
-require("z.test-runner").init()
+require("commandline").init()
+require("completion").init()
+require("statusline").init()
+require("test-runner").init()
 -- }}}

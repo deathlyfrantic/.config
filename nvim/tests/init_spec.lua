@@ -1,5 +1,5 @@
 local stub = require("luassert.stub")
-local z = require("z")
+local utils = require("utils")
 
 describe("init", function()
   describe("quits even if dirvish or quickfix is open", function()
@@ -214,7 +214,7 @@ describe("init", function()
     local char_before_cursor, nvim_get_current_line, nvim_win_get_cursor
 
     before_each(function()
-      char_before_cursor = stub(z, "char_before_cursor").returns("")
+      char_before_cursor = stub(utils, "char_before_cursor").returns("")
       nvim_get_current_line =
         stub(vim.api, "nvim_get_current_line").returns("foobar")
       nvim_win_get_cursor =
@@ -229,11 +229,11 @@ describe("init", function()
 
     -- this is a hacky way to access the otherwise-hidden callback for a keymap
     -- but it works, and it's easier than trying to use insert mode in a test
-    local arrow = z.tbl_find(function(m)
+    local arrow = utils.tbl_find(function(m)
       return m.lhs == "<C-J>"
     end, vim.api.nvim_get_keymap("i")).callback
 
-    local fat_arrow = z.tbl_find(function(m)
+    local fat_arrow = utils.tbl_find(function(m)
       return m.lhs == "<C-L>"
     end, vim.api.nvim_get_keymap("i")).callback
 
@@ -280,7 +280,7 @@ describe("init", function()
       nvim_list_bufs:revert()
     end)
 
-    local quickfix_toggle = z.tbl_find(function(m)
+    local quickfix_toggle = utils.tbl_find(function(m)
       return m.lhs == "\\q"
     end, vim.api.nvim_get_keymap("n")).callback
 

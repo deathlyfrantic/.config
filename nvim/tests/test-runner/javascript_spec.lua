@@ -1,7 +1,7 @@
 local stub = require("luassert.stub")
 local match = require("luassert.match")
-local javascript = require("z.test-runner.javascript")
-local utils = require("z.test-utils")
+local javascript = require("test-runner.javascript")
+local utils = require("test-utils")
 
 describe("test-runner/javascript", function()
   local template = [[

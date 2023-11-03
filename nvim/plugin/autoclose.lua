@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
 local closers = { [")"] = "(", ["]"] = "[", ["}"] = "{" }
@@ -33,7 +33,7 @@ local function semi(state)
     return ""
   end
   if
-    z.tbl_any(function(pat)
+    utils.tbl_any(function(pat)
       return state.trimmed:match(pat)
     end, semi_lines[state.ft])
   then
@@ -47,7 +47,7 @@ local function indent(line)
 end
 
 local function in_string(line, col)
-  return z.highlight_at_pos_contains("string", { line, col })
+  return utils.highlight_at_pos_contains("string", { line, col })
 end
 
 local function remove_last(stack, char)

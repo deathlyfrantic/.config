@@ -6,7 +6,7 @@ local c = ls.choice_node
 local sn = ls.sn
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
-local make = require("z.snippets").make
+local make = require("snippet-utils").make
 
 return make({
   describe = fmt(

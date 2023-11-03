@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 -- determine the separator, as defined by whichever punctuation character occurs
 -- most frequently within the string. if there are no punctuation characters but
@@ -36,7 +36,7 @@ end
 -- "c,b,a" becomes "a,b,c"
 -- "c, b, a" becomes "a, b, c"
 local function determine_glue(pieces, separator)
-  local contains_space = z.tbl_any(function(piece)
+  local contains_space = utils.tbl_any(function(piece)
     return piece:find("^%s") or piece:find("%s$")
   end, pieces)
   return separator .. (contains_space and " " or "")
@@ -102,7 +102,7 @@ vim.api.nvim_create_user_command(
 )
 
 _G.sort = {
-  operator = z.make_operator_fn(function(text)
+  operator = utils.make_operator_fn(function(text)
     local start = vim.api.nvim_buf_get_mark(0, "[")
     local stop = vim.api.nvim_buf_get_mark(0, "]")
     local row, start_col, stop_col = start[1] - 1, start[2], stop[2] + 1

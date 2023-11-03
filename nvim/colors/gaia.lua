@@ -1,4 +1,4 @@
-require("z.mono-colors").define("gaia", true, {
+require("mono-colors").define("gaia", true, {
   Normal = { fg = "#dadada", bg = "#1c1c1c" },
   Visual = { fg = "#dadada", bg = "#4e473a" },
   CursorLine = { bg = "#262626" },

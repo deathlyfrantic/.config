@@ -18,7 +18,7 @@ end
 function M.init()
   vim.opt.statusline =
     -- buffer number and filename
-    "[%n] %{v:lua.require('z.statusline').filename()}%<"
+    "[%n] %{v:lua.require('statusline').filename()}%<"
     -- gitsigns status, as defined by status_formatter in the package spec
     .. "%( %{get(b:, 'gitsigns_status', '')}%)"
     -- help buffer flag, modified flag, readonly flag
@@ -30,7 +30,7 @@ function M.init()
     -- separator
     .. "%="
     -- treesitter node type
-    .. "%{v:lua.require('z.statusline').treesitter()}   "
+    .. "%{v:lua.require('statusline').treesitter()}   "
     -- show wrap if it is on
     .. "%{&wrap ? '[wrap] ' : ''}"
     -- session tracking via obsession

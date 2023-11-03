@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local function save_file(name)
   return vim.fs.normalize(
@@ -17,7 +17,7 @@ end
 local function read(name)
   local pos = vim.api.nvim_win_get_cursor(0)
   vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
-  local new_lines = z.collect(io.open(save_file(name)):lines())
+  local new_lines = utils.collect(io.open(save_file(name)):lines())
   vim.api.nvim_buf_set_lines(0, 0, -1, true, new_lines)
   vim.api.nvim_win_set_cursor(0, pos)
   vim.b.ftime = os.time()

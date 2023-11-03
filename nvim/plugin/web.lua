@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local search_url = "https://duckduckgo.com/?q=%s"
 
@@ -14,7 +14,7 @@ local function search(url)
 end
 
 _G.web = {
-  operator = z.make_operator_fn(function(url)
+  operator = utils.make_operator_fn(function(url)
     search(url:trim())
   end),
 }

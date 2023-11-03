@@ -1,7 +1,7 @@
 local stub = require("luassert.stub")
 local match = require("luassert.match")
-local python = require("z.test-runner.python")
-local utils = require("z.test-utils")
+local python = require("test-runner.python")
+local utils = require("test-utils")
 
 describe("test-runner/python", function()
   local template = [[

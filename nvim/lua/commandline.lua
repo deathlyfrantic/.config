@@ -65,7 +65,7 @@ function M.init()
   vim.keymap.set("c", "<C-g>", "<C-c>")
   vim.keymap.set("c", "<C-n>", "<Down>")
   vim.keymap.set("c", "<C-p>", "<Up>")
-  local expr = [[<C-\>e luaeval("require('z.commandline').%s()")<CR>]]
+  local expr = [[<C-\>e luaeval("require('commandline').%s()")<CR>]]
   vim.keymap.set("c", "<C-k>", expr:format("kill_line"))
   vim.keymap.set("c", "<M-d>", expr:format("delete_word"))
   vim.keymap.set("c", "<M-b>", expr:format("bwd_by_word"))

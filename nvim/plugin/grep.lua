@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local function grep(args)
   vim.cmd(
@@ -29,7 +29,7 @@ local function grep(args)
 end
 
 _G.grep = {
-  operator = z.make_operator_fn(function(search)
+  operator = utils.make_operator_fn(function(search)
     grep({ args = search, bang = false })
   end),
 }

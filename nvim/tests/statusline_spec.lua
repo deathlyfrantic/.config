@@ -1,5 +1,5 @@
 local stub = require("luassert.stub")
-local statusline = require("z.statusline")
+local statusline = require("statusline")
 
 describe("statusline", function()
   describe("filename", function()

@@ -1,4 +1,4 @@
-local pm = require("z.package-manager")
+local pm = require("package-manager")
 
 pm.init()
 
@@ -330,7 +330,7 @@ pm.add({
   config = function()
     vim.g["tmuxcomplete#trigger"] = ""
     vim.keymap.set("i", "<C-x><C-t>", function()
-      require("z.completion").wrap("tmuxcomplete#complete")
+      require("completion").wrap("tmuxcomplete#complete")
     end)
   end,
 })
@@ -450,7 +450,7 @@ pm.add({
           if not blame.full then
             return
           end
-          local popup_window = require("z").popup(blame.full)
+          local popup_window = require("utils").popup(blame.full)
           vim.api.nvim_create_autocmd(
             { "CursorMoved", "BufLeave", "BufWinLeave" },
             {

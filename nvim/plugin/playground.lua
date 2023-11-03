@@ -1,4 +1,4 @@
-local TermWindow = require("z.term-window")
+local TermWindow = require("term-window")
 local dedent = require("plenary.strings").dedent
 
 local term_windows = {}

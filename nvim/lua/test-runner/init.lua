@@ -1,15 +1,15 @@
-local TermWindow = require("z.term-window")
+local TermWindow = require("term-window")
 
 local M = {}
 
 local term_window = nil
 
 local runners = {
-  javascript = require("z.test-runner.javascript").test,
-  make = require("z.test-runner.makefile").test,
-  python = require("z.test-runner.python").test,
-  rust = require("z.test-runner.rust").test,
-  typescript = require("z.test-runner.javascript").test,
+  javascript = require("test-runner.javascript").test,
+  make = require("test-runner.makefile").test,
+  python = require("test-runner.python").test,
+  rust = require("test-runner.rust").test,
+  typescript = require("test-runner.javascript").test,
 }
 
 local function run(cmd, close)
@@ -105,6 +105,6 @@ function M.init()
 end
 
 -- expose this for use in local config files etc
-M.find_nearest_test = require("z.test-runner.utils").find_nearest_test
+M.find_nearest_test = require("test-runner.utils").find_nearest_test
 
 return M

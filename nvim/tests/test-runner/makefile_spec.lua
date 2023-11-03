@@ -1,5 +1,5 @@
 local stub = require("luassert.stub")
-local makefile = require("z.test-runner.makefile")
+local makefile = require("test-runner.makefile")
 
 describe("test-runner/makefile", function()
   local findfile, ioopen

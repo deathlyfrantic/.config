@@ -1,6 +1,6 @@
-local snippets = require("z.snippets")
 local stub = require("luassert.stub")
-local z = require("z")
+local snippets = require("snippet-utils")
+local utils = require("utils")
 
 describe("snippets", function()
   describe("comment_string", function()
@@ -8,7 +8,7 @@ describe("snippets", function()
     local cms = vim.o.cms
 
     before_each(function()
-      highlight_at_pos_contains = stub(z, "highlight_at_pos_contains")
+      highlight_at_pos_contains = stub(utils, "highlight_at_pos_contains")
     end)
 
     after_each(function()

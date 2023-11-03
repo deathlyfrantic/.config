@@ -1,4 +1,4 @@
-require("z.mono-colors").define("mastodon", true, {
+require("mono-colors").define("mastodon", true, {
   Normal = { fg = "#c4c8d2", bg = "#282c37" },
   Visual = { bg = "#191b22" },
   CursorLine = { bg = "#30343f" },

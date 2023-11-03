@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local M = {}
 
@@ -12,7 +12,7 @@ end
 local function tab(fwd)
   if vim.fn.pumvisible() > 0 then
     return fwd and "<C-n>" or "<C-p>"
-  elseif z.char_before_cursor():match("[A-Za-z0-9_]") then
+  elseif utils.char_before_cursor():match("[A-Za-z0-9_]") then
     return "<C-p>"
   end
   return "<Tab>"

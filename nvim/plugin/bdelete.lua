@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local e89 = "E89: No write since last change for buffer %d (add ! to override)"
 
@@ -12,7 +12,7 @@ local function delete_current(force)
     vim.cmd.buffer("#")
   else
     local bufs = vim.tbl_filter(function(b)
-      return z.buf_is_real(b)
+      return utils.buf_is_real(b)
     end, vim.api.nvim_list_bufs())
     for i = #bufs, 1, -1 do
       if bufs[i] ~= buf then
@@ -27,7 +27,7 @@ end
 local function delete_by_name(force, name, term)
   local bufs = vim.tbl_filter(function(b)
     local bufname = vim.api.nvim_buf_get_name(b)
-    return z.buf_is_real(b)
+    return utils.buf_is_real(b)
       and bufname:match(name)
       and (vim.bo[b].buftype ~= "terminal" or term)
   end, vim.api.nvim_list_bufs())
@@ -65,7 +65,7 @@ local function completion(arglead)
       return vim.api.nvim_buf_get_name(b)
     end,
     vim.tbl_filter(function(b)
-      return z.buf_is_real(b)
+      return utils.buf_is_real(b)
     end, vim.api.nvim_list_bufs())
   )
   table.insert(bufs, "man")

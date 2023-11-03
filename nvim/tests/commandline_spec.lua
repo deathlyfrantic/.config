@@ -1,5 +1,5 @@
 local stub = require("luassert.stub")
-local commandline = require("z.commandline")
+local commandline = require("commandline")
 
 describe("commandline", function()
   local getcmdline, getcmdpos, setcmdpos

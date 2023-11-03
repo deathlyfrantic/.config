@@ -1,4 +1,4 @@
-local z = require("z")
+local utils = require("utils")
 
 local M = {}
 
@@ -204,7 +204,7 @@ local function open_diff()
       local package = packages[pieces[2]]
       popup_window(
         package.name .. " commit " .. commit,
-        z.collect(
+        utils.collect(
           io.popen("git -C " .. package.path .. " show " .. commit):lines()
         ),
         function()
@@ -254,7 +254,7 @@ function M.update()
       job_results[name].success
       and job_results[name].stdout[1] ~= "Already up to date."
     then
-      git_logs[name] = z.collect(
+      git_logs[name] = utils.collect(
         io.popen(
           "git -C "
             .. spec.path
