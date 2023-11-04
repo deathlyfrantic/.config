@@ -1,6 +1,6 @@
 local utils = require("utils")
 
--- startup processes {{{
+-- startup processes
 if vim.fn.has("vim_starting") == 1 then
   -- turn off built-in plugins i don't want
   vim.g.loaded_netrwPlugin = "v153"
@@ -11,9 +11,8 @@ if vim.fn.has("vim_starting") == 1 then
   -- make sure my string extras are loaded and always available
   require("string-extras")
 end
--- }}}
 
--- general settings {{{
+-- general settings
 vim.opt.colorcolumn = "+1"
 vim.opt.completeopt:remove("preview")
 vim.opt.cursorline = true
@@ -67,9 +66,8 @@ vim.opt.wildignore = vim.opt.wildignore
   + "*.swp" -- vim
   + ".DS_Store" -- macos
 vim.opt.wildignorecase = true
--- }}}
 
--- autocommands {{{
+-- autocommands
 local group = vim.api.nvim_create_augroup("init-autocmds", {})
 -- quit even if dirvish or quickfix is open
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -155,17 +153,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   nested = true,
 })
 
--- set foldmethod for this file
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = vim.env.MYVIMRC,
-  callback = function()
-    vim.opt_local.foldmethod = "marker"
-  end,
-  group = group,
-})
--- }}}
-
--- keymaps and commands {{{
 -- abbreviations
 vim.cmd.iabbrev([[shrug! ¯\_(ツ)_/¯]])
 
@@ -424,11 +411,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
   group = vim.api.nvim_create_augroup("init-autocmds-mkdir-on-write", {}),
 })
--- }}}
 
 vim.cmd.colorscheme("copper")
 
--- plugins in `/lua` {{{
+-- plugins in `/lua`
 -- these have to export functions so need to be somewhere they can be found by
 -- `require()`, otherwise they could live in `/plugin` and be sourced
 -- automatically.
@@ -436,4 +422,3 @@ require("commandline").init()
 require("completion").init()
 require("statusline").init()
 require("test-runner").init()
--- }}}
