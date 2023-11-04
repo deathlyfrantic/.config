@@ -182,48 +182,6 @@ pm.add({
 })
 
 pm.add({
-  "junegunn/goyo.vim",
-  cmd = "Goyo",
-  config = function()
-    vim.g.goyo_height = "96%"
-    vim.g.goyo_width = 82
-    local autocmd_handle
-    local group = vim.api.nvim_create_augroup("goyo-config", {})
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "GoyoEnter",
-      callback = function()
-        vim.o.showmode = false
-        vim.o.showcmd = false
-        vim.o.showtabline = 0
-        autocmd_handle = vim.api.nvim_create_autocmd(
-          { "CursorHold", "CursorHoldI" },
-          {
-            pattern = "*",
-            callback = function()
-              vim.api.nvim_echo({}, false, {})
-            end,
-            group = vim.api.nvim_create_augroup("goyo-cursorhold-clear", {}),
-          }
-        )
-      end,
-      nested = true,
-      group = group,
-    })
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "GoyoLeave",
-      callback = function()
-        vim.o.showmode = true
-        vim.o.showcmd = true
-        vim.fn["buftabline#update"](0)
-        vim.api.nvim_del_autocmd(autocmd_handle)
-      end,
-      nested = true,
-      group = group,
-    })
-  end,
-})
-
-pm.add({
   "justinmk/vim-dirvish",
   config = function()
     local function toggle()
