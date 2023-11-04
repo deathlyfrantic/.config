@@ -1,5 +1,3 @@
-local dedent = require("plenary.strings").dedent
-
 local M = {}
 
 function M.set_cursor(row, col, win)
@@ -9,7 +7,7 @@ end
 function M.set_buf(lines, buf)
   if type(lines) == "string" then
     if lines:match("\n") then
-      lines = dedent(lines):split("\n", { plain = true })
+      lines = lines:dedent():split("\n", { plain = true })
     else
       lines = { lines }
     end

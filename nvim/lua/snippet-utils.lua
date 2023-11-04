@@ -4,7 +4,6 @@ local t = ls.text_node
 local i = ls.insert_node
 local partial = require("luasnip.extras").partial
 local fmt = require("luasnip.extras.fmt").fmt
-local dedent = require("plenary.strings").dedent
 local utils = require("utils")
 
 local M = {}
@@ -40,7 +39,7 @@ local function text_snippet(snippet)
     return fmt(snippet, { i(0) })
   end
   if snippet:find("\n") then
-    return t(dedent(snippet):split("\n", { plain = true, trimempty = true }))
+    return t(snippet:dedent():split("\n", { plain = true, trimempty = true }))
   end
   return t(snippet)
 end

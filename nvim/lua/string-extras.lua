@@ -85,3 +85,15 @@ function string.imatch(self, pattern)
   end
   return self:match(pat)
 end
+
+-- this method does not handle tabs, which is ok because i do not use tabs
+function string.dedent(self)
+  local lines = self:split("\n", { plain = true })
+  local min_indent = math.min(unpack(vim.tbl_map(function(line)
+    return #(line:match("^%s*") or "")
+  end, lines)))
+  local dedented = vim.tbl_map(function(line)
+    return line:sub(min_indent + 1)
+  end, lines)
+  return table.concat(dedented, "\n")
+end

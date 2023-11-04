@@ -136,4 +136,16 @@ describe("string-extras", function()
       end)
     end)
   end)
+
+  describe("dedent", function()
+    it("removes common whitespace from beginning of lines", function()
+      assert.equals("foo\n bar\n  baz", ("  foo\n   bar\n    baz"):dedent())
+      assert.equals("foo\nbar\nbaz", (" foo\n bar\n baz"):dedent())
+    end)
+
+    it("does not remove anything from lines that aren't indented", function()
+      local s = "foo\n bar\n  baz"
+      assert.equals(s, s:dedent())
+    end)
+  end)
 end)
