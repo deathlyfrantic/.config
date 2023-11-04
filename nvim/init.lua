@@ -144,26 +144,15 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- reload config files on saving
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.env.MYVIMRC,
-  callback = function()
-    vim.cmd.source("$MYVIMRC")
-  end,
-  group = group,
-  nested = true,
-})
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.fn.stdpath("config") .. "/{plugin,lua}/*.lua",
+  pattern = {
+    vim.env.MYVIMRC,
+    vim.fn.stdpath("config") .. "/{plugin,lua,colors}/*.lua",
+  },
   callback = function(args)
     vim.cmd.source(args.file)
   end,
   group = group,
-})
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.fn.stdpath("config") .. "/colors/*.lua",
-  callback = function(args)
-    vim.cmd.colorscheme(vim.fs.basename(args.file):match("(.*)%."))
-  end,
-  group = group,
+  nested = true,
 })
 
 -- set foldmethod for this file

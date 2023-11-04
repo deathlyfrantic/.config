@@ -143,15 +143,13 @@ describe("init", function()
   end)
 
   describe("config reloading", function()
-    local colorscheme, source
+    local source
 
     before_each(function()
-      colorscheme = stub(vim.cmd, "colorscheme")
       source = stub(vim.cmd, "source")
     end)
 
     after_each(function()
-      colorscheme:revert()
       source:revert()
     end)
 
@@ -160,11 +158,15 @@ describe("init", function()
         "BufWritePost",
         { group = "init-autocmds", pattern = vim.env.MYVIMRC }
       )
-      assert.stub(source).called_with("$MYVIMRC")
+      assert.stub(source).called_with(vim.env.MYVIMRC)
     end)
 
-    it("reloads plugin and lua library files", function()
-      for _, f in ipairs({ "/plugin/foo.lua", "/lua/bar.lua" }) do
+    it("reloads plugin, lua, and colors library files", function()
+      for _, f in ipairs({
+        "/plugin/foo.lua",
+        "/lua/bar.lua",
+        "/colors/baz.lua",
+      }) do
         vim.api.nvim_exec_autocmds("BufWritePost", {
           group = "init-autocmds",
           pattern = vim.fn.stdpath("config") .. f,
@@ -179,14 +181,6 @@ describe("init", function()
         pattern = vim.fn.stdpath("config") .. "/plugin/baz.txt",
       })
       assert.stub(source).not_called()
-    end)
-
-    it("refreshes colorscheme on save", function()
-      vim.api.nvim_exec_autocmds("BufWritePost", {
-        group = "init-autocmds",
-        pattern = vim.fn.stdpath("config") .. "/colors/foobar.lua",
-      })
-      assert.stub(colorscheme).called_with("foobar")
     end)
   end)
 
