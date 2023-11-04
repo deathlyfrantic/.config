@@ -2,7 +2,7 @@ local pm = require("package-manager")
 
 pm.init()
 
-pm.add("nvim-lua/plenary.nvim")
+pm.add({ "nvim-lua/plenary.nvim", opt = true })
 
 pm.add({
   "nvim-treesitter/nvim-treesitter",

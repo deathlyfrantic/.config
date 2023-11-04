@@ -348,7 +348,7 @@ local function create_package_spec(spec)
     config = spec.config,
     setup = spec.setup,
     run = spec.run,
-    type = spec.cmd and "opt" or "start",
+    type = (spec.opt or spec.cmd) and "opt" or "start",
     url = name:find(":") and name or "github:" .. name,
     dir = spec.as or name, -- might be changed by code after
   }
