@@ -37,8 +37,8 @@
     main-branch-name = "!$XDG_CONFIG_HOME/git/main-branch-name"
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h⌘%Cred%d %Creset%s⌘%Cgreen(%ar)⌘%C(bold blue)%an%Creset' | column -s '⌘' -t"
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
-    unpushed = "!git log HEAD ^origin/$(git main-branch-name)"
-    unpushed-diff = "!git diff HEAD ^origin/$(git main-branch-name)"
+    unpushed = "!git log HEAD ^origin/$(git rev-parse --abbrev-ref HEAD)"
+    unpushed-diff = "!git diff HEAD ^origin/$(git rev-parse --abbrev-ref HEAD)"
 [commit]
     verbose = 1
 [pull]
