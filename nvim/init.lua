@@ -190,7 +190,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = group,
 })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "lua", "vim", "zsh" },
+  pattern = { "javascript", "typescript", "lua", "zsh" },
   callback = function()
     vim.cmd.iabbrev("<buffer> fn! function")
   end,
