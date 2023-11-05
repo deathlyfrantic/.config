@@ -66,8 +66,6 @@ vim.opt.wildignore = vim.opt.wildignore
   + ".DS_Store" -- macos
 vim.opt.wildignorecase = true
 
--- autocommands
-local group = vim.api.nvim_create_augroup("init-autocmds", {})
 -- quit even if dirvish or quickfix is open
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
@@ -89,7 +87,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
       end
     end
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", {}),
 })
 
 -- see :help last-position-jump
@@ -105,7 +103,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
       vim.api.nvim_win_set_cursor(0, mark)
     end
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
 })
 
 -- don't move my position when switching buffers
@@ -116,7 +114,7 @@ vim.api.nvim_create_autocmd("BufWinLeave", {
   callback = function()
     vim.b.winview = vim.fn.winsaveview()
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
 })
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
@@ -126,7 +124,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
       vim.b.winview = nil
     end
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
 })
 
 -- terminal settings
@@ -136,7 +134,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt_local.number = false
     vim.opt_local.statusline = "[terminal] %{b:term_title}"
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
 })
 
 -- reload config files on saving
@@ -148,7 +146,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   callback = function(args)
     vim.cmd.source(args.file)
   end,
-  group = group,
+  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
   nested = true,
 })
 
