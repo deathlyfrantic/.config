@@ -62,7 +62,6 @@ vim.opt.wildignore = vim.opt.wildignore
   + "*/target/*"
   + ".git" -- git
   + ".gitmodules"
-  + "*.swp" -- vim
   + ".DS_Store" -- macos
 vim.opt.wildignorecase = true
 
