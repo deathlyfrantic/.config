@@ -17,7 +17,7 @@ vim.opt.colorcolumn = "+1"
 vim.opt.completeopt:remove("preview")
 vim.opt.cursorline = true
 vim.opt.expandtab = true
-vim.opt.fillchars = "fold:-"
+vim.opt.fillchars = { fold = "-" }
 vim.opt.fileformats = { "unix", "dos", "mac" }
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = "indent"
