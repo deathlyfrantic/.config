@@ -40,7 +40,6 @@ vim.opt.mouse = ""
 vim.opt.startofline = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
-vim.opt.omnifunc = "syntaxcomplete#Complete"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
