@@ -55,14 +55,18 @@ vim.opt.titlestring =
   [[nvim %{has_key(b:,'term_title')?b:term_title:len(expand('%'))>0?expand('%:t'):'[No name]'}]]
 vim.opt.undofile = true
 vim.opt.wildignore = vim.opt.wildignore
-  + "node_modules/" -- javascript
+  -- javascript
+  + "node_modules/"
   + "package-lock.json"
   + "yarn.lock"
-  + "Cargo.lock" -- rust
+  -- rust
+  + "Cargo.lock"
   + "*/target/*"
-  + ".git" -- git
+  -- git
+  + ".git"
   + ".gitmodules"
-  + ".DS_Store" -- macos
+  -- macos
+  + ".DS_Store"
 vim.opt.wildignorecase = true
 
 -- quit even if dirvish or quickfix is open
