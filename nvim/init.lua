@@ -295,14 +295,6 @@ end, { expr = true })
 vim.keymap.set("i", "<C-l>", function()
   return arrow(true)
 end, { expr = true })
-group = vim.api.nvim_create_augroup("init-autocmds-arrows", {})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "c",
-  callback = function()
-    vim.keymap.set("i", "<C-j>", "->", { buffer = true })
-  end,
-  group = group,
-})
 
 -- quickfix
 local function quickfix_toggle(vertical)
