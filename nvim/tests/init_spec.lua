@@ -1,5 +1,6 @@
 local stub = require("luassert.stub")
 local utils = require("utils")
+local test_utils = require("test-utils")
 
 describe("init", function()
   describe("quits even if dirvish or quickfix is open", function()
@@ -221,15 +222,8 @@ describe("init", function()
       nvim_win_get_cursor:revert()
     end)
 
-    -- this is a hacky way to access the otherwise-hidden callback for a keymap
-    -- but it works, and it's easier than trying to use insert mode in a test
-    local arrow = utils.tbl_find(function(m)
-      return m.lhs == "<C-J>"
-    end, vim.api.nvim_get_keymap("i")).callback
-
-    local fat_arrow = utils.tbl_find(function(m)
-      return m.lhs == "<C-L>"
-    end, vim.api.nvim_get_keymap("i")).callback
+    local arrow = test_utils.get_keymap_callback("i", "<C-J>")
+    local fat_arrow = test_utils.get_keymap_callback("i", "<C-L>")
 
     it("doesn't add a space before if in the first column", function()
       assert.equals(arrow(), "-> ")
@@ -274,9 +268,7 @@ describe("init", function()
       nvim_list_bufs:revert()
     end)
 
-    local quickfix_toggle = utils.tbl_find(function(m)
-      return m.lhs == "\\q"
-    end, vim.api.nvim_get_keymap("n")).callback
+    local quickfix_toggle = test_utils.get_keymap_callback("n", "\\q")
 
     it("closes quickfix window if already open", function()
       vim.bo = { { filetype = "qf", buflisted = true } }
