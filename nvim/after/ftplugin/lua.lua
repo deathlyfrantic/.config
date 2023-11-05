@@ -9,3 +9,5 @@ then
     vim.fn.stdpath("config")
   )
 end
+
+vim.cmd.iabbrev("<buffer> fn! function")

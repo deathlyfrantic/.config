@@ -152,26 +152,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   nested = true,
 })
 
--- abbreviations
-vim.cmd.iabbrev([[shrug! ¯\_(ツ)_/¯]])
-
-group = vim.api.nvim_create_augroup("init-autocmds-abbreviations", {})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript" },
-  callback = function()
-    vim.cmd.iabbrev("<buffer> != !==")
-    vim.cmd.iabbrev("<buffer> == ===")
-  end,
-  group = group,
-})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "lua", "zsh" },
-  callback = function()
-    vim.cmd.iabbrev("<buffer> fn! function")
-  end,
-  group = group,
-})
-
 -- typos
 vim.api.nvim_create_user_command(
   "E",
