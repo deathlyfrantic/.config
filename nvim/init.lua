@@ -187,10 +187,6 @@ vim.keymap.set("c", "%%", function()
   return vim.fs.dirname(vim.api.nvim_buf_get_name(0)) .. "/"
 end, { expr = true })
 
--- write then delete buffer; akin to wq
-vim.keymap.set("c", "wbd", "Wbd")
-vim.api.nvim_create_user_command("Wbd", "w<bang> | Bd<bang>", { bang = true })
-
 -- search bindings
 vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "#", "#N")
