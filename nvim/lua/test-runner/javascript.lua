@@ -33,11 +33,13 @@ end
 
 function M.npm_or_yarn()
   if not vim.b.z_test_runner_npm_or_yarn then
-    if vim.fn.findfile("yarn.lock", ";") ~= "" then
-      vim.b.z_test_runner_npm_or_yarn = "yarn"
-    else
-      vim.b.z_test_runner_npm_or_yarn = "npm"
-    end
+    local paths = vim.fs.find("yarn.lock", {
+      upward = true,
+      stop = vim.loop.os_homedir(),
+      path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+      type = "file",
+    })
+    vim.b.z_test_runner_npm_or_yarn = #paths > 0 and "yarn" or "npm"
   end
   return vim.b.z_test_runner_npm_or_yarn
 end
@@ -76,11 +78,16 @@ function M.jest(selection)
 end
 
 function M.test(selection)
-  local package_json = vim.fn.findfile("package.json", ";")
-  if package_json == "" then
+  local paths = vim.fs.find("package.json", {
+    upward = true,
+    stop = vim.loop.os_homedir(),
+    path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+    type = "file",
+  })
+  if #paths == 0 then
     return nil
   end
-  local package = vim.json.decode(io.open(package_json):read("*all"))
+  local package = vim.json.decode(io.open(paths[1]):read("*all"))
   local scripts = package.scripts or {}
   local test_cmd = scripts.test or ""
   if test_cmd:match("mocha") then

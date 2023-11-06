@@ -339,11 +339,13 @@ local function source_local_vimrc(file, buf, force)
     return
   end
   -- apply settings from lowest dir to highest, so most specific are applied last
-  local vimrcs = vim.fn.findfile(
-    ".vimrc.lua",
-    vim.fs.dirname(vim.fs.normalize(file)) .. ";",
-    -1
-  )
+  local vimrcs = vim.fs.find(".vimrc.lua", {
+    path = vim.fs.dirname(vim.fs.normalize(file)),
+    upward = true,
+    stop = vim.loop.os_homedir(),
+    limit = math.huge,
+    type = "file",
+  })
   for i = #vimrcs, 1, -1 do
     vim.cmd.source({
       args = { vimrcs[i] },

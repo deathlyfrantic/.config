@@ -1,9 +1,14 @@
 local function populate_rustfmt_edition()
-  local cargo_toml_path = vim.fn.findfile("Cargo.toml", ".;")
-  if cargo_toml_path == "" then
+  local paths = vim.fs.find("Cargo.toml", {
+    upward = true,
+    stop = vim.loop.os_homedir(),
+    path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+    type = "file",
+  })
+  if #paths == 0 then
     return
   end
-  local cargo_toml = io.open(cargo_toml_path)
+  local cargo_toml = io.open(paths[1])
   for line in cargo_toml:lines() do
     if line:trim():starts_with("edition") then
       local edition =

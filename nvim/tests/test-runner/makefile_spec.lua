@@ -2,25 +2,25 @@ local stub = require("luassert.stub")
 local makefile = require("test-runner.makefile")
 
 describe("test-runner/makefile", function()
-  local findfile, ioopen
+  local find, ioopen
 
   before_each(function()
-    findfile = stub(vim.fn, "findfile")
+    find = stub(vim.fs, "find")
     ioopen = stub(io, "open")
   end)
 
   after_each(function()
-    findfile:revert()
+    find:revert()
     ioopen:revert()
   end)
 
   it("returns nil if Makefile is not found", function()
-    findfile.returns("")
+    find.returns({})
     assert.is_nil(makefile.test())
   end)
 
   it("returns nil if Makefile doesn't have a `test` target", function()
-    findfile.returns("/foobar/Makefile")
+    find.returns({ "/foobar/Makefile" })
     ioopen.returns({
       lines = function()
         return function()
@@ -32,7 +32,7 @@ describe("test-runner/makefile", function()
   end)
 
   it("returns command if Makefile has a `test` target", function()
-    findfile.returns("/foobar/Makefile")
+    find.returns({ "/foobar/Makefile" })
     ioopen.returns({
       lines = function()
         return function()

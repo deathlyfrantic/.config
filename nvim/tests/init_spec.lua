@@ -300,16 +300,16 @@ describe("init", function()
   end)
 
   describe("source local vimrc", function()
-    local source, findfile
+    local source, find
 
     before_each(function()
       source = stub(vim.cmd, "source")
-      findfile = stub(vim.fn, "findfile").returns({})
+      find = stub(vim.fs, "find").returns({})
     end)
 
     after_each(function()
       source:revert()
-      findfile:revert()
+      find:revert()
       vim.api.nvim_buf_set_name(0, "")
       vim.bo.buftype = ""
     end)
@@ -320,7 +320,7 @@ describe("init", function()
         "BufNewfile",
         { group = "init-autocmds-local-vimrc", pattern = "fugitive://foobar" }
       )
-      assert.stub(findfile).not_called()
+      assert.stub(find).not_called()
       assert.stub(source).not_called()
     end)
 
@@ -331,7 +331,7 @@ describe("init", function()
           "BufNewfile",
           { group = "init-autocmds-local-vimrc", pattern = "*" }
         )
-        assert.stub(findfile).not_called()
+        assert.stub(find).not_called()
         assert.stub(source).not_called()
       end
     end)
@@ -342,11 +342,11 @@ describe("init", function()
         "VimEnter",
         { group = "init-autocmds-local-vimrc", pattern = "*" }
       )
-      assert.stub(findfile).called()
+      assert.stub(find).called()
     end)
 
     it("sources files in reverse order", function()
-      findfile.returns({
+      find.returns({
         "/foo/bar/baz/.vimrc.lua",
         "/foo/bar/.vimrc.lua",
         "/foo/.vimrc.lua",
@@ -355,7 +355,7 @@ describe("init", function()
         group = "init-autocmds-local-vimrc",
         pattern = "/foo/bar/baz/quux.txt",
       })
-      assert.stub(findfile).called(1)
+      assert.stub(find).called(1)
       assert.stub(source).called(3)
       assert.same(source.calls[1].vals[1], {
         args = { "/foo/.vimrc.lua" },

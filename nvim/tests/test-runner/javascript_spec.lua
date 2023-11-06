@@ -106,30 +106,30 @@ describe("test-runner/javascript", function()
   end)
 
   describe("npm or yarn", function()
-    local findfile
+    local find
 
     before_each(function()
-      findfile = stub(vim.fn, "findfile")
+      find = stub(vim.fs, "find")
     end)
 
     after_each(function()
-      findfile:revert()
+      find:revert()
       vim.b.z_test_runner_npm_or_yarn = nil
     end)
 
     it("returns yarn if a yarn.lock file is found", function()
-      findfile.returns("yarn.lock")
+      find.returns({ "yarn.lock" })
       assert.equals("yarn", javascript.npm_or_yarn())
     end)
 
     it("returns npm if a yarn.lock file is not found", function()
-      findfile.returns("")
+      find.returns({})
       assert.equals("npm", javascript.npm_or_yarn())
     end)
 
     it("caches value per buffer", function()
       assert.is_nil(vim.b.z_test_runner_npm_or_yarn)
-      findfile.returns("")
+      find.returns({})
       assert.equals("npm", javascript.npm_or_yarn())
       assert.equals(vim.b.z_test_runner_npm_or_yarn, "npm")
     end)
@@ -216,7 +216,7 @@ describe("test-runner/javascript", function()
   end)
 
   describe("test command", function()
-    local findfile, ioopen, nvim_buf_get_name
+    local find, ioopen, nvim_buf_get_name
 
     local packagejson = [[
       {
@@ -228,20 +228,20 @@ describe("test-runner/javascript", function()
     ]]
 
     before_each(function()
-      findfile = stub(vim.fn, "findfile")
+      find = stub(vim.fs, "find")
       ioopen = stub(io, "open")
       nvim_buf_get_name =
         stub(vim.api, "nvim_buf_get_name").returns("/foobar/file.js")
     end)
 
     after_each(function()
-      findfile:revert()
+      find:revert()
       ioopen:revert()
       nvim_buf_get_name:revert()
     end)
 
     it("returns nil if package.json is not found", function()
-      findfile.returns("")
+      find.returns({})
       assert.is_nil(javascript.test())
     end)
 
@@ -249,7 +249,7 @@ describe("test-runner/javascript", function()
       "returns mocha command if package.json scripts.test contains 'mocha'",
       function()
         utils.set_cursor(3)
-        findfile.returns("/foobar/package.json")
+        find.returns({ "/foobar/package.json" })
         ioopen.returns({
           read = function()
             return packagejson:format("foo mocha bar")
@@ -266,7 +266,7 @@ describe("test-runner/javascript", function()
       "returns jest command if package.json scripts.test contains 'jest'",
       function()
         utils.set_cursor(3)
-        findfile.returns("/foobar/package.json")
+        find.returns({ "/foobar/package.json" })
         ioopen.returns({
           read = function()
             return packagejson:format("foo jest bar")
@@ -278,7 +278,7 @@ describe("test-runner/javascript", function()
 
     it("returns generic test command for other cases", function()
       utils.set_cursor(3)
-      findfile.returns("/foobar/package.json")
+      find.returns({ "/foobar/package.json" })
       ioopen.returns({
         read = function()
           return packagejson:format("foo bar")
