@@ -300,32 +300,28 @@ local function quickfix_toggle(vertical)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
     end, vim.api.nvim_list_bufs())
   then
-    return ":cclose<CR>"
+    vim.cmd.cclose()
+    return
   end
-  if vertical then
-    return ":topleft vertical copen " .. math.floor(vim.o.columns / 3) .. "<CR>"
-  end
-  return ":botright copen<CR>"
+  vim.cmd.copen(vertical and {
+    mods = { split = "topleft", vertical = true },
+    range = { math.floor(vim.o.columns / 3) },
+  } or { mods = { split = "botright" } })
 end
-vim.keymap.set(
-  "n",
-  "<leader>q",
-  quickfix_toggle,
-  { silent = true, expr = true }
-)
+vim.keymap.set("n", "<leader>q", quickfix_toggle, { silent = true })
 vim.keymap.set("n", "<leader>Q", function()
-  return quickfix_toggle(true)
-end, { silent = true, expr = true })
+  quickfix_toggle(true)
+end, { silent = true })
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
   callback = function()
     vim.keymap.set(
       "n",
       "<C-c>",
-      ":cclose<CR>",
+      vim.cmd.cclose,
       { buffer = true, silent = true }
     )
-    vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "q", vim.cmd.cclose, { buffer = true, silent = true })
     vim.opt_local.wrap = false
   end,
   group = vim.api.nvim_create_augroup("init-autocmds-quickfix", {}),

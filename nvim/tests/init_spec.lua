@@ -256,15 +256,19 @@ describe("init", function()
   end)
 
   describe("quickfix toggle", function()
-    local bo, nvim_list_bufs
+    local bo, cclose, copen, nvim_list_bufs
 
     before_each(function()
       bo = vim.bo
+      cclose = stub(vim.cmd, "cclose")
+      copen = stub(vim.cmd, "copen")
       nvim_list_bufs = stub(vim.api, "nvim_list_bufs").returns({})
     end)
 
     after_each(function()
       vim.bo = bo
+      cclose:revert()
+      copen:revert()
       nvim_list_bufs:revert()
     end)
 
@@ -273,19 +277,25 @@ describe("init", function()
     it("closes quickfix window if already open", function()
       vim.bo = { { filetype = "qf", buflisted = true } }
       nvim_list_bufs.returns({ 1 })
-      assert.equals(quickfix_toggle(), ":cclose<CR>")
+      quickfix_toggle()
+      assert.stub(cclose).called()
+      assert.stub(copen).not_called()
     end)
 
     it("opens quickfix window vertically", function()
       local height = math.floor(vim.o.columns / 3)
-      assert.equals(
-        quickfix_toggle(true),
-        ":topleft vertical copen " .. height .. "<CR>"
-      )
+      quickfix_toggle(true)
+      assert.stub(cclose).not_called()
+      assert.stub(copen).called_with({
+        mods = { split = "topleft", vertical = true },
+        range = { height },
+      })
     end)
 
     it("opens quickfix window horizontally", function()
-      assert.equals(quickfix_toggle(), ":botright copen<CR>")
+      quickfix_toggle()
+      assert.stub(cclose).not_called()
+      assert.stub(copen).called_with({ mods = { split = "botright" } })
     end)
   end)
 
