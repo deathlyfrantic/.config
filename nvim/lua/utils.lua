@@ -82,6 +82,43 @@ function M.get_hex_color(hl, attr)
   return ("#%06x"):format(dec)
 end
 
+local project_dir_markers = {
+  python = {
+    "mypy.ini",
+    "poetry.lock",
+    "pylintrc",
+    "pyproject.toml",
+    "requirements.txt",
+    "setup.cfg",
+    "setup.py",
+    "tox.ini",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".tox",
+  },
+  rust = {
+    "Cargo.toml",
+    "Cargo.lock",
+    "target",
+  },
+  javascript = {
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    "node_modules",
+  },
+  typescript = {
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    "tsconfig.json",
+    "node_modules",
+  },
+  all = {
+    ".git",
+  },
+}
+
 function M.find_project_dir(start)
   -- this should always be the same value for a given buffer, so cache the value
   -- as a buffer variable to prevent repeated walking of the file system
@@ -92,62 +129,15 @@ function M.find_project_dir(start)
     vim.b.z_project_dir = value
     return value
   end
-  local markers = {
-    python = {
-      files = {
-        "mypy.ini",
-        "poetry.lock",
-        "pylintrc",
-        "pyproject.toml",
-        "requirements.txt",
-        "setup.cfg",
-        "setup.py",
-        "tox.ini",
-      },
-      dirs = { ".mypy_cache", ".pytest_cache", ".tox" },
-    },
-    rust = {
-      files = { "Cargo.toml", "Cargo.lock" },
-      dirs = { "target" },
-    },
-    javascript = {
-      files = { "package.json", "package-lock.json", "yarn.lock" },
-      dirs = { "node_modules" },
-    },
-    typescript = {
-      files = {
-        "package.json",
-        "package-lock.json",
-        "yarn.lock",
-        "tsconfig.json",
-      },
-      dirs = { "node_modules" },
-    },
-    all = {
-      dirs = { ".git" },
-    },
-  }
-  local files, dirs = {}, {}
-  local ft_markers = markers[vim.bo.filetype]
-  if ft_markers then
-    vim.list_extend(files, ft_markers.files)
-    vim.list_extend(dirs, ft_markers.dirs)
-  end
-  vim.list_extend(files, markers.all.files or {})
-  vim.list_extend(dirs, markers.all.dirs or {})
-  local dir = start or vim.loop.cwd()
-  while dir ~= vim.fs.normalize("$HOME") and dir ~= "/" do
-    if
-      M.tbl_any(function(f)
-        return vim.fn.filereadable(vim.fs.normalize(dir .. "/" .. f)) == 1
-      end, files)
-      or M.tbl_any(function(d)
-        return vim.fn.isdirectory(vim.fs.normalize(dir .. "/" .. d)) == 1
-      end, dirs)
-    then
-      return cache(vim.fs.normalize(dir) .. "/")
-    end
-    dir = vim.fs.dirname(dir)
+  local markers = vim.deepcopy(project_dir_markers[vim.bo.filetype] or {})
+  vim.list_extend(markers, project_dir_markers.all)
+  local paths = vim.fs.find(markers, {
+    upward = true,
+    stop = vim.loop.os_homedir(),
+    path = start or vim.loop.cwd(),
+  })
+  if #paths > 0 then
+    return cache(vim.fs.dirname(paths[1]) .. "/")
   end
   return cache(vim.loop.cwd() .. "/")
 end
