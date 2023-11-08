@@ -13,11 +13,11 @@
 #   move right a space -> ^⌘]
 #   switch to desktop 1 -> ^⌘1
 #   switch to desktop 2 -> ^⌘2
-#   switch to desktop 3 -> ^⌘3 etc
+#   switch to desktop 3 -> ^⌘3 etc - must create spaces first
 #   uncheck application windows
 #   app shortcuts -> safari -> "New Tab at End" -> ⌘T
 #
-# settings -> keyboard -> text
+# settings -> keyboard -> text input -> input sources -> edit
 #   uncheck correct spelling automatically
 #   uncheck capitalize words automatically
 #   uncheck add period with double-space
@@ -29,13 +29,12 @@
 # settings -> accessibility -> pointer control -> trackpad options
 #   check enable dragging, select three finger drag
 #
-# settings -> desktop & screen saver -> screen saver
-#   uncheck show screen saver after
+# settings -> screen saver
+#   start screen saver when inactive -> never
+#   turn display off on power adapter when inactive -> 2 hours
 #
-# settings -> desktop & screen saver -> hot corners
+# settings -> desktop & dock -> hot corners
 #   lower right -> put display to sleep
-#
-# settings -> dock & menu bar
 #   check automatically hide and show dock
 #   uncheck show recent applications in dock
 #
@@ -47,6 +46,8 @@
 
 # install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# prevent compinit warnings
+chmod 755 /opt/homebrew/share
 
 # install rust - check rustup.rs for up-to-date instructions
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
