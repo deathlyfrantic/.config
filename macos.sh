@@ -67,8 +67,6 @@ brew tap damascenorafael/tap && brew install reminders-menubar
 
 # make zsh use .config dir
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
-ln -s ~/.config/zsh/.zshrc ~/.config/zsh/zshrc
-ln -s ~/.config/zsh/.zshenv ~/.config/zsh/zshenv
 
 # set up readline-style key bindings
 [ -d ~/Library/KeyBindings ] || mkdir ~/Library/KeyBindings
