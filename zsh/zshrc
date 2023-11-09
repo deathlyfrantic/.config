@@ -4,7 +4,6 @@ autoload colors; colors
 typeset -A fg_bright
 if [ "$TERM" = "tmux-256color" ] \
     || [ -n "$COLORTERM" ] \
-    || [ -n "$VIMHOME" ] \
     || [ "$TERM_PROGRAM" = "Apple_Terminal" ]
 then
     fg_bright+=([black]=$(echo -e '\e[90m'))
