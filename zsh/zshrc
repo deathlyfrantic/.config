@@ -1,3 +1,24 @@
+# colors are important here in the future, where we live
+autoload colors; colors
+
+typeset -A fg_bright
+if [ "$TERM" = "tmux-256color" ] \
+    || [ -n "$COLORTERM" ] \
+    || [ -n "$VIMHOME" ] \
+    || [ "$TERM_PROGRAM" = "Apple_Terminal" ]
+then
+    fg_bright+=([black]=$(echo -e '\e[90m'))
+    fg_bright+=([red]=$(echo -e '\e[91m'))
+    fg_bright+=([green]=$(echo -e '\e[92m'))
+    fg_bright+=([yellow]=$(echo -e '\e[93m'))
+    fg_bright+=([blue]=$(echo -e '\e[94m'))
+    fg_bright+=([magenta]=$(echo -e '\e[95m'))
+    fg_bright+=([cyan]=$(echo -e '\e[96m'))
+else
+    # shellcheck disable=SC2296
+    set -A fg_bright "${(@kv)fg_bold}"
+fi
+
 # prompt functions
 function prompt-color-echo {
     local text=$1
@@ -138,27 +159,6 @@ fpath+=(
     /opt/homebrew/share/zsh/site-functions/
     "$XDG_CONFIG_HOME"/zsh/completions
 )
-
-# colors are important here in the future, where we live
-autoload colors; colors
-
-typeset -A fg_bright
-if [ "$TERM" = "tmux-256color" ] \
-    || [ -n "$COLORTERM" ] \
-    || [ -n "$VIMHOME" ] \
-    || [ "$TERM_PROGRAM" = "Apple_Terminal" ]
-then
-    fg_bright+=([black]=$(echo -e '\e[90m'))
-    fg_bright+=([red]=$(echo -e '\e[91m'))
-    fg_bright+=([green]=$(echo -e '\e[92m'))
-    fg_bright+=([yellow]=$(echo -e '\e[93m'))
-    fg_bright+=([blue]=$(echo -e '\e[94m'))
-    fg_bright+=([magenta]=$(echo -e '\e[95m'))
-    fg_bright+=([cyan]=$(echo -e '\e[96m'))
-else
-    # shellcheck disable=SC2296
-    set -A fg_bright "${(@kv)fg_bold}"
-fi
 
 # general options
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
