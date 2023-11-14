@@ -225,6 +225,7 @@ describe("utils", function()
 
   describe("find_project_dir", function()
     local find, cwd
+    local homedir = vim.loop.os_homedir()
 
     before_each(function()
       find = stub(vim.fs, "find")
@@ -238,53 +239,53 @@ describe("utils", function()
     end)
 
     it("should find project directory higher than cwd", function()
-      find.returns({ vim.fs.normalize("$HOME/foo/.git") })
-      cwd.returns(vim.fs.normalize("$HOME/"))
+      find.returns({ homedir .. "/foo/.git" })
+      cwd.returns(homedir .. "/")
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir(homedir .. "/foo/bar/baz"),
+        homedir .. "/foo/"
       )
     end)
 
     it("should find project directory lower than cwd", function()
-      find.returns({ vim.fs.normalize("$HOME/foo/.git") })
-      cwd.returns(vim.fs.normalize("$HOME/foo/bar"))
+      find.returns({ homedir .. "/foo/.git" })
+      cwd.returns(homedir .. "/foo/bar")
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir(homedir .. "/foo/bar/baz"),
+        homedir .. "/foo/"
       )
     end)
 
     it("should return cwd if we hit $HOME", function()
       find.returns({})
-      cwd.returns(vim.fs.normalize("$HOME/foo"))
+      cwd.returns(homedir .. "/foo")
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir(homedir .. "/foo/bar/baz"),
+        homedir .. "/foo/"
       )
     end)
 
     it("should return cwd if we hit /", function()
       find.returns({})
-      cwd.returns(vim.fs.normalize("$HOME/foo"))
+      cwd.returns(homedir .. "/foo")
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("/etc/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir("/etc/foo/bar/baz"),
+        homedir .. "/foo/"
       )
     end)
 
     it("should cache result", function()
       find.returns({})
-      cwd.returns(vim.fs.normalize("$HOME/foo"))
+      cwd.returns(homedir .. "/foo")
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir(homedir .. "/foo/bar/baz"),
+        homedir .. "/foo/"
       )
       assert.stub(cwd).called(1)
       cwd:clear()
       assert.equals(
-        utils.find_project_dir(vim.fs.normalize("$HOME/foo/bar/baz")),
-        vim.fs.normalize("$HOME/foo") .. "/"
+        utils.find_project_dir(homedir .. "/foo/bar/baz"),
+        homedir .. "/foo/"
       )
       assert.stub(cwd).not_called()
     end)
