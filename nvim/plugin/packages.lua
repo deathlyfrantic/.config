@@ -69,26 +69,7 @@ pm.add({
         vim.keymap.set({ "o", "x" }, "ig", gs.select_hunk, { buffer = true })
       end,
       preview_config = { border = "solid" },
-      status_formatter = function(status)
-        local ret = status.head
-        if not ret or ret == "" then
-          return ""
-        end
-        local text = {}
-        for k, v in pairs({
-          ["+"] = status.added,
-          ["~"] = status.changed,
-          ["-"] = status.removed,
-        }) do
-          if (v or 0) > 0 then
-            table.insert(text, k .. v)
-          end
-        end
-        if #text > 0 then
-          ret = ret .. "/" .. table.concat(text)
-        end
-        return "[" .. ret .. "]"
-      end,
+      status_formatter = require("statusline").gitsigns_status,
       attach_to_untracked = false,
     })
     -- when ALE formats a buffer by replacing it with an entirely new copy that
