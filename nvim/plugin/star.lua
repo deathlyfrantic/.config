@@ -204,7 +204,7 @@ local function open_star_buffer(mode)
   local term_cmd = modes[mode].cmd()
   local mode_text = modes[mode].text()
   -- need to call find_project_dir() now before opening the star buffer so we
-  -- used the cached value (which is a buffer variable)
+  -- use the cached value (which is a buffer variable)
   local name = ("Star(%s)"):format(utils.find_project_dir():sub(1, -2))
   -- now open the star buffer
   buffer = vim.api.nvim_create_buf(false, false)
