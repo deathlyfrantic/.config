@@ -87,7 +87,6 @@ end)
 return {
   audible_bell = "Disabled",
   color_scheme = "Builtin Tango Dark",
-  custom_block_glyphs = false,
   default_prog = {
     "/opt/homebrew/bin/zsh",
     "-l",
