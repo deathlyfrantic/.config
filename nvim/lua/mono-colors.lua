@@ -102,6 +102,7 @@ local function set_links()
     ["@error.json"] = "Error",
     ["@text.diff.add"] = "DiffAdd",
     ["@text.diff.delete"] = "DiffDelete",
+    ["@field.yaml"] = "Normal",
   }
 
   for k, v in pairs(links) do
