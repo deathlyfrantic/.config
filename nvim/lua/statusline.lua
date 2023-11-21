@@ -38,7 +38,7 @@ function M.ale_problems()
   local errors = (counts.style_error or 0) + (counts.error or 0)
   local warnings = (counts.style_warning or 0) + (counts.warning or 0)
   return errors + warnings == 0 and ""
-    or ("%s %s%s%s"):format(
+    or (" %s %s%s%s"):format(
       separator,
       errors > 0 and error_block .. " " .. errors or "",
       errors > 0 and warnings > 0 and " " or "",

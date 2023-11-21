@@ -92,7 +92,7 @@ describe("statusline", function()
       ale_count.returns({ error = 1 })
       assert.equals(
         statusline.ale_problems(),
-        ("%s %s 1"):format(separator, error_block)
+        (" %s %s 1"):format(separator, error_block)
       )
     end)
 
@@ -100,7 +100,7 @@ describe("statusline", function()
       ale_count.returns({ warning = 2 })
       assert.equals(
         statusline.ale_problems(),
-        ("%s %s 2"):format(separator, warning_block)
+        (" %s %s 2"):format(separator, warning_block)
       )
     end)
 
@@ -108,7 +108,7 @@ describe("statusline", function()
       ale_count.returns({ error = 1, warning = 2 })
       assert.equals(
         statusline.ale_problems(),
-        ("%s %s 1 %s 2"):format(separator, error_block, warning_block)
+        (" %s %s 1 %s 2"):format(separator, error_block, warning_block)
       )
     end)
 
@@ -116,7 +116,7 @@ describe("statusline", function()
       ale_count.returns({ style_error = 1, style_warning = 2 })
       assert.equals(
         statusline.ale_problems(),
-        ("%s %s 1 %s 2"):format(separator, error_block, warning_block)
+        (" %s %s 1 %s 2"):format(separator, error_block, warning_block)
       )
     end)
   end)
