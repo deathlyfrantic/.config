@@ -33,10 +33,11 @@ function M.gitsigns_status(status)
   return ("%s%s%s"):format(ret, #change_text > 0 and "/" or "", change_text)
 end
 
-function M.ale_problems()
-  local counts = vim.fn["ale#statusline#Count"](vim.api.nvim_get_current_buf())
-  local errors = (counts.style_error or 0) + (counts.error or 0)
-  local warnings = (counts.style_warning or 0) + (counts.warning or 0)
+function M.diagnostics()
+  local warnings =
+    #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+  local errors =
+    #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
   return errors + warnings == 0 and ""
     or (" %s %s%s%s"):format(
       separator,
@@ -106,7 +107,7 @@ function M.init()
     .. right_section("%{v:lua.require('statusline').treesitter()}")
     -- ale warnings/errors - section created manually because including
     -- highlights in %{} sections gets messy
-    .. "%{%v:lua.require('statusline').ale_problems()%}"
+    .. "%{%v:lua.require('statusline').diagnostics()%}"
     -- show wrap if it is on
     .. right_section("%{&wrap ? 'wrap' : ''}")
     -- session tracking via obsession
