@@ -335,9 +335,11 @@ local function create_package_spec(spec)
   end
   -- if spec isn't a table, then it also wasn't a string
   if type(spec) ~= "table" then
-    error("Invalid package spec: %s (type is '%s' - must be string or table)"):format(
-      tostring(spec),
-      type(spec)
+    error(
+      ("Invalid package spec: %s (type is '%s' - must be string or table)"):format(
+        tostring(spec),
+        type(spec)
+      )
     )
   end
   local name = spec[1]
