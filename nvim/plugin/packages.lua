@@ -2,6 +2,7 @@ local pm = require("package-manager")
 
 pm.init()
 
+-- only used for running tests
 pm.add({ "nvim-lua/plenary.nvim", opt = true })
 
 pm.add({
