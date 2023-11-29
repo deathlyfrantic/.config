@@ -81,3 +81,6 @@ git submodule update
 
 # link files that don't work with XDG dirs
 ln -s ~/.config/inputrc ~/.inputrc
+
+# install rosetta 2 maybe
+softwareupdate --install-rosetta
