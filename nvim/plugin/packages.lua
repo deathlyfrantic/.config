@@ -6,6 +6,58 @@ pm.init()
 pm.add({ "nvim-lua/plenary.nvim", opt = true })
 
 pm.add({
+  "neovim/nvim-lspconfig",
+  config = function()
+    -- put diagnostic config here just because it kinda makes sense
+    vim.diagnostic.config({ signs = false })
+    vim.keymap.set("n", "[a", function()
+      vim.diagnostic.goto_prev({ float = false })
+    end)
+    vim.keymap.set("n", "]a", function()
+      vim.diagnostic.goto_next({ float = false })
+    end)
+    vim.keymap.set("n", "Q", vim.diagnostic.open_float)
+    local lspconfig = require("lspconfig")
+    if vim.fn.executable("lua-language-server") == 1 then
+      lspconfig.lua_ls.setup({})
+    end
+    if vim.fn.executable("rust-analyzer") == 1 then
+      lspconfig.rust_analyzer.setup({})
+    end
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("lsp-config", {}),
+      callback = function(event)
+        vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+        -- let ale format buffers, lsp formatting is hit or miss
+        vim.bo[event.buf].formatexpr = ""
+        local function map(key, fn, mode)
+          vim.keymap.set(mode or "n", key, fn, { buffer = event.buf })
+        end
+        -- if keywordprg is ":help" (or some other :command), don't map K
+        if not vim.bo[event.buf].keywordprg:starts_with(":") then
+          map("K", vim.lsp.buf.signature_help)
+        end
+        -- hover or show diagnostics based on whether line has diagnostics
+        map("Q", function()
+          local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+          local diagnostics = vim.diagnostic.get(0, { lnum = lnum })
+          if #diagnostics == 0 then
+            vim.lsp.buf.hover()
+          else
+            vim.diagnostic.open_float()
+          end
+        end)
+        map("gd", vim.lsp.buf.definition)
+        map("<C-]>", vim.lsp.buf.type_definition)
+        map("<leader>ca", vim.lsp.buf.code_action, { "n", "v" })
+        map("<leader>rn", vim.lsp.buf.rename)
+        map("gr", vim.lsp.buf.references)
+      end,
+    })
+  end,
+})
+
+pm.add({
   "nvim-treesitter/nvim-treesitter",
   run = ":TSUpdate",
   config = function()
@@ -90,9 +142,6 @@ pm.add({
 pm.add({
   "dense-analysis/ale",
   config = function()
-    vim.keymap.set("n", "[a", "<Cmd>ALEPreviousWrap<CR>", { silent = true })
-    vim.keymap.set("n", "]a", "<Cmd>ALENextWrap<CR>", { silent = true })
-    vim.keymap.set("n", "Q", "<Cmd>ALEDetail<CR>", { silent = true })
     local group = vim.api.nvim_create_augroup("ale-config", {})
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "ale-preview",
@@ -107,31 +156,6 @@ pm.add({
       pattern = "ale-preview.message",
       callback = function()
         vim.opt_local.colorcolumn = "0"
-      end,
-      group = group,
-    })
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "rust", "typescript" },
-      callback = function()
-        vim.bo.omnifunc = "ale#completion#OmniFunc"
-        vim.keymap.set(
-          "n",
-          "gd",
-          "<Plug>(ale_go_to_definition)",
-          { buffer = true, remap = true }
-        )
-        vim.keymap.set(
-          "n",
-          "K",
-          "<Plug>(ale_hover)",
-          { buffer = true, remap = true }
-        )
-        vim.keymap.set(
-          "n",
-          "<C-w>i",
-          "<Plug>(ale_go_to_definition_in_split)",
-          { buffer = true, remap = true }
-        )
       end,
       group = group,
     })
