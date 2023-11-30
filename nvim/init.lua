@@ -333,7 +333,7 @@ local function source_local_vimrc(file, buf, force)
     not force
     and (
       file:starts_with("fugitive://")
-      or vim.tbl_contains({ "help", "nofile" }, vim.bo[tonumber(buf)].buftype)
+      or vim.tbl_contains({ "help", "nofile" }, vim.bo[buf].buftype)
     )
   then
     return
