@@ -2,6 +2,7 @@ local TermWindow = require("term-window")
 
 local M = {}
 
+---@type TermWindow?
 local term_window = nil
 
 local runners = {
@@ -12,9 +13,11 @@ local runners = {
   typescript = require("test-runner.javascript").test,
 }
 
+---@param cmd string
+---@param close boolean
 local function run(cmd, close)
   if not term_window then
-    term_window = TermWindow({ close_on_success = close })
+    term_window = TermWindow({ close_on_success = close }) --[[@as TermWindow]]
     term_window:on("Exit", function(_, exit_code)
       if exit_code == 0 then
         vim.notify("Tests pass. (Test runner exit code was 0.)")
@@ -39,6 +42,13 @@ local function run(cmd, close)
   term_window:run(cmd)
 end
 
+---@alias TestRunnerSelection
+---| "all"     # run entire test suite
+---| "file"    # run all tests in the file
+---| "nearest" # run the tesst nearest to the cursor
+
+---@param selection TestRunnerSelection
+---@param close boolean
 local function test(selection, close)
   local test_cmds, errs = {}, {}
   local filetype = vim.bo.filetype
@@ -83,6 +93,8 @@ local function test(selection, close)
   end
 end
 
+-- Initialize the test runner. Creates user commands and sets key maps for
+-- running tests.
 function M.init()
   -- run nearest test - command RunNearestTest, key t
   vim.api.nvim_create_user_command("RunNearestTest", function(args)

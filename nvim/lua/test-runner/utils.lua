@@ -1,5 +1,7 @@
 local M = {}
 
+---@param start integer
+---@param num integer
 local function get_match_lines(start, num)
   return table.concat(
     vim.api.nvim_buf_get_lines(0, start, start + num, false),
@@ -7,6 +9,9 @@ local function get_match_lines(start, num)
   )
 end
 
+---@param pattern string
+---@param atom integer
+---@return string?
 function M.find_nearest_test(pattern, atom)
   local num_lines = #pattern:split([[\n]])
   local match = vim.fn.matchlist(
@@ -26,6 +31,10 @@ function M.find_nearest_test(pattern, atom)
   end
 end
 
+---@param sexpr string
+---@param capture_name string
+---@param node_text_fn (fun(node: TSNode): TSNode)?
+---@return string?
 function M.find_nearest_test_via_treesitter(sexpr, capture_name, node_text_fn)
   node_text_fn = node_text_fn or function(node)
     return node

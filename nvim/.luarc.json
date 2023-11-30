@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "addonManager.enable": false,
+  "runtime.path": [
+    "lua/?.lua",
+    "lua/?/init.lua"
+  ],
+  "runtime.version": "LuaJIT",
+  "workspace.library": [
+    "/opt/homebrew/Cellar/neovim/0.9.4/share/nvim/runtime"
+  ],
+  "workspace.checkThirdParty": "Disable",
+  "workspace.useGitIgnore": false
+}

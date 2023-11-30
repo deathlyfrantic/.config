@@ -1,5 +1,7 @@
 local M = {}
 
+---@param name string
+---@param termguicolors boolean
 local function preamble(name, termguicolors)
   vim.o.termguicolors = termguicolors
   vim.cmd.highlight("clear")
@@ -9,6 +11,7 @@ local function preamble(name, termguicolors)
   vim.g.colors_name = name
 end
 
+---@param t table
 local function highlight(t)
   for k, v in pairs(t) do
     vim.api.nvim_set_hl(0, k, v)
@@ -130,12 +133,16 @@ local function set_term_colors()
   vim.g.terminal_color_15 = "#eeeeec"
 end
 
+---@param colors table
 local function popup_window_namespace(colors)
   local ns_id = vim.api.nvim_create_namespace("popup-window")
   vim.api.nvim_set_hl(ns_id, "Normal", colors.Normal)
   vim.api.nvim_set_hl(ns_id, "FloatBorder", colors.Normal)
 end
 
+---@param name string
+---@param termguicolors boolean
+---@param colors table
 function M.define(name, termguicolors, colors)
   preamble(name, termguicolors)
   highlight(colors)

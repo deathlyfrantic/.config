@@ -1,5 +1,6 @@
 local M = {}
 
+---@return string?
 function M.test()
   local paths = vim.fs.find("Makefile", {
     upward = true,

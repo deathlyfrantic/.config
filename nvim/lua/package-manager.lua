@@ -2,15 +2,22 @@ local utils = require("utils")
 
 local M = {}
 
+---@type { [string]: PackageSpec }
 local packages = {}
 
+---@type string
 local path_base = vim.fn.stdpath("config") .. "/pack/z/"
 
+---@param dir string
+---@return boolean
 local function dir_exists(dir)
   local stat = vim.loop.fs_stat(dir)
   return stat and stat.type == "directory"
 end
 
+---@param title string
+---@param contents string[]
+---@param callback fun(buf: integer)?
 local function popup_window(title, contents, callback)
   -- remove empty last line if there is one
   if contents[#contents]:is_empty() then
@@ -45,11 +52,13 @@ local function popup_window(title, contents, callback)
   end
   vim.keymap.set("n", "q", close, { silent = true, buffer = buf })
   vim.keymap.set("n", "<Esc>", close, { silent = true, buffer = buf })
-  if vim.is_callable(callback) then
+  if callback then
     callback(buf)
   end
 end
 
+---@param cmds { [string]: string }
+---@return { [string]: { success: boolean, stderr: string, stdout: string } }
 local function run_jobs(cmds)
   local jobs, results = {}, {}
   for name, cmd in pairs(cmds) do
@@ -75,6 +84,7 @@ local function run_jobs(cmds)
   return results
 end
 
+-- Clean the package directories by removing packages that are not managed.
 function M.clean()
   local installed = {}
   for name, type in vim.fs.dir(path_base, { depth = 2 }) do
@@ -129,6 +139,7 @@ function M.clean()
   end)
 end
 
+---@param spec PackageSpec
 local function generate_helptags(spec)
   local doc_dir = spec.path .. "/doc"
   if dir_exists(doc_dir) then
@@ -136,6 +147,7 @@ local function generate_helptags(spec)
   end
 end
 
+-- Install packages that are managed but not yet installed.
 function M.install()
   local need_to_install = vim.tbl_filter(function(spec)
     return not dir_exists(spec.path)
@@ -217,6 +229,10 @@ local function open_diff()
   end
 end
 
+-- Safely run code from package spec by wrapping it in `pcall`
+---@param spec PackageSpec
+---@param key "config" | "run" | "setup"
+---@param desc? string
 local function run_user_code(spec, key, desc)
   if vim.is_callable(spec[key]) then
     local ok, err = pcall(spec[key])
@@ -233,6 +249,7 @@ local function run_user_code(spec, key, desc)
   end
 end
 
+-- Update managed packages to the latest version.
 function M.update()
   local cmds = {}
   for name, spec in pairs(packages) do
@@ -328,6 +345,17 @@ function M.update()
   end
 end
 
+---@class (exact) UserSpec
+---@field [1] string
+---@field as? string
+---@field cmd? string
+---@field opt? boolean
+---@field config? fun(): any
+---@field setup? fun(): any
+---@field run? string | fun(): any
+
+---@param spec string | UserSpec
+---@return PackageSpec
 local function create_package_spec(spec)
   -- make a string into a table
   if type(spec) == "string" then
@@ -343,6 +371,17 @@ local function create_package_spec(spec)
     )
   end
   local name = spec[1]
+  ---@class PackageSpec
+  ---@field as? string
+  ---@field name string
+  ---@field cmd? string
+  ---@field config? fun(): any
+  ---@field setup? fun(): any
+  ---@field run? string | fun(): any
+  ---@field type "opt" | "start"
+  ---@field url string
+  ---@field dir string
+  ---@field path string
   local ret = {
     as = spec.as,
     name = name,
@@ -364,6 +403,8 @@ local function create_package_spec(spec)
   return ret
 end
 
+-- Add a package to the package manager's list of managed packages.
+---@param ... string | UserSpec
 function M.add(...)
   for _, pkg in ipairs({ ... }) do
     local spec = create_package_spec(pkg)
@@ -397,6 +438,8 @@ function M.add(...)
   end
 end
 
+-- Initialize the package manager. Required to clear the package list and to
+-- create user commands.
 function M.init()
   packages = {}
   vim.api.nvim_create_user_command("PackageClean", M.clean, {})

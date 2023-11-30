@@ -2,6 +2,7 @@ local utils = require("test-runner.utils")
 
 local M = {}
 
+---@return string?
 function M.find_nearest_treesitter()
   return utils.find_nearest_test_via_treesitter(
     [[((call_expression
@@ -12,6 +13,7 @@ function M.find_nearest_treesitter()
   )
 end
 
+---@return string?
 function M.find_nearest_regex()
   vim.notify(
     "couldn't find test from treesitter, falling back to regex",
@@ -27,10 +29,12 @@ function M.find_nearest_regex()
   return nil
 end
 
+---@return string?
 local function find_nearest()
   return M.find_nearest_treesitter() or M.find_nearest_regex()
 end
 
+---@return "npm" | "yarn"
 function M.npm_or_yarn()
   if not vim.b.z_test_runner_npm_or_yarn then
     local paths = vim.fs.find("yarn.lock", {
@@ -44,6 +48,9 @@ function M.npm_or_yarn()
   return vim.b.z_test_runner_npm_or_yarn
 end
 
+---@param selection TestRunnerSelection
+---@param pretest string?
+---@return string
 function M.mocha(selection, pretest)
   local cmd = "npx mocha -- spec "
     .. vim.fs.normalize(vim.api.nvim_buf_get_name(0))
@@ -61,6 +68,8 @@ function M.mocha(selection, pretest)
   return M.npm_or_yarn() .. " test"
 end
 
+---@param selection TestRunnerSelection
+---@return string
 function M.jest(selection)
   local cmd = M.npm_or_yarn() .. " test"
   if cmd:starts_with("npm") then
@@ -77,6 +86,8 @@ function M.jest(selection)
   return cmd
 end
 
+---@param selection TestRunnerSelection
+---@return string?
 function M.test(selection)
   local paths = vim.fs.find("package.json", {
     upward = true,

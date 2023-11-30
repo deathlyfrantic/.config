@@ -30,6 +30,9 @@ pm.add({
         vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
         -- let ale format buffers, lsp formatting is hit or miss
         vim.bo[event.buf].formatexpr = ""
+        ---@param key string
+        ---@param fn function
+        ---@param mode? string | string[]
         local function map(key, fn, mode)
           vim.keymap.set(mode or "n", key, fn, { buffer = event.buf })
         end

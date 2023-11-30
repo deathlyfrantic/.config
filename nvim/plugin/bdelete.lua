@@ -2,6 +2,7 @@ local utils = require("utils")
 
 local e89 = "E89: No write since last change for buffer %d (add ! to override)"
 
+---@param force boolean
 local function delete_current(force)
   local buf = vim.api.nvim_get_current_buf()
   if vim.bo[buf].modified and not force then
@@ -24,6 +25,9 @@ local function delete_current(force)
   vim.api.nvim_buf_delete(buf, { force = force })
 end
 
+---@param force boolean
+---@param name string
+---@param term boolean
 local function delete_by_name(force, name, term)
   local bufs = vim.tbl_filter(function(b)
     local bufname = vim.api.nvim_buf_get_name(b)
@@ -42,6 +46,7 @@ local function delete_by_name(force, name, term)
   end
 end
 
+---@param args { bang: boolean, args: string }
 local function bdelete(args)
   local force = args.bang
   if #args.args == 0 then
@@ -59,6 +64,8 @@ local function bdelete(args)
   end
 end
 
+---@param arglead string
+---@return string[]
 local function completion(arglead)
   local bufs = vim.tbl_map(
     function(b)

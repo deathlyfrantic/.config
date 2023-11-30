@@ -1,5 +1,6 @@
 local utils = require("utils")
 
+---@param args { bang: boolean, args: string }
 local function grep(args)
   vim.cmd(
     "silent grep! "
@@ -51,6 +52,7 @@ if vim.fn.executable("rg") == 1 then
 
   -- :Rg command variant allows passing arbitrary flags to ripgrep and doesn't
   -- default to -F (fixed-strings) option to allow regex searching
+  ---@param args { bang: boolean, args: string }
   local function rg(args)
     local saved_grepprg = vim.opt_local.grepprg:get()
     vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| " .. sort_cmd

@@ -1,24 +1,49 @@
+-- Trim whitespace from both sides of string
+---@param self string
+---@return string
 function string.trim(self)
   -- for some reason the viml trim() function is _much_ faster than the lua one
   return vim.fn.trim(self)
 end
 
+-- True if string is only whitespace
+---@param self string
+---@return boolean
 function string.is_empty(self)
   return self:match("^%s*$") ~= nil
 end
 
+-- Split string into a list of strings based on a separator
+---@param self string
+---@param sep string
+---@param opts { plain?: boolean, trimempty?: boolean }?
+---@return string[]
 function string.split(self, sep, opts)
   return vim.split(self, sep, opts)
 end
 
+-- True if string starts with prefix
+---@param self string
+---@param prefix string
+---@return boolean
 function string.starts_with(self, prefix)
   return vim.startswith(self, prefix)
 end
 
+-- True if string ends with prefix
+---@param self string
+---@param prefix string
+---@return boolean
 function string.ends_with(self, prefix)
   return vim.endswith(self, prefix)
 end
 
+-- Pad string to specified length with provided padding (or space by default)
+---@param s string
+---@param length integer
+---@param padding string?
+---@param direction "left" | "right"
+---@return string
 local function string_pad(s, length, padding, direction)
   padding = padding or " "
   if length - vim.fn.strdisplaywidth(s) < 1 then
@@ -39,14 +64,27 @@ local function string_pad(s, length, padding, direction)
   return s
 end
 
+-- Pad string to length with padding added to the left
+---@param self string
+---@param length integer
+---@param padding string?
+---@return string
 function string.lpad(self, length, padding)
   return string_pad(self, length, padding, "left")
 end
 
+-- Pad string to length with padding added to the right
+---@param self string
+---@param length integer
+---@param padding string?
+---@return string
 function string.rpad(self, length, padding)
   return string_pad(self, length, padding, "right")
 end
 
+-- String char iterator function
+---@param s string
+---@param i integer
 local function string_chars(s, i)
   if #s > i then
     i = i + 1
@@ -54,10 +92,17 @@ local function string_chars(s, i)
   end
 end
 
+-- Iterator of characters in the string
+---@param self string
+---@return function, string, integer
 function string.chars(self)
   return string_chars, self, 0
 end
 
+-- Case-insensitive version of `string.match`
+---@param self string
+---@param pattern string
+---@return string?
 function string.imatch(self, pattern)
   local pat = ""
   local in_percent = false
@@ -86,7 +131,10 @@ function string.imatch(self, pattern)
   return self:match(pat)
 end
 
--- this method does not handle tabs, which is ok because i do not use tabs
+-- Dedent string by removing smallest common whitespace from front of each line.
+-- This method does not handle tabs.
+---@param self string
+---@return string
 function string.dedent(self)
   local lines = self:split("\n", { plain = true })
   local min_indent = math.min(unpack(vim.tbl_map(function(line)

@@ -1,3 +1,10 @@
+---@class TermWindow
+---@field callbacks { [string]: function[] }
+---@field buffer integer?
+---@field window integer?
+---@field close_on_success boolean
+---@field location "botright" | "topleft"
+---@field height_fn fun(): integer
 local TermWindow = {}
 TermWindow.__index = TermWindow
 
@@ -9,6 +16,9 @@ local default_config = {
   close_on_success = false,
 }
 
+-- Create a new terminal window
+---@param config { close_on_success?: boolean, location?: "botright" | "topleft", height_fn?: fun(): integer }?
+---@return TermWindow
 function TermWindow.new(config)
   vim.validate({
     config = { config, "table", true },
@@ -29,6 +39,14 @@ function TermWindow.new(config)
   )
 end
 
+---@alias TermWindowEvent
+---| "Exit"      # fired when command exits
+---| "BufAdd"    # fired when terminal buffer is created
+---| "BufDelete" # fired when terminal buffer is deleted
+---| "WinNew"    # fired when terminal window is created
+
+---@param event TermWindowEvent
+---@param ... any
 function TermWindow.do_event(self, event, ...)
   if not self.callbacks[event] then
     return
@@ -38,6 +56,8 @@ function TermWindow.do_event(self, event, ...)
   end
 end
 
+---@param event TermWindowEvent
+---@param callback function
 function TermWindow.on(self, event, callback)
   if type(self.callbacks[event]) ~= "table" then
     self.callbacks[event] = {}
@@ -119,6 +139,7 @@ function TermWindow.open(self)
   end
 end
 
+---@param cmd string
 function TermWindow.run(self, cmd)
   local current_window = vim.api.nvim_get_current_win()
   self:open()
@@ -132,6 +153,8 @@ function TermWindow.run(self, cmd)
 end
 
 return setmetatable({}, {
+  ---@param config { close_on_success?: boolean, location?: "botright" | "topleft", height_fn?: fun(): integer }?
+  ---@return TermWindow
   __call = function(_, config)
     return TermWindow.new(config)
   end,

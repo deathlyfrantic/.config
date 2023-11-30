@@ -1,14 +1,17 @@
 local M = {}
 
+---@return string, string
 local function poscmd()
   return vim.fn.getcmdpos(), vim.fn.getcmdline()
 end
 
+---@return string
 function M.kill_line()
   local pos, cmd = poscmd()
   return pos == 1 and "" or cmd:sub(1, pos - 1)
 end
 
+---@return string
 function M.delete_word()
   local pos, cmd = poscmd()
   local stop = pos
@@ -25,6 +28,7 @@ function M.delete_word()
     or cmd:sub(0, pos - 1) .. cmd:sub(stop + 1)
 end
 
+---@return string
 function M.bwd_by_word()
   local pos, cmd = poscmd()
   if pos ~= 1 then
@@ -40,6 +44,7 @@ function M.bwd_by_word()
   return cmd
 end
 
+---@return string
 function M.fwd_by_word()
   local pos, cmd = poscmd()
   local cmdlen = #cmd

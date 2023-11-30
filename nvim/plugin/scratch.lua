@@ -1,19 +1,24 @@
 local utils = require("utils")
 
+---@param name string
 local function save_file(name)
   return vim.fs.normalize(
     ("%s/scratch-%s.txt"):format(vim.fn.stdpath("data"), name)
   )
 end
 
+---@param name string
+---@return string
 local function bufname(name)
   return ("__Scratch-%s__"):format(name)
 end
 
+---@return integer
 local function height()
   return math.min(10, math.floor(vim.o.lines / 3))
 end
 
+---@param name string
 local function read(name)
   local pos = vim.api.nvim_win_get_cursor(0)
   vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
@@ -23,14 +28,23 @@ local function read(name)
   vim.b.ftime = os.time()
 end
 
+---@param name string
 local function write(name)
   local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
   local f = io.open(save_file(name), "w")
+  if not f then
+    vim.notify(
+      ("Unable to open file '%s' for saving."):format(name),
+      vim.log.levels.ERROR
+    )
+    return
+  end
   f:write(table.concat(contents, "\n") .. "\n")
   f:close()
   vim.b.ftime = os.time()
 end
 
+---@param name string
 local function close_window(name)
   local stat = vim.loop.fs_stat(save_file(name))
   local bftime = vim.b.ftime
@@ -54,6 +68,7 @@ local function close_window(name)
   end
 end
 
+---@param name string
 local function new_buffer(name)
   vim.cmd.new({
     args = { bufname(name) },
@@ -86,6 +101,7 @@ local function new_buffer(name)
   })
 end
 
+---@param name string
 local function open_buffer(name)
   local bnum = vim.fn.bufnr(bufname(name))
   local stat = vim.loop.fs_stat(save_file(name))
@@ -108,6 +124,7 @@ local function open_buffer(name)
   end
 end
 
+---@param name string
 local function selection(name)
   local contents = vim.fn.getreg('"')
   local regtype = vim.fn.getregtype('"')
@@ -118,6 +135,7 @@ local function selection(name)
   vim.fn.setreg('"', contents, regtype)
 end
 
+---@param args string | { args: string, count: integer }
 local function scratch(args)
   local name = "0"
   if type(args) == "string" then
@@ -130,6 +148,8 @@ local function scratch(args)
   open_buffer(name)
 end
 
+---@param arglead string
+---@return string[]
 local function completion(arglead)
   local ret = {}
   local handle = vim.loop.fs_scandir(vim.fn.stdpath("data"))

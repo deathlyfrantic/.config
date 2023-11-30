@@ -2,6 +2,7 @@ local utils = require("utils")
 
 local M = {}
 
+---@return integer
 local function findstart()
   local row = vim.api.nvim_win_get_cursor(0)[1]
   local pos = vim.fn.searchpos([[\s]], "bn")
@@ -9,6 +10,8 @@ local function findstart()
   return pos[1] == row and pos[2] or 0
 end
 
+---@param fwd boolean
+---@return string
 local function tab(fwd)
   if vim.fn.pumvisible() > 0 then
     return fwd and "<C-n>" or "<C-p>"
@@ -18,6 +21,9 @@ local function tab(fwd)
   return "<Tab>"
 end
 
+-- if completing in the middle of a word, remove the completed portion already
+-- on the line, i.e. completing "foobar" with cursor position foo|bar results in
+-- "foobar" instead of "foobarbar".
 -- stolen from Damian Conway
 -- https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/003fb8e06e1b8d321a129869a62eaa702cea6dc9/.vimrc#L1372-L1381
 local function undouble()
@@ -29,6 +35,7 @@ local function undouble()
 end
 
 -- "wrap" a completion function so it can be triggered arbitrarily
+---@param f string | function
 function M.wrap(f)
   if type(f) == "string" then
     -- assuming this is the name of a viml function

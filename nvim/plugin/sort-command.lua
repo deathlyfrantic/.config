@@ -3,6 +3,8 @@ local utils = require("utils")
 -- determine the separator, as defined by whichever punctuation character occurs
 -- most frequently within the string. if there are no punctuation characters but
 -- there is whitespace, then the separator is a single space.
+---@param text string
+---@return string
 local function determine_separator(text)
   local counts = {}
   local has_whitespace = false
@@ -35,6 +37,9 @@ end
 -- determine if the glue needs a trailing space, so that
 -- "c,b,a" becomes "a,b,c"
 -- "c, b, a" becomes "a, b, c"
+---@param pieces string[]
+---@param separator string
+---@return string
 local function determine_glue(pieces, separator)
   local contains_space = utils.tbl_any(function(piece)
     return piece:find("^%s") or piece:find("%s$")
@@ -43,15 +48,26 @@ local function determine_glue(pieces, separator)
 end
 
 -- descending (normal) sort -> a, b, c
+---@generic T
+---@param a T
+---@param b T
+---@return boolean
 local function descending_sort(a, b)
   return a > b
 end
 
 -- ascending (reverse) sort -> c, b, a
+---@generic T
+---@param a T
+---@param b T
+---@return boolean
 local function ascending_sort(a, b)
   return a < b
 end
 
+---@param text string
+---@param separator? string
+---@param cmp? fun(a: any, b: any): boolean
 local function get_replacement_text(text, separator, cmp)
   separator = separator or determine_separator(text)
   cmp = cmp or ascending_sort
@@ -65,6 +81,7 @@ local function get_replacement_text(text, separator, cmp)
   return table.concat(pieces, glue)
 end
 
+---@param args { args: string, bang: boolean }
 local function sort_command(args)
   local start = vim.api.nvim_buf_get_mark(0, "<")
   local stop = vim.api.nvim_buf_get_mark(0, ">")

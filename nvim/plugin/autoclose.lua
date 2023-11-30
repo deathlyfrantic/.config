@@ -24,10 +24,14 @@ local semi_lines = {
 }
 semi_lines.typescript = semi_lines.javascript
 
+---@param num integer
+---@return string
 local function getline(num)
   return vim.api.nvim_buf_get_lines(0, num - 1, num, false)[1] or ""
 end
 
+---@param state State
+---@return string
 local function semi(state)
   if not semi_lines[state.ft] then
     return ""
@@ -42,14 +46,21 @@ local function semi(state)
   return ""
 end
 
+---@param line string
+---@return integer
 local function indent(line)
   return #line:match("^%s*")
 end
 
+---@param line integer
+---@param col integer
+---@return boolean
 local function in_string(line, col)
   return utils.highlight_at_pos_contains("string", { line, col })
 end
 
+---@param stack string[]
+---@param char string
 local function remove_last(stack, char)
   for i = #stack, 1, -1 do
     if stack[i] == char then
@@ -59,6 +70,9 @@ local function remove_last(stack, char)
   end
 end
 
+---@param state State
+---@param ends string[]
+---@return boolean
 local function should_close(state, ends)
   local start = table.concat(
     vim.tbl_map(function(c)
@@ -71,7 +85,15 @@ local function should_close(state, ends)
   return not (match > 0 and indent(getline(match)) == indent(state.line))
 end
 
+---@return string
 local function enter()
+  ---@class State
+  ---@field ft string Filetype of buffer
+  ---@field cursor integer[] Cursor position within window
+  ---@field line string Contents of current line
+  ---@field linenr integer Line number of the cursor
+  ---@field col integer Column number of the cursor
+  ---@field trimmed string Trimmed version of the current line's contents
   local state = {
     ft = vim.bo.filetype,
     cursor = vim.api.nvim_win_get_cursor(0),

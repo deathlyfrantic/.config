@@ -6,6 +6,7 @@ local separator = "%1*│%*"
 local error_block = "%2*■%*"
 local warning_block = "%3*■%*"
 
+---@return string
 function M.filename()
   local bufname = vim.api.nvim_buf_get_name(0)
   if #bufname > 0 then
@@ -16,6 +17,8 @@ end
 
 -- this function is not used directly in this file but is passed to gitsigns as
 -- the `status_formatter` function in its config
+---@param status Gitsigns.StatusObj
+---@return string
 function M.gitsigns_status(status)
   local ret = status and status.head
   if not ret or ret == "" then
@@ -33,6 +36,8 @@ function M.gitsigns_status(status)
   return ("%s%s%s"):format(ret, #change_text > 0 and "/" or "", change_text)
 end
 
+-- Count of warning and error diagnostics in buffer
+---@return string
 function M.diagnostics()
   local warnings =
     #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -47,11 +52,14 @@ function M.diagnostics()
     )
 end
 
+-- Name of node under cursor from treesitter (if available)
+---@return string
 function M.treesitter()
   local ok, result = pcall(vim.treesitter.get_node)
   return ok and result and result:type() or ""
 end
 
+-- Create highlights for diagnostic error/warning blocks and for separator lines
 local function set_highlights()
   -- separator line ┃│
   local fg = utils.get_hex_color("Normal", "bg")
@@ -64,18 +72,25 @@ local function set_highlights()
   vim.api.nvim_set_hl(0, "User3", { fg = warning_fg, bg = bg })
 end
 
+---@param item string
+---@return string
 local function group(item)
   return "%(" .. item .. "%)"
 end
 
+---@param item string
+---@return string
 local function right_section(item)
   return group((" %s %s"):format(separator, item))
 end
 
+---@param item string
+---@return string
 local function left_section(item)
   return group(("%s %s "):format(item, separator))
 end
 
+-- Creates statusline-specific highlights and sets statusline option.
 function M.init()
   set_highlights()
   vim.api.nvim_create_autocmd("ColorScheme", {

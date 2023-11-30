@@ -2,7 +2,12 @@ local TermWindow = require("term-window")
 
 local term_windows = {}
 
+---@type { [string]: Ground }
 local grounds = {
+  ---@class Ground
+  ---@field extension string
+  ---@field command string
+  ---@field template? string
   c = {
     extension = "c",
     command = "cc %s -o $TMPDIR/a.out && $TMPDIR/a.out",
@@ -38,6 +43,8 @@ local grounds = {
   },
 }
 
+---@param buf integer
+---@param cmd string
 local function run(buf, cmd)
   if not term_windows[buf] then
     term_windows[buf] = TermWindow({
@@ -53,6 +60,8 @@ local function run(buf, cmd)
   term_windows[buf]:run(cmd)
 end
 
+---@param template string[]
+---@return integer[]?
 local function find_marker(template)
   for row, line in ipairs(template) do
     local col = line:find(vim.pesc("$$$"))
@@ -62,6 +71,7 @@ local function find_marker(template)
   end
 end
 
+---@param ground Ground
 local function open_buffer(ground)
   local filename = vim.fn.tempname() .. "." .. ground.extension
   vim.cmd.edit(filename)
@@ -93,6 +103,7 @@ local function open_buffer(ground)
   vim.api.nvim_input("a")
 end
 
+---@param args { args: string }
 local function playground(args)
   local filetype = #args.args > 0 and args.args or vim.bo.filetype
   if not filetype or filetype == "" then
@@ -110,6 +121,8 @@ local function playground(args)
   open_buffer(ground)
 end
 
+---@param arglead string
+---@return string[]
 local function completion(arglead)
   return vim.tbl_filter(function(g)
     return g:starts_with(arglead)

@@ -3,10 +3,13 @@ local utils = require("utils")
 local file = vim.fn.tempname()
 local buffer, star_cmd_str
 
+---@return integer
 local function height()
   return math.max(10, math.floor(vim.o.lines / 3))
 end
 
+---@param mode ModeName
+---@return string
 local function find_cmd(mode)
   if vim.b.star_find_cmd then
     return vim.b.star_find_cmd
@@ -35,6 +38,7 @@ local function find_cmd(mode)
   ))
 end
 
+---@return string
 local function star_cmd()
   if not star_cmd_str then
     local colors = {
@@ -51,6 +55,7 @@ local function star_cmd()
   return star_cmd_str
 end
 
+---@return string
 local function base_cmd()
   return ("(cd %s && %%s | %s > %s)"):format(
     utils.find_project_dir(),
@@ -59,10 +64,13 @@ local function base_cmd()
   )
 end
 
+---@param mode ModeName
+---@return string
 local function files_cmd(mode)
   return base_cmd():format(find_cmd(mode))
 end
 
+---@return string
 local function buffers_cmd()
   local bufs = vim.tbl_map(
     function(b)
@@ -77,6 +85,7 @@ local function buffers_cmd()
   return base_cmd():format(([[echo "%s"]]):format(table.concat(bufs, "\n")))
 end
 
+---@param b string[] | string
 local function open_buffer(b)
   if type(b) == "table" then
     b = b[1]
@@ -89,6 +98,7 @@ local function open_buffer(b)
   )
 end
 
+---@param files string[]
 local function open_file(files)
   local paths = vim.tbl_map(function(f)
     return vim.fn.fnameescape(utils.find_project_dir() .. f)
@@ -106,7 +116,13 @@ local function open_file(files)
   end
 end
 
+---@enum (key) ModeName
 local modes = {
+  ---@class Mode
+  ---@field cmd fun(): string
+  ---@field open fun(paths: string[])
+  ---@field text fun(): string
+  ---@field width_divisor? integer
   files = {
     cmd = function()
       return files_cmd("files")
@@ -116,6 +132,7 @@ local modes = {
       return find_cmd("files")
     end,
   },
+  ---@type Mode
   buffers = {
     cmd = buffers_cmd,
     open = open_buffer,
@@ -123,6 +140,7 @@ local modes = {
       return "open buffers"
     end,
   },
+  ---@type Mode
   all = {
     cmd = function()
       return files_cmd("all")
@@ -132,6 +150,7 @@ local modes = {
       return find_cmd("files")
     end,
   },
+  ---@type Mode
   git_commits = {
     cmd = function()
       return base_cmd():format(
@@ -155,6 +174,8 @@ local function delete_buffer()
   buffer = nil
 end
 
+---@param mode ModeName
+---@param exit_code integer
 local function on_exit(mode, _, exit_code)
   local previous_window = vim.fn.win_getid(vim.fn.winnr("#"))
   vim.api.nvim_set_current_win(previous_window)
@@ -169,6 +190,9 @@ local function on_exit(mode, _, exit_code)
   end
 end
 
+---@param title string
+---@param width integer
+---@return string
 local function popup_window_title(title, width)
   if #title > width - 2 then
     title = title:sub(1, width - 6) .. " ..."
@@ -176,6 +200,9 @@ local function popup_window_title(title, width)
   return " " .. title .. " "
 end
 
+---@param buf integer
+---@param mode ModeName
+---@param title string
 local function popup_window(buf, mode, title)
   local divisor = modes[mode].width_divisor or 3
   local width = math.max(80, math.floor(vim.o.columns / divisor))
@@ -198,6 +225,7 @@ local function popup_window(buf, mode, title)
   )
 end
 
+---@param mode ModeName
 local function open_star_buffer(mode)
   -- need to look at vim.b.star_find_cmd in the current buffer before opening
   -- the star buffer where it will not be populated
@@ -221,6 +249,7 @@ local function open_star_buffer(mode)
   vim.cmd.startinsert()
 end
 
+---@param args { args: string }
 local function star(args)
   local mode = #args.args > 0 and args.args or "files"
   if not vim.tbl_contains(vim.tbl_keys(modes), mode) then
@@ -230,6 +259,8 @@ local function star(args)
   open_star_buffer(mode)
 end
 
+---@param arglead string
+---@return string[]
 local function completion(arglead)
   return vim.tbl_filter(function(m)
     return m:starts_with(arglead)

@@ -2,6 +2,7 @@ local utils = require("test-runner.utils")
 
 local M = {}
 
+---@return string?
 function M.find_nearest_treesitter()
   return utils.find_nearest_test_via_treesitter(
     [[((mod_item
@@ -17,6 +18,7 @@ function M.find_nearest_treesitter()
   )
 end
 
+---@return string?
 function M.find_nearest_regex()
   vim.notify(
     "couldn't find test from treesitter, falling back to regex",
@@ -25,6 +27,8 @@ function M.find_nearest_regex()
   return utils.find_nearest_test([[#\[test]\n\s*fn\s\+\(\w*\)(]], 2)
 end
 
+---@param selection TestRunnerSelection
+---@return string?
 function M.test(selection)
   if vim.fn.executable("cargo") == 0 then
     return nil

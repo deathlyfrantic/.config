@@ -2,6 +2,7 @@ local utils = require("test-runner.utils")
 
 local M = {}
 
+---@return string?
 function M.find_nearest_treesitter()
   -- finds tests according to pytest's discovery rules
   -- https://docs.pytest.org/explanation/goodpractices.html#test-discovery
@@ -23,6 +24,7 @@ function M.find_nearest_treesitter()
   )
 end
 
+---@return string?
 function M.find_nearest_regex()
   vim.notify(
     "couldn't find test from treesitter, falling back to regex",
@@ -31,6 +33,8 @@ function M.find_nearest_regex()
   return utils.find_nearest_test([[^\s*def \(test\w*\)]], 2)
 end
 
+---@param selection TestRunnerSelection
+---@return string
 function M.pytest(selection)
   local filename = vim.api.nvim_buf_get_name(0)
   if selection == "nearest" then
@@ -44,6 +48,8 @@ function M.pytest(selection)
   return "pytest"
 end
 
+---@param selection TestRunnerSelection
+---@return string
 function M.test(selection)
   return vim.fn.executable("pytest") == 1 and M.pytest(selection)
     or "python3 -m unittest"

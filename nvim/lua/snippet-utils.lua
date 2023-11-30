@@ -8,6 +8,7 @@ local utils = require("utils")
 
 local M = {}
 
+---@return string, string?
 function M.comment_string()
   if utils.highlight_at_pos_contains("comment") then
     return ""
@@ -23,6 +24,12 @@ function M.comment_string()
   return before, after
 end
 
+-- Force a snippet to be a comment. If it is already a comment, basically a
+-- no-op; if it is not, add vim.o.commentstring to the front (and back if
+-- applicable) of the snippet text.
+---@param text string
+---@param nodes table[]
+---@return table
 function M.force_comment(text, nodes)
   -- these need to be partials so that `comment_string` is evaluated at the time
   -- the snippet is expanded, rather than when this function is called
@@ -34,6 +41,8 @@ function M.force_comment(text, nodes)
   return fmt("{}" .. text .. "{}", nodes)
 end
 
+---@param snippet string
+---@return table
 local function text_snippet(snippet)
   if snippet:find("{}") then
     return fmt(snippet, { i(0) })
@@ -44,6 +53,8 @@ local function text_snippet(snippet)
   return t(snippet)
 end
 
+---@param snippet string | table
+---@return table
 local function nodes(snippet)
   if type(snippet) == "string" then
     return text_snippet(snippet)
@@ -62,6 +73,10 @@ local function nodes(snippet)
   return snippet
 end
 
+-- Convenience method to create snippets out of a table by using the keys as the
+-- names of the snippets.
+---@param snippets table
+---@return table
 function M.make(snippets)
   local ret = {}
   for k, v in pairs(snippets) do

@@ -1,5 +1,9 @@
 local M = {}
 
+-- Returns true if f(item) is true for any item in a table
+---@param f fun(v: any, i?: integer): boolean
+---@param t any[]
+---@return boolean
 function M.tbl_any(f, t)
   for i, v in ipairs(t) do
     if f(v, i) then
@@ -9,6 +13,10 @@ function M.tbl_any(f, t)
   return false
 end
 
+-- Returns true if f(item) is true for all items in a table
+---@param f fun(v: any, i?: integer): boolean
+---@param t any[]
+---@return boolean
 function M.tbl_all(f, t)
   for i, v in ipairs(t) do
     if not f(v, i) then
@@ -18,6 +26,10 @@ function M.tbl_all(f, t)
   return true
 end
 
+-- Returns the item and index of the item of a table if f(item) is true
+---@param f fun(v: any, i?: integer): boolean
+---@param t any[]
+---@return boolean?, integer?
 function M.tbl_find(f, t)
   for i, v in ipairs(t) do
     if f(v, i) then
@@ -27,6 +39,10 @@ function M.tbl_find(f, t)
   return nil
 end
 
+-- Create a popup window at the cursor with the given text
+---@param text any
+---@param title string?
+---@return integer
 function M.popup(text, title)
   local buf = vim.api.nvim_create_buf(false, true)
   local contents
@@ -68,6 +84,10 @@ function M.popup(text, title)
   return win
 end
 
+-- Collect items from an iterator into a table
+---@generic T
+---@param ... `T`
+---@return T[]
 function M.collect(...)
   local ret = {}
   for item in ... do
@@ -76,6 +96,10 @@ function M.collect(...)
   return ret
 end
 
+-- Get a standard hex color representation (#rrggbb) of a highlight
+---@param hl string
+---@param attr "fg" | "foreground" | "bg" | "background"
+---@return string
 function M.get_hex_color(hl, attr)
   local colors = vim.api.nvim_get_hl(0, { name = hl })
   local dec = (attr == "fg" or attr == "foreground") and colors.fg or colors.bg
@@ -119,6 +143,10 @@ local project_dir_markers = {
   },
 }
 
+-- Find project dir based on filetype-specific markers, optionally starting from
+-- a provided directory
+---@param start string?
+---@return string
 function M.find_project_dir(start)
   -- this should always be the same value for a given buffer, so cache the value
   -- as a buffer variable to prevent repeated walking of the file system
@@ -142,18 +170,28 @@ function M.find_project_dir(start)
   return cache(vim.loop.cwd() .. "/")
 end
 
+-- Determine whether a buffer is "real" i.e. valid, loaded and listed
+---@param b integer
+---@return boolean
 function M.buf_is_real(b)
   return vim.api.nvim_buf_is_valid(b)
     and vim.api.nvim_buf_is_loaded(b)
     and vim.bo[b].buflisted
 end
 
+-- Get the character immediately before the cursor
+---@return string
 function M.char_before_cursor()
   local column = vim.api.nvim_win_get_cursor(0)[2]
   return column < 1 and ""
     or vim.api.nvim_get_current_line():sub(column, column)
 end
 
+-- Determine if the syntax highlighting at a position contains a pattern, e.g.
+-- "is the cursor in a comment?"
+---@param pattern string
+---@param pos? integer[]
+---@return boolean
 function M.highlight_at_pos_contains(pattern, pos)
   if not pos then
     pos = vim.api.nvim_win_get_cursor(0)
@@ -176,6 +214,8 @@ function M.highlight_at_pos_contains(pattern, pos)
   return ok and node:type():imatch(pattern)
 end
 
+-- Display arbitrary contents in a Vim help window
+---@param contents string | table
 function M.help(contents)
   if type(contents) == "string" then
     contents = contents:split("\n", { plain = true, trimempty = true })
@@ -200,6 +240,9 @@ function M.help(contents)
   end
 end
 
+-- Handle the steps necessary to make `*` work in visual mode
+---@param cmd string?
+---@param raw boolean?
 function M.v_star_search_set(cmd, raw)
   cmd = cmd or "/"
   local temp = vim.fn.getreg('"')
@@ -219,6 +262,9 @@ function M.v_star_search_set(cmd, raw)
   vim.fn.setreg('"', temp)
 end
 
+-- Make an operator function out of a callback
+---@param callback fun(selection: string)
+---@return fun(kind: string)
 function M.make_operator_fn(callback)
   local error_msg = function(msg)
     vim.notify(

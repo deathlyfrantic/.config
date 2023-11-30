@@ -275,6 +275,7 @@ vim.keymap.set("n", "<leader>a", ":%yank +<CR>", { silent = true })
 vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- arrows
+---@param fat boolean
 local function arrow(fat)
   local before = utils.char_before_cursor():is_empty() and "" or " "
   local ret = fat and "=>" or "->"
@@ -294,6 +295,7 @@ vim.keymap.set("i", "<C-l>", function()
 end, { expr = true })
 
 -- quickfix
+---@param vertical boolean
 local function quickfix_toggle(vertical)
   if
     utils.tbl_any(function(b)
@@ -328,6 +330,9 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- local settings
+---@param file string
+---@param buf integer
+---@param force? boolean
 local function source_local_vimrc(file, buf, force)
   if
     not force

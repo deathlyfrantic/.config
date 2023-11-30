@@ -2,10 +2,12 @@ local utils = require("utils")
 
 local search_url = "https://duckduckgo.com/?q=%s"
 
+---@param url string
 local function browser(url)
   vim.loop.spawn("open", { args = { "-g", url } })
 end
 
+---@param url string
 local function search(url)
   if not url:starts_with("http") then
     url = search_url:format(url:gsub(" ", "+"))
