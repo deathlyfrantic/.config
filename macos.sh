@@ -28,7 +28,8 @@
 #
 # settings -> accessibility -> pointer control -> trackpad options
 #   check enable dragging, select three finger drag
-#
+defaults write com.apple.AppleMultitouchTrackpad "TrackpadThreeFingerDrag" -bool "true"
+
 # settings -> screen saver
 #   start screen saver when inactive -> never
 #   turn display off on power adapter when inactive -> 2 hours
@@ -36,13 +37,23 @@
 # settings -> desktop & dock -> hot corners
 #   lower right -> put display to sleep
 #   check automatically hide and show dock
+defaults write com.apple.dock "autohide" -bool "true"
+
 #   uncheck show recent applications in dock
+defaults write com.apple.dock "show-recents" -bool "false" && killall Dock
 #
 # settings -> sound
 #   uncheck play user interface sound effects
 #
 # settings -> notifications and focus
 #   disable sound on all notifications
+#
+# settings -> desktop & dock
+#   check "displays have separate spaces"
+defaults write com.apple.spaces "spans-displays" -bool "true" && killall SystemUIServer
+
+# show full url in safari
+defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool "true"
 
 # install brew - check https://brew.sh for up-to-date instructions
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
