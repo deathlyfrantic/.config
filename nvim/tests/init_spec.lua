@@ -112,25 +112,6 @@ describe("init", function()
     end)
   end)
 
-  it("don't move position when switching buffers", function()
-    local winrestview = stub(vim.fn, "winrestview")
-    local buf = vim.api.nvim_win_get_buf(0)
-    assert.is_nil(vim.b[buf].winview)
-    vim.api.nvim_exec_autocmds(
-      "BufWinLeave",
-      { group = "init-autocmds", pattern = "*" }
-    )
-    assert.is_truthy(vim.b[buf].winview)
-    local winview = vim.b[buf].winview
-    vim.api.nvim_exec_autocmds(
-      "BufWinEnter",
-      { group = "init-autocmds", pattern = "*" }
-    )
-    assert.stub(winrestview).called_with(winview)
-    assert.is_nil(vim.b[buf].winview)
-    winrestview:revert()
-  end)
-
   it("sets terminal settings", function()
     vim.opt_local.number = true
     vim.opt_local.statusline = ""

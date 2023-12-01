@@ -109,27 +109,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
 })
 
--- don't move my position when switching buffers
--- i don't know that this is actually necessary. the commit in which it was
--- added has a shitty message so i don't know why i did it.
-vim.api.nvim_create_autocmd("BufWinLeave", {
-  pattern = "*",
-  callback = function()
-    vim.b.winview = vim.fn.winsaveview()
-  end,
-  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
-})
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = "*",
-  callback = function()
-    if vim.b.winview then
-      vim.fn.winrestview(vim.b.winview)
-      vim.b.winview = nil
-    end
-  end,
-  group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),
-})
-
 -- terminal settings
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
