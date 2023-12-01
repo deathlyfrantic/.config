@@ -296,13 +296,9 @@ end, { silent = true })
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
   callback = function()
-    vim.keymap.set(
-      "n",
-      "<C-c>",
-      vim.cmd.cclose,
-      { buffer = true, silent = true }
-    )
-    vim.keymap.set("n", "q", vim.cmd.cclose, { buffer = true, silent = true })
+    for _, key in ipairs({ "q", "<C-c>" }) do
+      vim.keymap.set("n", key, vim.cmd.cclose, { buffer = true, silent = true })
+    end
     vim.opt_local.wrap = false
   end,
   group = vim.api.nvim_create_augroup("init-autocmds-quickfix", {}),
