@@ -48,4 +48,17 @@ function M.get_keymap_callback(mode, key)
   end, vim.api.nvim_get_keymap(mode)).callback
 end
 
+---@param start integer[]
+---@param stop integer[]
+function M.set_visual_marks(start, stop)
+  vim.api.nvim_buf_set_mark(0, "<", start[1] or 1, start[2] or 0, {})
+  vim.api.nvim_buf_set_mark(
+    0,
+    ">",
+    stop[1] or vim.api.nvim_buf_line_count(0),
+    stop[2] or 2147483647,
+    {}
+  )
+end
+
 return M

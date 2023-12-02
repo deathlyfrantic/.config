@@ -34,17 +34,25 @@ local function determine_separator(text)
   return max.key
 end
 
--- determine if the glue needs a trailing space, so that
+-- determine if the glue needs leading and/or trailing spaces, so that
 -- "c,b,a" becomes "a,b,c"
 -- "c, b, a" becomes "a, b, c"
+-- "c , b , a" becomes "a , b , c"
 ---@param pieces string[]
 ---@param separator string
 ---@return string
 local function determine_glue(pieces, separator)
-  local contains_space = utils.tbl_any(function(piece)
-    return piece:find("^%s") or piece:find("%s$")
+  local leading_space = utils.tbl_any(function(piece)
+    return piece:find("^%s")
   end, pieces)
-  return separator .. (contains_space and " " or "")
+  local trailing_space = utils.tbl_any(function(piece)
+    return piece:find("%s$")
+  end, pieces)
+  -- need to reverse meaning of variables - if a piece has a leading space, that
+  -- means the separator needs a trailing space, and vice versa
+  return (trailing_space and " " or "")
+    .. separator
+    .. (leading_space and " " or "")
 end
 
 -- descending (normal) sort -> a, b, c
