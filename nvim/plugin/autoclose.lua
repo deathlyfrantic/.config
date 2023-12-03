@@ -87,6 +87,8 @@ end
 
 ---@return string
 local function enter()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local line = vim.api.nvim_get_current_line()
   ---@class State
   ---@field ft string Filetype of buffer
   ---@field cursor integer[] Cursor position within window
@@ -96,12 +98,12 @@ local function enter()
   ---@field trimmed string Trimmed version of the current line's contents
   local state = {
     ft = vim.bo.filetype,
-    cursor = vim.api.nvim_win_get_cursor(0),
-    line = vim.api.nvim_get_current_line(),
+    cursor = cursor,
+    line = line,
+    linenr = cursor[1],
+    col = cursor[2],
+    trimmed = line:trim(),
   }
-  state.linenr = state.cursor[1]
-  state.col = state.cursor[2]
-  state.trimmed = state.line:trim()
   if
     state.col < #state.line:gsub("%s*$", "")
     or not pairs[state.trimmed:sub(-1, -1)]
