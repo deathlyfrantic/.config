@@ -28,7 +28,7 @@ function M.clear_buf(buf)
 end
 
 function M.clear_filetype()
-  vim.cmd.setlocal("filetype=")
+  vim.bo.filetype = nil
 end
 
 ---@param buf? integer
