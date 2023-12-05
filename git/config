@@ -29,7 +29,7 @@
     prompt = true
 [alias]
     ctags = "!$XDG_CONFIG_HOME/git/hooks/make-ctags"
-    delete-merges-branches = "!$XDG_CONFIG_HOME/git/delete-merged-branches"
+    delete-merged-branches = "!$XDG_CONFIG_HOME/git/delete-merged-branches"
     filesearch = "!$XDG_CONFIG_HOME/git/filesearch"
     first-commit = "rev-list --max-parents=0 HEAD"
     first-show = "!git show $(git first-commit)"
