@@ -166,6 +166,41 @@ describe("init", function()
     end)
   end)
 
+  describe("Fit command", function()
+    local getwininfo, nvim_buf_get_lines, nvim_buf_line_count, resize
+
+    before_each(function()
+      getwininfo = stub(vim.fn, "getwininfo")
+      nvim_buf_get_lines = stub(vim.api, "nvim_buf_get_lines")
+      nvim_buf_line_count = stub(vim.api, "nvim_buf_line_count")
+      resize = stub(vim.cmd, "resize")
+    end)
+
+    after_each(function()
+      getwininfo:revert()
+      nvim_buf_get_lines:revert()
+      nvim_buf_line_count:revert()
+      resize:revert()
+    end)
+
+    it("resizes horizontally without bang", function()
+      nvim_buf_get_lines.returns({ "foo", "bar1", "baz23" })
+      getwininfo.returns({ { textoff = 2 } })
+      vim.cmd.Fit()
+      assert
+        .stub(resize)
+        .called_with({ args = { 5 + 2 + 1 }, mods = { vertical = true } })
+    end)
+
+    it("resizes vertically with bang", function()
+      nvim_buf_line_count.returns(20)
+      vim.cmd.Fit({ bang = true })
+      assert
+        .stub(resize)
+        .called_with({ args = { 20 }, mods = { vertical = false } })
+    end)
+  end)
+
   it("close floating windows", function()
     local nvim_list_wins =
       stub(vim.api, "nvim_list_wins").returns({ 1, 2, 3, 4, 5 })

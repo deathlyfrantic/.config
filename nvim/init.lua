@@ -150,12 +150,27 @@ vim.api.nvim_create_user_command("Wq", "wq<bang>", { bang = true })
 vim.api.nvim_create_user_command("WQ", "wq<bang>", { bang = true })
 vim.api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
 
--- fit current window to contents
-vim.api.nvim_create_user_command(
-  "Fit",
-  "silent! execute 'resize' line('$')",
-  {}
-)
+-- fit current window to contents vertically, or horizontally with bang
+vim.api.nvim_create_user_command("Fit", function(args)
+  vim.cmd.resize({
+    args = {
+      args.bang and vim.api.nvim_buf_line_count(0)
+        or math.max(
+            unpack(
+              vim.tbl_map(
+                string.len,
+                vim.api.nvim_buf_get_lines(0, 0, -1, false)
+              )
+            )
+          )
+          -- to account for sign column etc
+          + (vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].textoff or 0)
+          + 1,
+    },
+    -- resize works on height by default, so `vertical` makes it work on width
+    mods = { vertical = not args.bang },
+  })
+end, { bang = true })
 
 -- select last-pasted text
 vim.keymap.set("n", "gV", "`[v`]")
