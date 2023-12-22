@@ -9,14 +9,17 @@ return make({
   ifmain = fmt(
     [[
       function main() {
-        <>
+        <body>
       }
 
-      if (<>) {
+      if (<condition>) {
         main();
       }
     ]],
-    { i(0), c(1, { t("import.meta.main"), t("require.main === module") }) },
+    {
+      body = i(0),
+      condition = c(1, { t("import.meta.main"), t("require.main === module") }),
+    },
     { delimiters = "<>" }
   ),
   describe = fmt(

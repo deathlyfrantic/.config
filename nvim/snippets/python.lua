@@ -22,13 +22,13 @@ return make({
     ]],
   init = fmt(
     [[
-      def __init__(self, {}):
-          {}
-          {}
+      def __init__(self, {args}):
+          {set_vars}
+          {body}
     ]],
     {
-      i(1),
-      f(function(args)
+      args = i(1),
+      set_vars = f(function(args)
         local pieces = (args[1][1] or ""):split(
           ",",
           { plain = true, trimempty = true }
@@ -50,7 +50,7 @@ return make({
         end
         return ret
       end, { 1 }),
-      i(0),
+      body = i(0),
     }
   ),
 })

@@ -114,7 +114,7 @@ return make({
         <body>
         return setmetatable(..., <class>)
       end
-      
+
       ---@overload fun(...): <class>
       return setmetatable({}, {
         __call = function(_, ...)
