@@ -6,7 +6,23 @@ local c = ls.choice_node
 local sn = ls.sn
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
+local k = require("luasnip.nodes.key_indexer").new_key
 local make = require("snippet-utils").make
+
+local function fn_annotations(args)
+  local pieces = vim.tbl_filter(function(piece)
+    return not piece:is_empty()
+  end, (args[1][1] or ""):split(",", { plain = true, trimempty = true }))
+  local text = ""
+  local insert_nodes = {}
+  for idx, piece in ipairs(pieces) do
+    text = text .. ("---@param %s {}\n"):format(piece:trim())
+    table.insert(insert_nodes, i(idx, "nil"))
+  end
+  text = text .. "---@return {}\n"
+  table.insert(insert_nodes, i(#insert_nodes + 1, "nil"))
+  return sn(nil, fmt(text, insert_nodes))
+end
 
 return make({
   describe = fmt(
@@ -43,44 +59,76 @@ return make({
     end)]],
   lf = fmt(
     [[
-      local function {}({})
-        {}
+      {annotations}
+      local function {name}({args})
+        {body}
       end
     ]],
-    { i(1), i(2), i(0) }
+    {
+      annotations = d(3, fn_annotations, { 2 }),
+      name = i(1),
+      args = i(2),
+      body = i(0),
+    }
+  ),
+  mf = fmt(
+    [[
+      {annotations}
+      function M.{name}({args})
+        {body}
+      end
+    ]],
+    {
+      annotations = d(3, fn_annotations, { 2 }),
+      name = i(1),
+      args = i(2),
+      body = i(0),
+    }
   ),
   module = fmt(
     [[
       local M = {}
 
-      function M.<>(<>)
-        <>
+      <annotations>
+      function M.<name>(<args>)
+        <body>
       end
 
       return M
     ]],
-    { i(1), i(2), i(0) },
+    {
+      annotations = d(3, fn_annotations, { 2 }),
+      name = i(1),
+      args = i(2),
+      body = i(0),
+    },
     { delimiters = "<>" }
   ),
   class = fmt(
     [[
-      local <> = {}
-      <>.__index = <>
+      ---@class <class>
+      local <name> = {}
+      <class>.__index = <class>
 
-      function <>.new(...)
-        <>
-        return setmetatable(..., <>)
+      function <class>.new(...)
+        <body>
+        return setmetatable(..., <class>)
       end
-
+      
+      ---@overload fun(...): <class>
       return setmetatable({}, {
         __call = function(_, ...)
-          return <>.new(...)
+          return <class>.new(...)
         end,
-        __index = <>
+        __index = <class>
       })
     ]],
-    { i(1), rep(1), rep(1), rep(1), i(0), rep(1), rep(1), rep(1) },
-    { delimiters = "<>" }
+    {
+      class = rep(k("insert_name")),
+      name = i(1, "", { key = "insert_name" }),
+      body = i(0),
+    },
+    { delimiters = "<>", repeat_duplicates = true }
   ),
   req = fmt([[local {} = require("{}")]], {
     d(2, function(args)
