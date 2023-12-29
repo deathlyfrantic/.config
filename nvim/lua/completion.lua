@@ -1,4 +1,5 @@
 local utils = require("utils")
+local luasnip = require("luasnip")
 
 local M = {}
 
@@ -74,6 +75,29 @@ local function gitcommit()
   end)
 end
 
+---@param fs integer
+---@param base string
+---@return integer | table
+function M.snippets(fs, base)
+  if fs == 1 then
+    return findstart()
+  end
+  local snippets = {}
+  for filetype, ft_snippets in pairs(luasnip.available()) do
+    for _, snippet in ipairs(ft_snippets) do
+      if snippet.description[1]:match(base) then
+        table.insert(snippets, {
+          word = snippet.trigger,
+          abbr = snippet.description[1],
+          menu = ("[%s]"):format(filetype),
+          kind = "S",
+        })
+      end
+    end
+  end
+  return snippets
+end
+
 function M.init()
   vim.api.nvim_create_autocmd("CompleteDone", {
     pattern = "*",
@@ -87,6 +111,7 @@ function M.init()
     return tab(false)
   end, { silent = true, expr = true })
   vim.keymap.set("i", "<C-x><C-g>", gitcommit, { silent = true })
+  vim.o.completefunc = "v:lua.require'completion'.snippets"
 end
 
 return M
