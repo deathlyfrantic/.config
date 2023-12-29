@@ -14,7 +14,7 @@ end
 function M.set_buf(lines, buf)
   if type(lines) == "string" then
     if lines:match("\n") then
-      lines = lines:dedent():split("\n", { plain = true })
+      lines = lines:dedent():split("\n", { trimempty = false })
     else
       lines = { lines }
     end

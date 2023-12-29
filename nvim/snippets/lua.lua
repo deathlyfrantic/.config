@@ -12,7 +12,7 @@ local make = require("snippet-utils").make
 local function fn_annotations(args)
   local pieces = vim.tbl_filter(function(piece)
     return not piece:is_empty()
-  end, (args[1][1] or ""):split(",", { plain = true, trimempty = true }))
+  end, (args[1][1] or ""):split(","))
   local text = ""
   local insert_nodes = {}
   for idx, piece in ipairs(pieces) do
@@ -132,7 +132,7 @@ return make({
   ),
   req = fmt([[local {} = require("{}")]], {
     d(2, function(args)
-      local pieces = (args[1][1] or ""):split(".", { plain = true })
+      local pieces = (args[1][1] or ""):split(".")
       local options = {}
       for len = 0, #pieces - 1 do
         local option = table

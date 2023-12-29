@@ -13,13 +13,15 @@ function string.is_empty(self)
   return self:match("^%s*$") ~= nil
 end
 
--- Split string into a list of strings based on a separator
+-- Split string into a list of strings based on a separator. Default options are
+-- reverse of `vim.split`.
 ---@param self string
 ---@param sep string
 ---@param opts { plain?: boolean, trimempty?: boolean }?
 ---@return string[]
 function string.split(self, sep, opts)
-  return vim.split(self, sep, opts)
+  local defaults = { plain = true, trimempty = true }
+  return vim.split(self, sep, vim.tbl_extend("force", defaults, opts or {}))
 end
 
 -- True if string starts with prefix
@@ -136,7 +138,7 @@ end
 ---@param self string
 ---@return string
 function string.dedent(self)
-  local lines = self:split("\n", { plain = true })
+  local lines = self:split("\n", { trimpempty = false })
   local min_indent = math.min(unpack(vim.tbl_map(function(line)
     return #(line:match("^%s*") or "")
   end, lines)))

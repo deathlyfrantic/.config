@@ -29,10 +29,7 @@ return make({
     {
       args = i(1),
       set_vars = f(function(args)
-        local pieces = (args[1][1] or ""):split(
-          ",",
-          { plain = true, trimempty = true }
-        )
+        local pieces = (args[1][1] or ""):split(",")
         if #pieces == 0 then
           return ""
         end

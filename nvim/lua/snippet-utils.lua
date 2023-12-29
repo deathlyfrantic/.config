@@ -13,8 +13,7 @@ function M.comment_string()
   if utils.highlight_at_pos_contains("comment") then
     return ""
   end
-  local before, after =
-    unpack(vim.o.commentstring:split("%s", { plain = true, trimempty = true }))
+  local before, after = unpack(vim.o.commentstring:split("%s"))
   if not before:ends_with(" ") then
     before = before .. " "
   end
@@ -48,7 +47,7 @@ local function text_snippet(snippet)
     return fmt(snippet, { i(0) })
   end
   if snippet:find("\n") then
-    return t(snippet:dedent():split("\n", { plain = true, trimempty = true }))
+    return t(snippet:dedent():split("\n"))
   end
   return t(snippet)
 end

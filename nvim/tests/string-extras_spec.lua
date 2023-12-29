@@ -19,10 +19,13 @@ describe("string-extras", function()
   end)
 
   it("split", function()
-    assert.same((":aa::b:"):split(":"), { "", "aa", "", "b", "" })
-    assert.same(("axaby"):split("ab?"), { "", "x", "y" })
-    assert.same(("x*yz*o"):split("*", { plain = true }), { "x", "yz", "o" })
-    assert.same(("|x|y|z|"):split("|", { trimempty = true }), { "x", "y", "z" })
+    assert.same(
+      (":aa::b:"):split(":", { trimempty = false }),
+      { "", "aa", "", "b", "" }
+    )
+    assert.same(("xayabz"):split("ab?", { plain = false }), { "x", "y", "z" })
+    assert.same(("x*yz*o"):split("*"), { "x", "yz", "o" })
+    assert.same(("|x|y|z|"):split("|"), { "x", "y", "z" })
   end)
 
   it("starts_with", function()

@@ -91,9 +91,7 @@ local function open_buffer(ground)
       vim.loop.fs_unlink(filename)
     end,
   })
-  local template = (ground.template or "")
-    :dedent()
-    :split("\n", { plain = true, trimempty = true })
+  local template = (ground.template or ""):dedent():split("\n")
   local cursor_pos = find_marker(template) or { 1, 0 }
   template = vim.tbl_map(function(line)
     return line:gsub(vim.pesc("$$$"), "")

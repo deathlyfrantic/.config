@@ -224,11 +224,7 @@ pm.add({
           args = { [[@\v/\.[^\/]+/?$@d]] },
           mods = { keeppatterns = true, silent = true, emsg_silent = true },
         })
-        for _, pattern in
-          ipairs(
-            vim.o.wildignore:split(",", { plain = true, trimempty = true })
-          )
-        do
+        for _, pattern in ipairs(vim.o.wildignore:split(",")) do
           vim.cmd.global({
             args = { ([[@\v/%s/?$@d]]):format(pattern) },
             mods = { keeppatterns = true, silent = true, emsg_silent = true },

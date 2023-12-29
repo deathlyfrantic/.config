@@ -79,7 +79,7 @@ end
 local function get_replacement_text(text, separator, cmp)
   separator = separator or determine_separator(text)
   cmp = cmp or ascending_sort
-  local pieces = text:split(separator, { plain = true })
+  local pieces = text:split(separator, { trimempty = false })
   -- need to determine glue before trimming all the pieces
   local glue = determine_glue(pieces, separator)
   pieces = vim.tbl_map(function(piece)
