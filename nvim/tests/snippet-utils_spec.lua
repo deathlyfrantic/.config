@@ -23,6 +23,13 @@ describe("snippets", function()
       assert.is_nil(after)
     end)
 
+    it("doesn't error if commentstring is ''", function()
+      vim.o.cms = ""
+      local before, after = snippets.comment_string()
+      assert.equals("", before)
+      assert.is_nil(after)
+    end)
+
     it("returns before but not after for line comments", function()
       vim.o.cms = "-- %s"
       highlight_at_pos_contains.returns(false)

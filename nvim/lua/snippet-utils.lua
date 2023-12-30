@@ -10,7 +10,9 @@ local M = {}
 
 ---@return string, string?
 function M.comment_string()
-  if utils.highlight_at_pos_contains("comment") then
+  if
+    utils.highlight_at_pos_contains("comment") or vim.o.commentstring:is_empty()
+  then
     return ""
   end
   local before, after = unpack(vim.o.commentstring:split("%s"))
