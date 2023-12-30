@@ -2,6 +2,8 @@ local ls = require("luasnip")
 local t = ls.text_node
 local i = ls.insert_node
 local c = ls.choice_node
+local d = ls.dynamic_node
+local sn = ls.snippet_node
 local fmt = require("luasnip.extras.fmt").fmt
 local partial = require("luasnip.extras").partial
 local force_comment = require("snippet-utils").force_comment
@@ -19,10 +21,17 @@ return make({
     ]],
   todo = force_comment("TODO{}: {}", {
     c(1, {
-      fmt("({} - {})", {
-        i(1, os.getenv("USER")),
-        i(2, os.date("%F")),
-      }),
+      -- needs to be a dynamic node so `os.date()` call gets evaluated when
+      -- snippet is expanded
+      d(1, function()
+        return sn(
+          nil,
+          fmt("({} - {})", {
+            i(1, os.getenv("USER")),
+            i(2, os.date("%F")),
+          })
+        )
+      end, {}),
       t(""),
     }),
     i(0),
