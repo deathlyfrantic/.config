@@ -306,7 +306,18 @@ pm.add({
       history = false,
       update_events = "TextChanged,TextChangedI",
     })
-    vim.keymap.set({ "i", "s" }, "<C-]>", ls.expand_or_jump)
+    vim.keymap.set({ "i", "s" }, "<C-]>", function()
+      -- need to close the completion menu if it is open, otherwise luasnip gets
+      -- a little wonky
+      if vim.fn.pumvisible() == 1 then
+        vim.api.nvim_feedkeys(
+          vim.api.nvim_replace_termcodes("<C-y>", true, false, true),
+          "mx",
+          false
+        )
+      end
+      ls.expand_or_jump()
+    end)
     vim.keymap.set({ "i", "s" }, "<C-f>", function()
       ls.jump(1)
     end)
