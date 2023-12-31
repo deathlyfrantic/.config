@@ -341,7 +341,13 @@ vim.cmd.colorscheme("copper")
 -- these have to export functions so need to be somewhere they can be found by
 -- `require()`, otherwise they could live in `/plugin` and be sourced
 -- automatically.
-local plugins = { "commandline", "completion", "statusline", "test-runner" }
+local plugins = {
+  "commandline",
+  "completion",
+  "statusline",
+  "test-runner",
+  "ui",
+}
 for _, plugin in ipairs(plugins) do
   require(plugin).init()
 end
