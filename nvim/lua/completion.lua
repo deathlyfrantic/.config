@@ -84,7 +84,7 @@ function M.snippets(fs, base)
   local snippets = {}
   for filetype, ft_snippets in pairs(luasnip.available()) do
     for _, snippet in ipairs(ft_snippets) do
-      if snippet.description[1]:match(base) then
+      if snippet.trigger:match(base) then
         table.insert(snippets, {
           word = snippet.trigger,
           abbr = snippet.description[1],
