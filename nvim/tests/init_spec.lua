@@ -314,18 +314,4 @@ describe("init", function()
       assert.stub(copen).called_with({ mods = { split = "botright" } })
     end)
   end)
-
-  it("make non-existent directories before writing file", function()
-    local confirm = stub(vim.fn, "confirm").returns(1)
-    local fs_stat = stub(vim.loop, "fs_stat").returns(false)
-    local mkdir = stub(vim.fn, "mkdir")
-    vim.api.nvim_exec_autocmds("BufWritePre", {
-      group = "init-autocmds-mkdir-on-write",
-      pattern = "/foo/bar/baz.txt",
-    })
-    assert.stub(mkdir).called_with("/foo/bar", "p")
-    confirm:revert()
-    fs_stat:revert()
-    mkdir:revert()
-  end)
 end)

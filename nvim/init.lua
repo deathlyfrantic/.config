@@ -319,22 +319,6 @@ vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("init-autocmds-quickfix", {}),
 })
 
--- make directories if they don't exist before writing file
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    local dir = vim.fs.dirname(args.file)
-    if not vim.loop.fs_stat(dir) then
-      if
-        vim.fn.confirm("Directory does not exist. Create?", "&Yes\n&No", 2) == 1
-      then
-        vim.fn.mkdir(dir, "p")
-      end
-    end
-  end,
-  group = vim.api.nvim_create_augroup("init-autocmds-mkdir-on-write", {}),
-})
-
 vim.cmd.colorscheme("copper")
 
 -- plugins in `/lua`
