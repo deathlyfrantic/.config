@@ -140,6 +140,9 @@ return make({
           :gsub("-", "_")
         table.insert(options, t(option))
       end
+      if #options == 0 then
+        options = { t("") }
+      end
       return sn(nil, {
         c(1, options),
       })
