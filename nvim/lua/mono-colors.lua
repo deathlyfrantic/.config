@@ -106,6 +106,8 @@ local function set_links()
     ["@text.diff.add"] = "DiffAdd",
     ["@text.diff.delete"] = "DiffDelete",
     ["@field.yaml"] = "Normal",
+    ["@diff.plus"] = "DiffAdd",
+    ["@diff.minus"] = "DiffDelete",
   }
 
   for k, v in pairs(links) do
