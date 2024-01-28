@@ -13,3 +13,4 @@ node_modules
 Session.vim
 .sass-cache
 *.swp
+target/
