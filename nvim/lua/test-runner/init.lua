@@ -28,16 +28,18 @@ local function run(cmd, close)
     end)
     term_window:on("BufAdd", function()
       local buf = term_window.buffer
+      vim.b[buf].cmd = cmd
       vim.keymap.set("n", "R", function()
         -- rerun the tests
         vim.bo[buf].modified = false
         vim.bo[buf].modifiable = true
-        run(cmd, term_window.close_on_success)
+        run(vim.b[buf].cmd, term_window.close_on_success)
       end, { buffer = buf, silent = true })
     end)
   else
     -- do this here in case we're reusing the TermWindow for another test
     term_window.close_on_success = close
+    vim.b[term_window.buffer].cmd = cmd
   end
   term_window:run(cmd)
 end
