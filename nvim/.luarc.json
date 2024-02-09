@@ -1,9 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
   "addonManager.enable": false,
-  "diagnostics.globals": [
-    "vim"
-  ],
+  "diagnostics": {
+    "disable": [
+      "newline-call"
+    ],
+    "globals": [
+      "vim"
+    ]
+  },
   "runtime.path": [
     "lua/?.lua",
     "lua/?/init.lua"
