@@ -44,7 +44,7 @@ if vim.fn.executable("rg") == 1 then
     end, vim.o.wildignore:split(",")),
     " "
   )
-  vim.o.grepprg = ("rg -F -S -H --no-heading --vimgrep %s '$*' \\| %s"):format(
+  vim.o.grepprg = ("rg -F -S -H --no-heading --vimgrep %s -- '$*' \\| %s"):format(
     ignores,
     sort_cmd
   )
@@ -55,7 +55,8 @@ if vim.fn.executable("rg") == 1 then
   ---@param args { bang: boolean, args: string }
   local function rg(args)
     local saved_grepprg = vim.opt_local.grepprg:get()
-    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep $* \\| " .. sort_cmd
+    vim.opt_local.grepprg = "rg -H --no-heading --vimgrep -- $* \\| "
+      .. sort_cmd
     grep(args)
     vim.opt_local.grepprg = saved_grepprg
   end
