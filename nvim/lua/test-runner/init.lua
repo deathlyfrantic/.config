@@ -39,7 +39,9 @@ local function run(cmd, close)
   else
     -- do this here in case we're reusing the TermWindow for another test
     term_window.close_on_success = close
-    vim.b[term_window.buffer].cmd = cmd
+    if vim.api.nvim_buf_is_valid(term_window.buffer) then
+      vim.b[term_window.buffer].cmd = cmd
+    end
   end
   term_window:run(cmd)
 end
