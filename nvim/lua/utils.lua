@@ -102,6 +102,9 @@ end
 ---@return string
 function M.get_hex_color(hl, attr)
   local colors = vim.api.nvim_get_hl(0, { name = hl })
+  while colors.link do
+    colors = vim.api.nvim_get_hl(0, { name = colors.link })
+  end
   local dec = (attr == "fg" or attr == "foreground") and colors.fg or colors.bg
   return ("#%06x"):format(dec)
 end

@@ -202,13 +202,22 @@ describe("utils", function()
 
   describe("get_hex_color", function()
     local group, fg, bg = "Foobar", "#ff0000", "#0000ff"
+    local nvim_get_hl
 
     before_each(function()
       vim.api.nvim_set_hl(0, group, { fg = fg, bg = bg })
+      vim.api.nvim_set_hl(0, "Link1", { link = group })
+      vim.api.nvim_set_hl(0, "Link2", { link = "Link1" })
+      vim.api.nvim_set_hl(0, "Link3", { link = "Link2" })
+      nvim_get_hl = spy.on(vim.api, "nvim_get_hl")
     end)
 
     after_each(function()
       vim.api.nvim_set_hl(0, group, {})
+      for i = 1, 3 do
+        vim.api.nvim_set_hl(0, "Link" .. i, {})
+      end
+      nvim_get_hl:clear()
     end)
 
     it('returns foreground for "fg" or "foreground"', function()
@@ -220,6 +229,12 @@ describe("utils", function()
       assert.equals(utils.get_hex_color(group, "bg"), bg)
       assert.equals(utils.get_hex_color(group, "background"), bg)
       assert.equals(utils.get_hex_color(group, "foobar"), bg)
+    end)
+
+    it("follows links", function()
+      local result = utils.get_hex_color("Link3", "fg")
+      assert.equals(result, fg)
+      assert.spy(nvim_get_hl).called(4)
     end)
   end)
 
