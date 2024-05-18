@@ -83,7 +83,8 @@ describe("autoclose", function()
   end)
 
   it("does not close left pair in a string", function()
-    vim.bo.filetype = "lua"
+    -- as of neovim v0.10.0, using lua as the filetype below does not work
+    vim.bo.filetype = "javascript"
     local line = [[foo("bar {{ baz", {]]
     test_utils.set_buf(line)
     get_cursor.returns({ 1, #line })
