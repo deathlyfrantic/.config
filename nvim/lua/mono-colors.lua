@@ -46,6 +46,15 @@ local function clear_highlights()
     "Delimiter",
     "StorageClass",
     "Operator",
+    "@lsp.type.parameter",
+    "@lsp.type.string",
+    "@variable",
+    "@markup",
+    "DiagnosticFloatingOk",
+    "DiagnosticFloatingWarn",
+    "DiagnosticFloatingError",
+    "DiagnosticFloatingHint",
+    "DiagnosticFloatingInfo",
   }
 
   for _, group in ipairs(no_highlights) do
@@ -101,6 +110,10 @@ local function set_links()
     NvimInternalError = "Error",
     FloatBorder = "StatusLine",
     DiagnosticInfo = "LineNr",
+    DiagnosticError = "Error",
+    DiagnosticWarn = "Warning",
+    DiagnosticOk = "Success",
+    DiagnosticHint = "LineNr",
     ["@gitcommit_error"] = "Error",
     ["@error.json"] = "Error",
     ["@text.diff.add"] = "DiffAdd",
@@ -108,6 +121,14 @@ local function set_links()
     ["@field.yaml"] = "Normal",
     ["@diff.plus"] = "DiffAdd",
     ["@diff.minus"] = "DiffDelete",
+    CurSearch = "Search",
+    QuickFixLine = "Search",
+    Added = "Success",
+    Changed = "Warning",
+    Removed = "Error",
+    FloatShadow = "CursorLine",
+    FloatShadowThrough = "CursorLine",
+    NormalFloat = "Pmenu",
   }
 
   for k, v in pairs(links) do
@@ -155,5 +176,20 @@ function M.define(name, termguicolors, colors)
   end
   popup_window_namespace(colors)
 end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    local links = {
+      Warning = "WarningMsg",
+    }
+    for k, v in pairs(links) do
+      if vim.tbl_count(vim.api.nvim_get_hl(0, { name = k })) == 0 then
+        vim.api.nvim_set_hl(0, k, vim.api.nvim_get_hl(0, { name = v }))
+      end
+    end
+  end,
+  group = vim.api.nvim_create_augroup("color-groups-set", {}),
+})
 
 return M
