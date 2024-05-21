@@ -21,11 +21,21 @@ local headers = {
 local nested_headers = { systypes = "sys/types" }
 
 for _, h in ipairs(headers) do
-  vim.cmd.iabbrev(("<buffer> %sh #include <%s.h>"):format(h, h))
+  vim.keymap.set(
+    "ia",
+    h .. "h",
+    ("#include <%s.h>"):format(h),
+    { buffer = true }
+  )
 end
 
 for h, f in pairs(nested_headers) do
-  vim.cmd.iabbrev(("<buffer> %sh #include <%s.h>"):format(h, f))
+  vim.keymap.set(
+    "ia",
+    h .. "h",
+    ("#include <%s.h>"):format(f),
+    { buffer = true }
+  )
 end
 
 if

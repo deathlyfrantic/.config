@@ -1,3 +1,3 @@
-vim.cmd.iabbrev("<buffer> != !==")
-vim.cmd.iabbrev("<buffer> == ===")
-vim.cmd.iabbrev("<buffer> fn! function")
+vim.keymap.set("ia", "!=", "!==", { buffer = true })
+vim.keymap.set("ia", "==", "===", { buffer = true })
+vim.keymap.set("ia", "fn!", "function", { buffer = true })

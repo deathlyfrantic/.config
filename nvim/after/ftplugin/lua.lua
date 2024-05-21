@@ -10,4 +10,4 @@ then
   )
 end
 
-vim.cmd.iabbrev("<buffer> fn! function")
+vim.keymap.set("ia", "fn!", "function", { buffer = true })
