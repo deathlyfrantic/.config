@@ -227,7 +227,7 @@ function M.help(contents)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"
   end, vim.api.nvim_list_wins())
   if not help_win then
-    vim.cmd.split()
+    vim.api.nvim_open_win(0, true, { win = 0, split = "above" })
     help_win = vim.api.nvim_get_current_win()
   end
   local buf = vim.api.nvim_create_buf(false, true)
@@ -241,6 +241,7 @@ function M.help(contents)
   if #contents < vim.api.nvim_win_get_height(help_win) then
     vim.api.nvim_win_set_height(help_win, #contents)
   end
+  vim.api.nvim_set_current_win(help_win)
 end
 
 -- Handle the steps necessary to make `*` work in visual mode

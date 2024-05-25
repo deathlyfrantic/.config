@@ -113,8 +113,11 @@ local function open_buffer(name)
   else
     local winid = vim.fn.bufwinid(bnum)
     if winid == -1 then
-      vim.cmd.split({ mods = { split = "topleft" }, range = { height() } })
-      vim.cmd.buffer(bnum)
+      vim.api.nvim_open_win(bnum, true, {
+        split = "above",
+        win = -1,
+        height = height(),
+      })
     else
       vim.api.nvim_set_current_win(winid)
     end
