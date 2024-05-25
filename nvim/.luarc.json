@@ -15,7 +15,7 @@
   ],
   "runtime.version": "LuaJIT",
   "workspace.library": [
-    "/opt/homebrew/Cellar/neovim/0.9.4/share/nvim/runtime"
+    "/opt/homebrew/Cellar/neovim/0.10.0/share/nvim/runtime"
   ],
   "workspace.checkThirdParty": "Disable",
   "workspace.useGitIgnore": false
