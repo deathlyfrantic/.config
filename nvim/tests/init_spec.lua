@@ -201,26 +201,6 @@ describe("init", function()
     end)
   end)
 
-  it("close floating windows", function()
-    local nvim_list_wins =
-      stub(vim.api, "nvim_list_wins").returns({ 1, 2, 3, 4, 5 })
-    local nvim_win_get_config = stub(vim.api, "nvim_win_get_config").by_default
-      .returns({ relative = "" })
-      .on_call_with(2)
-      .returns({ relative = "cursor" })
-      .on_call_with(4)
-      .returns({ relative = "win" })
-    local nvim_win_close = stub(vim.api, "nvim_win_close")
-    -- it should close all floating windows but not close non-floating windows
-    vim.cmd.CloseFloatingWindows()
-    assert.stub(nvim_win_close).called(2)
-    assert.stub(nvim_win_close).called_with(2, true)
-    assert.stub(nvim_win_close).called_with(4, true)
-    nvim_list_wins:revert()
-    nvim_win_get_config:revert()
-    nvim_win_close:revert()
-  end)
-
   describe("arrows", function()
     local char_before_cursor, nvim_get_current_line, nvim_win_get_cursor
 

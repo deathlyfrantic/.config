@@ -200,19 +200,9 @@ vim.keymap.set(
 )
 
 -- close all floating windows
-local function close_floating_windows()
-  for _, id in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_config(id).relative ~= "" then
-      vim.api.nvim_win_close(id, true)
-    end
-  end
-end
-vim.api.nvim_create_user_command(
-  "CloseFloatingWindows",
-  close_floating_windows,
-  {}
-)
-vim.keymap.set("n", "<Esc>", close_floating_windows)
+vim.keymap.set("n", "<Esc>", function()
+  vim.cmd.fclose({ bang = true })
+end)
 
 -- resize windows
 vim.keymap.set("n", "<C-Left>", "<C-W><")
