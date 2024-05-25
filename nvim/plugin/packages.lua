@@ -369,8 +369,7 @@ pm.add(
   "tpope/vim-speeddating",
   "tpope/vim-surround",
   "tpope/vim-unimpaired",
-  "tpope/vim-eunuch",
-  "tpope/vim-commentary"
+  "tpope/vim-eunuch"
 )
 
 pm.add({
