@@ -39,10 +39,9 @@ end
 -- Count of warning and error diagnostics in buffer
 ---@return string
 function M.diagnostics()
-  local warnings =
-    #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-  local errors =
-    #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local count = vim.diagnostic.count(0)
+  local warnings = count[vim.diagnostic.severity.WARN] or 0
+  local errors = count[vim.diagnostic.severity.ERROR] or 0
   return errors + warnings == 0 and ""
     or (" %s %s%s%s"):format(
       separator,

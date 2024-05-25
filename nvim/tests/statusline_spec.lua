@@ -63,35 +63,28 @@ describe("statusline", function()
   end)
 
   describe("diagnostics", function()
-    local diagnostic_get
+    local diagnostic_count
     -- these are copied from `statusline.lua`. `diagnostics()` includes
     -- highlighting, so it has to construct the separator and formatting itself.
     local separator = "%1*│%*"
     local error_block = "%2*■%*"
     local warning_block = "%3*■%*"
 
-    local warning = { severity = vim.diagnostic.severity.WARN }
-    local error = { severity = vim.diagnostic.severity.ERROR }
-
     before_each(function()
-      diagnostic_get = stub(vim.diagnostic, "get")
+      diagnostic_count = stub(vim.diagnostic, "count")
     end)
 
     after_each(function()
-      diagnostic_get:revert()
+      diagnostic_count:revert()
     end)
 
     it("returns empty string if there are no diagnostics", function()
-      diagnostic_get.returns({})
+      diagnostic_count.returns({})
       assert.equals(statusline.diagnostics(), "")
     end)
 
     it("returns just error count if there are no warnings", function()
-      diagnostic_get
-        .on_call_with(0, { severity = vim.diagnostic.severity.WARN })
-        .returns({})
-        .on_call_with(0, { severity = vim.diagnostic.severity.ERROR })
-        .returns({ error })
+      diagnostic_count.returns({ [vim.diagnostic.severity.ERROR] = 1 })
       assert.equals(
         statusline.diagnostics(),
         (" %s %s 1"):format(separator, error_block)
@@ -99,11 +92,7 @@ describe("statusline", function()
     end)
 
     it("returns just warning count if there are no errors", function()
-      diagnostic_get
-        .on_call_with(0, { severity = vim.diagnostic.severity.WARN })
-        .returns({ warning, warning })
-        .on_call_with(0, { severity = vim.diagnostic.severity.ERROR })
-        .returns({})
+      diagnostic_count.returns({ [vim.diagnostic.severity.WARN] = 2 })
       assert.equals(
         statusline.diagnostics(),
         (" %s %s 2"):format(separator, warning_block)
@@ -111,11 +100,10 @@ describe("statusline", function()
     end)
 
     it("returns errors and warnings if both are non-zero", function()
-      diagnostic_get
-        .on_call_with(0, { severity = vim.diagnostic.severity.WARN })
-        .returns({ warning, warning })
-        .on_call_with(0, { severity = vim.diagnostic.severity.ERROR })
-        .returns({ error })
+      diagnostic_count.returns({
+        [vim.diagnostic.severity.WARN] = 2,
+        [vim.diagnostic.severity.ERROR] = 1,
+      })
       assert.equals(
         statusline.diagnostics(),
         (" %s %s 1 %s 2"):format(separator, error_block, warning_block)
