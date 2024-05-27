@@ -156,21 +156,14 @@ function M.find_project_dir(start)
   if vim.b.z_project_dir then
     return vim.b.z_project_dir
   end
-  local cache = function(value)
-    vim.b.z_project_dir = value
-    return value
+  if not start then
+    local bufname = vim.api.nvim_buf_get_name(0)
+    start = bufname:is_empty() and vim.loop.cwd() or bufname
   end
   local markers = vim.deepcopy(project_dir_markers[vim.bo.filetype] or {})
   vim.list_extend(markers, project_dir_markers.all)
-  local paths = vim.fs.find(markers, {
-    upward = true,
-    stop = vim.loop.os_homedir(),
-    path = start or vim.loop.cwd(),
-  })
-  if #paths > 0 then
-    return cache(vim.fs.dirname(paths[1]) .. "/")
-  end
-  return cache(vim.loop.cwd() .. "/")
+  vim.b.z_project_dir = (vim.fs.root(start, markers) or vim.loop.cwd()) .. "/"
+  return vim.b.z_project_dir
 end
 
 -- Determine whether a buffer is "real" i.e. valid, loaded and listed
