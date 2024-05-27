@@ -310,11 +310,7 @@ pm.add({
       -- need to close the completion menu if it is open, otherwise luasnip gets
       -- a little wonky
       if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(
-          vim.api.nvim_replace_termcodes("<C-y>", true, false, true),
-          "mx",
-          false
-        )
+        vim.api.nvim_feedkeys(vim.keycode("<C-y>"), "mx", false)
       end
       ls.expand_or_jump()
     end)
