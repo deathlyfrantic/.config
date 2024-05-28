@@ -57,30 +57,24 @@ local function popup_window(title, contents, callback)
   end
 end
 
----@param cmds { [string]: string }
+---@param cmds { [string]: string[] }
 ---@return { [string]: { success: boolean, stderr: string, stdout: string } }
 local function run_jobs(cmds)
-  local jobs, results = {}, {}
+  local num_jobs = vim.tbl_count(cmds)
+  local results = {}
+  local finished_jobs = 0
   for name, cmd in pairs(cmds) do
     results[name] = {}
-    table.insert(
-      jobs,
-      vim.fn.jobstart(cmd, {
-        on_exit = function(_, code, _)
-          results[name].success = code == 0
-        end,
-        on_stderr = function(_, output, _)
-          results[name].stderr = output
-        end,
-        on_stdout = function(_, output, _)
-          results[name].stdout = output
-        end,
-        stderr_buffered = true,
-        stdout_buffered = true,
-      })
-    )
+    vim.system(cmd, { text = true }, function(job)
+      results[name].success = job.code == 0
+      results[name].stderr = job.stderr
+      results[name].stdout = job.stdout
+      finished_jobs = finished_jobs + 1
+    end)
   end
-  vim.fn.jobwait(jobs)
+  vim.wait(5000, function()
+    return finished_jobs >= num_jobs
+  end, 100, false)
   return results
 end
 
@@ -163,7 +157,7 @@ function M.install()
   vim.cmd.redraw({ bang = true })
   local cmds = {}
   for _, spec in ipairs(need_to_install) do
-    cmds[spec.name] = ("git clone %s %s"):format(spec.url, spec.path)
+    cmds[spec.name] = { "git", "clone", spec.url, spec.path }
   end
   local job_results = run_jobs(cmds)
   local successes, failures = {}, {}
@@ -257,7 +251,7 @@ function M.update()
       )
       return
     end
-    cmds[name] = ("git -C %s pull --ff-only --no-rebase"):format(spec.path)
+    cmds[name] = { "git", "-C", spec.path, "pull", "--ff-only", "--no-rebase" }
   end
   vim.notify("Updating packages ...", vim.log.levels.INFO)
   vim.cmd.redraw({ bang = true })
@@ -266,7 +260,7 @@ function M.update()
   for name, spec in pairs(packages) do
     if
       job_results[name].success
-      and job_results[name].stdout[1] ~= "Already up to date."
+      and not job_results[name].stdout:starts_with("Already up to date.")
     then
       git_logs[name] = utils.collect(
         io.popen(

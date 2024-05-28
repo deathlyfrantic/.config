@@ -54,13 +54,13 @@ local function gitcommit()
     if fs then
       return findstart()
     end
-    local cmd = "git log --oneline --no-merges"
+    local cmd = { "git", "log", "--oneline", "--no-merges" }
     if #base > 0 then
-      cmd = cmd .. " --grep='" .. base .. "'"
+      table.insert(cmd, ("--grep='%s'"):format(base))
     else
-      cmd = cmd .. " -n 5000"
+      vim.list_extend(cmd, { "-n", "5000" })
     end
-    local commits = io.popen(cmd):read("*all"):split("\n")
+    local commits = vim.system(cmd, { text = true }):wait().stdout:split("\n")
     table.sort(commits, function(a, b)
       -- chop off the commit hash when sorting
       return a:gsub("^%w+%s+", "") < b:gsub("^%w+%s", "")

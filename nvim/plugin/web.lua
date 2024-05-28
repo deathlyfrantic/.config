@@ -4,7 +4,7 @@ local search_url = "https://duckduckgo.com/?q=%s"
 
 ---@param url string
 local function browser(url)
-  vim.loop.spawn("open", { args = { "-g", url } })
+  vim.system({ "open", "-g", url })
 end
 
 ---@param url string
