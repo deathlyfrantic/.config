@@ -128,7 +128,7 @@ local function collapse_notifications()
       notification.win,
       vim.api.nvim_create_namespace("popup-window")
     )
-    row = row + notification:height() + 3
+    row = row + notification:height() + 2
   end
 end
 
@@ -137,12 +137,9 @@ local function remove_notification(notification)
   if vim.api.nvim_win_is_valid(notification.win) then
     vim.api.nvim_win_close(notification.win, true)
   end
-  local _, pos = utils.tbl_find(function(n)
-    return n.id == notification.id
+  notifications = vim.tbl_filter(function(n)
+    return n.id ~= notification.id
   end, notifications)
-  if pos then
-    table.remove(notifications, pos)
-  end
   collapse_notifications()
 end
 

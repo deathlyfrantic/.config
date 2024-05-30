@@ -1,18 +1,5 @@
 local M = {}
 
--- Returns the item and index of the item of a table if f(item) is true
----@param f fun(v: any, i?: integer): boolean
----@param t any[]
----@return boolean?, integer?
-function M.tbl_find(f, t)
-  for i, v in ipairs(t) do
-    if f(v, i) then
-      return v, i
-    end
-  end
-  return nil
-end
-
 -- Create a popup window at the cursor with the given text
 ---@param text any
 ---@param title string?
@@ -190,9 +177,9 @@ function M.help(contents)
   if type(contents) == "string" then
     contents = contents:split("\n")
   end
-  local help_win = M.tbl_find(function(win)
+  local help_win = vim.iter(vim.api.nvim_list_wins()):find(function(win)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"
-  end, vim.api.nvim_list_wins())
+  end)
   if not help_win then
     vim.api.nvim_open_win(0, true, { win = 0, split = "above" })
     help_win = vim.api.nvim_get_current_win()

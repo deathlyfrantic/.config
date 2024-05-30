@@ -5,36 +5,6 @@ local match = require("luassert.match")
 local test_utils = require("test-utils")
 
 describe("utils", function()
-  describe("tbl_find", function()
-    local spied = spy(function(v)
-      return v % 2 == 0
-    end)
-
-    after_each(function()
-      spied:clear()
-    end)
-
-    it("returns value and index if found", function()
-      local value, index = utils.tbl_find(spied, { 1, 3, 5, 7, 8, 9 })
-      assert.equals(value, 8)
-      assert.equals(index, 5)
-      assert.spy(spied).called(5)
-    end)
-
-    it("returns first value and index found", function()
-      local value, index = utils.tbl_find(spied, { 1, 2, 2, 2, 2 })
-      assert.equals(value, 2)
-      assert.equals(index, 2)
-      assert.spy(spied).called(2)
-    end)
-
-    it("returns nil if not found", function()
-      local t = { 1, 3, 5, 7, 9 }
-      assert.is_nil(utils.tbl_find(spied, t))
-      assert.spy(spied).called(#t)
-    end)
-  end)
-
   describe("popup", function()
     local function popup(contents, title)
       local win = utils.popup(contents, title)

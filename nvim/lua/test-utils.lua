@@ -43,9 +43,9 @@ end
 ---@param key string
 ---@return function
 function M.get_keymap_callback(mode, key)
-  return utils.tbl_find(function(mapping)
+  return vim.iter(vim.api.nvim_get_keymap(mode)):find(function(mapping)
     return mapping.lhs == key
-  end, vim.api.nvim_get_keymap(mode)).callback
+  end).callback
 end
 
 ---@param start integer[]
