@@ -78,9 +78,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
       and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "dirvish")
     then
       if
-        #vim.tbl_filter(function(b)
-            return vim.bo[b].buflisted
-          end, vim.api.nvim_list_bufs())
+        #vim
+            .iter(vim.api.nvim_list_bufs())
+            :filter(function(b)
+              return vim.bo[b].buflisted
+            end)
+            :totable()
           == 1
         or vim.bo.buftype == "quickfix"
       then
@@ -157,10 +160,10 @@ vim.api.nvim_create_user_command("Fit", function(args)
       args.bang and vim.api.nvim_buf_line_count(0)
         or math.max(
             unpack(
-              vim.tbl_map(
-                string.len,
-                vim.api.nvim_buf_get_lines(0, 0, -1, false)
-              )
+              vim
+                .iter(vim.api.nvim_buf_get_lines(0, 0, -1, false))
+                :map(string.len)
+                :totable()
             )
           )
           -- to account for sign column etc
@@ -282,9 +285,9 @@ end, { expr = true })
 ---@param vertical boolean
 local function quickfix_toggle(vertical)
   if
-    utils.tbl_any(function(b)
+    vim.iter(vim.api.nvim_list_bufs()):any(function(b)
       return vim.bo[b].filetype == "qf" and vim.bo[b].buflisted
-    end, vim.api.nvim_list_bufs())
+    end)
   then
     vim.cmd.cclose()
     return

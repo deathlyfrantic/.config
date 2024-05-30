@@ -37,9 +37,9 @@ local function semi(state)
     return ""
   end
   if
-    utils.tbl_any(function(pat)
+    vim.iter(semi_lines[state.ft]):any(function(pat)
       return state.trimmed:match(pat)
-    end, semi_lines[state.ft])
+    end)
   then
     return ";"
   end

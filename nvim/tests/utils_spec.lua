@@ -5,27 +5,6 @@ local match = require("luassert.match")
 local test_utils = require("test-utils")
 
 describe("utils", function()
-  describe("tbl_any", function()
-    local spied = spy(function(v)
-      return v
-    end)
-
-    after_each(function()
-      spied:clear()
-    end)
-
-    it("returns true if any value is true", function()
-      local t = { false, false, true, false }
-      assert.is_true(utils.tbl_any(spied, t))
-      assert.spy(spied).called(3)
-    end)
-
-    it("returns false if no value is true", function()
-      assert.is_false(utils.tbl_any(spied, { false, false, false }))
-      assert.spy(spied).called(3)
-    end)
-  end)
-
   describe("tbl_all", function()
     local spied = spy(function(v)
       return v

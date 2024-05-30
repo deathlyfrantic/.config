@@ -1,18 +1,5 @@
 local M = {}
 
--- Returns true if f(item) is true for any item in a table
----@param f fun(v: any, i?: integer): boolean
----@param t any[]
----@return boolean
-function M.tbl_any(f, t)
-  for i, v in ipairs(t) do
-    if f(v, i) then
-      return true
-    end
-  end
-  return false
-end
-
 -- Returns true if f(item) is true for all items in a table
 ---@param f fun(v: any, i?: integer): boolean
 ---@param t any[]
@@ -197,9 +184,9 @@ function M.highlight_at_pos_contains(pattern, pos)
   -- if syntax is on that means treesitter highlighting is not enabled, so use
   -- vim regex highlighting
   if vim.bo.syntax ~= "" then
-    return M.tbl_any(function(id)
+    return vim.iter(vim.fn.synstack(line, column)):any(function(id)
       return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
-    end, vim.fn.synstack(line, column))
+    end)
   end
   -- if syntax isn't set then try to get node type from treesitter. treesitter
   -- uses 0-based indexing so subtract one from line and column.

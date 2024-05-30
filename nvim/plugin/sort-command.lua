@@ -42,12 +42,12 @@ end
 ---@param separator string
 ---@return string
 local function determine_glue(pieces, separator)
-  local leading_space = utils.tbl_any(function(piece)
+  local leading_space = vim.iter(pieces):any(function(piece)
     return piece:find("^%s")
-  end, pieces)
-  local trailing_space = utils.tbl_any(function(piece)
+  end)
+  local trailing_space = vim.iter(pieces):any(function(piece)
     return piece:find("%s$")
-  end, pieces)
+  end)
   -- need to reverse meaning of variables - if a piece has a leading space, that
   -- means the separator needs a trailing space, and vice versa
   return (trailing_space and " " or "")
