@@ -1,18 +1,5 @@
 local M = {}
 
--- Returns true if f(item) is true for all items in a table
----@param f fun(v: any, i?: integer): boolean
----@param t any[]
----@return boolean
-function M.tbl_all(f, t)
-  for i, v in ipairs(t) do
-    if not f(v, i) then
-      return false
-    end
-  end
-  return true
-end
-
 -- Returns the item and index of the item of a table if f(item) is true
 ---@param f fun(v: any, i?: integer): boolean
 ---@param t any[]
