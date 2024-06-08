@@ -109,26 +109,6 @@ describe("utils", function()
     end)
   end)
 
-  describe("collect", function()
-    it("works on one-argument iterators", function()
-      local i = 0
-      local iter = function()
-        if i < 5 then
-          i = i + 1
-          return i
-        end
-      end
-      assert.same(utils.collect(iter), { 1, 2, 3, 4, 5 })
-    end)
-
-    it("works on three-argument iterators", function()
-      assert.same(
-        { "/foo/bar/baz/quux", "/foo/bar/baz", "/foo/bar", "/foo", "/" },
-        utils.collect(vim.fs.parents("/foo/bar/baz/quux/garply"))
-      )
-    end)
-  end)
-
   describe("get_hex_color", function()
     local group, fg, bg = "Foobar", "#ff0000", "#0000ff"
     local nvim_get_hl

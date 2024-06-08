@@ -207,9 +207,9 @@ local function open_diff()
       local package = packages[pieces[2]]
       popup_window(
         package.name .. " commit " .. commit,
-        utils.collect(
-          io.popen("git -C " .. package.path .. " show " .. commit):lines()
-        ),
+        vim
+          .iter(io.popen("git -C " .. package.path .. " show " .. commit):lines())
+          :totable(),
         function()
           vim.wo.cursorline = true
           vim.bo.filetype = "git"
@@ -262,13 +262,15 @@ function M.update()
       job_results[name].success
       and not job_results[name].stdout:starts_with("Already up to date.")
     then
-      git_logs[name] = utils.collect(
-        io.popen(
-          "git -C "
-            .. spec.path
-            .. " log --format='%h %s' --no-color HEAD@{1}..HEAD"
-        ):lines()
-      )
+      git_logs[name] = vim
+        .iter(
+          io.popen(
+            "git -C "
+              .. spec.path
+              .. " log --format='%h %s' --no-color HEAD@{1}..HEAD"
+          ):lines()
+        )
+        :totable()
     end
   end
   local successes, failures = {}, {}

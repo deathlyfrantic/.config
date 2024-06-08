@@ -45,18 +45,6 @@ function M.popup(text, title)
   return win
 end
 
--- Collect items from an iterator into a table
----@generic T
----@param ... `T`
----@return T[]
-function M.collect(...)
-  local ret = {}
-  for item in ... do
-    table.insert(ret, item)
-  end
-  return ret
-end
-
 -- Get a standard hex color representation (#rrggbb) of a highlight
 ---@param hl string
 ---@param attr "fg" | "foreground" | "bg" | "background"

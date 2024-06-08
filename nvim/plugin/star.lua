@@ -184,7 +184,7 @@ local function on_exit(mode, _, exit_code)
   end
   if exit_code == 0 then
     if vim.loop.fs_access(file, "r") then
-      local paths = utils.collect(io.open(file):lines())
+      local paths = vim.iter(io.open(file):lines()):totable()
       modes[mode].open(paths)
     end
   end
