@@ -3,7 +3,7 @@ local utils = require("utils")
 local test_utils = require("test-utils")
 
 describe("init", function()
-  describe("quits even if dirvish or quickfix is open", function()
+  describe("quits even if tree or quickfix is open", function()
     local bo, quit, nvim_buf_delete, nvim_list_bufs, nvim_list_wins
 
     before_each(function()
@@ -33,8 +33,8 @@ describe("init", function()
       assert.stub(nvim_buf_delete).not_called()
     end)
 
-    it("dirvish", function()
-      vim.bo = { { buflisted = true }, filetype = "dirvish" }
+    it("tree", function()
+      vim.bo = { { buflisted = true }, filetype = "tree" }
       nvim_list_bufs.returns({ 1 })
       vim.api.nvim_exec_autocmds(
         "BufEnter",
@@ -47,8 +47,7 @@ describe("init", function()
     it("deletes buffer if conditions not met", function()
       -- there is a reason for the logic that this is testings but i do not
       -- remember what it is
-      vim.bo =
-        { { buflisted = false }, buftype = "nofile", filetype = "dirvish" }
+      vim.bo = { { buflisted = false }, buftype = "nofile", filetype = "tree" }
       nvim_list_bufs.returns({})
       vim.api.nvim_exec_autocmds(
         "BufEnter",

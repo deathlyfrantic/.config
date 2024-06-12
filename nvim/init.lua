@@ -69,13 +69,13 @@ vim.opt.wildignore = vim.opt.wildignore
   + ".DS_Store"
 vim.opt.wildignorecase = true
 
--- quit even if dirvish or quickfix is open
+-- quit even if tree or quickfix is open
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     if
       #vim.api.nvim_list_wins() == 1
-      and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "dirvish")
+      and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "tree")
     then
       if
         #vim
@@ -323,6 +323,7 @@ local plugins = {
   "completion",
   "statusline",
   "test-runner",
+  "tree",
   "ui",
 }
 for _, plugin in ipairs(plugins) do

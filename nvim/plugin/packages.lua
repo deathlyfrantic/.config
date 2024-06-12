@@ -191,61 +191,6 @@ pm.add({
 })
 
 pm.add({
-  "justinmk/vim-dirvish",
-  config = function()
-    local function toggle()
-      local dirvish_bufs = vim.tbl_filter(function(id)
-        return vim.api.nvim_buf_is_loaded(id)
-          and vim.bo[id].filetype == "dirvish"
-      end, vim.api.nvim_list_bufs())
-      if #dirvish_bufs == 0 then
-        vim.cmd.vsplit({ mods = { split = "topleft" }, range = { 35 } })
-        vim.cmd.Dirvish()
-      else
-        vim.cmd.bdelete({ args = dirvish_bufs, bang = true })
-      end
-    end
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "dirvish",
-      callback = function()
-        vim.wo.number = false
-        vim.wo.relativenumber = false
-        vim.wo.statusline = "%F"
-        vim.keymap.set("n", "<CR>", function()
-          local line = vim.api.nvim_get_current_line()
-          if line:ends_with("/") then
-            vim.fn["dirvish#open"]("edit", 0)
-          else
-            toggle()
-            vim.cmd.edit(line)
-          end
-        end, { buffer = true, silent = true })
-        vim.cmd.global({
-          args = { [[@\v/\.[^\/]+/?$@d]] },
-          mods = { keeppatterns = true, silent = true, emsg_silent = true },
-        })
-        for _, pattern in ipairs(vim.o.wildignore:split(",")) do
-          vim.cmd.global({
-            args = { ([[@\v/%s/?$@d]]):format(pattern) },
-            mods = { keeppatterns = true, silent = true, emsg_silent = true },
-          })
-        end
-        vim.keymap.set("n", "q", toggle, { buffer = true, silent = true })
-        vim.keymap.set(
-          "n",
-          "-",
-          "<Plug>(dirvish_up)",
-          { buffer = true, remap = true }
-        )
-      end,
-      group = vim.api.nvim_create_augroup("dirvish-config", {}),
-    })
-    vim.keymap.set("n", "-", toggle, { silent = true, remap = true })
-    vim.g.dirvish_mode = ":sort ,^.*[/],"
-  end,
-})
-
-pm.add({
   "mbbill/undotree",
   cmd = "UndotreeToggle",
   config = function()
