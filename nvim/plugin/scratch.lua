@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 ---@param name string
 local function save_file(name)
   return vim.fs.normalize(
