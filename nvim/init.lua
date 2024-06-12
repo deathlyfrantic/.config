@@ -43,10 +43,7 @@ vim.opt.wrap = false
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
-vim.opt.spellfile = {
-  vim.fn.stdpath("config") .. "/spell/custom.utf-8.add",
-  vim.fn.stdpath("config") .. "/spell/local.utf-8.add",
-}
+vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/local.utf-8.add"
 vim.opt.softtabstop = 4
 vim.opt.tags:prepend("./.git/tags;")
 vim.opt.textwidth = 80
