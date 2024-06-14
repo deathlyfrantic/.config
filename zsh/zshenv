@@ -1,4 +1,4 @@
-export XDG_RUNTIME_DIR=$TMPDIR
+export XDG_RUNTIME_DIR="$TMPDIR"
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/Library/Caches
 export XDG_DATA_HOME="$HOME"/Library
