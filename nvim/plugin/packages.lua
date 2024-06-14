@@ -96,6 +96,7 @@ pm.add({
   config = function()
     require("gitsigns").setup({
       signs = { add = { text = "+" }, change = { text = "~" } },
+      signs_staged_enable = false,
       on_attach = function()
         local gs = require("gitsigns")
         vim.keymap.set("n", "]c", function()
