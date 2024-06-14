@@ -6,7 +6,7 @@
     autocrlf = input
     hooksPath = ~/.config/git/hooks
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
     tool = vimdiff
 [mergetool]
     prompt = true
