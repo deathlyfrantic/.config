@@ -187,7 +187,9 @@ end, { expr = true })
 -- search bindings
 vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "#", "#N")
-vim.keymap.set("n", "<Space>", "<Cmd>nohlsearch<CR>", { silent = true })
+vim.keymap.set("n", "<Space>", function()
+  return vim.v.hlsearch == 0 and "*N" or "<Cmd>nohlsearch<CR>"
+end, { expr = true, silent = true })
 vim.keymap.set(
   "x",
   "*",
