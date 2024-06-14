@@ -1,15 +1,29 @@
-export XDG_RUNTIME_DIR="$TMPDIR"
-export XDG_CONFIG_HOME="$HOME"/.config
+# xdg base directories
+# https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+# must set these first so later settings can use these vars
 export XDG_CACHE_HOME="$HOME"/Library/Caches
+export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_DATA_HOME="$HOME"/Library
+export XDG_RUNTIME_DIR="$TMPDIR"
+export XDG_STATE_HOME="$HOME"/.local/state
+
+# editors/pagers/etc
 export EDITOR=nvim
-export INPUTRC="$XDG_CONFIG_HOME"/inputrc
+export VISUAL=nvim
 export PAGER='less -iXR'
 export LESSHISTFILE=-
+
+# miscellaneous shell settings
+export LSCOLORS=ExGxFxFxCx
+export REPORTTIME=5
+
+# language settings
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
 export PYTHONSTARTUP="$XDG_CONFIG_HOME"/startup.py
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export VISUAL=nvim
-export LSCOLORS=ExGxFxFxCx
+
+# disable homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1
-export REPORTTIME=5
+
+# not clear to me if this does anything as i also link it to ~
+export INPUTRC="$XDG_CONFIG_HOME"/inputrc

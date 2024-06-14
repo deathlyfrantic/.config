@@ -163,7 +163,7 @@ fpath+=(
 setopt appendhistory autocd extended_history share_history menu_complete prompt_subst
 unsetopt beep case_glob flowcontrol
 
-# history
+# history - for some reason this has to go here instead of zprofile
 export HISTFILE="$XDG_DATA_HOME"/zsh-history
 export HISTSIZE=1000000
 export SAVEHIST=1000000
