@@ -138,7 +138,7 @@ end
 ---@param self string
 ---@return string
 function string.dedent(self)
-  local lines = self:split("\n", { trimpempty = false })
+  local lines = self:split("\n", { trimempty = false })
   local min_indent = math.min(unpack(vim.tbl_map(function(line)
     return #(line:match("^%s*") or "")
   end, lines)))
