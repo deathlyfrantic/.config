@@ -150,5 +150,20 @@ describe("string-extras", function()
       local s = "foo\n bar\n  baz"
       assert.equals(s, s:dedent())
     end)
+
+    it("works with tabs", function()
+      local s = "\t   foo\n\t \tbar\n\t\t\t baz\tquux"
+      assert.equals("  foo\n\tbar\n\t\tbaz\tquux", s:dedent())
+    end)
+
+    it("puts tabs at beginning even if interleaved with spaces", function()
+      local s = "\t foo\n\t  \t bar"
+      assert.equals("foo\n\t  bar", s:dedent())
+    end)
+
+    it("ignores empty lines", function()
+      local s = "foo\n\n  bar"
+      assert.equals("foo\n\n  bar", s:dedent())
+    end)
   end)
 end)

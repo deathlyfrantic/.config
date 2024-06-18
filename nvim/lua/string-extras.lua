@@ -134,16 +134,42 @@ function string.imatch(self, pattern)
 end
 
 -- Dedent string by removing smallest common whitespace from front of each line.
--- This method does not handle tabs.
 ---@param self string
 ---@return string
 function string.dedent(self)
   local lines = self:split("\n", { trimempty = false })
-  local min_indent = math.min(unpack(vim.tbl_map(function(line)
-    return #(line:match("^%s*") or "")
-  end, lines)))
-  local dedented = vim.tbl_map(function(line)
-    return line:sub(min_indent + 1)
+  -- determine the number of leading tabs and spaces per line
+  local stats = vim.tbl_map(function(line)
+    local indent = line:match("^%s*")
+    local _, tabs = indent:gsub("\t", "")
+    local _, spaces = indent:gsub(" ", "")
+    return { tabs = tabs, spaces = spaces }
   end, lines)
-  return table.concat(dedented, "\n")
+  -- find the smallest common number of leading tabs and spaces
+  local min_values = vim.iter(stats):enumerate():fold(
+    { tabs = math.huge, spaces = math.huge },
+    function(acc, i, stat)
+      -- ignore stats for blank lines
+      return #lines[i] == 0 and acc
+        or {
+          tabs = math.min(acc.tabs, stat.tabs),
+          spaces = math.min(acc.spaces, stat.spaces),
+        }
+    end
+  )
+  -- rebuild the lines
+  return vim
+    .iter(stats)
+    :enumerate()
+    :map(function(i, stat)
+      -- empty lines should be returned as empty lines
+      return #lines[i] == 0 and ""
+        -- start with tabs
+        or ("\t"):rep(stat.tabs - min_values.tabs)
+          -- then add spaces
+          .. (" "):rep(stat.spaces - min_values.spaces)
+          -- then the non-leading-whitespace contents of the line
+          .. lines[i]:gsub("^%s*", "")
+    end)
+    :join("\n")
 end
