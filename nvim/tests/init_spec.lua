@@ -166,37 +166,37 @@ describe("init", function()
   end)
 
   describe("Fit command", function()
-    local getwininfo, nvim_buf_get_lines, nvim_buf_line_count, resize
+    local getwininfo, nvim_buf_get_lines, nvim_buf_line_count, nvim_win_set_height, nvim_win_set_width
 
     before_each(function()
       getwininfo = stub(vim.fn, "getwininfo")
       nvim_buf_get_lines = stub(vim.api, "nvim_buf_get_lines")
       nvim_buf_line_count = stub(vim.api, "nvim_buf_line_count")
-      resize = stub(vim.cmd, "resize")
+      nvim_win_set_height = stub(vim.api, "nvim_win_set_height")
+      nvim_win_set_width = stub(vim.api, "nvim_win_set_width")
     end)
 
     after_each(function()
       getwininfo:revert()
       nvim_buf_get_lines:revert()
       nvim_buf_line_count:revert()
-      resize:revert()
+      nvim_win_set_height:revert()
+      nvim_win_set_width:revert()
     end)
 
     it("resizes horizontally without bang", function()
       nvim_buf_get_lines.returns({ "foo", "bar1", "baz23" })
       getwininfo.returns({ { textoff = 2 } })
       vim.cmd.Fit()
-      assert
-        .stub(resize)
-        .called_with({ args = { 5 + 2 + 1 }, mods = { vertical = true } })
+      assert.stub(getwininfo).called_with(vim.api.nvim_get_current_win())
+      assert.stub(nvim_win_set_width).called_with(0, 5 + 2 + 1)
     end)
 
     it("resizes vertically with bang", function()
       nvim_buf_line_count.returns(20)
       vim.cmd.Fit({ bang = true })
-      assert
-        .stub(resize)
-        .called_with({ args = { 20 }, mods = { vertical = false } })
+      assert.stub(nvim_buf_line_count).called_with(0)
+      assert.stub(nvim_win_set_height).called_with(0, 20)
     end)
   end)
 

@@ -152,24 +152,21 @@ vim.api.nvim_create_user_command("BD", "Bd<bang>", { bang = true })
 
 -- fit current window to contents vertically, or horizontally with bang
 vim.api.nvim_create_user_command("Fit", function(args)
-  vim.cmd.resize({
-    args = {
-      args.bang and vim.api.nvim_buf_line_count(0)
-        or math.max(
-            unpack(
-              vim
-                .iter(vim.api.nvim_buf_get_lines(0, 0, -1, false))
-                :map(string.len)
-                :totable()
-            )
-          )
-          -- to account for sign column etc
-          + (vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].textoff or 0)
-          + 1,
-    },
-    -- resize works on height by default, so `vertical` makes it work on width
-    mods = { vertical = not args.bang },
-  })
+  if args.bang then
+    vim.api.nvim_win_set_height(0, vim.api.nvim_buf_line_count(0))
+  else
+    vim.api.nvim_win_set_width(
+      0,
+      math.max(
+        unpack(
+          vim.tbl_map(string.len, vim.api.nvim_buf_get_lines(0, 0, -1, false))
+        )
+      )
+        -- to account for sign column etc
+        + (vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].textoff or 0)
+        + 1
+    )
+  end
 end, { bang = true })
 
 -- select last-pasted text
