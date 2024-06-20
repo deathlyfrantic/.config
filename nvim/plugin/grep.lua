@@ -9,8 +9,7 @@ local function grep(args)
         :gsub(vim.pesc("%"), [[\%]])
         :gsub("'", [['\'']])
   )
-  local num_results = #vim.fn.getqflist()
-  if num_results == 0 then
+  if #vim.fn.getqflist() == 0 then
     vim.cmd.redraw({ bang = true })
     vim.notify("No matches found.", vim.log.levels.INFO)
   else
@@ -19,7 +18,6 @@ local function grep(args)
       range = { math.floor(vim.o.columns / 3) },
     } or {
       mods = { split = "botright" },
-      range = { math.min(num_results, 10) },
     })
     vim.w.quickfix_title = ([[grep "%s"]]):format(args.args)
     -- easy refresh
