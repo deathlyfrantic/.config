@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local M = {}
 
 ---@type Notification[]
@@ -59,8 +61,7 @@ local Notification_mt = {
     return num_lines > 1 and num_lines or math.ceil(#self.msg / self:width())
   end,
   width = function(self)
-    local longest = math.max(unpack(vim.tbl_map(string.len, self:lines())))
-    return math.min(longest, math.ceil(vim.o.columns / 4))
+    return math.min(utils.longest(self:lines()), math.ceil(vim.o.columns / 4))
   end,
 }
 Notification_mt.__index = Notification_mt

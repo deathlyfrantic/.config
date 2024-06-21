@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local M = {}
 
 ---@param choices string[]
@@ -8,11 +10,9 @@ local function select_window(choices, prompt, callback)
   -- choice height + prompt height + separators
   local height =
     math.min(#choices + #prompt_pieces + 2, math.floor(vim.o.lines - 10))
-  local longest = math.max(
-    unpack(vim.tbl_map(string.len, choices)),
-    unpack(vim.tbl_map(string.len, prompt_pieces))
+  local width = math.floor(
+    math.min(utils.longest(choices, prompt_pieces), vim.o.columns - 10)
   )
-  local width = math.floor(math.min(longest, vim.o.columns - 10))
   local opts = {
     relative = "editor",
     style = "minimal",

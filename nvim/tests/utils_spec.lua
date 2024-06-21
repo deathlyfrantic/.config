@@ -564,4 +564,15 @@ describe("utils", function()
       vim.o.selection = selsave
     end)
   end)
+
+  describe("longest", function()
+    assert.equals(utils.longest({ "foo", "foobar", "baz" }), 6)
+    assert.equals(utils.longest("foo", "foobar", "baz"), 6)
+    assert.equals(utils.longest({ "foo", "baz" }, "foobar", { "quux" }), 6)
+    assert.equals(utils.longest("foobar"), 6)
+    assert.equals(
+      utils.longest({ "foo", { "baz", { "foobar", { "quux" } } } }),
+      6
+    )
+  end)
 end)

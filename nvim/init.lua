@@ -157,11 +157,7 @@ vim.api.nvim_create_user_command("Fit", function(args)
   else
     vim.api.nvim_win_set_width(
       0,
-      math.max(
-        unpack(
-          vim.tbl_map(string.len, vim.api.nvim_buf_get_lines(0, 0, -1, false))
-        )
-      )
+      utils.longest(vim.api.nvim_buf_get_lines(0, 0, -1, false))
         -- to account for sign column etc
         + (vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].textoff or 0)
         + 1

@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local M = {}
 
 ---@type { [string]: PackageSpec }
@@ -22,8 +24,8 @@ local function popup_window(title, contents, callback)
     contents[#contents] = nil
   end
   local height = math.min(#contents, math.floor(vim.o.lines - 10))
-  local longest = math.max(unpack(vim.tbl_map(string.len, contents)))
-  local width = math.floor(math.min(longest, vim.o.columns - 10))
+  local width =
+    math.floor(math.min(utils.longest(contents), vim.o.columns - 10))
   local opts = {
     relative = "editor",
     style = "minimal",

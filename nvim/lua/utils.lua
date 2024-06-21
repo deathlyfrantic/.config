@@ -20,7 +20,7 @@ function M.popup(text, title)
     height = #contents,
     style = "minimal",
     focusable = false,
-    width = math.max(unpack(vim.tbl_map(string.len, contents))),
+    width = M.longest(contents),
     anchor = "",
     border = "solid",
     title = title,
@@ -247,6 +247,17 @@ function M.make_operator_fn(callback)
     end
     callback(selection)
   end
+end
+
+-- Given a list of strings, return the length of the longest one.
+---@param ... string[] | string
+---@return number
+function M.longest(...)
+  return vim
+    .iter({ ... })
+    :flatten(math.huge)
+    :map(string.len)
+    :fold(-math.huge, math.max)
 end
 
 return M
