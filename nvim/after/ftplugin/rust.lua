@@ -1,3 +1,5 @@
+vim.opt_local.matchpairs:append("<:>")
+
 local function populate_rustfmt_edition()
   local paths = vim.fs.find("Cargo.toml", {
     upward = true,

@@ -34,7 +34,6 @@ vim.opt.listchars = {
   precedes = "⤷",
   extends = "⤶",
 }
-vim.opt.matchpairs:append("<:>")
 vim.opt.modeline = false
 vim.opt.mouse = ""
 vim.opt.startofline = false
