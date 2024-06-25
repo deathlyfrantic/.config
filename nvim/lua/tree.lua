@@ -188,7 +188,10 @@ local function go_to_sidebar()
 end
 
 local function tree_toggle()
-  if M.sidebar_tree_buffer then
+  if
+    M.sidebar_tree_buffer
+    and vim.api.nvim_get_current_buf() ~= M.sidebar_tree_buffer
+  then
     go_to_sidebar()
   elseif vim.bo.filetype ~= "tree" then
     M.sidebar_tree_buffer = open_sidebar()
