@@ -14,7 +14,7 @@ end
 
 -- general settings
 vim.opt.colorcolumn = "+1"
-vim.opt.completeopt:remove("preview")
+vim.opt.completeopt = { "menu", "popup" }
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.fillchars = { fold = "-" }
