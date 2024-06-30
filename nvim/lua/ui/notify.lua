@@ -90,7 +90,7 @@ local function visible_notifications()
   end, notifications)
 end
 
--- buftabline sets 'showtabline' based on visible buffers, so if the tabline
+-- tabline.lua sets 'showtabline' based on visible buffers, so if the tabline
 -- is not visible it is 0 or 1, if it is visible it is >= 2.
 ---@return integer
 local function starting_row()

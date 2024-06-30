@@ -28,5 +28,5 @@ require("mono-colors").define("album", true, {
   GitSignsDelete = { fg = "#ff005f" },
   ErrorMsg = { fg = "#ffffff", bg = "#ff005f", bold = true },
   WarningMsg = { fg = "#ffffff", bg = "#d7875f", bold = true },
-  BufTabLineActive = { fg = "#080808", bg = "#5f875f" },
+  TabLineActive = { fg = "#080808", bg = "#5f875f" },
 })

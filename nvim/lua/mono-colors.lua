@@ -20,8 +20,6 @@ end
 
 local function clear_highlights()
   local no_highlights = {
-    "TabLineSel",
-    "TabLineClose",
     "Directory",
     "Underlined",
     "Question",
@@ -64,7 +62,6 @@ end
 
 local function set_links()
   local links = {
-    TabLine = "StatusLine",
     WildMenu = "Search",
     GitSignsAdd = "Success",
     GitSignsChange = "Warning",
@@ -82,10 +79,9 @@ local function set_links()
     SignColumn = "LineNr",
     FoldColumn = "LineNr",
     Folded = "LineNr",
+    TabLine = "StatusLine",
     TabLineFill = "TabLine",
-    BufTabLineCurrent = "Normal",
-    BufTabLineHidden = "TabLine",
-    BufTabLineFill = "TabLine",
+    TabLineSel = "Normal",
     SpecialKey = "LineNr",
     NonText = "LineNr",
     Conceal = "Comment",

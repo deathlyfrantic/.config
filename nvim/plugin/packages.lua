@@ -216,25 +216,6 @@ pm.add({
 })
 
 pm.add({
-  "ap/vim-buftabline",
-  config = function()
-    vim.g.buftabline_show = 1
-    vim.g.buftabline_indicators = 1
-    vim.g.buftabline_numbers = 2
-    local keys = "1234567890qwertyuiop"
-    vim.g.buftabline_plug_max = #keys
-    for i, k in keys:chars() do
-      vim.keymap.set(
-        "n",
-        "<M-" .. k .. ">",
-        "<Plug>BufTabLine.Go(" .. i .. ")",
-        { silent = true }
-      )
-    end
-  end,
-})
-
-pm.add({
   "wellle/tmux-complete.vim",
   config = function()
     vim.g["tmuxcomplete#trigger"] = ""

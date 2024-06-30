@@ -324,6 +324,7 @@ local plugins = {
   "commandline",
   "completion",
   "statusline",
+  "tabline",
   "test-runner",
   "tree",
   "ui",

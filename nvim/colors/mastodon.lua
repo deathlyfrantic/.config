@@ -27,6 +27,6 @@ require("mono-colors").define("mastodon", true, {
   GitSignsChangeDelete = { fg = "#ff7722" },
   ErrorMsg = { fg = "#ffffff", bg = "#f50039", bold = true },
   WarningMsg = { fg = "#ffffff", bg = "#ff7722", bold = true },
-  BufTabLineActive = { fg = "#9ca7c9", bg = "#444b5d" },
+  TabLineActive = { fg = "#9ca7c9", bg = "#444b5d" },
   TermCursorNC = { fg = "#000000", bg = "#606984" },
 })

@@ -28,5 +28,5 @@ require("mono-colors").define("gaia", true, {
   GitSignsDelete = { fg = "#ee6161" },
   ErrorMsg = { fg = "#ffffff", bg = "#a44e30", bold = true },
   WarningMsg = { fg = "#ffffff", bg = "#a46530", bold = true },
-  BufTabLineActive = { fg = "#dadada", bg = "#877a5c" },
+  TabLineActive = { fg = "#dadada", bg = "#877a5c" },
 })
