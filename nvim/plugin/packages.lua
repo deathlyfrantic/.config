@@ -103,14 +103,14 @@ pm.add({
           if vim.o.diff then
             vim.api.nvim_feedkeys("]c", "nt", true)
           else
-            gs.next_hunk()
+            gs.nav_hunk("next")
           end
         end, { buffer = true })
         vim.keymap.set("n", "[c", function()
           if vim.o.diff then
             vim.api.nvim_feedkeys("[c", "nt", true)
           else
-            gs.prev_hunk()
+            gs.nav_hunk("prev")
           end
         end, { buffer = true })
         vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = true })
