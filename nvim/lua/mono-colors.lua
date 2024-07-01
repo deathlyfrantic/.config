@@ -35,7 +35,6 @@ local function clear_highlights()
     "PreProc",
     "Type",
     "Define",
-    "Number",
     "Function",
     "Include",
     "PreCondit",
@@ -53,6 +52,7 @@ local function clear_highlights()
     "DiagnosticFloatingError",
     "DiagnosticFloatingHint",
     "DiagnosticFloatingInfo",
+    "@number.diff",
   }
 
   for _, group in ipairs(no_highlights) do

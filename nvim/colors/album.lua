@@ -29,4 +29,5 @@ require("mono-colors").define("album", true, {
   ErrorMsg = { fg = "#ffffff", bg = "#ff005f", bold = true },
   WarningMsg = { fg = "#ffffff", bg = "#d7875f", bold = true },
   TabLineActive = { fg = "#080808", bg = "#5f875f" },
+  Number = { fg = "#87d787" },
 })

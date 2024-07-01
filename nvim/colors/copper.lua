@@ -29,4 +29,5 @@ require("mono-colors").define("copper", true, {
   WarningMsg = { fg = "#ffffff", bg = "#ff7700", bold = true },
   TabLineActive = { fg = "#c9a79c", bg = "#5d4b44" },
   TermCursorNC = { fg = "#000000", bg = "#846960" },
+  Number = { fg = "#ad721f" },
 })

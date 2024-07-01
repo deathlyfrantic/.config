@@ -29,4 +29,5 @@ require("mono-colors").define("mastodon", true, {
   WarningMsg = { fg = "#ffffff", bg = "#ff7722", bold = true },
   TabLineActive = { fg = "#9ca7c9", bg = "#444b5d" },
   TermCursorNC = { fg = "#000000", bg = "#606984" },
+  Number = { fg = "#1f72ad" },
 })

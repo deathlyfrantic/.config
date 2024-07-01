@@ -29,4 +29,5 @@ require("mono-colors").define("gaia", true, {
   ErrorMsg = { fg = "#ffffff", bg = "#a44e30", bold = true },
   WarningMsg = { fg = "#ffffff", bg = "#a46530", bold = true },
   TabLineActive = { fg = "#dadada", bg = "#877a5c" },
+  Number = { fg = "#bbac88" },
 })
