@@ -124,6 +124,7 @@ pm.add({
         end, { buffer = true })
         vim.keymap.set("n", "<leader>hp", gs.preview_hunk, { buffer = true })
         vim.keymap.set({ "o", "x" }, "ig", gs.select_hunk, { buffer = true })
+        vim.keymap.set("n", "<leader>gw", gs.stage_buffer, { buffer = true })
       end,
       preview_config = { border = "solid" },
       status_formatter = require("statusline").gitsigns_status,
@@ -366,7 +367,6 @@ pm.add({
     })
     vim.keymap.set("n", "<leader>gs", "<Cmd>Git<CR>", { silent = true })
     vim.keymap.set("n", "<leader>gc", "<Cmd>Git commit<CR>", { silent = true })
-    vim.keymap.set("n", "<leader>gw", "<Cmd>Gwrite<CR>", { silent = true })
     vim.keymap.set("", "<leader>gb", ":GBrowse!<CR>", { silent = true })
   end,
 }, "tommcdo/vim-fubitive", "tpope/vim-rhubarb")
