@@ -21,6 +21,7 @@ export REPORTTIME=5
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node/history
 export PYTHONSTARTUP="$XDG_CONFIG_HOME"/startup.py
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export GOPATH="$HOME"/.go
 
 # disable homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1

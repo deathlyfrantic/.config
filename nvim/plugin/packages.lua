@@ -72,6 +72,7 @@ pm.add({
         "bash",
         "diff",
         "gitcommit",
+        "go",
         "javascript",
         "json",
         "markdown",
@@ -184,6 +185,7 @@ pm.add({
       -- least get fixed by jq.
       json = { "jq", "prettier" },
       lua = { "stylua" },
+      go = { "gofmt" },
     }
     vim.g.ale_fix_on_save = 1
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
