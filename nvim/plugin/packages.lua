@@ -18,11 +18,14 @@ pm.add({
     end)
     vim.keymap.set("n", "Q", vim.diagnostic.open_float)
     local lspconfig = require("lspconfig")
-    if vim.fn.executable("lua-language-server") == 1 then
-      lspconfig.lua_ls.setup({})
-    end
-    if vim.fn.executable("rust-analyzer") == 1 then
-      lspconfig.rust_analyzer.setup({})
+    local servers = {
+      lua_ls = "lua-language-server",
+      rust_analyzer = "rust-analyzer",
+    }
+    for server, executable in pairs(servers) do
+      if vim.fn.executable(executable) == 1 then
+        lspconfig[server].setup({})
+      end
     end
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-config", {}),
