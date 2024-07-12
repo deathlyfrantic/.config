@@ -131,6 +131,15 @@ local function set_buf_options_and_keymaps()
   vim.keymap.set("n", "R", function()
     M.tree(vim.b.tree_dir)
   end, { buffer = true, silent = true })
+  -- delete the reference to the sidebar tree buffer if we switch to a new
+  -- buffer in the tree window
+  vim.api.nvim_create_autocmd("BufUnload", {
+    buffer = 0,
+    callback = function()
+      M.sidebar_tree_buffer = nil
+    end,
+    once = true,
+  })
 end
 
 ---@return boolean
