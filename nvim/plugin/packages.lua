@@ -21,6 +21,7 @@ pm.add({
     local servers = {
       lua_ls = "lua-language-server",
       rust_analyzer = "rust-analyzer",
+      gopls = "gopls",
     }
     for server, executable in pairs(servers) do
       if vim.fn.executable(executable) == 1 then
@@ -72,6 +73,7 @@ pm.add({
         "bash",
         "diff",
         "gitcommit",
+        "go",
         "javascript",
         "json",
         "markdown",
@@ -182,6 +184,7 @@ pm.add({
       -- least get fixed by jq.
       json = { "jq", "prettier" },
       lua = { "stylua" },
+      go = { "gofmt" },
     }
     vim.g.ale_fix_on_save = 1
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")

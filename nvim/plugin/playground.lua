@@ -41,6 +41,20 @@ local grounds = {
     extension = "lua",
     command = "luajit %s",
   },
+  go = {
+    extension = "go",
+    command = "go run %s",
+    template = [[
+      package main
+
+      import (
+      	"fmt"
+      )
+
+      func main() {
+      	$$$
+      }]],
+  },
 }
 
 ---@param buf integer
