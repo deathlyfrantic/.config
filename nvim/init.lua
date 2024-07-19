@@ -179,9 +179,6 @@ end, { expr = true })
 -- search bindings
 vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "#", "#N")
-vim.keymap.set("n", "<Space>", function()
-  return vim.v.hlsearch == 0 and "*N" or "<Cmd>nohlsearch<CR>"
-end, { expr = true, silent = true })
 vim.keymap.set(
   "x",
   "*",
@@ -192,6 +189,16 @@ vim.keymap.set(
   "#",
   [[:<C-u>lua require("utils").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
 )
+-- context-dependent <Space> binding:
+-- hlsearch on: turn it off
+-- hlsearch off, cursor on non-whitespace: search for word under the cursor
+-- hlsearch off, cursor on whitespace: insert a space
+vim.keymap.set("n", "<Space>", function()
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  return vim.v.hlsearch ~= 0 and "<Cmd>nohlsearch<CR>"
+    or vim.api.nvim_get_current_line():sub(col, col):match("%S") and "*N"
+    or "i<Space><Esc>"
+end, { expr = true, silent = true })
 
 -- close all floating windows
 vim.keymap.set("n", "<Esc>", function()
@@ -248,9 +255,6 @@ vim.keymap.set("v", "<C-x>", "<C-x>gv")
 
 -- copy entire buffer to system clipboard
 vim.keymap.set("n", "<leader>a", ":%yank +<CR>", { silent = true })
-
--- insert a single space
-vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- arrows
 ---@param fat boolean
