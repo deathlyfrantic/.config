@@ -287,11 +287,19 @@ pm.add(
       end, vim.o.runtimepath:split(","))
     end,
   },
+  {
+    "tpope/vim-scriptease",
+    config = function()
+      vim.keymap.set("n", "zS", function()
+        return vim.bo.syntax == "" and vim.cmd.Inspect()
+          or vim.fn["scriptease#synnames_map"](vim.v.count)
+      end)
+    end,
+  },
   { "tpope/vim-dadbod", cmd = "DB" },
   "tpope/vim-endwise",
   "tpope/vim-obsession",
   "tpope/vim-repeat",
-  "tpope/vim-scriptease",
   "tpope/vim-sleuth",
   "tpope/vim-speeddating",
   "tpope/vim-surround",
