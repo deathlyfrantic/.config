@@ -31,20 +31,15 @@ describe("tree", function()
     local expected = ([[
       bar/
         bar.txt
-      baz/
-        quux/
-          bar.txt
-          foo.txt
+      baz/quux/
+        bar.txt
+        foo.txt
       emptydir/
       garply/
-        bar/
-          foo/
-            baz/
-              quux.txt
-        foo/
-          bar/
-            baz/
-              quux.txt
+        bar/foo/baz/
+          quux.txt
+        foo/bar/baz/
+          quux.txt
       toplevel-foo-1.txt
       toplevel-foo-2.txt]]):dedent()
     assert.equal(

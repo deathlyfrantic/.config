@@ -50,8 +50,27 @@ function M.format(data, indent)
   end, keys)
   table.sort(dirs)
   for _, dir in ipairs(dirs) do
-    table.insert(ret, ("  "):rep(indent) .. dir .. "/")
-    vim.list_extend(ret, M.format(data[dir], indent + 1))
+    local work_data = vim.deepcopy(data)
+    local collapsed = {}
+    while
+      type(work_data[dir]) == "table"
+      and not vim.islist(work_data[dir])
+      and vim.tbl_count(work_data[dir]) == 1
+    do
+      table.insert(collapsed, dir)
+      work_data = work_data[dir]
+      dir = vim.tbl_keys(work_data)[1]
+    end
+    if #collapsed > 0 then
+      table.insert(collapsed, dir) -- add current dir to stack
+      table.insert(
+        ret,
+        ("  "):rep(indent) .. table.concat(collapsed, "/") .. "/"
+      )
+    else
+      table.insert(ret, ("  "):rep(indent) .. dir .. "/")
+    end
+    vim.list_extend(ret, M.format(work_data[dir], indent + 1))
   end
   -- then sort the files alphabetically and list them
   local file_keys = vim.tbl_filter(function(key)
