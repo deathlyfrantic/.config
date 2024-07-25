@@ -44,7 +44,7 @@ end
 
 ---@param name string
 local function close_window(name)
-  local stat = vim.loop.fs_stat(save_file(name))
+  local stat = vim.uv.fs_stat(save_file(name))
   local bftime = vim.b.ftime
   local close = function()
     vim.cmd.close({ count = vim.fn.bufwinnr(bufname(name)) })
@@ -102,7 +102,7 @@ end
 ---@param name string
 local function open_buffer(name)
   local bnum = vim.fn.bufnr(bufname(name))
-  local stat = vim.loop.fs_stat(save_file(name))
+  local stat = vim.uv.fs_stat(save_file(name))
   if bnum == -1 then
     new_buffer(name)
     if stat then
@@ -153,14 +153,14 @@ end
 ---@return string[]
 local function completion(arglead)
   local ret = {}
-  local handle = vim.loop.fs_scandir(vim.fn.stdpath("data"))
-  local name, kind = vim.loop.fs_scandir_next(handle)
+  local handle = vim.uv.fs_scandir(vim.fn.stdpath("data"))
+  local name, kind = vim.uv.fs_scandir_next(handle)
   while name do
     if kind == "file" and name:match("scratch-.*%.txt") then
       local candidate = name:gsub("scratch%-", ""):gsub("%.txt", "")
       table.insert(ret, candidate)
     end
-    name, kind = vim.loop.fs_scandir_next(handle)
+    name, kind = vim.uv.fs_scandir_next(handle)
   end
   return vim.tbl_filter(function(s)
     return s:starts_with(arglead)

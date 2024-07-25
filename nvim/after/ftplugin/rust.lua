@@ -3,7 +3,7 @@ vim.opt_local.matchpairs:append("<:>")
 local function populate_rustfmt_edition()
   local paths = vim.fs.find("Cargo.toml", {
     upward = true,
-    stop = vim.loop.os_homedir(),
+    stop = vim.uv.os_homedir(),
     path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
     type = "file",
   })

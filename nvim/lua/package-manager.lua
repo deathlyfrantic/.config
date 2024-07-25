@@ -11,7 +11,7 @@ local path_base = vim.fn.stdpath("config") .. "/pack/z/"
 ---@param dir string
 ---@return boolean
 local function dir_exists(dir)
-  local stat = vim.loop.fs_stat(dir)
+  local stat = vim.uv.fs_stat(dir)
   return stat and stat.type == "directory"
 end
 

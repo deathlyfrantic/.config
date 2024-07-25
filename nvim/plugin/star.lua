@@ -24,7 +24,7 @@ local function find_cmd(mode)
     open_files = vim.tbl_map(function(b)
       return vim.fs
         .normalize(vim.api.nvim_buf_get_name(b))
-        :gsub("^" .. vim.pesc(vim.loop.cwd()) .. "/", "")
+        :gsub("^" .. vim.pesc(vim.uv.cwd()) .. "/", "")
     end, bufs)
   end
   if #open_files == 0 then
@@ -76,7 +76,7 @@ local function buffers_cmd()
     function(b)
       return vim.fs
         .normalize(vim.api.nvim_buf_get_name(b))
-        :gsub("^" .. vim.loop.cwd() .. "/", "")
+        :gsub("^" .. vim.uv.cwd() .. "/", "")
     end,
     vim.tbl_filter(function(b)
       return utils.buf_is_real(b) and vim.api.nvim_buf_get_name(b) ~= ""
@@ -91,7 +91,7 @@ local function open_buffer(b)
     b = b[1]
   end
   if not b:starts_with("/") then
-    b = vim.loop.cwd() .. "/" .. b
+    b = vim.uv.cwd() .. "/" .. b
   end
   vim.api.nvim_set_current_buf(
     vim.uri_to_bufnr(vim.uri_from_fname(vim.fs.normalize(b)))
@@ -104,7 +104,7 @@ local function open_file(files)
     return vim.fn.fnameescape(utils.find_project_dir() .. f)
   end, files)
   for i, f in ipairs(paths) do
-    if vim.loop.fs_access(f, "r") then
+    if vim.uv.fs_access(f, "r") then
       if i == 1 then
         vim.cmd.edit(f)
       else
@@ -183,7 +183,7 @@ local function on_exit(mode, _, exit_code)
     delete_buffer()
   end
   if exit_code == 0 then
-    if vim.loop.fs_access(file, "r") then
+    if vim.uv.fs_access(file, "r") then
       local paths = vim.iter(io.open(file):lines()):totable()
       modes[mode].open(paths)
     end

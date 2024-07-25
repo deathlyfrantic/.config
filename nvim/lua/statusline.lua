@@ -10,9 +10,9 @@ local warning_block = "%3*■%*"
 function M.filename()
   local bufname = vim.api.nvim_buf_get_name(0)
   if #bufname > 0 then
-    return vim.fs.normalize(bufname):gsub(vim.loop.os_homedir(), "~")
+    return vim.fs.normalize(bufname):gsub(vim.uv.os_homedir(), "~")
   end
-  return "cwd: " .. vim.loop.cwd():gsub(vim.loop.os_homedir(), "~")
+  return "cwd: " .. vim.uv.cwd():gsub(vim.uv.os_homedir(), "~")
 end
 
 -- this function is not used directly in this file but is passed to gitsigns as

@@ -16,7 +16,7 @@ local function source_local_vimrc(file, buf, force)
   local vimrcs = vim.fs.find(".vimrc.lua", {
     path = vim.fs.dirname(file),
     upward = true,
-    stop = vim.loop.os_homedir(),
+    stop = vim.uv.os_homedir(),
     limit = math.huge,
     type = "file",
   })

@@ -8,14 +8,14 @@ describe("statusline", function()
     end)
 
     it("returns filename with tilde", function()
-      vim.api.nvim_buf_set_name(0, vim.loop.os_homedir() .. "/foo/bar/baz.txt")
+      vim.api.nvim_buf_set_name(0, vim.uv.os_homedir() .. "/foo/bar/baz.txt")
       assert.equals(statusline.filename(), "~/foo/bar/baz.txt")
     end)
 
     it("returns cwd if buffer name is empty", function()
       assert.equals(
         statusline.filename(),
-        "cwd: " .. vim.loop.cwd():gsub(vim.loop.os_homedir(), "~")
+        "cwd: " .. vim.uv.cwd():gsub(vim.uv.os_homedir(), "~")
       )
     end)
   end)

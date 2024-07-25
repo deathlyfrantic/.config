@@ -149,11 +149,11 @@ describe("utils", function()
 
   describe("find_project_dir", function()
     local root, cwd
-    local homedir = vim.loop.os_homedir()
+    local homedir = vim.uv.os_homedir()
 
     before_each(function()
       root = stub(vim.fs, "root")
-      cwd = stub(vim.loop, "cwd")
+      cwd = stub(vim.uv, "cwd")
     end)
 
     after_each(function()
@@ -220,7 +220,7 @@ describe("utils", function()
       local nvim_buf_get_name = stub(vim.api, "nvim_buf_get_name")
       nvim_buf_get_name.returns("")
       utils.find_project_dir()
-      assert.stub(root).called_with(vim.loop.cwd(), match._)
+      assert.stub(root).called_with(vim.uv.cwd(), match._)
       nvim_buf_get_name:revert()
     end)
   end)

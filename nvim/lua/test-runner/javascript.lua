@@ -39,7 +39,7 @@ function M.npm_or_yarn()
   if not vim.b.z_test_runner_npm_or_yarn then
     local paths = vim.fs.find("yarn.lock", {
       upward = true,
-      stop = vim.loop.os_homedir(),
+      stop = vim.uv.os_homedir(),
       path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
       type = "file",
     })
@@ -91,7 +91,7 @@ end
 function M.test(selection)
   local paths = vim.fs.find("package.json", {
     upward = true,
-    stop = vim.loop.os_homedir(),
+    stop = vim.uv.os_homedir(),
     path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
     type = "file",
   })

@@ -107,11 +107,11 @@ function M.find_project_dir(start)
   end
   if not start then
     local bufname = vim.api.nvim_buf_get_name(0)
-    start = bufname:is_empty() and vim.loop.cwd() or bufname
+    start = bufname:is_empty() and vim.uv.cwd() or bufname
   end
   local markers = vim.deepcopy(project_dir_markers[vim.bo.filetype] or {})
   vim.list_extend(markers, project_dir_markers.all)
-  vim.b.z_project_dir = (vim.fs.root(start, markers) or vim.loop.cwd()) .. "/"
+  vim.b.z_project_dir = (vim.fs.root(start, markers) or vim.uv.cwd()) .. "/"
   return vim.b.z_project_dir
 end
 

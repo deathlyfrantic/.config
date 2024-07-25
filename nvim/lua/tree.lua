@@ -169,7 +169,7 @@ end
 
 ---@param dir string?
 function M.tree(dir)
-  dir = vim.fs.normalize(dir or vim.loop.cwd())
+  dir = vim.fs.normalize(dir or vim.uv.cwd())
   if not dir:ends_with("/") then
     dir = dir .. "/"
   end
@@ -235,7 +235,7 @@ local function on_bufenter(args)
   then
     return
   end
-  local stat = vim.loop.fs_stat(args.file)
+  local stat = vim.uv.fs_stat(args.file)
   if stat and stat.type == "directory" then
     M.tree(args.file)
   end

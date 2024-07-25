@@ -4,7 +4,7 @@ local M = {}
 function M.test()
   local paths = vim.fs.find("Makefile", {
     upward = true,
-    stop = vim.loop.os_homedir(),
+    stop = vim.uv.os_homedir(),
     path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
     type = "file",
   })

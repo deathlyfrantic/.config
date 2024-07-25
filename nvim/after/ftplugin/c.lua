@@ -44,7 +44,7 @@ if
   and vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] == ""
 then
   local guard = ("%s_%s"):format(
-    vim.fs.basename(vim.loop.cwd()):upper(),
+    vim.fs.basename(vim.uv.cwd()):upper(),
     vim.fs.basename(vim.api.nvim_buf_get_name(0)):upper():gsub("[^A-Z0-9]", "_")
   )
   local new_lines = {
