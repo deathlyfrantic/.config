@@ -61,15 +61,9 @@ local function nodes(snippet)
     return text_snippet(snippet)
   end
   if type(snippet) == "table" and not getmetatable(snippet) then
-    local ret = {}
-    for k, v in ipairs(snippet) do
-      if type(v) == "string" then
-        ret[k] = text_snippet(v)
-      else
-        ret[k] = v
-      end
-    end
-    return ret
+    return vim.tbl_map(function(snip)
+      return type(snip) == "string" and text_snippet(snip) or snip
+    end, snippet)
   end
   return snippet
 end
