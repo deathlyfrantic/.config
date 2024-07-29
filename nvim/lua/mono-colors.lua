@@ -43,8 +43,6 @@ local function clear_highlights()
     "Delimiter",
     "StorageClass",
     "Operator",
-    "@lsp.type.parameter",
-    "@lsp.type.string",
     "@variable",
     "@markup",
     "DiagnosticFloatingOk",
@@ -54,7 +52,7 @@ local function clear_highlights()
     "DiagnosticFloatingInfo",
     "@number.diff",
   }
-
+  vim.list_extend(no_highlights, vim.fn.getcompletion("@lsp", "highlight"))
   for _, group in ipairs(no_highlights) do
     vim.api.nvim_set_hl(0, group, {})
   end
@@ -125,8 +123,9 @@ local function set_links()
     FloatShadow = "CursorLine",
     FloatShadowThrough = "CursorLine",
     NormalFloat = "Pmenu",
+    makeCommands = "Normal",
+    gitDate = "Normal",
   }
-
   for k, v in pairs(links) do
     vim.api.nvim_set_hl(0, k, { link = v })
   end
