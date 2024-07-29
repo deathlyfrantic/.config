@@ -189,15 +189,9 @@ vim.keymap.set(
   "#",
   [[:<C-u>lua require("utils").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
 )
--- context-dependent <Space> binding:
--- hlsearch on: turn it off
--- hlsearch off, cursor on non-whitespace: search for word under the cursor
--- hlsearch off, cursor on whitespace: insert a space
+-- turn off hlsearch if it is on, otherwise insert a space
 vim.keymap.set("n", "<Space>", function()
-  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-  return vim.v.hlsearch ~= 0 and "<Cmd>nohlsearch<CR>"
-    or vim.api.nvim_get_current_line():sub(col, col):match("%S") and "*N"
-    or "i<Space><Esc>"
+  return vim.v.hlsearch ~= 0 and "<Cmd>nohlsearch<CR>" or "i<Space><Esc>"
 end, { expr = true, silent = true })
 
 -- close all floating windows
