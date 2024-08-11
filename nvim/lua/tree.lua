@@ -142,6 +142,25 @@ local function open_line(previous)
   end
 end
 
+local function visual_open_lines()
+  -- force leave visual mode to update marks
+  vim.api.nvim_feedkeys(vim.keycode("<C-c>"), "nx", false)
+  local top = vim.api.nvim_buf_get_mark(0, "<")[1]
+  local bottom = vim.api.nvim_buf_get_mark(0, ">")[1]
+  local buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local paths = {}
+  for line_number = top, bottom do
+    local path = M.find_full_path(line_number, buf_lines)
+    -- ignore directories when opening multiple files
+    if not path:ends_with("/") then
+      table.insert(paths, path)
+    end
+  end
+  for i, path in ipairs(paths) do
+    vim.cmd[i == 1 and "edit" or "badd"](path)
+  end
+end
+
 local function parent_dir()
   local new_dir = vim.fs.dirname(vim.b.tree_dir)
   if vim.b.tree_dir:ends_with("/") then
@@ -163,6 +182,12 @@ local function set_buf_options_and_keymaps()
   vim.keymap.set("n", "o", function()
     open_line(true)
   end, { buffer = true, silent = true })
+  vim.keymap.set(
+    "v",
+    "<CR>",
+    visual_open_lines,
+    { buffer = true, silent = true }
+  )
   vim.keymap.set("n", "g-", parent_dir, { buffer = true, silent = true })
   vim.keymap.set("n", "R", function()
     local saved_view = vim.fn.winsaveview()
