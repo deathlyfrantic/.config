@@ -148,7 +148,9 @@ local function set_buf_options_and_keymaps()
   vim.keymap.set("n", "<CR>", open_line, { buffer = true, silent = true })
   vim.keymap.set("n", "g-", parent_dir, { buffer = true, silent = true })
   vim.keymap.set("n", "R", function()
+    local saved_view = vim.fn.winsaveview()
     M.tree(vim.b.tree_dir)
+    vim.fn.winrestview(saved_view)
   end, { buffer = true, silent = true })
   -- delete the reference to the sidebar tree buffer if we switch to a new
   -- buffer in the tree window
