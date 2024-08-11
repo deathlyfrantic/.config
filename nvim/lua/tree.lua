@@ -96,9 +96,9 @@ local function close()
 end
 
 ---@return string
-function M.find_full_path()
-  local line_number = unpack(vim.api.nvim_win_get_cursor(0))
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+function M.find_full_path(line_number, lines)
+  line_number = line_number or unpack(vim.api.nvim_win_get_cursor(0))
+  lines = lines or vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local current_line = lines[line_number]
   local ret = { current_line:trim() }
   local current_indent = #current_line:match("^%s*")
@@ -118,13 +118,27 @@ function M.find_full_path()
   return vim.b.tree_dir .. table.concat(ret, "")
 end
 
-local function open_line()
+local function open_line(previous)
   local path = M.find_full_path()
   if path:ends_with("/") then
     M.tree(path)
   else
-    close()
+    local reopen = previous and #vim.api.nvim_list_wins() == 1
+    if previous and #vim.api.nvim_list_wins() > 1 then
+      -- we're in the tree sidebar and want to open a file in the previous
+      -- window, and also not close the sidebar
+      vim.cmd.wincmd("p")
+    else
+      -- otherwise close the sidebar and open the file in the previous window
+      close()
+    end
     vim.cmd.edit(path)
+    if reopen then
+      -- we opened the file in the previous window, now we need to reopen the
+      -- tree sidebar and then move back to the previous window again
+      M.tree_toggle()
+      vim.cmd.wincmd("p")
+    end
   end
 end
 
@@ -146,6 +160,9 @@ local function set_buf_options_and_keymaps()
   vim.opt_local.statusline = "%{b:tree_dir}"
   vim.keymap.set("n", "q", close, { buffer = true, silent = true })
   vim.keymap.set("n", "<CR>", open_line, { buffer = true, silent = true })
+  vim.keymap.set("n", "o", function()
+    open_line(true)
+  end, { buffer = true, silent = true })
   vim.keymap.set("n", "g-", parent_dir, { buffer = true, silent = true })
   vim.keymap.set("n", "R", function()
     local saved_view = vim.fn.winsaveview()
@@ -217,7 +234,7 @@ local function go_to_sidebar()
   end
 end
 
-local function tree_toggle()
+function M.tree_toggle()
   if
     M.sidebar_tree_buffer
     and vim.api.nvim_get_current_buf() ~= M.sidebar_tree_buffer
@@ -252,7 +269,7 @@ function M.init()
   vim.api.nvim_create_user_command("Tree", function(args)
     open_sidebar(args.args ~= "" and args.args or nil)
   end, { nargs = "?", bar = true })
-  vim.keymap.set("n", "-", tree_toggle)
+  vim.keymap.set("n", "-", M.tree_toggle)
 end
 
 return M
