@@ -161,6 +161,18 @@ local function visual_open_lines()
   end
 end
 
+local function edit_at_dir()
+  local path = M.find_full_path()
+  if not path:ends_with("/") then
+    path = path:gsub("[^/]+$", "")
+  end
+  if #vim.api.nvim_list_wins() > 1 then
+    -- move to non-tree window to open file
+    vim.cmd.wincmd("p")
+  end
+  vim.api.nvim_feedkeys(":e " .. path, "", false)
+end
+
 local function parent_dir()
   local new_dir = vim.fs.dirname(vim.b.tree_dir)
   if vim.b.tree_dir:ends_with("/") then
@@ -188,6 +200,7 @@ local function set_buf_options_and_keymaps()
     visual_open_lines,
     { buffer = true, silent = true }
   )
+  vim.keymap.set("n", "E", edit_at_dir, { buffer = true, silent = true })
   vim.keymap.set("n", "g-", parent_dir, { buffer = true, silent = true })
   vim.keymap.set("n", "R", function()
     local saved_view = vim.fn.winsaveview()
