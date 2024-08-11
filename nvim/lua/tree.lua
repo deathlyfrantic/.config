@@ -189,24 +189,20 @@ local function set_buf_options_and_keymaps()
   vim.opt_local.buftype = "nofile"
   vim.opt_local.filetype = "tree"
   vim.opt_local.statusline = "%{b:tree_dir}"
-  vim.keymap.set("n", "q", close, { buffer = true, silent = true })
-  vim.keymap.set("n", "<CR>", open_line, { buffer = true, silent = true })
+  local opts = { buffer = true, silent = true }
+  vim.keymap.set("n", "q", close, opts)
+  vim.keymap.set("n", "<CR>", open_line, opts)
   vim.keymap.set("n", "o", function()
     open_line(true)
-  end, { buffer = true, silent = true })
-  vim.keymap.set(
-    "v",
-    "<CR>",
-    visual_open_lines,
-    { buffer = true, silent = true }
-  )
-  vim.keymap.set("n", "E", edit_at_dir, { buffer = true, silent = true })
-  vim.keymap.set("n", "g-", parent_dir, { buffer = true, silent = true })
+  end, opts)
+  vim.keymap.set("v", "<CR>", visual_open_lines, opts)
+  vim.keymap.set("n", "E", edit_at_dir, opts)
+  vim.keymap.set("n", "g-", parent_dir, opts)
   vim.keymap.set("n", "R", function()
     local saved_view = vim.fn.winsaveview()
     M.tree(vim.b.tree_dir)
     vim.fn.winrestview(saved_view)
-  end, { buffer = true, silent = true })
+  end, opts)
   -- delete the reference to the sidebar tree buffer if we switch to a new
   -- buffer in the tree window
   vim.api.nvim_create_autocmd("BufUnload", {
