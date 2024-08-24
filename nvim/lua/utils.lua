@@ -256,7 +256,7 @@ function M.longest(...)
   return vim
     .iter({ ... })
     :flatten(math.huge)
-    :map(string.len)
+    :map(vim.fn.strdisplaywidth)
     :fold(-math.huge, math.max)
 end
 
