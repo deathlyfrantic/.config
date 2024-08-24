@@ -2,8 +2,9 @@ local M = {}
 
 -- Create a popup window at the cursor with the given text
 ---@param text any
+---@param window_opts? table
 ---@return integer
-function M.popup(text)
+function M.popup(text, window_opts)
   local buf = vim.api.nvim_create_buf(false, true)
   local contents
   if type(text) == "table" then
@@ -14,7 +15,7 @@ function M.popup(text)
     contents = { tostring(text) }
   end
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, contents)
-  local opts = {
+  local default_opts = {
     relative = "cursor",
     height = #contents,
     style = "minimal",
@@ -24,19 +25,20 @@ function M.popup(text)
     border = "solid",
   }
   if vim.fn.screenrow() > (vim.o.lines / 2) then
-    opts.anchor = opts.anchor .. "S"
-    opts.row = 0
+    default_opts.anchor = default_opts.anchor .. "S"
+    default_opts.row = 0
   else
-    opts.anchor = opts.anchor .. "N"
-    opts.row = 1
+    default_opts.anchor = default_opts.anchor .. "N"
+    default_opts.row = 1
   end
   if vim.fn.screencol() > (vim.o.columns / 2) then
-    opts.anchor = opts.anchor .. "E"
-    opts.col = 0
+    default_opts.anchor = default_opts.anchor .. "E"
+    default_opts.col = 0
   else
-    opts.anchor = opts.anchor .. "W"
-    opts.col = 1
+    default_opts.anchor = default_opts.anchor .. "W"
+    default_opts.col = 1
   end
+  local opts = vim.tbl_extend("force", default_opts, window_opts or {})
   local win = vim.api.nvim_open_win(buf, false, opts)
   vim.wo[win].colorcolumn = "0"
   return win

@@ -6,8 +6,11 @@ local test_utils = require("test-utils")
 
 describe("utils", function()
   describe("popup", function()
-    local function popup(contents)
-      local win = utils.popup(contents)
+    ---@param contents any
+    ---@param opts? table
+    ---@return { win: number, buf: number, lines: string[] }
+    local function popup(contents, opts)
+      local win = utils.popup(contents, opts)
       local buf = vim.api.nvim_win_get_buf(win)
       local lines = test_utils.get_buf(buf)
       vim.api.nvim_win_close(win, true)
@@ -53,6 +56,19 @@ describe("utils", function()
           border = "solid",
         }, overrides or {})
       end
+
+      it("allows for overriding options", function()
+        screenrow.returns(1)
+        screencol.returns(1)
+        local buf = popup({ "foobar", "baz", "quux" }, { border = "none" }).buf
+        assert
+          .spy(nvim_open_win)
+          .called_with(
+            buf,
+            false,
+            opts({ anchor = "NW", row = 1, col = 1, border = "none" })
+          )
+      end)
 
       it("opens to northwest", function()
         screenrow.returns(1)
