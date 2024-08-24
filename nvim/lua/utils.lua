@@ -2,9 +2,8 @@ local M = {}
 
 -- Create a popup window at the cursor with the given text
 ---@param text any
----@param title string?
 ---@return integer
-function M.popup(text, title)
+function M.popup(text)
   local buf = vim.api.nvim_create_buf(false, true)
   local contents
   if type(text) == "table" then
@@ -23,8 +22,6 @@ function M.popup(text, title)
     width = M.longest(contents),
     anchor = "",
     border = "solid",
-    title = title,
-    title_pos = title and "center" or nil,
   }
   if vim.fn.screenrow() > (vim.o.lines / 2) then
     opts.anchor = opts.anchor .. "S"

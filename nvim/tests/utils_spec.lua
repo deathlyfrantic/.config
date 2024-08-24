@@ -6,8 +6,8 @@ local test_utils = require("test-utils")
 
 describe("utils", function()
   describe("popup", function()
-    local function popup(contents, title)
-      local win = utils.popup(contents, title)
+    local function popup(contents)
+      local win = utils.popup(contents)
       local buf = vim.api.nvim_win_get_buf(win)
       local lines = test_utils.get_buf(buf)
       vim.api.nvim_win_close(win, true)
@@ -53,23 +53,6 @@ describe("utils", function()
           border = "solid",
         }, overrides or {})
       end
-
-      it("sets title and title_pos if title is provided", function()
-        screenrow.returns(1)
-        screencol.returns(1)
-        local buf = popup({ "foobar", "baz", "quux" }, "title").buf
-        assert.spy(nvim_open_win).called_with(
-          buf,
-          false,
-          opts({
-            anchor = "NW",
-            row = 1,
-            col = 1,
-            title = "title",
-            title_pos = "center",
-          })
-        )
-      end)
 
       it("opens to northwest", function()
         screenrow.returns(1)
