@@ -74,12 +74,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
       and (vim.bo.buftype == "quickfix" or vim.bo.filetype == "tree")
     then
       if
-        #vim
-            .iter(vim.api.nvim_list_bufs())
-            :filter(function(b)
-              return vim.bo[b].buflisted
-            end)
-            :totable()
+        #vim.tbl_filter(function(b)
+            return vim.bo[b].buflisted
+          end, vim.api.nvim_list_bufs())
           == 1
         or vim.bo.buftype == "quickfix"
       then
