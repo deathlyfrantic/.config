@@ -379,5 +379,6 @@ pm.add({
     vim.keymap.set("n", "<leader>gs", "<Cmd>Git<CR>", { silent = true })
     vim.keymap.set("n", "<leader>gc", "<Cmd>Git commit<CR>", { silent = true })
     vim.keymap.set("", "<leader>gb", ":GBrowse!<CR>", { silent = true })
+    vim.keymap.set("n", "<leader>gw", "<Cmd>Gwrite!<CR>", { silent = true })
   end,
 }, "tommcdo/vim-fubitive", "tpope/vim-rhubarb")
