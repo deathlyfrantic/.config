@@ -161,7 +161,7 @@ local function visual_open_lines()
   end
 end
 
-local function edit_at_dir()
+local function add_at_dir()
   local path = M.find_full_path()
   if not path:ends_with("/") then
     path = path:gsub("[^/]+$", "")
@@ -196,7 +196,7 @@ local function set_buf_options_and_keymaps()
     open_line(true)
   end, opts)
   vim.keymap.set("v", "<CR>", visual_open_lines, opts)
-  vim.keymap.set("n", "E", edit_at_dir, opts)
+  vim.keymap.set("n", "a", add_at_dir, opts)
   vim.keymap.set("n", "g-", parent_dir, opts)
   vim.keymap.set("n", "R", function()
     local saved_view = vim.fn.winsaveview()
