@@ -38,8 +38,8 @@
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h⌘%Cred%d %Creset%s⌘%Cgreen(%ar)⌘%C(bold blue)%an%Creset' | column -s '⌘' -t"
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
     s = "!f() { [ -n \"$*\" ] && git show \"$*\" || git show $(git log --oneline | star | cut -wf1); }; f"
-    unpushed = "!git log HEAD ^origin/$(git rev-parse --abbrev-ref HEAD)"
-    unpushed-diff = "!git diff HEAD ^origin/$(git rev-parse --abbrev-ref HEAD)"
+    unpushed = "!git log HEAD ^origin/$(git branch --show-current)"
+    unpushed-diff = "!git diff HEAD ^origin/$(git branch --show-current)"
 [commit]
     verbose = 1
 [pull]
