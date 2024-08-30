@@ -27,7 +27,7 @@ end
 
 function M.override()
   vim.notify = overrides.notify
-  vim.select = overrides.select
+  vim.ui.select = overrides.select
 end
 
 local valid_command_args = { "on", "off" }
