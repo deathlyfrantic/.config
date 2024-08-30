@@ -321,6 +321,7 @@ local plugins = {
   "statusline",
   "tabline",
   "test-runner",
+  "text-objects",
   "tree",
   "ui",
 }

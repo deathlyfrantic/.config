@@ -89,7 +89,6 @@ pm.add({
 pm.add(
   "Julian/vim-textobj-variable-segment",
   "kana/vim-textobj-user",
-  "michaeljsmith/vim-indent-object",
   "glts/vim-textobj-comment",
   "deathlyfrantic/vim-textobj-blanklines"
 )
