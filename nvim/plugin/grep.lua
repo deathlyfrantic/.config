@@ -4,10 +4,7 @@ local utils = require("utils")
 local function grep(args)
   vim.cmd(
     "silent grep! "
-      .. args.args
-        :gsub("#", [[\#]])
-        :gsub(vim.pesc("%"), [[\%]])
-        :gsub("'", [['\'']])
+      .. args.args:gsub("#", [[\#]]):gsub([[%%]], [[\%%]]):gsub("'", [['\'']])
   )
   if #vim.fn.getqflist() == 0 then
     vim.cmd.redraw({ bang = true })
