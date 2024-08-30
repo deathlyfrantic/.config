@@ -182,13 +182,13 @@ local function parent_dir()
 end
 
 local function set_buf_options_and_keymaps()
-  vim.opt_local.colorcolumn = nil
   vim.opt_local.bufhidden = "delete"
-  vim.opt_local.textwidth = 0
-  vim.opt_local.wrap = false
   vim.opt_local.buftype = "nofile"
+  vim.opt_local.colorcolumn = nil
   vim.opt_local.filetype = "tree"
   vim.opt_local.statusline = "%{b:tree_dir}"
+  vim.opt_local.textwidth = 0
+  vim.opt_local.wrap = false
   local opts = { buffer = true, silent = true }
   vim.keymap.set("n", "q", close, opts)
   vim.keymap.set("n", "<CR>", open_line, opts)
