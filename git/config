@@ -35,6 +35,7 @@
     first-show = "!git show $(git first-commit)"
     fixup = "!git commit --fixup=$(git log --oneline --no-merges -n 20 | star | cut -d' ' -f1)"
     main-branch-name = "!$XDG_CONFIG_HOME/git/main-branch-name"
+    po = "!git push -u origin $(git branch --show-current)"
     recent = "!git log -n 10 --color=always --graph --format='%C(yellow)%h⌘%Cred%d %Creset%s⌘%Cgreen(%ar)⌘%C(bold blue)%an%Creset' | column -s '⌘' -t"
     search = "!f() { git grep \"$@\" $(git rev-list --all); }; f"
     s = "!f() { [ -n \"$*\" ] && git show \"$*\" || git show $(git log --oneline | star | cut -wf1); }; f"
