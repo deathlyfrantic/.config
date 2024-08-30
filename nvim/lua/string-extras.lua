@@ -173,3 +173,11 @@ function string.dedent(self)
     end)
     :join("\n")
 end
+
+-- Returns the visual width of the string's indent, assuming the string starts
+-- at screen column 0.
+---@param self string
+---@return integer
+function string.visual_indent(self)
+  return vim.fn.strdisplaywidth(self:match("^%s*"))
+end

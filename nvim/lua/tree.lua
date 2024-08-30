@@ -101,11 +101,11 @@ function M.find_full_path(line_number, lines)
   lines = lines or vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local current_line = lines[line_number]
   local ret = { current_line:trim() }
-  local current_indent = #current_line:match("^%s*")
+  local current_indent = current_line:visual_indent()
   if current_indent > 0 then
     for i = line_number - 1, 1, -1 do
       local line = lines[i]
-      local indent = #line:match("^%s*")
+      local indent = line:visual_indent()
       if indent < current_indent then
         table.insert(ret, 1, line:trim())
         current_indent = indent

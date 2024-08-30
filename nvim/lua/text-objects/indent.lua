@@ -1,11 +1,5 @@
 local M = {}
 
----@param s string
----@return integer
-local function indent(s)
-  return vim.fn.strdisplaywidth(s:match("^%s*"))
-end
-
 -- Find the starting line of the region. If the cursor is on a blank line, find
 -- the closest non-blank line above and below, and choose the one with the
 -- largest indent.
@@ -17,14 +11,14 @@ local function find_starting_line(lines)
     local top_line, top_indent, bottom_line, bottom_indent
     for i = starting_line, 1, -1 do
       if not lines[i]:is_empty() then
-        top_indent = indent(lines[i])
+        top_indent = lines[i]:visual_indent()
         top_line = i
         break
       end
     end
     for i = starting_line, #lines do
       if not lines[i]:is_empty() then
-        bottom_indent = indent(lines[i])
+        bottom_indent = lines[i]:visual_indent()
         bottom_line = i
         break
       end
@@ -47,7 +41,7 @@ local function find_end_position(lines, starting_indent, start, down)
   for i = start, down and #lines or 1, down and 1 or -1 do
     limit = i
     if not lines[i]:is_empty() then
-      if indent(lines[i]) < starting_indent then
+      if lines[i]:visual_indent() < starting_indent then
         break
       end
       last_non_blank = i
@@ -75,7 +69,7 @@ end
 local function find_top_and_bottom()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local starting_line = find_starting_line(lines)
-  local starting_indent = indent(lines[starting_line])
+  local starting_indent = lines[starting_line]:visual_indent()
   local top = find_end_position(lines, starting_indent, starting_line)
   local bottom = find_end_position(lines, starting_indent, starting_line, true)
   return top, bottom

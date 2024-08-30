@@ -166,4 +166,21 @@ describe("string-extras", function()
       assert.equals("foo\n\n  bar", s:dedent())
     end)
   end)
+
+  it("visual_indent", function()
+    local test_cases = {
+      [""] = 0,
+      foo = 0,
+      [" foo"] = 1,
+      ["  foo"] = 2,
+      ["\tfoo"] = 8,
+      [" \tfoo"] = 8,
+      ["\t\tfoo"] = 16,
+      [" \t\tfoo"] = 16,
+      [" \t \tfoo"] = 16,
+    }
+    for s, expected in pairs(test_cases) do
+      assert.equals(expected, s:visual_indent())
+    end
+  end)
 end)

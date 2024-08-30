@@ -46,12 +46,6 @@ local function semi(state)
   return ""
 end
 
----@param line string
----@return integer
-local function indent(line)
-  return #line:match("^%s*")
-end
-
 ---@param line integer
 ---@param col integer
 ---@return boolean
@@ -82,7 +76,9 @@ local function should_close(state, ends)
   )
   local ending = table.concat(ends, ""):reverse()
   local match = vim.fn.searchpair(start, "", ending, "Wn")
-  return not (match > 0 and indent(getline(match)) == indent(state.line))
+  return not (
+    match > 0 and getline(match):visual_indent() == state.line:visual_indent()
+  )
 end
 
 ---@return string
