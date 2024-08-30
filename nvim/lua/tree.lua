@@ -185,6 +185,7 @@ local function set_buf_options_and_keymaps()
   vim.opt_local.bufhidden = "delete"
   vim.opt_local.buftype = "nofile"
   vim.opt_local.colorcolumn = nil
+  vim.opt_local.cursorcolumn = true
   vim.opt_local.filetype = "tree"
   vim.opt_local.statusline = "%{b:tree_dir}"
   vim.opt_local.textwidth = 0
