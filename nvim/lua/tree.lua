@@ -181,7 +181,43 @@ local function parent_dir()
   M.tree(new_dir .. "/")
 end
 
+local function refresh()
+  local saved_view = vim.fn.winsaveview()
+  M.tree(vim.b.tree_dir)
+  vim.fn.winrestview(saved_view)
+end
+
+local function move_file()
+  local path = M.find_full_path()
+  local path_buf = vim.fn.bufnr(path)
+  if path_buf ~= -1 then
+    if
+      vim.fn.confirm(
+        ("%s is currently open in buffer %s. Do you still want to rename it?"):format(
+          path,
+          path_buf
+        ),
+        "&Yes\n&No",
+        2
+      ) ~= 1
+    then
+      return
+    end
+  end
+  vim.ui.input({ prompt = "Rename file:", default = path }, function(new_name)
+    if new_name and new_name ~= "" then
+      local result = vim.uv.fs_rename(path, new_name)
+      if not result then
+        vim.notify("Failed to rename file " .. path, vim.log.level.ERROR)
+        return
+      end
+      refresh()
+    end
+  end)
+end
+
 local function set_buf_options_and_keymaps()
+  -- options
   vim.opt_local.bufhidden = "delete"
   vim.opt_local.buftype = "nofile"
   vim.opt_local.colorcolumn = nil
@@ -190,6 +226,7 @@ local function set_buf_options_and_keymaps()
   vim.opt_local.statusline = "%{b:tree_dir}"
   vim.opt_local.textwidth = 0
   vim.opt_local.wrap = false
+  -- keymaps
   local opts = { buffer = true, silent = true }
   vim.keymap.set("n", "q", close, opts)
   vim.keymap.set("n", "<CR>", open_line, opts)
@@ -199,11 +236,8 @@ local function set_buf_options_and_keymaps()
   vim.keymap.set("v", "<CR>", visual_open_lines, opts)
   vim.keymap.set("n", "a", add_at_dir, opts)
   vim.keymap.set("n", "g-", parent_dir, opts)
-  vim.keymap.set("n", "R", function()
-    local saved_view = vim.fn.winsaveview()
-    M.tree(vim.b.tree_dir)
-    vim.fn.winrestview(saved_view)
-  end, opts)
+  vim.keymap.set("n", "R", refresh, opts)
+  vim.keymap.set("n", "m", move_file, opts)
   -- delete the reference to the sidebar tree buffer if we switch to a new
   -- buffer in the tree window
   vim.api.nvim_create_autocmd("BufUnload", {
