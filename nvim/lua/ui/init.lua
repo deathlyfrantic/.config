@@ -4,6 +4,7 @@ local M = {}
 local overrides = {
   notify = require("ui.notify").notify,
   select = require("ui.select").select,
+  input = require("ui.input").input,
 }
 
 ---@type table<string, function>
@@ -17,17 +18,20 @@ function M.restore()
   end
   vim.notify = builtins.notify
   vim.ui.select = builtins.select
+  vim.ui.input = builtins.input
   builtins = {}
 end
 
 function M.save_builtins()
   builtins.notify = vim.notify
   builtins.select = vim.ui.select
+  builtins.input = vim.ui.input
 end
 
 function M.override()
   vim.notify = overrides.notify
   vim.ui.select = overrides.select
+  vim.ui.input = overrides.input
 end
 
 local valid_command_args = { "on", "off" }
