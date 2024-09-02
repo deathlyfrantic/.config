@@ -75,7 +75,7 @@ local function find_top_and_bottom()
   return top, bottom
 end
 
-function M.indent_object()
+function M.textobject()
   local top, bottom = find_top_and_bottom()
   vim.api.nvim_win_set_cursor(0, { top, 0 })
   vim.cmd.normal({ args = { "V" }, bang = true })
@@ -86,7 +86,7 @@ function M.init()
   vim.keymap.set(
     { "o", "v" },
     "ii",
-    [[:<C-u>lua require("text-objects.indent").indent_object()<CR>]],
+    [[:<C-u>lua require("text-objects.indent").textobject()<CR>]],
     { silent = true }
   )
 end
