@@ -176,6 +176,9 @@ end, { expr = true })
 -- search bindings
 vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "#", "#N")
+vim.keymap.set("n", "<Space>", function()
+  return vim.v.hlsearch == 0 and "*N" or "<Cmd>nohlsearch<CR>"
+end, { expr = true, silent = true })
 vim.keymap.set(
   "x",
   "*",
@@ -186,10 +189,9 @@ vim.keymap.set(
   "#",
   [[:<C-u>lua require("utils").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
 )
--- turn off hlsearch if it is on, otherwise insert a space
-vim.keymap.set("n", "<Space>", function()
-  return vim.v.hlsearch ~= 0 and "<Cmd>nohlsearch<CR>" or "i<Space><Esc>"
-end, { expr = true, silent = true })
+
+-- insert a single space
+vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- close all floating windows
 vim.keymap.set("n", "<Esc>", function()
