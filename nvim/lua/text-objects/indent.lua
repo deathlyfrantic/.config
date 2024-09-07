@@ -65,7 +65,7 @@ local function find_end_position(lines, starting_indent, start, down)
   return limit
 end
 
----@return number, number
+---@return integer, integer
 local function find_top_and_bottom()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local starting_line = find_starting_line(lines)
