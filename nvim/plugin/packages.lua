@@ -88,12 +88,6 @@ pm.add({
   end,
 })
 
-pm.add(
-  "Julian/vim-textobj-variable-segment",
-  "kana/vim-textobj-user",
-  "deathlyfrantic/vim-textobj-blanklines"
-)
-
 pm.add({
   "lewis6991/gitsigns.nvim",
   config = function()
