@@ -26,7 +26,7 @@ return make({
     [[
       describe("[]", () => {
         []
-      };
+      });
     ]],
     { i(1), i(0) },
     { delimiters = "[]" }
@@ -35,7 +35,7 @@ return make({
     [[
       it("[]", async () => {
         []
-      };
+      });
     ]],
     { i(1), i(0) },
     { delimiters = "[]" }
