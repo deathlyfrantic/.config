@@ -1,5 +1,5 @@
 vim.opt_local.cinoptions:append({ "l1" })
-vim.opt_local.commentstring = "//%s"
+vim.opt_local.commentstring = "// %s"
 -- overrides default arrow function behavior from init.lua
 vim.keymap.set("i", "<C-j>", "->", { buffer = true })
 

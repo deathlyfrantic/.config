@@ -1,3 +1,4 @@
+vim.opt_local.commentstring = "// %s"
 vim.opt_local.matchpairs:append("<:>")
 
 local function populate_rustfmt_edition()
