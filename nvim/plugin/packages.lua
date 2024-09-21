@@ -295,7 +295,6 @@ pm.add(
   "tpope/vim-endwise",
   "tpope/vim-obsession",
   "tpope/vim-repeat",
-  "tpope/vim-sleuth",
   "tpope/vim-speeddating",
   "tpope/vim-surround",
   "tpope/vim-unimpaired",

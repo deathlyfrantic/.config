@@ -1,5 +1,7 @@
 local utils = require("utils")
 
+vim.opt_local.textwidth = 80
+
 -- highlight docstrings as comments
 local function docstring_highlight()
   if vim.bo.syntax == "" then

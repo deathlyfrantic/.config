@@ -40,12 +40,10 @@ vim.opt.startofline = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
 vim.opt.shiftround = true
-vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
 vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/local.utf-8.add"
-vim.opt.softtabstop = 4
+vim.opt.softtabstop = -1
 vim.opt.tags:prepend("./.git/tags;")
-vim.opt.textwidth = 80
 vim.opt.title = true
 vim.opt.titlestring =
   [[nvim %{has_key(b:,'term_title')?b:term_title:len(expand('%'))>0?expand('%:t'):'[No name]'}]]

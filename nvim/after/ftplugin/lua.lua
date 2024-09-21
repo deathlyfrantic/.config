@@ -1,3 +1,8 @@
+vim.opt_local.shiftwidth = 2
+vim.opt_local.textwidth = 80
+
+vim.keymap.set("ia", "fn!", "function", { buffer = true })
+
 local bufname = vim.api.nvim_buf_get_name(0)
 if
   bufname:starts_with(vim.fn.stdpath("config"))
@@ -9,5 +14,3 @@ then
     vim.fn.stdpath("config")
   )
 end
-
-vim.keymap.set("ia", "fn!", "function", { buffer = true })

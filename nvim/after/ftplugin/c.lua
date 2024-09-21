@@ -1,5 +1,8 @@
 vim.opt_local.cinoptions:append({ "l1" })
 vim.opt_local.commentstring = "// %s"
+vim.opt_local.shiftwidth = 4
+vim.opt_local.textwidth = 80
+
 -- overrides default arrow function behavior from init.lua
 vim.keymap.set("i", "<C-j>", "->", { buffer = true })
 
