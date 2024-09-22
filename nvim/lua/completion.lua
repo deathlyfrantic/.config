@@ -93,6 +93,83 @@ function M.snippets(fs, base)
   return snippets
 end
 
+---@param command string[]
+---@param error_message string
+---@return string
+local function get_tmux_output(command, error_message)
+  table.insert(command, 1, "tmux")
+  local result = vim.system(command, { text = true }):wait()
+  if result.code ~= 0 then
+    error(error_message)
+  end
+  return result.stdout:trim()
+end
+
+local function tmux()
+  M.wrap(function(fs, base)
+    if fs then
+      return findstart()
+    end
+    local uniques = {}
+    local words = {}
+    -- get current pane data so we can filter it out later
+    local current_pane = get_tmux_output(
+      { "display-message", "-p", "11-#{session_id}" },
+      "Failed to retrieve current tmux pane id."
+    )
+    -- find all the panes
+    vim
+      .iter(get_tmux_output({
+        "list-panes",
+        "-a",
+        "-F",
+        "#{pane_active}#{window_active}-#{session_id} #{pane_id}",
+      }, "Failed to retrive list of tmux panes."):split("\n"))
+      :filter(function(pane)
+        -- filter out current pane - we can use tmux-thumbs for it
+        return not pane:starts_with(current_pane)
+      end)
+      :map(function(pane)
+        -- strip out active/session data, leave just pane id
+        return pane:split(" ")[2]
+      end)
+      :map(function(pane)
+        -- get the contents from the pane
+        return get_tmux_output(
+          { "capture-pane", "-J", "-p", "-t", pane },
+          ("Failed to capture tmux pane '%s'."):format(pane)
+        )
+      end)
+      :map(function(contents)
+        -- split the contents of the pane on whitespace
+        vim
+          .iter(contents:split("%s", { plain = false }))
+          :filter(function(s)
+            -- filter out "words" that don't contain an alphanumeric character
+            return s:match("%w")
+          end)
+          :each(function(word)
+            -- ensure each "word" is only added to the list once
+            if not uniques[word] then
+              table.insert(words, word)
+              uniques[word] = word
+            end
+          end)
+      end)
+    -- sort the words
+    table.sort(words)
+    -- find a word that starts with the base
+    local ret = vim.tbl_filter(function(word)
+      return word:imatch("^" .. base)
+    end, words)
+    -- if there are no words, find words that contain the base anywhere
+    return #ret > 0 and ret
+      or vim.tbl_filter(function(word)
+        return word:imatch(base)
+      end, words)
+  end)
+end
+
 function M.init()
   vim.api.nvim_create_autocmd("CompleteDone", {
     pattern = "*",
@@ -106,6 +183,7 @@ function M.init()
     return tab(false)
   end, { silent = true, expr = true })
   vim.keymap.set("i", "<C-x><C-g>", gitcommit, { silent = true })
+  vim.keymap.set("i", "<C-x><C-t>", tmux, { silent = true })
   vim.o.completefunc = "v:lua.require'completion'.snippets"
 end
 

@@ -215,16 +215,6 @@ pm.add({
 })
 
 pm.add({
-  "wellle/tmux-complete.vim",
-  config = function()
-    vim.g["tmuxcomplete#trigger"] = ""
-    vim.keymap.set("i", "<C-x><C-t>", function()
-      require("completion").wrap("tmuxcomplete#complete")
-    end)
-  end,
-})
-
-pm.add({
   "L3MON4D3/LuaSnip",
   config = function()
     local ls = require("luasnip")
