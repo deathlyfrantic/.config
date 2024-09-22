@@ -45,8 +45,8 @@ function M.wrap(f)
   local col = vim.api.nvim_win_get_cursor(0)[2]
   local start = f(true, 0)
   local line = vim.api.nvim_get_current_line()
-  local base = line:sub(start, col + 1)
-  vim.fn.complete(start + 1, f(false, base))
+  local base = line:sub(start + 1, col + 1)
+  vim.fn.complete(start + 1, f(false, base:is_empty() and "" or base))
 end
 
 local function gitcommit()
