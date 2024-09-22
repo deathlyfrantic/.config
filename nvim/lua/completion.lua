@@ -55,11 +55,7 @@ local function gitcommit()
       return findstart()
     end
     local cmd = { "git", "log", "--oneline", "--no-merges" }
-    if #base > 0 then
-      table.insert(cmd, ("--grep='%s'"):format(base))
-    else
-      vim.list_extend(cmd, { "-n", "5000" })
-    end
+    vim.list_extend(cmd, #base > 0 and { "--grep", base } or { "-n", "5000" })
     local commits = vim.system(cmd, { text = true }):wait().stdout:split("\n")
     table.sort(commits, function(a, b)
       -- chop off the commit hash when sorting
