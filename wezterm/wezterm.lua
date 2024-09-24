@@ -96,7 +96,7 @@ return {
   enable_tab_bar = false,
   freetype_load_target = "Normal",
   font = wezterm.font("SF Mono", { weight = "Medium" }),
-  font_size = 15.75,
+  font_size = 14.5,
   force_reverse_video_cursor = true,
   harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
   initial_cols = 160,
