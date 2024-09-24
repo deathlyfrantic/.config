@@ -73,6 +73,11 @@ function M.init()
     ui_command,
     { nargs = 1, complete = completion }
   )
+  vim.api.nvim_create_user_command(
+    "Notifications",
+    require("ui.notify").print_history,
+    {}
+  )
 end
 
 return M

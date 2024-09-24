@@ -5,6 +5,9 @@ local M = {}
 ---@type Notification[]
 local notifications = {}
 
+---@type Notification[]
+local notification_history = {}
+
 local id = -1
 
 ---@return integer
@@ -169,6 +172,7 @@ local function add_notification(notification)
     remove_notification(notification)
   end, notification.timeout)
   table.insert(notifications, notification)
+  table.insert(notification_history, notification)
 end
 
 ---@param msg string
@@ -184,6 +188,14 @@ function M.notify(msg, level, opts)
   opts = opts or {}
   local notification = Notification(msg, level, opts)
   add_notification(notification)
+end
+
+function M.print_history()
+  for _, notification in ipairs(notification_history) do
+    vim.print(
+      ("[%s] %s"):format(level_names[notification.level], notification.msg)
+    )
+  end
 end
 
 return M
