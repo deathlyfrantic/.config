@@ -29,10 +29,10 @@ vim.opt.lazyredraw = true
 vim.opt.listchars = {
   space = "␣",
   eol = "¬",
-  tab = "▸⁃",
+  tab = "▸·",
   trail = "␣",
-  precedes = "⤷",
-  extends = "⤶",
+  precedes = "↳",
+  extends = "↲",
 }
 vim.opt.modeline = false
 vim.opt.mouse = ""
