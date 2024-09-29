@@ -138,6 +138,13 @@ describe("string-extras", function()
         end
       end)
     end)
+
+    it("caches patterns", function()
+      assert.equals("fOoBaR", ("fOoBaR"):imatch("foobar"))
+      local chars = spy.on(string, "chars")
+      assert.equals("fOoBaR", ("fOoBaR"):imatch("foobar"))
+      assert.spy(chars).not_called()
+    end)
   end)
 
   describe("dedent", function()

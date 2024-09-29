@@ -101,36 +101,41 @@ function string.chars(self)
   return string_chars, self, 0
 end
 
+local imatch_cache = {}
+
 -- Case-insensitive version of `string.match`
 ---@param self string
 ---@param pattern string
 ---@return string?
 function string.imatch(self, pattern)
-  local pat = ""
-  local in_percent = false
-  local in_bracket = false
-  for _, char in pattern:chars() do
-    if in_percent then
-      pat = pat .. char
-      in_percent = false
-    elseif char == "%" then
-      pat = pat .. char
-      in_percent = true
-    elseif in_bracket then
-      pat = pat .. char
-      if char == "]" then
-        in_bracket = false
+  if not imatch_cache[pattern] then
+    local pat = ""
+    local in_percent = false
+    local in_bracket = false
+    for _, char in pattern:chars() do
+      if in_percent then
+        pat = pat .. char
+        in_percent = false
+      elseif char == "%" then
+        pat = pat .. char
+        in_percent = true
+      elseif in_bracket then
+        pat = pat .. char
+        if char == "]" then
+          in_bracket = false
+        end
+      elseif char == "[" then
+        pat = pat .. char
+        in_bracket = true
+      elseif char:match("%A") then
+        pat = pat .. char
+      else
+        pat = pat .. ("[%s%s]"):format(char:upper(), char:lower())
       end
-    elseif char == "[" then
-      pat = pat .. char
-      in_bracket = true
-    elseif char:match("%A") then
-      pat = pat .. char
-    else
-      pat = pat .. ("[%s%s]"):format(char:upper(), char:lower())
     end
+    imatch_cache[pattern] = pat
   end
-  return self:match(pat)
+  return self:match(imatch_cache[pattern])
 end
 
 -- Dedent string by removing smallest common whitespace from front of each line.
