@@ -242,7 +242,7 @@ describe("test-runner/javascript", function()
 
     it("returns nil if package.json is not found", function()
       find.returns({})
-      assert.is_nil(javascript.test())
+      assert.is_nil(javascript.test("all"))
     end)
 
     it(

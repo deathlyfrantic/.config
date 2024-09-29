@@ -106,7 +106,7 @@ describe("test-runner/rust", function()
 
     it("returns nil if cargo is not found", function()
       local executable = stub(vim.fn, "executable").returns(0)
-      assert.is_nil(rust.test())
+      assert.is_nil(rust.test("all"))
       executable:revert()
     end)
 
