@@ -11,6 +11,7 @@ local runners = {
   python = require("test-runner.python").test,
   rust = require("test-runner.rust").test,
   typescript = require("test-runner.javascript").test,
+  go = require("test-runner.go").test,
 }
 
 ---@param cmd string
