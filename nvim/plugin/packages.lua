@@ -19,13 +19,57 @@ pm.add({
     vim.keymap.set("n", "Q", vim.diagnostic.open_float)
     local lspconfig = require("lspconfig")
     local servers = {
-      lua_ls = "lua-language-server",
-      rust_analyzer = "rust-analyzer",
-      gopls = "gopls",
+      lua_ls = {
+        executable = "lua-language-server",
+        config = {
+          handlers = {
+            -- disable log messages, they aren't helpful
+            ["window/logMessage"] = function() end,
+            ["window/showMessage"] = function() end,
+          },
+          settings = {
+            Lua = {
+              addonManager = { enable = false },
+              telemetry = { enable = false },
+            },
+          },
+          on_init = function(client)
+            -- if there's a `.luarc.json`, use it
+            if client.workspace_folders then
+              local path = client.workspace_folders[1].name
+              if
+                vim.uv.fs_stat(vim.fs.joinpath(path, "/.luarc.json"))
+                or vim.uv.fs_stat(vim.fs.joinpath(path, "/.luarc.jsonc"))
+              then
+                return
+              end
+            end
+            -- neovim specific config here
+            client.config.settings.Lua =
+              vim.tbl_deep_extend("force", client.config.settings.Lua or {}, {
+                diagnostics = {
+                  disable = { "newline-call" },
+                  globals = { "vim" },
+                },
+                runtime = {
+                  version = "LuaJIT",
+                  path = { "lua/?.lua", "lua/?/init.lua" },
+                },
+                workspace = {
+                  checkThirdParty = false,
+                  library = { vim.env.VIMRUNTIME },
+                  useGitIgnore = false,
+                },
+              })
+          end,
+        },
+      },
+      rust_analyzer = { executable = "rust-analyzer" },
+      gopls = { executable = "gopls" },
     }
-    for server, executable in pairs(servers) do
-      if vim.fn.executable(executable) == 1 then
-        lspconfig[server].setup({})
+    for server, options in pairs(servers) do
+      if vim.fn.executable(options.executable) == 1 then
+        lspconfig[server].setup(options.config or {})
       end
     end
     vim.api.nvim_create_autocmd("LspAttach", {
