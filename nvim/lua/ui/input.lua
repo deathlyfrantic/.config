@@ -4,8 +4,9 @@ local M = {}
 
 ---@param prompt string
 ---@param default string
+---@param completion string?
 ---@param callback fun(string?): nil
-local function prompt_for_input(prompt, default, callback)
+local function prompt_for_input(prompt, default, completion, callback)
   local prompt_pieces = prompt:split("\n", { trimempty = false })
   -- 3 below is 2 for separators and 1 for input line
   local height = math.min(#prompt_pieces + 3, math.floor(vim.o.lines - 10))
@@ -72,6 +73,9 @@ local function prompt_for_input(prompt, default, callback)
     close()
     callback(nil)
   end
+  if completion == "file" then
+    vim.keymap.set("i", "<Tab>", "<C-x><C-f>", { buffer = true })
+  end
   vim.keymap.set("i", "<Esc>", abort, { silent = true, buffer = input_buf })
   vim.keymap.set("i", "<C-c>", abort, { silent = true, buffer = input_buf })
   vim.keymap.set({ "n", "i" }, "<CR>", function()
@@ -91,7 +95,7 @@ function M.input(opts, on_confirm)
   opts = opts or {}
   local prompt = opts.prompt or "Input:"
   local default = opts.default or ""
-  prompt_for_input(prompt, default, on_confirm)
+  prompt_for_input(prompt, default, opts.completion, on_confirm)
 end
 
 return M
