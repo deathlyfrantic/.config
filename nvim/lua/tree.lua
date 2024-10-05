@@ -156,6 +156,9 @@ local function visual_open_lines()
       table.insert(paths, path)
     end
   end
+  if M.sidebar_tree_buffer then
+    close()
+  end
   for i, path in ipairs(paths) do
     vim.cmd[i == 1 and "edit" or "badd"](path)
   end
