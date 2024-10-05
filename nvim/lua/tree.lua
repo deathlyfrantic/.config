@@ -169,11 +169,18 @@ local function add_at_dir()
   if not path:ends_with("/") then
     path = path:gsub("[^/]+$", "")
   end
-  if #vim.api.nvim_list_wins() > 1 then
-    -- move to non-tree window to open file
-    vim.cmd.wincmd("p")
-  end
-  vim.api.nvim_feedkeys(":e " .. path, "", false)
+  vim.ui.input({
+    prompt = "New file",
+    default = path,
+    completion = "file",
+  }, function(input)
+    if input then
+      if M.sidebar_tree_buffer then
+        close()
+      end
+      vim.cmd.edit(input)
+    end
+  end)
 end
 
 local function parent_dir()
