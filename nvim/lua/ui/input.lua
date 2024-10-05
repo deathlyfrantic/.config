@@ -61,10 +61,10 @@ local function prompt_for_input(prompt, default, callback)
     vim.api.nvim_create_namespace("popup-window")
   )
   -- start insert mode
-  vim.api.nvim_feedkeys("A", "n", false)
+  vim.cmd.startinsert({ bang = true })
   local close = function()
     -- leave insert mode
-    vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
+    vim.cmd.stopinsert()
     vim.api.nvim_win_close(prompt_win_id, true)
     vim.api.nvim_win_close(input_win_id, true)
   end
