@@ -278,7 +278,7 @@ function M.tree(dir)
   set_buf_options_and_keymaps()
   vim.b.tree_dir = dir
   local output = create_raw_output(dir)
-  local structure = M.create_data_structure(output:split("\n"))
+  local structure = M.create_data_structure(output:splitlines())
   local lines = M.format(structure)
   vim.opt_local.modifiable = true
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)

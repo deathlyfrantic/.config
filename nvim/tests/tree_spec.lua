@@ -24,7 +24,7 @@ describe("tree", function()
         bar = { foo = { baz = { "quux.txt" } } },
       },
     }
-    assert.same(expected, tree.create_data_structure(data:split("\n")))
+    assert.same(expected, tree.create_data_structure(data:splitlines()))
   end)
 
   it("format", function()
@@ -45,7 +45,7 @@ describe("tree", function()
     assert.equal(
       expected,
       table.concat(
-        tree.format(tree.create_data_structure(data:split("\n"))),
+        tree.format(tree.create_data_structure(data:splitlines())),
         "\n"
       )
     )
@@ -63,7 +63,7 @@ describe("tree", function()
         garply/
           waldo.txt
           barbaz.txt
-    ]]):dedent():split("\n")
+    ]]):dedent():splitlines()
     local nvim_buf_get_lines, nvim_win_get_cursor, tree_dir
 
     before_each(function()

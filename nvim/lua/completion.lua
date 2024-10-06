@@ -74,7 +74,7 @@ local function gitcommit()
     cmd,
     #base > 0 and { "--grep", base, "-i" } or { "-n", "5000" }
   )
-  local commits = vim.system(cmd, { text = true }):wait().stdout:split("\n")
+  local commits = vim.system(cmd, { text = true }):wait().stdout:splitlines()
   table.sort(commits, function(a, b)
     -- chop off the commit hash when sorting
     return a:gsub("^%w+%s+", "") < b:gsub("^%w+%s", "")
@@ -117,7 +117,7 @@ local function tmux()
       "-a",
       "-F",
       "#{pane_active}#{window_active}-#{session_id} #{pane_id}",
-    }, "Failed to retrive list of tmux panes."):split("\n"))
+    }, "Failed to retrive list of tmux panes."):splitlines())
     :filter(function(pane)
       -- filter out current pane - we can use tmux-thumbs for it
       return not pane:starts_with(current_pane)

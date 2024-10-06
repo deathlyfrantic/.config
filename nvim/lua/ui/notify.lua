@@ -49,7 +49,7 @@ local level_names = {
 local Notification_mt = {
   lines = function(self)
     if self.msg:find("\n") then
-      return self.msg:split("\n")
+      return self.msg:splitlines()
     end
     return { self.msg }
   end,

@@ -10,7 +10,7 @@ function M.popup(text, window_opts)
   if type(text) == "table" then
     contents = text
   elseif type(text) == "string" then
-    contents = text:split("\n")
+    contents = text:splitlines()
   else
     contents = { tostring(text) }
   end
@@ -162,7 +162,7 @@ end
 ---@param contents string | table
 function M.help(contents)
   if type(contents) == "string" then
-    contents = contents:split("\n")
+    contents = contents:splitlines()
   end
   local help_win = vim.iter(vim.api.nvim_list_wins()):find(function(win)
     return vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "help"

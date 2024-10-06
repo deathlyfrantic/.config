@@ -142,7 +142,7 @@ end
 ---@param self string
 ---@return string
 function string.dedent(self)
-  local lines = self:split("\n", { trimempty = false })
+  local lines = self:splitlines(false)
   -- determine the number of leading tabs and spaces per line
   local stats = vim.tbl_map(function(line)
     local indent = line:match("^%s*")
@@ -185,4 +185,31 @@ end
 ---@return integer
 function string.visual_indent(self)
   return vim.fn.strdisplaywidth(self:match("^%s*"))
+end
+
+-- Split a string on line separators. List of separators comes from Python's
+-- `str.splitlines` method.
+-- Reference: https://docs.python.org/3/library/stdtypes.html#str.splitlines
+---@param self string
+---@param trimempty boolean?
+---@return string[]
+function string.splitlines(self, trimempty)
+  -- selene: allow(bad_string_escape)
+  local separators = {
+    "\r\n", -- must be first so we don't break a sequence by replacing \r
+    "\r",
+    "\v",
+    "\f",
+    "\x1c",
+    "\x1d",
+    "\x1e",
+    "\x85",
+    "\u{2028}",
+    "\u{2029}",
+  }
+  local s = self
+  for _, sep in ipairs(separators) do
+    s, _ = s:gsub(sep, "\n")
+  end
+  return s:split("\n", { plain = true, trimempty = trimempty })
 end

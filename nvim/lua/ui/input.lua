@@ -7,7 +7,7 @@ local M = {}
 ---@param completion string?
 ---@param callback fun(string?): nil
 local function prompt_for_input(prompt, default, completion, callback)
-  local prompt_pieces = prompt:split("\n", { trimempty = false })
+  local prompt_pieces = prompt:splitlines(false)
   -- 3 below is 2 for separators and 1 for input line
   local height = math.min(#prompt_pieces + 3, math.floor(vim.o.lines - 10))
   local width = math.floor(

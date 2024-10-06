@@ -181,7 +181,7 @@ function M.install()
     table.insert(output, "Failed to install:")
     for name, data in pairs(failures) do
       table.insert(output, "  ✗ " .. name)
-      for _, line in ipairs(data.stderr:split("\n")) do
+      for _, line in ipairs(data.stderr:splitlines()) do
         table.insert(output, "      " .. line)
       end
     end
@@ -318,7 +318,7 @@ function M.update()
     table.insert(output, "Failed to update:")
     for name, data in pairs(failures) do
       table.insert(output, "  ✗ " .. name)
-      for _, line in ipairs(data.stderr:split("\n")) do
+      for _, line in ipairs(data.stderr:splitlines()) do
         table.insert(output, "      " .. line)
       end
     end

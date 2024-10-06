@@ -6,7 +6,7 @@ local M = {}
 ---@param prompt string
 ---@param callback fun(index?: integer)
 local function select_window(choices, prompt, callback)
-  local prompt_pieces = prompt:split("\n", { trimempty = false })
+  local prompt_pieces = prompt:splitlines(false)
   -- choice height + prompt height + separators
   local height =
     math.min(#choices + #prompt_pieces + 2, math.floor(vim.o.lines - 10))

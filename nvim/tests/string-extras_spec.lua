@@ -190,4 +190,29 @@ describe("string-extras", function()
       assert.equals(expected, s:visual_indent())
     end
   end)
+
+  describe("splitlines", function()
+    -- selene: allow(bad_string_escape)
+    local newline_separators = {
+      ["\n"] = [[\n]],
+      ["\r"] = [[\r]],
+      ["\r\n"] = [[\r\n]],
+      ["\v"] = [[\v]],
+      ["\f"] = [[\f]],
+      ["\x1c"] = [[\x1c]],
+      ["\x1d"] = [[\x1d]],
+      ["\x1e"] = [[\x1e]],
+      ["\x85"] = [[\x85]],
+      ["\u{2028}"] = [[\u{2028}]],
+      ["\u{2029}"] = [[\u{2029}]],
+    }
+
+    for char, repr in pairs(newline_separators) do
+      it(("splitlines, char '%s'"):format(repr), function()
+        local pieces = { "foo", "", "bar", "", "", "baz" }
+        local test_string = table.concat(pieces, char)
+        assert.same(pieces, test_string:splitlines())
+      end)
+    end
+  end)
 end)

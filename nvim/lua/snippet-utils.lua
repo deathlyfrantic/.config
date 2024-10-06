@@ -49,7 +49,7 @@ local function text_snippet(snippet)
     return fmt(snippet, { i(0) })
   end
   if snippet:find("\n") then
-    return t(snippet:dedent():split("\n"))
+    return t(snippet:dedent():splitlines())
   end
   return t(snippet)
 end
