@@ -40,6 +40,7 @@ vim.opt.startofline = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
 vim.opt.shiftround = true
+vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
 vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/local.utf-8.add"
 vim.opt.softtabstop = -1
