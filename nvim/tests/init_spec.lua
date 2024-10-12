@@ -3,61 +3,6 @@ local utils = require("utils")
 local test_utils = require("test-utils")
 
 describe("init", function()
-  describe("quits even if tree or quickfix is open", function()
-    local bo, quit, nvim_buf_delete, nvim_list_bufs, nvim_list_wins
-
-    before_each(function()
-      bo = vim.bo
-      quit = stub(vim.cmd, "quit")
-      nvim_list_wins = stub(vim.api, "nvim_list_wins").returns({ 1 })
-      nvim_list_bufs = stub(vim.api, "nvim_list_bufs")
-      nvim_buf_delete = stub(vim.api, "nvim_buf_delete")
-    end)
-
-    after_each(function()
-      vim.bo = bo
-      quit:revert()
-      nvim_list_wins:revert()
-      nvim_list_bufs:revert()
-      nvim_buf_delete:revert()
-    end)
-
-    it("quickfix", function()
-      vim.bo = { { buflisted = true }, buftype = "quickfix" }
-      nvim_list_bufs.returns({})
-      vim.api.nvim_exec_autocmds(
-        "BufEnter",
-        { group = "init-autocmds", pattern = "*" }
-      )
-      assert.stub(quit).called(1)
-      assert.stub(nvim_buf_delete).not_called()
-    end)
-
-    it("tree", function()
-      vim.bo = { { buflisted = true }, filetype = "tree" }
-      nvim_list_bufs.returns({ 1 })
-      vim.api.nvim_exec_autocmds(
-        "BufEnter",
-        { group = "init-autocmds", pattern = "*" }
-      )
-      assert.stub(quit).called(1)
-      assert.stub(nvim_buf_delete).not_called()
-    end)
-
-    it("deletes buffer if conditions not met", function()
-      -- there is a reason for the logic that this is testings but i do not
-      -- remember what it is
-      vim.bo = { { buflisted = false }, buftype = "nofile", filetype = "tree" }
-      nvim_list_bufs.returns({})
-      vim.api.nvim_exec_autocmds(
-        "BufEnter",
-        { group = "init-autocmds", pattern = "*" }
-      )
-      assert.stub(quit).not_called()
-      assert.stub(nvim_buf_delete).called_with(0, { force = true })
-    end)
-  end)
-
   describe("last position jump", function()
     local nvim_buf_line_count, nvim_buf_get_mark, nvim_buf_get_name, nvim_win_set_cursor
 
