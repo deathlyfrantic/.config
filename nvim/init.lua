@@ -295,6 +295,7 @@ vim.cmd.colorscheme("copper")
 local plugins = {
   "commandline",
   "completion",
+  "star",
   "statusline",
   "tabline",
   "test-runner",
