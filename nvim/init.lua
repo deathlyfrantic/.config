@@ -42,7 +42,8 @@ vim.opt.wrap = false
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
 vim.opt.smartcase = true
-vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/local.utf-8.add"
+vim.opt.spellfile =
+  vim.fs.joinpath(vim.fn.stdpath("config"), "spell", "local.utf-8.add")
 vim.opt.softtabstop = -1
 vim.opt.tags:prepend("./.git/tags;")
 vim.opt.title = true
@@ -94,7 +95,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = {
     vim.env.MYVIMRC,
-    vim.fn.stdpath("config") .. "/{plugin,lua,colors}/*.lua",
+    vim.fs.joinpath(vim.fn.stdpath("config"), "{plugin,lua,colors}", "*.lua"),
   },
   callback = function(args)
     vim.cmd.source(args.file)

@@ -6,7 +6,7 @@ local M = {}
 local packages = {}
 
 ---@type string
-local path_base = vim.fn.stdpath("config") .. "/pack/z/"
+local path_base = vim.fs.joinpath(vim.fn.stdpath("config"), "pack", "z")
 
 ---@param dir string
 ---@return boolean
@@ -84,7 +84,7 @@ function M.clean()
   for name, type in vim.fs.dir(path_base, { depth = 2 }) do
     -- filter out non-directories, and the "start" and "opt" directories
     if name ~= "start" and name ~= "opt" and type == "directory" then
-      table.insert(installed, path_base .. name)
+      table.insert(installed, vim.fs.joinpath(path_base, name))
     end
   end
   local specified = vim.tbl_map(function(spec)
@@ -135,7 +135,7 @@ end
 
 ---@param spec PackageSpec
 local function generate_helptags(spec)
-  local doc_dir = spec.path .. "/doc"
+  local doc_dir = vim.fs.joinpath(spec.path, "doc")
   if dir_exists(doc_dir) then
     vim.cmd.helptags(doc_dir)
   end
@@ -392,7 +392,7 @@ local function create_package_spec(spec)
     ret.dir = match:sub(2)
   end
   -- absolute path to package
-  ret.path = ("%s%s/%s"):format(path_base, ret.type, ret.dir)
+  ret.path = vim.fs.joinpath(path_base, ret.type, ret.dir)
   return ret
 end
 

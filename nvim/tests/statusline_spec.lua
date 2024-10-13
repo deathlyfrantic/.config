@@ -8,7 +8,10 @@ describe("statusline", function()
     end)
 
     it("returns filename with tilde", function()
-      vim.api.nvim_buf_set_name(0, vim.uv.os_homedir() .. "/foo/bar/baz.txt")
+      vim.api.nvim_buf_set_name(
+        0,
+        vim.fs.joinpath(vim.uv.os_homedir(), "foo", "bar", "baz.txt")
+      )
       assert.equals(statusline.filename(), "~/foo/bar/baz.txt")
     end)
 

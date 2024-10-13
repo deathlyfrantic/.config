@@ -115,7 +115,7 @@ function M.find_full_path(line_number, lines)
       end
     end
   end
-  return vim.b.tree_dir .. table.concat(ret, "")
+  return vim.fs.joinpath(vim.b.tree_dir, unpack(ret))
 end
 
 local function open_line(previous)

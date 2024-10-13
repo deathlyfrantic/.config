@@ -282,7 +282,7 @@ pm.add({
       return "<C-y>"
     end, { expr = true })
     require("luasnip.loaders.from_lua").load({
-      paths = vim.fn.stdpath("config") .. "/snippets",
+      paths = vim.fs.joinpath(vim.fn.stdpath("config"), "snippets"),
     })
     ls.filetype_extend("typescript", { "javascript" })
   end,
@@ -301,7 +301,7 @@ pm.add(
     "tpope/vim-apathy",
     config = function()
       vim.g.lua_path = vim.tbl_map(function(p)
-        return p .. "/lua/?.lua"
+        return vim.fs.joinpath(p, "lua", "?.lua")
       end, vim.o.runtimepath:split(","))
     end,
   },

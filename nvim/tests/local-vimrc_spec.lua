@@ -2,7 +2,9 @@ local stub = require("luassert.stub")
 
 describe("source local vimrc", function()
   -- load plugin before running tests
-  vim.cmd.source(vim.fn.stdpath("config") .. "/plugin/local-vimrc.lua")
+  vim.cmd.source(
+    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", "local-vimrc.lua")
+  )
 
   local source, find
 

@@ -95,16 +95,22 @@ describe("init", function()
       }) do
         vim.api.nvim_exec_autocmds("BufWritePost", {
           group = "init-autocmds",
-          pattern = vim.fn.stdpath("config") .. f,
+          pattern = vim.fs.joinpath(vim.fn.stdpath("config"), f),
         })
-        assert.stub(source).called_with(vim.fn.stdpath("config") .. f)
+        assert
+          .stub(source)
+          .called_with(vim.fs.joinpath(vim.fn.stdpath("config"), f))
       end
     end)
 
     it("doesn't reload non-lua files", function()
       vim.api.nvim_exec_autocmds("BufWritePost", {
         group = "init-autocmds",
-        pattern = vim.fn.stdpath("config") .. "/plugin/baz.txt",
+        pattern = vim.fs.joinpath(
+          vim.fn.stdpath("config"),
+          "plugin",
+          "baz.txt"
+        ),
       })
       assert.stub(source).not_called()
     end)

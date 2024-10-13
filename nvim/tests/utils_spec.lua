@@ -162,60 +162,60 @@ describe("utils", function()
     end)
 
     it("should find project directory higher than cwd", function()
-      root.returns(homedir .. "/foo")
+      root.returns(vim.fs.joinpath(homedir, "foo"))
       cwd.returns(homedir .. "/")
       assert.equals(
-        utils.find_project_dir(homedir .. "/foo/bar/baz"),
-        homedir .. "/foo/"
+        utils.find_project_dir(vim.fs.joinpath(homedir, "foo", "bar", "baz")),
+        vim.fs.joinpath(homedir, "foo/")
       )
     end)
 
     it("should find project directory lower than cwd", function()
-      root.returns(homedir .. "/foo")
-      cwd.returns(homedir .. "/foo/bar")
+      root.returns(vim.fs.joinpath(homedir, "foo"))
+      cwd.returns(vim.fs.joinpath(homedir, "foo", "bar"))
       assert.equals(
-        utils.find_project_dir(homedir .. "/foo/bar/baz"),
-        homedir .. "/foo/"
+        utils.find_project_dir(vim.fs.joinpath(homedir, "foo", "bar", "baz")),
+        vim.fs.joinpath(homedir, "foo/")
       )
     end)
 
     it("should return cwd if we hit $HOME", function()
       root.returns(nil)
-      cwd.returns(homedir .. "/foo")
+      cwd.returns(vim.fs.joinpath(homedir, "foo"))
       assert.equals(
-        utils.find_project_dir(homedir .. "/foo/bar/baz"),
-        homedir .. "/foo/"
+        utils.find_project_dir(vim.fs.joinpath(homedir, "foo", "bar", "baz")),
+        vim.fs.joinpath(homedir, "foo/")
       )
     end)
 
     it("should return cwd if we hit /", function()
       root.returns(nil)
-      cwd.returns(homedir .. "/foo")
+      cwd.returns(vim.fs.joinpath(homedir, "foo"))
       assert.equals(
         utils.find_project_dir("/etc/foo/bar/baz"),
-        homedir .. "/foo/"
+        vim.fs.joinpath(homedir, "foo/")
       )
     end)
 
     it("should cache result", function()
       root.returns(nil)
-      cwd.returns(homedir .. "/foo")
+      cwd.returns(vim.fs.joinpath(homedir, "foo"))
       assert.equals(
-        utils.find_project_dir(homedir .. "/foo/bar/baz"),
-        homedir .. "/foo/"
+        utils.find_project_dir(vim.fs.joinpath(homedir, "foo", "bar", "baz")),
+        vim.fs.joinpath(homedir, "foo/")
       )
       assert.stub(cwd).called(1)
       cwd:clear()
       assert.equals(
-        utils.find_project_dir(homedir .. "/foo/bar/baz"),
-        homedir .. "/foo/"
+        utils.find_project_dir(vim.fs.joinpath(homedir, "foo", "bar", "baz")),
+        vim.fs.joinpath(homedir, "foo/")
       )
       assert.stub(cwd).not_called()
     end)
 
     it("should use cwd if bufname is empty", function()
       root.returns(nil)
-      cwd.returns(homedir .. "/foo")
+      cwd.returns(vim.fs.joinpath(homedir, "foo"))
       local nvim_buf_get_name = stub(vim.api, "nvim_buf_get_name")
       nvim_buf_get_name.returns("")
       utils.find_project_dir()

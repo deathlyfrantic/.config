@@ -3,7 +3,9 @@ local test_utils = require("test-utils")
 
 describe("sort command", function()
   -- load plugin before running tests
-  vim.cmd.source(vim.fn.stdpath("config") .. "/plugin/sort-command.lua")
+  vim.cmd.source(
+    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", "sort-command.lua")
+  )
 
   local notify
 
