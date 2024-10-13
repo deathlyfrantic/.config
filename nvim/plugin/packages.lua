@@ -314,7 +314,6 @@ pm.add(
       end)
     end,
   },
-  { "tpope/vim-dadbod", cmd = "DB" },
   "tpope/vim-endwise",
   "tpope/vim-obsession",
   "tpope/vim-repeat",
