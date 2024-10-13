@@ -61,6 +61,10 @@ local project_dir_markers = {
   all = {
     ".git",
   },
+  go = {
+    "go.sum",
+    "go.mod",
+  },
   javascript = {
     "package.json",
     "package-lock.json",
