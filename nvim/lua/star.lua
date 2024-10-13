@@ -108,7 +108,10 @@ end
 ---@param cmd string[]
 ---@return string[]
 local function cmd_output(cmd)
-  return vim.system(cmd, { text = true }):wait().stdout:splitlines()
+  return vim
+    .system(cmd, { cwd = utils.find_project_dir(), text = true })
+    :wait().stdout
+    :splitlines()
 end
 
 ---@return Iter
