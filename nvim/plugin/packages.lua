@@ -85,16 +85,8 @@ pm.add({
         if not vim.bo[event.buf].keywordprg:starts_with(":") then
           map("K", vim.lsp.buf.signature_help)
         end
-        -- hover or show diagnostics based on whether line has diagnostics
-        map("Q", function()
-          local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
-          local diagnostics = vim.diagnostic.get(0, { lnum = lnum })
-          if #diagnostics == 0 then
-            vim.lsp.buf.hover()
-          else
-            vim.diagnostic.open_float()
-          end
-        end)
+        map("Q", vim.lsp.buf.hover)
+        map("<leader>d", vim.diagnostic.open_float)
         map("gd", vim.lsp.buf.definition)
         map("<C-]>", vim.lsp.buf.type_definition)
         map("<leader>ca", vim.lsp.buf.code_action, { "n", "v" })
