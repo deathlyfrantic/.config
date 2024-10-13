@@ -58,6 +58,15 @@ function M.get_hex_color(hl, attr)
 end
 
 local project_dir_markers = {
+  all = {
+    ".git",
+  },
+  javascript = {
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    "node_modules",
+  },
   python = {
     "mypy.ini",
     "poetry.lock",
@@ -76,21 +85,12 @@ local project_dir_markers = {
     "Cargo.lock",
     "target",
   },
-  javascript = {
-    "package.json",
-    "package-lock.json",
-    "yarn.lock",
-    "node_modules",
-  },
   typescript = {
     "package.json",
     "package-lock.json",
     "yarn.lock",
     "tsconfig.json",
     "node_modules",
-  },
-  all = {
-    ".git",
   },
 }
 
