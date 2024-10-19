@@ -8,6 +8,15 @@ local packages = {}
 ---@type string
 local path_base = vim.fs.joinpath(vim.fn.stdpath("config"), "pack", "z")
 
+---@param cmd string[]
+---@return string[]
+local function git_output(dir, ...)
+  return vim
+    .system({ "git", "-C", dir, ... }, { text = true })
+    :wait().stdout
+    :splitlines()
+end
+
 ---@param dir string
 ---@return boolean
 local function dir_exists(dir)
@@ -207,9 +216,7 @@ local function open_diff()
       local package = packages[pieces[2]]
       popup_window(
         package.name .. " commit " .. commit,
-        vim
-          .iter(io.popen("git -C " .. package.path .. " show " .. commit):lines())
-          :totable(),
+        git_output(package.path, "show", commit),
         function()
           vim.wo.cursorline = true
           vim.bo.filetype = "git"
@@ -262,15 +269,13 @@ function M.update()
       job_results[name].success
       and not job_results[name].stdout:starts_with("Already up to date.")
     then
-      git_logs[name] = vim
-        .iter(
-          io.popen(
-            "git -C "
-              .. spec.path
-              .. " log --format='%h %s' --no-color HEAD@{1}..HEAD"
-          ):lines()
-        )
-        :totable()
+      git_logs[name] = git_output(
+        spec.path,
+        "log",
+        "--format=%h %s",
+        "--no-color",
+        "HEAD@{1}..HEAD"
+      )
     end
   end
   local successes, failures = {}, {}

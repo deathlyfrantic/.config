@@ -1,13 +1,35 @@
 local M = {}
 
 ---@param dir string
----@return string
+---@return string[]
+local function ls(dir)
+  return vim
+    .iter(vim.fs.dir(dir))
+    :filter(function(name, kind)
+      return vim.list_contains({ "directory", "file" }, kind)
+        and not name:starts_with(".")
+    end)
+    :map(function(name, kind)
+      return kind == "file" and name or name .. "/"
+    end)
+    :totable()
+end
+
+---@param dir string
+---@return string[]
+local function rg(dir)
+  return vim
+    .system({ "rg", "--hidden", "-g!.git/", "--files" }, { text = true, cwd = dir })
+    :wait().stdout
+    :splitlines()
+end
+
+---@param dir string
+---@return string[]
 local function create_raw_output(dir)
-  local cmd = dir == vim.fs.normalize("~") .. "/" and "ls -1p ~"
-    or ("(cd '%s' && rg --hidden -g'!.git/' --files 2>/dev/null | sort)"):format(
-      dir
-    )
-  return io.popen(cmd):read("*all")
+  local output = dir == vim.uv.os_homedir() .. "/" and ls(dir) or rg(dir)
+  table.sort(output)
+  return output
 end
 
 ---@param output string[]
@@ -277,8 +299,7 @@ function M.tree(dir)
   end
   set_buf_options_and_keymaps()
   vim.b.tree_dir = dir
-  local output = create_raw_output(dir)
-  local structure = M.create_data_structure(output:splitlines())
+  local structure = M.create_data_structure(create_raw_output(dir))
   local lines = M.format(structure)
   vim.opt_local.modifiable = true
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
