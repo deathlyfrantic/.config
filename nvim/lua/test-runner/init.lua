@@ -59,24 +59,6 @@ local function test(selection, close)
   local filetype = vim.bo.filetype
   if type(vim.b.test_command) == "string" then
     table.insert(test_cmds, vim.b.test_command)
-  elseif
-    type(vim.b.test_command) == "table" and vim.b.test_command[selection]
-  then
-    if type(vim.b.test_command[selection]) == "string" then
-      table.insert(test_cmds, vim.b.test_command[selection])
-    else
-      -- assuming this is a function here - doesn't make sense for it to be
-      -- anything else. this is _insanity_ - there's no way to run a function
-      -- stored in a buffer variable natively in lua, so we have to execute
-      -- vimscript and echo the result, which we then capture as a string :oof:
-      table.insert(
-        test_cmds,
-        vim.api.nvim_exec2(
-          "echo b:test_command." .. selection .. "()",
-          { output = true }
-        ).output
-      )
-    end
   elseif runners[filetype] then
     local cmd = runners[filetype](selection)
     if cmd then
