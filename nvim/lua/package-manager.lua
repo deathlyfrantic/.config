@@ -260,7 +260,10 @@ function M.update()
     end
     cmds[name] = { "git", "-C", spec.path, "pull", "--ff-only", "--no-rebase" }
   end
-  vim.notify("Updating packages ...", vim.log.levels.INFO)
+  vim.notify(
+    ("Updating %s packages ..."):format(vim.tbl_count(packages)),
+    vim.log.levels.INFO
+  )
   vim.cmd.redraw({ bang = true })
   local job_results = run_jobs(cmds)
   local git_logs = {}
