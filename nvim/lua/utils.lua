@@ -151,6 +151,7 @@ function M.highlight_at_pos_contains(pattern, pos)
   if vim.bo.syntax ~= "" then
     return vim.iter(vim.fn.synstack(line, column)):any(function(id)
       return vim.fn.synIDattr(vim.fn.synIDtrans(id), "name"):imatch(pattern)
+        ~= nil
     end)
   end
   -- if syntax isn't set then try to get node type from treesitter. treesitter
@@ -159,7 +160,10 @@ function M.highlight_at_pos_contains(pattern, pos)
     vim.treesitter.get_node,
     { bufnr = 0, pos = { line - 1, column - 1 } }
   )
-  return ok and node:type():imatch(pattern)
+  if ok and node then
+    return node:type():imatch(pattern) ~= nil
+  end
+  return false
 end
 
 -- Display arbitrary contents in a Vim help window
