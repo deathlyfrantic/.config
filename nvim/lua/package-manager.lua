@@ -200,7 +200,7 @@ end
 
 local function open_diff()
   local pieces = vim.api.nvim_get_current_line():trim():split(" ")
-  if pieces == 0 or not pieces[1]:match("^[0-9A-Fa-f]+$") then
+  if #pieces == 0 or not pieces[1]:match("^[0-9A-Fa-f]+$") then
     return
   end
   local commit = pieces[1]
