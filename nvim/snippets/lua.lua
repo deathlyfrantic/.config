@@ -138,10 +138,10 @@ return make({
         local option = table
           .concat(vim.list_slice(pieces, #pieces - len, #pieces), "_")
           :gsub("-", "_")
-        table.insert(options, t(option))
+        table.insert(options, i(nil, option))
       end
       if #options == 0 then
-        options = { t("") }
+        options = { i(nil, "") }
       end
       return sn(nil, {
         c(1, options),
