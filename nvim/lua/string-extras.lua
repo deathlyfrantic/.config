@@ -32,12 +32,12 @@ function string.starts_with(self, prefix)
   return vim.startswith(self, prefix)
 end
 
--- True if string ends with prefix
+-- True if string ends with suffix
 ---@param self string
----@param prefix string
+---@param suffix string
 ---@return boolean
-function string.ends_with(self, prefix)
-  return vim.endswith(self, prefix)
+function string.ends_with(self, suffix)
+  return vim.endswith(self, suffix)
 end
 
 -- Pad string to specified length with provided padding (or space by default)
