@@ -71,10 +71,13 @@ rustup completions zsh cargo > "$XDG_CONFIG_HOME/zsh/completions/_cargo"
 
 # install brew packages
 brew tap homebrew/cask-fonts && brew install font-sf-mono
-brew tap homebrew/cask && brew install 1password firefox music-bar netnewswire signal wezterm
+brew tap homebrew/cask && brew install 1password firefox netnewswire signal wezterm
 brew install git neovim ripgrep selene shellcheck stylua tmux tree universal-ctags
 brew install zsh zsh-completions zsh-history-substring-search zsh-syntax-highlighting
 brew tap damascenorafael/tap && brew install reminders-menubar
+
+# install menubar-ticker
+# https://github.com/serban/menubar-ticker
 
 # make zsh use .config dir
 sudo echo 'export ZDOTDIR=$HOME/.config/zsh' >> /etc/zshenv
