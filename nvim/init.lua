@@ -294,6 +294,7 @@ vim.cmd.colorscheme("copper")
 -- `require()`, otherwise they could live in `/plugin` and be sourced
 -- automatically.
 local plugins = {
+  "coerce",
   "commandline",
   "completion",
   "star",

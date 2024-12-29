@@ -296,7 +296,6 @@ pm.add("tommcdo/vim-exchange", {
 })
 
 pm.add(
-  "tpope/vim-abolish",
   {
     "tpope/vim-apathy",
     config = function()
