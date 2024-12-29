@@ -297,6 +297,7 @@ local plugins = {
   "coerce",
   "commandline",
   "completion",
+  "grep",
   "sort-command",
   "star",
   "statusline",
