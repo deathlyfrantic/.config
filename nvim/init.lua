@@ -306,6 +306,7 @@ local plugins = {
   "text-objects",
   "tree",
   "ui",
+  "web",
 }
 for _, plugin in ipairs(plugins) do
   require(plugin).init()
