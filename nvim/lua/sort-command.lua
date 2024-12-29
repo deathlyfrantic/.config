@@ -1,5 +1,7 @@
 local utils = require("utils")
 
+local M = {}
+
 -- determine the separator, as defined by whichever punctuation character occurs
 -- most frequently within the string. if there are no punctuation characters but
 -- there is whitespace, then the separator is a single space.
@@ -120,26 +122,24 @@ local function sort_command(args)
   vim.api.nvim_buf_set_text(0, row, start_col, row, stop_col, { replacement })
 end
 
-vim.api.nvim_create_user_command(
-  "Sort",
-  sort_command,
-  { nargs = "?", range = true, bang = true }
-)
+M.operator = utils.make_operator_fn(function(text)
+  local start = vim.api.nvim_buf_get_mark(0, "[")
+  local stop = vim.api.nvim_buf_get_mark(0, "]")
+  local row, start_col, stop_col = start[1] - 1, start[2], stop[2] + 1
+  local replacement = get_replacement_text(text)
+  vim.api.nvim_buf_set_text(0, row, start_col, row, stop_col, { replacement })
+end)
 
-_G.sort = {
-  operator = utils.make_operator_fn(function(text)
-    local start = vim.api.nvim_buf_get_mark(0, "[")
-    local stop = vim.api.nvim_buf_get_mark(0, "]")
-    local row, start_col, stop_col = start[1] - 1, start[2], stop[2] + 1
-    local replacement = get_replacement_text(text)
-    vim.api.nvim_buf_set_text(0, row, start_col, row, stop_col, { replacement })
-  end),
-}
+function M.init()
+  vim.api.nvim_create_user_command(
+    "Sort",
+    sort_command,
+    { nargs = "?", range = true, bang = true }
+  )
+  vim.keymap.set("n", "gS", function()
+    vim.o.opfunc = "v:lua.require'sort-command'.operator"
+    return "g@"
+  end, { expr = true, silent = true })
+end
 
-vim.keymap.set(
-  "n",
-  "gS",
-  ":set opfunc=v:lua.sort.operator<CR>g@",
-  { silent = true }
-)
-vim.keymap.set("x", "gS", ":Sort<CR>", { silent = true })
+return M

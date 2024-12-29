@@ -2,10 +2,8 @@ local stub = require("luassert.stub")
 local test_utils = require("test-utils")
 
 describe("sort command", function()
-  -- load plugin before running tests
-  vim.cmd.source(
-    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", "sort-command.lua")
-  )
+  -- initialize before running tests
+  require("sort-command").init()
 
   local notify
 
