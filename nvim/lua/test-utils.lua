@@ -59,4 +59,11 @@ function M.set_visual_marks(start, stop)
   )
 end
 
+---@param name string
+function M.source_plugin(name)
+  vim.cmd.source(
+    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", name .. ".lua")
+  )
+end
+
 return M

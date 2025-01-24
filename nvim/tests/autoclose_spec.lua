@@ -2,10 +2,7 @@ local stub = require("luassert.stub")
 local test_utils = require("test-utils")
 
 describe("autoclose", function()
-  -- load plugin before running tests
-  vim.cmd.source(
-    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", "autoclose.lua")
-  )
+  test_utils.source_plugin("autoclose")
 
   -- easier to run the function directly than to use insert mode in a test
   local autoclose = test_utils.get_keymap_callback("i", "<Plug>autocloseCR")

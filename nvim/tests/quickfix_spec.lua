@@ -2,10 +2,8 @@ local stub = require("luassert.stub")
 local test_utils = require("test-utils")
 
 describe("quickfix toggle", function()
-  -- load plugin before running tests
-  vim.cmd.source(
-    vim.fs.joinpath(vim.fn.stdpath("config"), "plugin", "quickfix.lua")
-  )
+  test_utils.source_plugin("quickfix")
+
   local bo, cclose, copen, nvim_list_bufs
 
   before_each(function()
