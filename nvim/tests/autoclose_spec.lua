@@ -74,7 +74,7 @@ describe("autoclose", function()
     assert.same("<CR>)}]<C-o>O", autoclose())
   end)
 
-  it("closes event with trailing spaces", function()
+  it("closes even with trailing spaces", function()
     local line = "foo {          "
     test_utils.set_buf(line)
     get_cursor.returns({ 1, #line })
