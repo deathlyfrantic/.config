@@ -71,7 +71,7 @@ rustup completions zsh cargo > "$XDG_CONFIG_HOME/zsh/completions/_cargo"
 
 # install brew packages
 brew tap homebrew/cask-fonts && brew install font-sf-mono
-brew tap homebrew/cask && brew install 1password firefox netnewswire signal wezterm
+brew tap homebrew/cask && brew install 1password alacritty firefox netnewswire signal
 brew install git neovim ripgrep selene shellcheck stylua tmux tree universal-ctags
 brew install zsh zsh-completions zsh-history-substring-search zsh-syntax-highlighting
 brew tap damascenorafael/tap && brew install reminders-menubar
