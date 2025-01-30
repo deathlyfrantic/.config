@@ -253,7 +253,7 @@ pm.add({
     local ls = require("luasnip")
     ls.config.setup({
       history = false,
-      update_events = "TextChanged,TextChangedI",
+      update_events = { "TextChanged", "TextChangedI" },
     })
     vim.keymap.set({ "i", "s" }, "<C-]>", function()
       -- need to close the completion menu if it is open, otherwise luasnip gets
