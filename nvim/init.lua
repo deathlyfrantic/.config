@@ -256,6 +256,7 @@ local plugins = {
   "commandline",
   "completion",
   "grep",
+  "pairs",
   "sort-command",
   "star",
   "statusline",

@@ -318,7 +318,6 @@ pm.add(
   "tpope/vim-repeat",
   "tpope/vim-speeddating",
   "tpope/vim-surround",
-  "tpope/vim-unimpaired",
   "tpope/vim-eunuch"
 )
 
