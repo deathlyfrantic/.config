@@ -65,6 +65,9 @@ vim.opt.wildignore = vim.opt.wildignore
   + ".DS_Store"
 vim.opt.wildignorecase = true
 
+-- clear init-autocmds group so autocmds don't double when sourcing this file
+vim.api.nvim_create_augroup("init-autocmds", {})
+
 -- see :help last-position-jump
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
