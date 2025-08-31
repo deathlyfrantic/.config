@@ -5,6 +5,18 @@ local M = {}
 -- web search URL; `%s` is replaced with the search term
 M.search_url = "https://duckduckgo.com/?q=%s"
 
+-- URL encode a string
+---@param url string
+---@return string
+function M.url_encode(url)
+  local ret, _ = vim
+    .iconv(url, "latin1", "utf-8")
+    :gsub("[^%w_.~-]", function(char)
+      return ("%%%02X"):format(char:byte())
+    end)
+  return ret
+end
+
 -- Open a URL in the system browser.
 ---@param url string
 function M.browser(url)
@@ -16,7 +28,7 @@ end
 ---@param url string
 function M.search(url)
   if not url:starts_with("http") then
-    url = M.search_url:format(url:gsub(" ", "+"))
+    url = M.search_url:format(M.url_encode(url:trim()))
   end
   M.browser(url)
 end
