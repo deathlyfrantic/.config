@@ -66,4 +66,12 @@ function M.source_plugin(name)
   )
 end
 
+---@param bufnr integer?
+function M.start_treesitter(bufnr)
+  vim.treesitter.start()
+  vim.treesitter.get_parser(bufnr or 0):parse(true)
+end
+
+M.stop_treesitter = vim.treesitter.stop
+
 return M
