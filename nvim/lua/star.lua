@@ -27,7 +27,6 @@ local function popup_window(buf, options)
   local opts = {
     relative = "editor",
     style = "minimal",
-    border = "single",
     height = options.height,
     width = options.width,
     row = math.floor(vim.o.lines / 2) - math.floor(options.height / 2),

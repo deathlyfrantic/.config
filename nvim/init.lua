@@ -64,6 +64,7 @@ vim.opt.wildignore = vim.opt.wildignore
   -- macos
   + ".DS_Store"
 vim.opt.wildignorecase = true
+vim.opt.winborder = "single"
 
 -- clear init-autocmds group so autocmds don't double when sourcing this file
 vim.api.nvim_create_augroup("init-autocmds", {})

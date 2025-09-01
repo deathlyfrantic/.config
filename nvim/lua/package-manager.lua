@@ -38,7 +38,6 @@ local function popup_window(title, contents, callback)
   local opts = {
     relative = "editor",
     style = "minimal",
-    border = "single",
     height = height,
     width = width,
     row = math.floor(vim.o.lines / 2) - math.floor(height / 2) - 2,
