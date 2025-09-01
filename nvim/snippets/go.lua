@@ -1,10 +1,12 @@
 local ls = require("luasnip")
 local fmta = require("luasnip.extras.fmt").fmta
+local c = ls.choice_node
 local d = ls.dynamic_node
 local i = ls.insert_node
 local t = ls.text_node
 local sn = ls.snippet_node
 local make = require("snippet-utils").make
+local coerce = require("coerce")
 
 -- return snippet largely stolen from TJ Devries. references:
 -- https://github.com/tjdevries/config_manager/blob/afbb6942b712174a7e87acbca6908e283caa46cc/xdg_config/nvim/lua/tj/snips/ft/go.lua
@@ -100,4 +102,42 @@ return make({
       finish = i(0),
     }
   ),
+  s = fmta(
+    [[
+      type <name> struct {
+      	<member> <type> <finish>
+      }]],
+    {
+      name = i(1),
+      member = i(2),
+      type = c(
+        3,
+        vim.tbl_map(function(v)
+          return i(nil, v)
+        end, vim.tbl_keys(default_values))
+      ),
+      finish = i(0),
+    }
+  ),
+  st = fmta([[`<type>:"<tag>"`]], {
+    type = c(1, { i(nil, "json"), i(nil, "yaml") }),
+    tag = d(2, function()
+      ---@type string?
+      local name =
+        vim.api.nvim_get_current_line():trim():split("%s", { plain = false })[1]
+      if (name or ""):starts_with("`json:") then
+        name = nil
+      end
+      local choices = { i(nil, name) } -- works even if `name` is nil
+      if name then
+        table.insert(choices, i(nil, coerce.mixed_case(name)))
+        table.insert(choices, i(nil, coerce.snake_case(name)))
+        table.insert(choices, i(nil, coerce.camel_case(name)))
+      end
+      table.insert(choices, i(nil, "-"))
+      return sn(nil, {
+        c(1, choices),
+      })
+    end, {}),
+  }),
 })
