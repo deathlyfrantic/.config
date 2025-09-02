@@ -119,7 +119,7 @@ function M.clean()
     if choice == "Yes" then
       local successes, failures = "", ""
       for _, path in ipairs(need_to_remove) do
-        if vim.fn.delete(path, "rf") == 0 then
+        if pcall(vim.fs.rm, path, { recursive = true, force = true }) then
           successes = successes .. " - " .. path .. "\n"
         else
           failures = failures .. " - " .. path .. "\n"

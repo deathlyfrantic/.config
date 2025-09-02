@@ -102,7 +102,7 @@ local function open_buffer(ground)
       if term_windows[buf] then
         term_windows[buf]:close()
       end
-      vim.uv.fs_unlink(filename)
+      vim.fs.rm(filename, { force = true })
     end,
   })
   local template = (ground.template or ""):dedent():splitlines()
