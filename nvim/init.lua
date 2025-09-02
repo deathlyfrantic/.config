@@ -89,7 +89,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   callback = function()
-    vim.opt_local.number = false
     vim.opt_local.statusline = "[terminal] %{b:term_title}"
   end,
   group = vim.api.nvim_create_augroup("init-autocmds", { clear = false }),

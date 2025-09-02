@@ -57,13 +57,11 @@ describe("init", function()
   end)
 
   it("sets terminal settings", function()
-    vim.opt_local.number = true
     vim.opt_local.statusline = ""
     vim.api.nvim_exec_autocmds(
       "TermOpen",
       { group = "init-autocmds", pattern = "*" }
     )
-    assert.is_false(vim.opt_local.number:get())
     assert.equals(vim.opt_local.statusline:get(), "[terminal] %{b:term_title}")
     vim.opt_local.statusline = ""
   end)
