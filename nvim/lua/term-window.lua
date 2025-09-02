@@ -145,7 +145,8 @@ function TermWindow.run(self, cmd)
   local current_window = vim.api.nvim_get_current_win()
   self:open()
   vim.bo[self.buffer].modified = false
-  vim.fn.termopen(cmd, {
+  vim.fn.jobstart(cmd, {
+    term = true,
     on_exit = function(...)
       self:on_exit(...)
     end,

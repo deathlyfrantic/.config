@@ -81,7 +81,8 @@ function M.star(lines, callback)
     M.infile,
     M.outfile
   )
-  vim.fn.termopen(cmd, {
+  vim.fn.jobstart(cmd, {
+    term = true,
     on_exit = function(_, exit_code)
       -- switch to previous window
       vim.api.nvim_set_current_win(vim.fn.win_getid(vim.fn.winnr("#")))
