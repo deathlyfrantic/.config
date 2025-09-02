@@ -37,7 +37,7 @@ pm.add({
             -- if there's a `.luarc.json`, use it
             if client.workspace_folders then
               local path = client.workspace_folders[1].name
-              if vim.uv.fs_stat(vim.fs.joinpath(path, "/.luarc.json")) then
+              if vim.uv.fs_stat(vim.fs.joinpath(path, ".luarc.json")) then
                 return
               end
             end
