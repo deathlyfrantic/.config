@@ -11,10 +11,10 @@ pm.add({
     -- put diagnostic config here just because it kinda makes sense
     vim.diagnostic.config({ signs = false })
     vim.keymap.set("n", "[a", function()
-      vim.diagnostic.goto_prev({ float = false })
+      vim.diagnostic.jump({ count = -1, float = false })
     end)
     vim.keymap.set("n", "]a", function()
-      vim.diagnostic.goto_next({ float = false })
+      vim.diagnostic.jump({ count = 1, float = false })
     end)
     vim.keymap.set("n", "Q", vim.diagnostic.open_float)
     local lspconfig = require("lspconfig")
