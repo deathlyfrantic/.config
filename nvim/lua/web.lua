@@ -20,7 +20,7 @@ end
 -- Open a URL in the system browser.
 ---@param url string
 function M.browser(url)
-  vim.system({ "open", "-g", url })
+  vim.ui.open(url, { cmd = { "open", "-g" } })
 end
 
 -- Search for a string in the default search engine.
