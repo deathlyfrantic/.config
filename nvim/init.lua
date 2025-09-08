@@ -173,9 +173,7 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
 
 -- close all floating windows
-vim.keymap.set("n", "<Esc>", function()
-  vim.cmd.fclose({ bang = true })
-end)
+vim.keymap.set("n", "<Esc>", ":fclose!<CR>", { silent = true })
 
 -- resize windows
 vim.keymap.set("n", "<C-Left>", "<C-W><")
