@@ -20,9 +20,7 @@ local default_config = {
 ---@param config { close_on_success?: boolean, location?: "botright" | "topleft", height_fn?: fun(): integer }?
 ---@return TermWindow
 function TermWindow.new(config)
-  vim.validate({
-    config = { config, "table", true },
-  })
+  vim.validate("config", config, { "table", "nil" })
   return setmetatable(
     vim.tbl_extend(
       "force",
