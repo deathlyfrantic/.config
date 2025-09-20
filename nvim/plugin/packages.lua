@@ -17,16 +17,10 @@ pm.add({
       vim.diagnostic.jump({ count = 1, float = false })
     end)
     vim.keymap.set("n", "Q", vim.diagnostic.open_float)
-    local lspconfig = require("lspconfig")
     local servers = {
       lua_ls = {
         executable = "lua-language-server",
         config = {
-          handlers = {
-            -- disable log messages, they aren't helpful
-            ["window/logMessage"] = function() end,
-            ["window/showMessage"] = function() end,
-          },
           settings = {
             Lua = {
               addonManager = { enable = false },
@@ -66,15 +60,15 @@ pm.add({
     }
     for server, options in pairs(servers) do
       if vim.fn.executable(options.executable) == 1 then
-        lspconfig[server].setup(options.config or {})
+        vim.lsp.config(server, options.config or {})
+        vim.lsp.enable(server)
       end
     end
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-config", {}),
       callback = function(event)
-        vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
         -- let ale format buffers, lsp formatting is hit or miss
-        vim.bo[event.buf].formatexpr = ""
+        vim.bo[event.buf].formatexpr = nil
         ---@param key string
         ---@param fn function
         ---@param mode? string | string[]
@@ -216,6 +210,7 @@ pm.add({
     vim.g.ale_fix_on_save = 1
     vim.g.ale_rust_cargo_use_clippy = vim.fn.executable("cargo-clippy")
     vim.g.ale_linters = { zsh = { "shell", "shellcheck" } }
+    vim.g.ale_disable_lsp = true
     vim.g.ale_c_clang_options =
       "-fsyntax-only -std=c11 -Wall -Wno-unused-parameter -Werror"
     vim.g.ale_lua_stylua_options = "--search-parent-directories"
