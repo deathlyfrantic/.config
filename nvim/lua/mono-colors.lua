@@ -58,7 +58,8 @@ local function clear_highlights()
   end
 end
 
-local function set_links()
+---@param t table
+local function set_links(t)
   local links = {
     WildMenu = "Search",
     GitSignsAdd = "Success",
@@ -108,6 +109,11 @@ local function set_links()
     DiagnosticWarn = "Warning",
     DiagnosticOk = "Success",
     DiagnosticHint = "LineNr",
+    DiagnosticUnderlineInfo = "LineNr",
+    DiagnosticUnderlineError = "Error",
+    DiagnosticUnderlineWarn = "Warning",
+    DiagnosticUnderlineOk = "Success",
+    DiagnosticUnderlineHint = "LineNr",
     ["@gitcommit_error"] = "Error",
     ["@error.json"] = "Error",
     ["@text.diff.add"] = "DiffAdd",
@@ -127,7 +133,12 @@ local function set_links()
     gitDate = "Normal",
   }
   for k, v in pairs(links) do
-    vim.api.nvim_set_hl(0, k, { link = v })
+    -- don't override colors defined by the colorscheme
+    -- can't really use hl-default here because we need to override the default
+    -- nvim colorscheme
+    if not t[k] then
+      vim.api.nvim_set_hl(0, k, { link = v })
+    end
   end
 end
 
@@ -165,7 +176,7 @@ function M.define(name, termguicolors, colors)
   preamble(name, termguicolors)
   highlight(colors)
   clear_highlights()
-  set_links()
+  set_links(colors)
   if termguicolors then
     set_term_colors()
   end
