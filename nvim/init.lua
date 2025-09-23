@@ -227,23 +227,11 @@ vim.keymap.set("v", "<C-x>", "<C-x>gv")
 vim.keymap.set("n", "<leader>a", ":%yank +<CR>", { silent = true })
 
 -- arrows
----@param fat boolean
-local function arrow(fat)
-  local before = utils.char_before_cursor():is_empty() and "" or " "
-  local ret = fat and "=>" or "->"
-  local line = vim.api.nvim_get_current_line()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local after = "<Right>"
-  if #line <= col or not line:sub(col + 1, col + 1):is_empty() then
-    after = " "
-  end
-  return before .. ret .. after
-end
 vim.keymap.set("i", "<C-j>", function()
-  return arrow(false)
+  return utils.insert_token("->")
 end, { expr = true })
 vim.keymap.set("i", "<C-l>", function()
-  return arrow(true)
+  return utils.insert_token("=>")
 end, { expr = true })
 
 vim.cmd.colorscheme("copper")

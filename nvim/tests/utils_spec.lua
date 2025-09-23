@@ -470,4 +470,75 @@ describe("utils", function()
       6
     )
   end)
+
+  describe("insert_token", function()
+    local s = "foobar"
+
+    before_each(function()
+      test_utils.set_buf(s)
+    end)
+
+    after_each(test_utils.clear_buf)
+
+    it("no padding", function()
+      -- cursor location irrelevant if not adding padding
+      assert.equals(
+        utils.insert_token("token", { left = false, right = false }),
+        "token"
+      )
+    end)
+
+    describe("right padding", function()
+      it("with space", function()
+        -- set cursor to immediately after word in buffer
+        test_utils.set_cursor(1, #s)
+        assert.equals(
+          utils.insert_token("token", { left = false, right = true }),
+          "token "
+        )
+      end)
+
+      it("with <Right>", function()
+        -- add a space after the word in buffer
+        test_utils.set_buf("foobar ")
+        -- set cursor to immediately after word in buffer
+        test_utils.set_cursor(1, #s)
+        assert.equals(
+          utils.insert_token("token", { left = false, right = true }),
+          "token<Right>"
+        )
+      end)
+    end)
+
+    describe("left padding", function()
+      it("adds space when required", function()
+        -- set cursor to first character of word in buffer
+        test_utils.set_cursor(1, #s)
+        assert.equals(
+          utils.insert_token("token", { left = true, right = false }),
+          " token"
+        )
+      end)
+
+      it("does not add space when cursor is at beginning of line", function()
+        -- set cursor to first character of word in buffer
+        test_utils.set_cursor(1, 0)
+        assert.equals(
+          utils.insert_token("token", { left = true, right = false }),
+          "token"
+        )
+      end)
+
+      it("does not add space when character before cursor is empty", function()
+        -- add space to buffer
+        test_utils.set_buf("  foobar")
+        -- set cursor to first character of word in buffer
+        test_utils.set_cursor(1, 1)
+        assert.equals(
+          utils.insert_token("token", { left = true, right = false }),
+          "token"
+        )
+      end)
+    end)
+  end)
 end)

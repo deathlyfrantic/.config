@@ -223,4 +223,26 @@ function M.longest(...)
     :fold(-math.huge, math.max)
 end
 
+-- Create a token with optional padding to be inserted in the buffer at the
+-- cursor location. This function doesn't insert anything itself; rather, it
+-- returns a value to be used in an `{ expr = true }` keymap function.
+---@param token string
+---@param opts? { left?: boolean, right?: boolean }
+function M.insert_token(token, opts)
+  -- left and right padding default to true
+  opts = vim.tbl_extend("keep", opts or {}, { left = true, right = true })
+  local before = opts.left and not M.char_before_cursor():is_empty() and " "
+    or ""
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local after = ""
+  if opts.right then
+    after = "<Right>"
+    if #line <= col or not line:sub(col + 1, col + 1):is_empty() then
+      after = " "
+    end
+  end
+  return before .. token .. after
+end
+
 return M
