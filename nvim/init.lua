@@ -158,16 +158,11 @@ vim.keymap.set("n", "#", "#N")
 vim.keymap.set("n", "<Space>", function()
   return vim.v.hlsearch == 0 and "*N" or "<Cmd>nohlsearch<CR>"
 end, { expr = true, silent = true })
-vim.keymap.set(
-  "x",
-  "*",
-  [[:<C-u>lua require("utils").v_star_search_set("/")<CR>/<C-r>=@/<CR><CR>N]]
-)
-vim.keymap.set(
-  "x",
-  "#",
-  [[:<C-u>lua require("utils").v_star_search_set("?")<CR>?<C-r>=@/<CR><CR>N]]
-)
+for k, v in pairs({ ["*"] = "/", ["#"] = "?" }) do
+  local cmd =
+    [[:<C-u>lua require("utils").v_star_search_set("%s")<CR>%s<C-r>=@/<CR><CR>N]]
+  vim.keymap.set("x", k, cmd:format(v, v))
+end
 
 -- insert a single space
 vim.keymap.set("n", "<leader><Space>", "i<Space><Esc>")
