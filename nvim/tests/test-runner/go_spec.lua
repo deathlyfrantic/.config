@@ -89,7 +89,7 @@ describe("test-runner/go", function()
 
     before_each(function()
       nvim_buf_get_name =
-        stub(vim.api, "nvim_buf_get_name").returns("/foobar/src/file.go")
+        stub(vim.api, "nvim_buf_get_name").returns("/foobar/src/file_test.go")
       find_project_dir = stub(utils, "find_project_dir").returns("/foobar/")
     end)
 
@@ -119,5 +119,13 @@ describe("test-runner/go", function()
     it("returns command for all tests", function()
       assert.equals('go test -v "/foobar/..."', go.test("all"))
     end)
+
+    it(
+      "returns file test command if current filename doesn't include `_test`",
+      function()
+        stub(vim.api, "nvim_buf_get_name").returns("/foobar/src/file.go")
+        assert.equals('go test -v "/foobar/src"', go.test("file"))
+      end
+    )
   end)
 end)

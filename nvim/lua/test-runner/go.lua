@@ -24,9 +24,14 @@ end
 ---@param selection TestRunnerSelection
 ---@return string?
 function M.test(selection)
-  local base_cmd = ('go test -v "%s"'):format(
-    vim.fs.dirname(vim.api.nvim_buf_get_name(0))
-  )
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local base_cmd = ('go test -v "%s"'):format(vim.fs.dirname(bufname))
+  -- if we try to run a test from a file whose name doesn't contain `_test.go`
+  -- then return `base_cmd` which will run the tests for the module
+  if not bufname:match("_test.go") then
+    return base_cmd
+  end
+  -- at this point we know we're in a _test.go file so do the regular stuff
   if selection == "nearest" then
     local nearest = M.find_nearest_treesitter() or M.find_nearest_regex()
     if nearest then
